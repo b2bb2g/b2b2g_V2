@@ -1,0 +1,79 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-06-18T10:13:29.588Z",
+  "activeFeatures": [
+    "b2bb2g-mvp"
+  ],
+  "primaryFeature": "b2bb2g-mvp",
+  "features": {
+    "b2bb2g-mvp": {
+      "phase": "do",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Starter",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-06-18T08:29:41.099Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-06-18T10:13:29.588Z"
+  },
+  "history": [
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "plan",
+      "to": "design",
+      "timestamp": "2026-06-18T08:29:41.105Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "plan",
+      "nextPhase": "design",
+      "timestamp": "2026-06-18T08:29:41.106Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "design",
+      "to": "design",
+      "timestamp": "2026-06-18T08:31:31.286Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "design",
+      "to": "do",
+      "timestamp": "2026-06-18T08:35:14.208Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "design",
+      "nextPhase": "do",
+      "timestamp": "2026-06-18T08:35:14.208Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "do",
+      "to": "design",
+      "timestamp": "2026-06-18T10:09:51.179Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "design",
+      "to": "do",
+      "timestamp": "2026-06-18T10:13:29.587Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "design",
+      "nextPhase": "do",
+      "timestamp": "2026-06-18T10:13:29.588Z"
+    }
+  ]
+}
