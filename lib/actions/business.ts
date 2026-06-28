@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { approveRecord } from "@/lib/actions/admin-approval";
 import { writeAuditEvent } from "@/lib/audit/logs";
 import { requireCurrentUser } from "@/lib/auth/session";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   validateApplyEventInput,
@@ -49,7 +48,6 @@ type ActionResult =
     };
 
 type Supabase = Awaited<ReturnType<typeof createSupabaseServerClient>>;
-type MessageSupabase = Supabase | ReturnType<typeof createSupabaseAdminClient>;
 
 type SendMessageErrorCode =
   | "blocked"
@@ -69,7 +67,7 @@ function getErrorMessage(error: unknown): string {
 }
 
 async function getMessageSendAccess(
-  supabase: MessageSupabase,
+  supabase: Supabase,
   conversationId: string,
   profileId: string,
 ): Promise<
@@ -135,7 +133,7 @@ async function getMessageSendAccess(
 }
 
 async function writeMessageFailureAudit(
-  supabase: MessageSupabase,
+  supabase: Supabase,
   input: {
     conversationId: string;
     errorMessage: string;
@@ -1052,75 +1050,29 @@ export async function sendMessage(input: SendMessageInput): Promise<ActionResult
       .select("id")
       .single();
 
-    let recordId = data?.id ?? null;
-    let writeSupabase: MessageSupabase = supabase;
-    let membershipId = access.membership.id;
-
     if (error) {
-      let adminSupabase: ReturnType<typeof createSupabaseAdminClient> | null = null;
+      await writeMessageFailureAudit(supabase, {
+        conversationId: validatedInput.conversationId,
+        errorMessage: error.message,
+        profileId: user.id,
+      });
 
-      try {
-        adminSupabase = createSupabaseAdminClient();
-      } catch {
-        await writeMessageFailureAudit(supabase, {
-          conversationId: validatedInput.conversationId,
-          errorMessage: error.message,
-          profileId: user.id,
-        });
-
-        return { error: "send_failed", ok: false };
-      }
-
-      const adminAccess = await getMessageSendAccess(
-        adminSupabase,
-        validatedInput.conversationId,
-        user.id,
-      );
-
-      if (!adminAccess.ok) {
-        await writeMessageFailureAudit(adminSupabase, {
-          conversationId: validatedInput.conversationId,
-          errorMessage: error.message,
-          profileId: user.id,
-        });
-
-        return { error: adminAccess.error, ok: false };
-      }
-
-      const fallbackResult = await adminSupabase
-        .from("messages")
-        .insert(messagePayload)
-        .select("id")
-        .single();
-
-      if (fallbackResult.error) {
-        await writeMessageFailureAudit(adminSupabase, {
-          conversationId: validatedInput.conversationId,
-          errorMessage: fallbackResult.error.message,
-          profileId: user.id,
-        });
-
-        return { error: "send_failed", ok: false };
-      }
-
-      recordId = fallbackResult.data.id;
-      writeSupabase = adminSupabase;
-      membershipId = adminAccess.membership.id;
-    }
-
-    if (!recordId) {
       return { error: "send_failed", ok: false };
     }
 
-    await writeSupabase
+    if (!data?.id) {
+      return { error: "send_failed", ok: false };
+    }
+
+    await supabase
       .from("conversation_members")
       .update({
         last_read_at: now,
         updated_by: user.id,
       })
-      .eq("id", membershipId);
+      .eq("id", access.membership.id);
 
-    await writeSupabase
+    await supabase
       .from("conversations")
       .update({
         updated_by: user.id,
@@ -1130,7 +1082,7 @@ export async function sendMessage(input: SendMessageInput): Promise<ActionResult
     revalidatePath("/dashboard/messages");
     revalidatePath("/admin/messages");
 
-    return { error: null, ok: true, recordId };
+    return { error: null, ok: true, recordId: data.id };
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
   }
