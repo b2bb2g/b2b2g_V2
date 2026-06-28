@@ -1,0 +1,687 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRightIcon } from "@/components/public/icons";
+import { BuyRequestPreviewCarousel } from "@/components/public/buy-request-preview-carousel";
+import { LandingEventCarousel } from "@/components/public/landing-event-carousel";
+import { HomeHero, ProductCarousel } from "@/components/public/marketplace-carousel";
+import { Reveal } from "@/components/public/scroll-reveal";
+import { SupplierSpotlightCarousel } from "@/components/public/supplier-spotlight-carousel";
+import { BrandLogo } from "@/components/shared/brand-logo";
+import { getCurrentUser } from "@/lib/auth/session";
+import { t } from "@/lib/i18n/translation";
+import { getSampleItems } from "@/lib/sample/public-samples";
+
+const trustCategorySignals = [
+  "K-Beauty",
+  "Food Supplement",
+  "Machinery",
+  "EPC",
+  "Medical Device",
+  "Consumer Goods",
+] as const;
+
+const trustReadinessItems = [
+  "home.trust.readiness.supplier.title",
+  "home.trust.readiness.buyer.title",
+  "home.trust.readiness.service.title",
+] as const;
+
+const fdaCategories = [
+  "Cosmetic Registration",
+  "Food Supplement Registration",
+  "Food Registration",
+  "Medical Device Registration",
+  "Import License Support",
+  "Label Compliance",
+  "Formula Review",
+] as const;
+
+type LandingProductItem = ReturnType<typeof getSampleItems>[number];
+
+function SectionIntro({
+  descriptionKey,
+  eyebrowKey,
+  href,
+  titleKey,
+}: Readonly<{
+  descriptionKey?: string;
+  eyebrowKey?: string;
+  href?: string;
+  titleKey: string;
+}>) {
+  return (
+    <div className="landing-section-header">
+      <div className="landing-section-copy">
+        {eyebrowKey ? (
+          <p className="landing-section-kicker">{t(eyebrowKey)}</p>
+        ) : null}
+        <h2 className="landing-section-title">{t(titleKey)}</h2>
+        {descriptionKey ? (
+          <p className="landing-section-lead">
+            {t(descriptionKey)}
+          </p>
+        ) : null}
+      </div>
+      {href ? (
+        <Link className="landing-action-pill" href={href}>
+          {t("home.viewAll")}
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+function TrustInfrastructureSection() {
+  return (
+    <section className="trust-network-section">
+      <div className="trust-network-backdrop" />
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <Reveal>
+          <div className="trust-banner-panel">
+            <div className="trust-banner-copy">
+              <p className="landing-section-kicker landing-section-kicker-on-dark">
+                {t("home.trust.eyebrow")}
+              </p>
+              <h2 className="trust-banner-title">
+                {t("home.trust.title")}
+              </h2>
+              <p className="trust-banner-lead">
+                {t("home.trust.description")}
+              </p>
+            </div>
+
+            <div className="trust-banner-right">
+              <div className="trust-banner-status">
+                <span className="signal-dot" />
+                <span>{t("home.trust.liveLabel")}</span>
+              </div>
+              <div className="trust-readiness-row">
+                {trustReadinessItems.map((item) => (
+                  <span className="trust-readiness-pill" key={item}>
+                    {t(item)}
+                  </span>
+                ))}
+              </div>
+              <div className="trust-category-row">
+                {trustCategorySignals.slice(0, 4).map((category) => (
+                  <span className="trust-category-chip trust-category-chip-on-dark" key={category}>
+                    {category}
+                  </span>
+                ))}
+              </div>
+              <div className="trust-banner-actions">
+                <Link className="landing-action-pill landing-action-pill-primary" href="/commercial">
+                  {t("home.trust.primaryCta")}
+                </Link>
+                <Link className="landing-action-pill landing-action-pill-on-dark" href="/buy-sell">
+                  {t("home.trust.secondaryCta")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ServiceCatalogSection() {
+  const compactCategories = fdaCategories.slice(0, 4);
+
+  return (
+    <section className="relative overflow-hidden bg-surface-tile-2 py-12 md:py-14">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <Reveal>
+          <div className="relative">
+            <div className="landing-section-header">
+              <div className="landing-section-copy">
+                <p className="landing-section-kicker landing-section-kicker-on-dark">{t("home.promo.fda.metric")}</p>
+                <h2 className="landing-section-title landing-section-title-on-dark">
+                  {t("home.promo.fda.title")}
+                </h2>
+                <p className="landing-section-lead landing-section-lead-on-dark">
+                  {t("home.fda.spotlightLead")}
+                </p>
+              </div>
+              <Link className="landing-action-pill landing-action-pill-on-dark" href="/service">
+                {t("home.promo.fda.cta")}
+              </Link>
+            </div>
+
+            <div className="service-simple-panel mt-6">
+              <Link className="service-simple-hero group" href="/service">
+                <span className="flex items-center justify-between gap-4">
+                  <span className="service-live-pill">{t("home.service.panel.status")}</span>
+                  <span className="type-caption-strong text-sky-link">
+                    {t("home.service.active.label")}
+                  </span>
+                </span>
+                <span className="mt-5 block text-[26px] font-semibold leading-tight text-white">
+                  {t("home.service.active.title")}
+                </span>
+                <span className="mt-2 block max-w-lg type-caption text-white/60">
+                  {t("home.service.active.status")}
+                </span>
+                <span className="mt-5 inline-flex items-center gap-2 type-caption-strong text-sky-link">
+                  {t("home.promo.fda.cta")}
+                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+
+              <div className="service-simple-catalog">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="type-caption-strong text-sky-link">
+                      {t("home.service.categories.label")}
+                    </p>
+                    <h3 className="mt-1 text-[20px] font-semibold leading-tight text-white">
+                      {t("home.service.panel.title")}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {compactCategories.map((category) => (
+                    <span className="service-category-chip" key={category}>
+                      {category}
+                    </span>
+                  ))}
+                  <span className="service-category-chip text-white/54">
+                    {t("home.service.categories.more")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function BuyRequestTeaserSection({
+  isAuthenticated,
+  items,
+}: Readonly<{
+  isAuthenticated: boolean;
+  items: LandingProductItem[];
+}>) {
+  const peekItems = items.slice(0, 10);
+
+  return (
+    <section className="overflow-hidden bg-canvas py-20">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <Reveal>
+          <div className="landing-section-header">
+            <div className="landing-section-copy">
+              <p className="landing-section-kicker">
+                {t("home.buyRequests.eyebrow")}
+              </p>
+              <h2 className="landing-section-title">
+                {t("home.section.urgentBuyRequests")}
+              </h2>
+              <p className="landing-section-lead">
+                {t(
+                  isAuthenticated
+                    ? "home.buyRequests.memberDescription"
+                    : "home.buyRequests.lockedDescription",
+                )}
+              </p>
+            </div>
+            <div className="landing-section-actions">
+              <div className="landing-count-pill">
+                {peekItems.length}+ {t("home.buyRequests.screenedRequests")}
+              </div>
+              <Link className="landing-action-pill" href="/buy-sell/buy-requests">
+                {t("home.viewAll")}
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-8" delayMs={80}>
+          <BuyRequestPreviewCarousel isAuthenticated={isAuthenticated} items={peekItems} />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ProductIntroBanner({
+  accentKey,
+  descriptionKey,
+  href,
+  items,
+  leadItem,
+  listVariant = "grid",
+  titleKey,
+}: Readonly<{
+  accentKey: string;
+  descriptionKey: string;
+  href: string;
+  items: LandingProductItem[];
+  leadItem: LandingProductItem;
+  listVariant?: "grid" | "peek";
+  titleKey: string;
+}>) {
+  const accent = t(accentKey);
+  const isPeekList = listVariant === "peek";
+
+  if (isPeekList) {
+    const spotlightItems = [leadItem, ...items].slice(0, 4);
+
+    return (
+      <section className="bg-surface-tile-1 py-20 text-white">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <div className="landing-section-header">
+              <div className="landing-section-copy">
+                <p className="landing-section-kicker landing-section-kicker-on-dark">{accent}</p>
+                <h2 className="landing-section-title landing-section-title-on-dark">{t(titleKey)}</h2>
+                <p className="landing-section-lead landing-section-lead-on-dark">
+                  {t(descriptionKey)}
+                </p>
+              </div>
+              <Link className="landing-action-pill landing-action-pill-primary" href={href}>
+                {t("home.banner.viewProducts")}
+              </Link>
+            </div>
+
+            <SupplierSpotlightCarousel items={spotlightItems} />
+          </Reveal>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-surface-tile-1 py-20 text-white">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <Reveal>
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            {isPeekList ? (
+              <Link className="supplier-feature-card group" href={leadItem.href}>
+                <span className="relative block h-[260px] overflow-hidden rounded-[18px] bg-black">
+                  <Image
+                    alt={leadItem.imageAlt}
+                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    fill
+                    sizes="(min-width: 1024px) 42vw, 100vw"
+                    src={leadItem.imageUrl}
+                  />
+                </span>
+                <span className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                  <span>
+                    <span className="block text-[13px] font-semibold text-white/48">
+                      {leadItem.companyName}
+                    </span>
+                    <span className="mt-2 block text-[28px] font-semibold leading-tight text-white">
+                      {leadItem.title}
+                    </span>
+                  </span>
+                  <span className="rounded-full border border-white/12 px-3 py-1.5 text-[12px] font-semibold text-sky-link">
+                    {accent}
+                  </span>
+                </span>
+                <span className="mt-4 block max-w-xl text-[15px] leading-6 text-white/62">
+                  {leadItem.summary}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                className="group relative min-h-[320px] overflow-hidden rounded-[18px] bg-black"
+                href={leadItem.href}
+              >
+                <Image
+                  alt={leadItem.imageAlt}
+                  className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                  fill
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  src={leadItem.imageUrl}
+                />
+                <span className="absolute inset-0 bg-black/35" />
+                <span className="absolute left-5 top-5 rounded-full bg-white px-3.5 py-1.5 text-[12px] font-semibold text-calm-ink">
+                  {accent}
+                </span>
+                <span className="absolute inset-x-5 bottom-5">
+                  <span className="block text-[13px] font-semibold text-white/70">
+                    {leadItem.companyName}
+                  </span>
+                  <span className="mt-1 block text-[28px] font-semibold leading-tight">
+                    {leadItem.title}
+                  </span>
+                  <span className="mt-3 block max-w-xl text-[15px] leading-6 text-white/72">
+                    {leadItem.summary}
+                  </span>
+                </span>
+              </Link>
+            )}
+
+            <div>
+              <p className="landing-section-kicker landing-section-kicker-on-dark">{accent}</p>
+              <h2 className="landing-section-title landing-section-title-on-dark">{t(titleKey)}</h2>
+              <p className="landing-section-lead landing-section-lead-on-dark">
+                {t(descriptionKey)}
+              </p>
+              {isPeekList ? (
+                <div className="supplier-peek-shell mt-8">
+                  <div className="supplier-peek-track">
+                    {items.map((item) => (
+                      <Link className="supplier-peek-item group" href={item.href} key={item.id}>
+                        <article className="supplier-peek-card">
+                          <span className="relative block h-[178px] overflow-hidden rounded-[14px] bg-black">
+                            <Image
+                              alt={item.imageAlt}
+                              className="object-cover transition duration-500 group-hover:scale-[1.05]"
+                              fill
+                              sizes="(min-width: 1024px) 36vw, 78vw"
+                              src={item.imageUrl}
+                            />
+                          </span>
+                          <span className="mt-4 block truncate text-[12px] font-semibold text-white/52">
+                            {item.companyName}
+                          </span>
+                          <span className="mt-1 block line-clamp-2 text-[18px] font-semibold leading-tight text-white">
+                            {item.title}
+                          </span>
+                          <span className="mt-3 block line-clamp-2 text-[13px] leading-5 text-white/58">
+                            {item.summary}
+                          </span>
+                        </article>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                  {items.map((item) => (
+                    <Link
+                      className="group min-w-0 rounded-[14px] border border-white/10 bg-white/6 p-3 transition hover:border-white/25 hover:bg-white/10"
+                      href={item.href}
+                      key={item.id}
+                    >
+                      <span className="relative block aspect-[4/3] overflow-hidden rounded-[10px] bg-black">
+                        <Image
+                          alt={item.imageAlt}
+                          className="object-cover transition duration-500 group-hover:scale-[1.06]"
+                          fill
+                          sizes="(min-width: 1024px) 12vw, 33vw"
+                          src={item.imageUrl}
+                        />
+                      </span>
+                      <span className="mt-3 block truncate text-[12px] font-semibold text-white/50">
+                        {item.companyName}
+                      </span>
+                      <span className="mt-1 block line-clamp-2 text-[14px] font-semibold leading-snug text-white">
+                        {item.title}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+              <div className="mt-8">
+                <Link className="landing-action-pill landing-action-pill-primary" href={href}>
+                  {t("home.banner.viewProducts")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export default async function HomePage() {
+  const currentUser = await getCurrentUser();
+  const isAuthenticated = Boolean(currentUser);
+  const commercialItems = getSampleItems("commercial");
+  const sellProductItems = getSampleItems("sell-products");
+  const buyRequestItems = getSampleItems("buy-requests");
+  const industrialItems = getSampleItems("industrial");
+  const epcItems = getSampleItems("epc");
+  const eventItems = getSampleItems("events");
+  const noticeItems = getSampleItems("notice").slice(0, 4);
+  const tradeAmbassadorItems = commercialItems.slice(4, 12).map((item) => ({
+    ...item,
+    meta: t("home.section.studentShowcase"),
+  }));
+  const featuredSupplierBannerItems = commercialItems.slice(1, 4);
+  const industrialBannerItems = industrialItems.slice(1, 4);
+  const legalFooterLinks = [
+    { href: "/privacy", label: t("legal.privacy.title") },
+    { href: "/terms", label: t("legal.terms.title") },
+    { href: "/cookies", label: t("legal.cookies.title") },
+    { href: "/guide", label: t("legal.guide.title") },
+  ] as const;
+
+  return (
+    <main className="bg-canvas">
+      <HomeHero />
+
+      <TrustInfrastructureSection />
+
+      <ProductIntroBanner
+        accentKey="home.banner.supplier.eyebrow"
+        descriptionKey="home.banner.supplier.description"
+        href="/commercial"
+        items={featuredSupplierBannerItems}
+        leadItem={commercialItems[0]}
+        listVariant="peek"
+        titleKey="home.banner.supplier.title"
+      />
+
+      <BuyRequestTeaserSection
+        isAuthenticated={isAuthenticated}
+        items={buyRequestItems}
+      />
+
+      <ProductIntroBanner
+        accentKey="home.banner.industrial.eyebrow"
+        descriptionKey="home.banner.industrial.description"
+        href="/industrial"
+        items={industrialBannerItems}
+        leadItem={industrialItems[0]}
+        titleKey="home.banner.industrial.title"
+      />
+
+      <section className="bg-canvas-parchment py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <ProductCarousel
+              href="/commercial"
+              items={[...commercialItems, ...sellProductItems]}
+              titleKey="home.section.featuredSuppliers"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-canvas py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <ProductCarousel
+              href="/commercial"
+              items={commercialItems}
+              titleKey="home.section.featuredProducts"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-canvas-parchment py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal className="mt-8" delayMs={80}>
+            <ProductCarousel
+              href="/industrial"
+              items={industrialItems}
+              lead={t("content.industrial.description")}
+              titleKey="home.section.industrial"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-canvas py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal className="mt-8" delayMs={80}>
+            <ProductCarousel
+              href="/epc"
+              items={epcItems}
+              lead={t("content.epc.description")}
+              titleKey="home.section.epc"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-canvas-parchment py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal className="mt-8" delayMs={80}>
+            <ProductCarousel
+              href="/commercial"
+              items={tradeAmbassadorItems}
+              lead={t("home.showcase.description")}
+              titleKey="home.section.studentShowcase"
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-canvas py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <SectionIntro
+              descriptionKey="content.events.description"
+              href="/events"
+              titleKey="home.section.events"
+            />
+          </Reveal>
+          <Reveal delayMs={80}>
+            <LandingEventCarousel items={eventItems} />
+          </Reveal>
+        </div>
+      </section>
+
+      <ServiceCatalogSection />
+
+      <section className="bg-canvas py-20">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <SectionIntro
+              descriptionKey="home.notice.description"
+              href="/notice"
+              titleKey="home.section.notice"
+            />
+          </Reveal>
+          <div className="mt-8 divide-y divide-calm-divider-soft border-t border-b border-calm-divider-soft">
+            {noticeItems.map((item, index) => (
+              <Reveal delayMs={index * 50} key={item.id}>
+                <Link
+                  className="flex flex-col gap-2 py-5 transition hover:opacity-70 sm:flex-row sm:items-center sm:justify-between"
+                  href={item.href}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="type-caption-strong shrink-0 text-action-blue">
+                      {item.meta}
+                    </span>
+                    <span className="type-body-strong text-calm-ink">{item.title}</span>
+                  </span>
+                  <span className="type-caption text-calm-ink-muted-48">
+                    {item.createdAt.slice(0, 10)}
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="closing-cta-section">
+        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <div className="closing-cta-panel">
+              <div className="closing-cta-copy">
+                <p className="landing-section-kicker landing-section-kicker-on-dark">{t("footer.cta.eyebrow")}</p>
+                <h2 className="closing-cta-title">
+                  {t("footer.cta.title")}
+                </h2>
+                <p className="closing-cta-lead">
+                  {t("footer.cta.description")}
+                </p>
+              </div>
+
+              <div className="closing-cta-aside">
+                <div className="closing-lane-strip" aria-hidden="true">
+                  <span>K-Beauty</span>
+                  <span>Food Supplement</span>
+                  <span>Machinery</span>
+                  <span>EPC</span>
+                  <span>Trade Service</span>
+                  <span>Buyer Matching</span>
+                </div>
+                <div className="closing-cta-actions">
+                  <Link className="landing-action-pill landing-action-pill-primary" href="/buy-sell/buy-requests">
+                    {t("footer.cta.primary")}
+                  </Link>
+                  <Link className="landing-action-pill landing-action-pill-on-dark" href="/commercial">
+                    {t("footer.cta.secondary")}
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 lg:px-10">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              <Link aria-label={t("brand.name")} className="inline-flex w-fit" href="/">
+                <BrandLogo className="h-9 w-[150px] rounded-[10px]" />
+              </Link>
+              <p className="max-w-md text-[13px] font-medium leading-6 text-calm-ink-muted-80">
+                {t("footer.tagline")}
+              </p>
+            </div>
+
+            <nav
+              className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-bold text-calm-ink-muted-80 lg:justify-end"
+              aria-label={t("footer.columns.platform")}
+            >
+              <Link className="transition hover:text-action-blue" href="/commercial">{t("nav.commercial")}</Link>
+              <Link className="transition hover:text-action-blue" href="/industrial">{t("nav.industrial")}</Link>
+              <Link className="transition hover:text-action-blue" href="/epc">{t("nav.epc")}</Link>
+              <Link className="transition hover:text-action-blue" href="/buy-sell">{t("nav.buySell")}</Link>
+              <Link className="transition hover:text-action-blue" href="/service">{t("nav.thailandFda")}</Link>
+              <Link className="transition hover:text-action-blue" href="/events">{t("nav.events")}</Link>
+              <Link className="transition hover:text-action-blue" href="/notice">{t("nav.notice")}</Link>
+            </nav>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 pt-5 text-[12px] text-calm-ink-muted-48 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-medium">
+              &copy; {new Date().getFullYear()} {t("brand.name")}. {t("footer.rights")}
+            </p>
+            <nav
+              className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end"
+              aria-label={t("footer.legal.label")}
+            >
+              {legalFooterLinks.map((item) => (
+                <Link
+                  className="font-semibold transition hover:text-action-blue"
+                  href={item.href}
+                  key={item.href}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}

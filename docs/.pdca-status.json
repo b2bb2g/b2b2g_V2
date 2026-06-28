@@ -1,13 +1,104 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-18T10:13:29.588Z",
+  "lastUpdated": "2026-06-28T08:10:11.497Z",
   "activeFeatures": [
-    "b2bb2g-mvp"
+    "landing-gallery-carousel",
+    "landing-trust-infrastructure",
+    "landing-buyer-demand-preview",
+    "landing-events-section",
+    "landing-service-catalog",
+    "landing-hero-motion",
+    "landing-header-navigation",
+    "admin-console-redesign",
+    "dashboard-referral-network",
+    "dashboard-company",
+    "dashboard-messages",
+    "platform-structure-audit"
   ],
   "primaryFeature": "b2bb2g-mvp",
   "features": {
     "b2bb2g-mvp": {
-      "phase": "do",
+      "phase": "archived",
+      "matchRate": null,
+      "iterationCount": 22,
+      "documents": {
+        "archive": "docs/archive/2026-06/b2bb2g-mvp/ARCHIVE.md",
+        "report": "docs/04-report/b2bb2g-mvp.report.md"
+      },
+      "completedAt": "2026-06-18T20:33:31.371Z",
+      "archivedAt": "2026-06-18T20:43:54.000Z"
+    },
+    "landing-gallery-carousel": {
+      "phase": "report",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "landing-trust-infrastructure": {
+      "phase": "report",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "landing-buyer-demand-preview": {
+      "phase": "report",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "landing-events-section": {
+      "phase": "completed",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {},
+      "completedAt": "2026-06-19T18:22:59.324Z"
+    },
+    "landing-service-catalog": {
+      "phase": "act",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "landing-hero-motion": {
+      "phase": "report",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "landing-header-navigation": {
+      "phase": "act",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "admin-console-redesign": {
+      "phase": "completed",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {},
+      "completedAt": "2026-06-20T16:52:56.358Z"
+    },
+    "dashboard-referral-network": {
+      "phase": "completed",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {},
+      "completedAt": "2026-06-21T10:06:21.864Z"
+    },
+    "dashboard-company": {
+      "phase": "check",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "dashboard-messages": {
+      "phase": "check",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
+    },
+    "platform-structure-audit": {
+      "phase": "act",
       "matchRate": null,
       "iterationCount": 0,
       "documents": {}
@@ -21,7 +112,7 @@
   "session": {
     "startedAt": "2026-06-18T08:29:41.099Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-18T10:13:29.588Z"
+    "lastActivity": "2026-06-28T08:10:11.497Z"
   },
   "history": [
     {
@@ -74,6 +165,666 @@
       "phase": "design",
       "nextPhase": "do",
       "timestamp": "2026-06-18T10:13:29.588Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T12:46:23.963Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T12:46:23.964Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:00:10.760Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:00:10.761Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:09:11.483Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:09:11.483Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:20:24.623Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:20:24.624Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:27:09.701Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:27:09.702Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:33:01.892Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:33:01.893Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:39:13.714Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:39:13.715Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:44:55.118Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:44:55.118Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:50:24.581Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:50:24.582Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T13:59:05.133Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T13:59:05.133Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T16:50:42.065Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T16:50:42.066Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T16:59:43.029Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T16:59:43.029Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T17:14:04.325Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T17:14:04.328Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T17:53:58.010Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T17:53:58.011Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-18T18:07:48.491Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-18T18:07:48.492Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T18:24:42.781Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T18:24:42.782Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T18:42:07.967Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T18:42:07.968Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T18:56:21.689Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T18:56:21.689Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T19:10:52.197Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T19:10:52.198Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T19:29:06.878Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T19:29:06.879Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T19:48:47.250Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T19:48:47.251Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-18T20:09:29.259Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-18T20:09:29.259Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-06-18T20:33:31.372Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "archive",
+      "from": "completed",
+      "to": "archived",
+      "archivePath": "docs/archive/2026-06/b2bb2g-mvp/ARCHIVE.md",
+      "timestamp": "2026-06-18T20:43:54.000Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-19T17:04:32.496Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-19T17:04:32.496Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-19T17:14:35.851Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-19T17:14:35.853Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-19T17:26:47.143Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-19T17:26:47.145Z"
+    },
+    {
+      "feature": "landing-buyer-demand-preview",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-19T17:40:38.830Z"
+    },
+    {
+      "feature": "landing-buyer-demand-preview",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-19T17:40:38.831Z"
+    },
+    {
+      "feature": "landing-buyer-demand-preview",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-19T17:49:44.340Z"
+    },
+    {
+      "feature": "landing-buyer-demand-preview",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-19T17:49:44.341Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "from": "act",
+      "to": "report",
+      "timestamp": "2026-06-19T17:57:13.412Z"
+    },
+    {
+      "feature": "landing-gallery-carousel",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-19T17:57:13.413Z"
+    },
+    {
+      "feature": "landing-events-section",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-19T18:07:26.635Z"
+    },
+    {
+      "feature": "landing-events-section",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-19T18:07:26.636Z"
+    },
+    {
+      "feature": "landing-events-section",
+      "from": "check",
+      "to": "report",
+      "timestamp": "2026-06-19T18:17:07.928Z"
+    },
+    {
+      "feature": "landing-events-section",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-19T18:17:07.929Z"
+    },
+    {
+      "feature": "landing-events-section",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-06-19T18:22:59.325Z"
+    },
+    {
+      "feature": "landing-service-catalog",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-20T03:42:08.956Z"
+    },
+    {
+      "feature": "landing-service-catalog",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-20T03:42:08.957Z"
+    },
+    {
+      "feature": "landing-service-catalog",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-20T04:13:19.964Z"
+    },
+    {
+      "feature": "landing-service-catalog",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-20T04:13:19.965Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-20T04:24:46.593Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-20T04:24:46.593Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "from": "act",
+      "to": "report",
+      "timestamp": "2026-06-20T04:33:15.221Z"
+    },
+    {
+      "feature": "landing-trust-infrastructure",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-20T04:33:15.222Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-20T04:43:00.628Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-20T04:43:00.629Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-20T04:51:27.501Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-20T04:51:27.503Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "from": "act",
+      "to": "report",
+      "timestamp": "2026-06-20T05:18:41.746Z"
+    },
+    {
+      "feature": "landing-hero-motion",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-20T05:18:41.750Z"
+    },
+    {
+      "feature": "landing-header-navigation",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-20T09:59:33.498Z"
+    },
+    {
+      "feature": "landing-header-navigation",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-20T09:59:33.500Z"
+    },
+    {
+      "feature": "landing-header-navigation",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-20T10:08:30.927Z"
+    },
+    {
+      "feature": "landing-header-navigation",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-20T10:08:30.933Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-20T10:40:26.841Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-20T10:40:26.842Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-20T10:41:06.317Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-20T10:41:06.318Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "from": "act",
+      "to": "report",
+      "timestamp": "2026-06-20T14:20:37.611Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-20T14:20:37.612Z"
+    },
+    {
+      "feature": "admin-console-redesign",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-06-20T16:52:56.360Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-21T03:51:01.459Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-21T03:51:01.459Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-21T06:23:08.294Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-21T06:23:08.295Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "from": "act",
+      "to": "report",
+      "timestamp": "2026-06-21T07:03:23.888Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "action": "phase_complete",
+      "phase": "act",
+      "nextPhase": "report",
+      "timestamp": "2026-06-21T07:03:23.890Z"
+    },
+    {
+      "feature": "dashboard-referral-network",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-06-21T10:06:21.865Z"
+    },
+    {
+      "feature": "dashboard-company",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-21T16:09:40.226Z"
+    },
+    {
+      "feature": "dashboard-company",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-21T16:09:40.226Z"
+    },
+    {
+      "feature": "dashboard-messages",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-21T20:40:45.386Z"
+    },
+    {
+      "feature": "dashboard-messages",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-21T20:40:45.387Z"
+    },
+    {
+      "feature": "platform-structure-audit",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-28T08:10:11.495Z"
+    },
+    {
+      "feature": "platform-structure-audit",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-28T08:10:11.496Z"
     }
   ]
 }

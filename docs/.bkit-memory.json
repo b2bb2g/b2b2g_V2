@@ -1,0 +1,109 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-06-21T20:39:56.942Z",
+  "data": {
+    "b2bb2g-mvp.archive": {
+      "feature": "b2bb2g-mvp",
+      "phase": "archived",
+      "archivedAt": "2026-06-18T20:43:54.000Z",
+      "archivePath": "docs/archive/2026-06/b2bb2g-mvp/ARCHIVE.md",
+      "reportPath": "docs/04-report/b2bb2g-mvp.report.md",
+      "nextRecommendedWork": [
+        "Production deployment 준비",
+        "Vercel project/environment 설정",
+        "Production Supabase migration 상태 재확인",
+        "CI/CD quality gate 구성",
+        "운영 모니터링과 로그 정책 정리"
+      ]
+    },
+    "b2bb2g-mvp.deployment-prep": {
+      "status": "complete",
+      "completedAt": "2026-06-19",
+      "phase9Deliverables": "complete",
+      "completionRate": 100,
+      "created": [
+        ".github/workflows/ci.yml",
+        ".github/pull_request_template.md",
+        "docs/deployment.md",
+        "docs/04-deploy/deployment-guide.md",
+        "docs/04-deploy/environment-vars.md",
+        "docs/04-deploy/runbook.md"
+      ],
+      "updated": [
+        "package.json",
+        "lib/seo/metadata.ts"
+      ],
+      "verification": [
+        "npm run quality: pass",
+        "npm run test:rls: pass",
+        "bkit_check_deliverables phase 9: 100%"
+      ],
+      "notes": "Added deployment readiness docs, CI quality gate, PR checklist, package scripts, and hardened site URL normalization for sitemap/metadata build."
+    },
+    "b2bb2g-mvp.public-sample-ui-refresh": {
+      "status": "complete",
+      "completedAt": "2026-06-19",
+      "scope": [
+        "homepage redesign",
+        "public menu pages added",
+        "20 sample records with images per menu",
+        "sample detail pages",
+        "public content fallback samples",
+        "Next Image remote pattern"
+      ],
+      "verification": [
+        "npm run quality: pass",
+        "route smoke: all checked routes 200",
+        "HTML structure smoke: menu pages render h1/articles/images"
+      ],
+      "notes": "Browser Playwright render check was unavailable because playwright module is not installed; verified via build, curl route smoke, and server-rendered HTML counts instead. bkit_post_write recommends gap analysis due major UI/sample changes."
+    },
+    "b2bb2g-mvp.buykorea-inspired-ui-refresh": {
+      "status": "complete",
+      "completedAt": "2026-06-19",
+      "scope": [
+        "buyKOREA screenshot review",
+        "public two-tier search header",
+        "hero marketplace carousel",
+        "product rail carousel",
+        "top picks and new arrivals rails",
+        "subpage sidebar filters and result toolbar",
+        "notice table layout",
+        "BUY & SELL landing refresh",
+        "global blue marketplace theme"
+      ],
+      "verification": [
+        "npm run typecheck: pass",
+        "npm run lint: pass",
+        "npm run build: pass",
+        "route smoke: representative public routes and sample detail routes 200",
+        "npm run test:rls: pass"
+      ],
+      "notes": "Implemented as B2BB2G-specific marketplace UI, not a direct buyKOREA clone. Playwright browser module is not installed, so visual verification used build, curl route smoke, and server-rendered HTML counts."
+    },
+    "dashboard-products-student-showcase": {
+      "summary": "Implemented Student Showcase workflow on /dashboard/products. Students can create a showcase draft from approved supplier products, add description/student note, submit for admin review, and see current status/records. Original product creation remains supplier-only.",
+      "verification": [
+        "npm run lint",
+        "npm run typecheck",
+        "npm run build"
+      ],
+      "updatedFiles": [
+        "lib/queries/dashboard.ts",
+        "components/dashboard/dashboard-pages.tsx",
+        "lib/actions/business.ts",
+        "app/(dashboard)/dashboard/products/page.tsx",
+        "lib/i18n/translation.ts"
+      ]
+    },
+    "dashboard-messages-send-fallback-2026-06-22": {
+      "feature": "dashboard-messages",
+      "phase": "do",
+      "summary": "Hardened sendMessage to re-check conversation membership/conversation state with service-role fallback before inserting messages, and protected audit logging from masking send failures.",
+      "verification": [
+        "npm run typecheck",
+        "npm run lint"
+      ]
+    }
+  }
+}
