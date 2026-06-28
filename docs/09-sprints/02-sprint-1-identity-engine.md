@@ -132,3 +132,20 @@ If any Identity Engine change touches authorization, PII visibility, or admin ap
 | Task 06 - Safety Review and Test Plan | Complete | Reviewed Task 01-05 Identity code against Permission Matrix, ERD, RLS Design, and Business Rules; documented risk findings and the minimum test plan before UI exposure. |
 | Task 07 - Minimal Identity Tests | Complete | Added Node test coverage for `account-roles` pure helpers: role key normalization, active/approved priority, legacy fallback, inactive/deleted exclusion, multi-role resolution, and primary role priority. |
 | Task 08 - Minimal Admin Role Application UI | Complete | Added `/admin/role-applications` for admin-only pending role application review with minimal approve/reject forms, no PII fields, and no service role fallback. |
+| Task 09 - Review and Freeze | Complete | Froze Sprint 1 as `Frozen with Known Limitations`; audit log, RLS policy SQL, role switch UI, signup backfill, legacy cleanup, and server action integration tests remain backlog. |
+
+## 11. Freeze Status
+
+Sprint 1 Identity Engine is **Frozen with Known Limitations**.
+
+Freeze document:
+
+```text
+docs/09-sprints/06-sprint-1-identity-review-and-freeze.md
+```
+
+Next recommended sprint:
+
+```text
+Sprint 2 Organization Engine
+```

@@ -15,7 +15,8 @@ B2BB2G V2는 한국 기업의 제품, 산업설비, EPC 프로젝트, BUY & SELL
 - Current Phase: Engine Sprint Implementation
 - PDCA primary feature: `b2bb2g-mvp`
 - Current PDCA phase: `act`
-- Current Sprint: Sprint 1 Identity Engine
+- Current Sprint: Sprint 1 Identity Engine — Frozen with Known Limitations
+- Next Sprint: Sprint 2 Organization Engine
 - Current implementation mode: Engine-by-Engine sprint execution
 
 ## Current GitHub Branch
@@ -65,12 +66,12 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `TASK_MASTER.md`
 - `docs/09-sprints/01-engine-sprint-plan.md`
 - `docs/09-sprints/02-sprint-1-identity-engine.md`
+- `docs/09-sprints/06-sprint-1-identity-review-and-freeze.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- `docs/09-sprints/03-sprint-1-identity-repository-audit.md`
-- Sprint 1 Identity Engine implementation notes
+- Sprint 2 Organization Engine plan/repository audit
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
 - RLS helper scope review before policy SQL
@@ -84,17 +85,15 @@ These documents are treated as high-priority Source of Truth and should not be c
 | P1 High | Conversation audit is still required before communication migration. | Required before `004_conversation_compatibility.sql` classification/backfill and before full Communication RLS enforcement. |
 | P1 High | Buyer PII projection must remain protected. | `buyer_masked_profiles` remains the target Supplier-safe projection; Supplier-facing queries must not expose Buyer email/phone/contact person. |
 | P1 High | RLS helper scope must be reviewed before policy SQL. | `009_rls_helpers.sql` and `010_rls_policies.sql` remain blocked until helper scope, fixed `search_path`, and tests are reviewed. |
-| P2 Medium | 002 uses compatibility `role_key` text while ERD final model expects role authority alignment. | Sprint 1 Identity Engine must audit role source, helper design, and eventual backfill timing before runtime switch. |
+| P2 Medium | 002 uses compatibility `role_key` text while ERD final model expects role authority alignment. | Sprint 1 froze this as a known limitation; final role authority alignment remains migration/backfill backlog. |
 
 ## Current Priority
 
-1. Sprint 1 Identity Implementation Plan
-2. Identity Engine Types
-3. Identity Engine Queries
-4. Identity Engine Server Actions
-5. Identity Engine RLS Review
-6. Identity Engine Admin UI
-7. Identity Engine Tests
+1. Sprint 2 Organization Engine scope/repository audit
+2. Organization relationship Source of Truth review
+3. Existing organization/company/member relation code classification
+4. Organization query/action boundary design
+5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
 ## Engine Sprint Rule
 
@@ -125,12 +124,12 @@ Codex is responsible for repository-aware implementation, security hardening, do
 
 ChatGPT Review is expected to challenge assumptions, review source-of-truth consistency, and provide architecture/product/security review before high-risk implementation.
 
-## Last Commit Summary
+## Last Sprint Summary
 
-- Last known migration transition before this document: `002_role_compatibility.sql` production apply completed.
-- Result: Success. No rows returned.
-- Effect: `account_roles` and `role_applications` additive structures are now available in production.
+- Sprint 1 Identity Engine is frozen with known limitations.
+- Implemented baseline: 002 role compatibility migration, `account_roles` / `role_applications` types, account-role-first legacy fallback, role application request/cancel, admin approve/reject, minimal admin UI, and pure helper tests.
+- Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create `docs/09-sprints/04-sprint-1-identity-implementation-plan.md` before modifying Identity Engine code.
+Create Sprint 2 Organization Engine plan/repository audit before modifying Organization Engine code.
