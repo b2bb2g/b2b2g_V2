@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { requireAdminRoute } from "@/lib/auth/guards";
 import { requireCurrentUser } from "@/lib/auth/session";
 import { normalizeRoleKey } from "@/lib/auth/account-roles";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -27,6 +28,10 @@ const DUPLICATE_APPLICATION_STATUSES: RoleApplicationStatus[] = [
   "under_review",
 ];
 const CANCELLABLE_APPLICATION_STATUSES: RoleApplicationStatus[] = [
+  "submitted",
+  "under_review",
+];
+const REVIEWABLE_APPLICATION_STATUSES: RoleApplicationStatus[] = [
   "submitted",
   "under_review",
 ];
@@ -186,36 +191,145 @@ export async function cancelRoleApplication(
 export async function approveRoleApplication(
   applicationId: string,
 ): Promise<IdentityActionResult> {
-  // TODO(Sprint 1): implement after admin approval audit contract and admin guard are finalized.
   try {
-    validateApplicationId(applicationId);
+    const validatedApplicationId = validateApplicationId(applicationId);
+    const adminUser = await requireAdminRoute();
+    const supabase = await createSupabaseServerClient();
+    const { data: application, error: applicationError } = await supabase
+      .from("role_applications")
+      .select("id,account_id,requested_role_key,status")
+      .eq("id", validatedApplicationId)
+      .is("deleted_at", null)
+      .maybeSingle();
+
+    if (applicationError) {
+      throw new Error(applicationError.message);
+    }
+
+    if (!application) {
+      throw new Error("Role application not found");
+    }
+
+    if (!REVIEWABLE_APPLICATION_STATUSES.includes(application.status)) {
+      throw new Error("Role application cannot be approved");
+    }
+
+    const normalizedRoleKey = normalizeRoleKey(application.requested_role_key);
+
+    if (!normalizedRoleKey) {
+      throw new Error("Invalid requested role key");
+    }
+
+    const reviewedAt = new Date().toISOString();
+    const { data: existingRole, error: existingRoleError } = await supabase
+      .from("account_roles")
+      .select("id")
+      .eq("account_id", application.account_id)
+      .eq("role_key", normalizedRoleKey)
+      .is("deleted_at", null)
+      .maybeSingle();
+
+    if (existingRoleError) {
+      throw new Error(existingRoleError.message);
+    }
+
+    if (existingRole) {
+      const { error: roleUpdateError } = await supabase
+        .from("account_roles")
+        .update({
+          approved_at: reviewedAt,
+          approved_by: adminUser.id,
+          status: "approved",
+          updated_at: reviewedAt,
+        })
+        .eq("id", existingRole.id);
+
+      if (roleUpdateError) {
+        throw new Error(roleUpdateError.message);
+      }
+    } else {
+      const { error: roleInsertError } = await supabase.from("account_roles").insert({
+        account_id: application.account_id,
+        approved_at: reviewedAt,
+        approved_by: adminUser.id,
+        role_key: normalizedRoleKey,
+        status: "approved",
+      });
+
+      if (roleInsertError) {
+        throw new Error(roleInsertError.message);
+      }
+    }
+
+    const { data, error } = await supabase
+      .from("role_applications")
+      .update({
+        reviewed_at: reviewedAt,
+        reviewed_by: adminUser.id,
+        status: "approved",
+        updated_at: reviewedAt,
+      })
+      .eq("id", validatedApplicationId)
+      .in("status", REVIEWABLE_APPLICATION_STATUSES)
+      .select("id")
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // TODO(Sprint 1): write audit event after role approval audit contract is finalized.
+    revalidatePath("/admin");
+    revalidatePath("/admin/members");
+    revalidatePath("/dashboard/account");
+
+    return { error: null, ok: true, recordId: data.id };
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
   }
-
-  return {
-    error: "Admin role approval is intentionally deferred",
-    ok: false,
-  };
 }
 
 export async function rejectRoleApplication(
   applicationId: string,
   reason: string,
 ): Promise<IdentityActionResult> {
-  // TODO(Sprint 1): implement after admin rejection audit contract and admin guard are finalized.
   try {
-    validateApplicationId(applicationId);
+    const validatedApplicationId = validateApplicationId(applicationId);
+    const rejectionReason = normalizeReason(reason);
 
-    if (!normalizeReason(reason)) {
+    if (!rejectionReason) {
       throw new Error("Rejection reason is required");
     }
+
+    const adminUser = await requireAdminRoute();
+    const supabase = await createSupabaseServerClient();
+    const reviewedAt = new Date().toISOString();
+    const { data, error } = await supabase
+      .from("role_applications")
+      .update({
+        rejection_reason: rejectionReason,
+        reviewed_at: reviewedAt,
+        reviewed_by: adminUser.id,
+        status: "rejected",
+        updated_at: reviewedAt,
+      })
+      .eq("id", validatedApplicationId)
+      .in("status", REVIEWABLE_APPLICATION_STATUSES)
+      .is("deleted_at", null)
+      .select("id")
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // TODO(Sprint 1): write audit event after role rejection audit contract is finalized.
+    revalidatePath("/admin");
+    revalidatePath("/admin/members");
+    revalidatePath("/dashboard/account");
+
+    return { error: null, ok: true, recordId: data.id };
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
   }
-
-  return {
-    error: "Admin role rejection is intentionally deferred",
-    ok: false,
-  };
 }
