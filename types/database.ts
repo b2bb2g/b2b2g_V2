@@ -19,6 +19,15 @@ export type AccountApprovalStatus =
   | "pending"
   | "rejected"
   | "suspended";
+export type AccountRoleStatus =
+  | "active"
+  | "approved"
+  | "inactive"
+  | "rejected"
+  | "requested"
+  | "revoked"
+  | "suspended"
+  | "under_review";
 export type ActivityStatus = "active" | "blocked" | "inactive";
 export type AnalyticsEventType =
   | "buy_request_view"
@@ -145,6 +154,7 @@ export type MemberTypeCode =
 export type MemberReferralOwnerType = "agent" | "professor";
 export type MemberReferralSignupStatus = "active" | "pending" | "rejected";
 export type MemberReferralTargetType = "buyer" | "student";
+export type IdentityRoleKey = string;
 export type ReferralRelationStatus = "active" | "blocked" | "inactive";
 export type ReferralRewardStatus =
   | "approved"
@@ -158,6 +168,15 @@ export type RewardStatus =
   | "paid"
   | "pending"
   | "rejected";
+export type RoleApplicationStatus =
+  | "approved"
+  | "cancelled"
+  | "draft"
+  | "rejected"
+  | "requested"
+  | "submitted"
+  | "under_review"
+  | "withdrawn";
 export type RewardType =
   | "agent_performance"
   | "manual"
@@ -243,6 +262,84 @@ export type ThailandFdaStatus =
 export type Database = {
   public: {
     Tables: {
+      account_roles: {
+        Row: {
+          account_id: string;
+          approved_at: string | null;
+          approved_by: string | null;
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          role_key: IdentityRoleKey;
+          status: AccountRoleStatus;
+          updated_at: string;
+        };
+        Insert: {
+          account_id: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
+          created_at?: string;
+          deleted_at?: string | null;
+          id?: string;
+          role_key: IdentityRoleKey;
+          status?: AccountRoleStatus;
+          updated_at?: string;
+        };
+        Update: Partial<{
+          account_id: string;
+          approved_at: string | null;
+          approved_by: string | null;
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          role_key: IdentityRoleKey;
+          status: AccountRoleStatus;
+          updated_at: string;
+        }>;
+        Relationships: [];
+      };
+      role_applications: {
+        Row: {
+          account_id: string;
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          reason: string | null;
+          rejection_reason: string | null;
+          requested_role_key: IdentityRoleKey;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          status: RoleApplicationStatus;
+          updated_at: string;
+        };
+        Insert: {
+          account_id: string;
+          created_at?: string;
+          deleted_at?: string | null;
+          id?: string;
+          reason?: string | null;
+          rejection_reason?: string | null;
+          requested_role_key: IdentityRoleKey;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: RoleApplicationStatus;
+          updated_at?: string;
+        };
+        Update: Partial<{
+          account_id: string;
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          reason: string | null;
+          rejection_reason: string | null;
+          requested_role_key: IdentityRoleKey;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          status: RoleApplicationStatus;
+          updated_at: string;
+        }>;
+        Relationships: [];
+      };
       member_types: {
         Row: BaseRow & {
           code: MemberTypeCode;

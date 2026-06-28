@@ -41,3 +41,4 @@
 | T-037 | Identity Engine RLS Review | Codex | TODO | RLS docs and query/action review | T-035, T-036 | Confirm no runtime authority switch before helper/policy SQL. |
 | T-038 | Identity Engine Admin UI | Codex | TODO | `app/`, `components/` | T-036, T-037 | Prepare admin approval UI only after audit and actions. |
 | T-039 | Identity Engine Tests | Codex | TODO | tests/typecheck/lint | T-034 to T-038 | Verify role visibility, admin boundaries, typecheck, and lint. |
+| T-040 | Sprint 1 Identity Engine Implementation Task 01 | Codex | DONE | `types/database.ts`, `lib/auth/account-roles.ts`, `lib/queries/identity.ts`, `lib/actions/identity.ts` | T-032 | Added account role types, identity queries/actions, and legacy compatibility helper. |

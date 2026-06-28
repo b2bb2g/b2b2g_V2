@@ -119,3 +119,9 @@ npm run lint
 ```
 
 If any Identity Engine change touches authorization, PII visibility, or admin approval, it must also include a security review note before commit.
+
+## 10. Sprint Log
+
+| Task | Status | Summary |
+| --- | --- | --- |
+| Implementation Task 01 | Complete | Added `account_roles` / `role_applications` types, server-client Identity queries, user role application actions, and account-role compatibility helpers while preserving legacy `member_type_id` behavior. |
