@@ -5,6 +5,20 @@
 > 작성 범위: 문서화 전용. 본 문서는 코드를 작성하지 않으며, 이후 Codex가 구현 단계에서 본 문서를 1차 기준으로 사용한다.
 > 우선순위 선언: 기능/도메인/권한 구조 판단에 한해 본 문서가 기존 `docs/01-plan`, `docs/02-design`, `docs/03-analysis` 산출물보다 우선한다. 기존 코드(`app/`, `components/`, `lib/`, `supabase/migrations`)는 구현 참고 자료로만 사용하고, 본 문서와 충돌하는 경우 본 문서를 따른다. 단, 코딩 규칙·디렉터리 컨벤션·언어 정책은 `AGENTS.md`를, UI/Layout/Navigation 판단은 `/DESIGN.md`를 그대로 따른다 (자세한 우선순위는 9장 참조).
 
+### 문서 지도 (Document Map)
+
+본 문서는 `Platform → Experience → Engine → Module → Plugin` 구조의 **Engine 계층**을 정의한다. 전체 문서 체계는 아래와 같다.
+
+| 문서 | 계층 | 내용 |
+|---|---|---|
+| **01-platform-engine-module-plugin.md** (본 문서) | Engine | Engine/Module/Plugin 정의 |
+| [02-platform-experience-standard.md](02-platform-experience-standard.md) | Experience | 전체 Engine 공통 UX/운영 규약 |
+| [../02-experience/01-user-journey.md](../02-experience/01-user-journey.md) | Experience | Role별 가입~종료 여정 |
+| [../02-experience/02-workflow-standard.md](../02-experience/02-workflow-standard.md) | Experience | Journey의 절차(Workflow) 구체화 |
+| [../02-experience/03-state-machine.md](../02-experience/03-state-machine.md) | Experience | Workflow의 상태값(State) 구체화 |
+| [../02-experience/04-sub-page-ui-standard.md](../02-experience/04-sub-page-ui-standard.md) | Experience | 페이지 단위 UI 골격 |
+| [../07-implementation/00-existing-code-reuse-policy.md](../07-implementation/00-existing-code-reuse-policy.md) | Implementation | 기존 코드 재사용/리팩터링/교체/보류 기준 |
+
 ---
 
 ## 1. Platform Overview
