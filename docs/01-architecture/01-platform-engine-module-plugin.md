@@ -973,13 +973,13 @@ Cross-cutting (모든 Layer를 횡단)
 | Student Growth Engine | Partial | Student Profile, Student Showcase, Career Rank 기본 흐름은 MVP. Global Trade Passport 전체 집계, Market Research, Translation Support는 MVP-light(데이터 모델만 준비, UI는 최소) 가능 |
 | Admin Control Engine | Partial | Member/Role/Invitation/Company/Product/Inquiry Brokerage/Badge Management + Audit Log는 MVP. Translation Management 고급 편집 UI는 최소화 가능 |
 | Analytics Engine | Partial | "Basic Analytics" 명시 포함: Marketplace KPI, 기본 Source/Inquiry Tracking 수준 |
-| Exposure Engine | **확인 필요** | 사용자 MVP 목록에 명시되지 않았으나 Homepage 구조상 최소한의 Admin Pick 기반 노출은 구조적으로 필요. 기본값: Admin Pick Plugin만 MVP, Auto Ranking Plugin은 Post-MVP로 권장 |
-| Event Engine | **확인 필요** | 사용자 MVP 목록에 명시되지 않음. 단 기존 `/DESIGN.md`·공개 메뉴에는 Event가 포함되어 있어 충돌 가능성 있음. 기본값: Post-MVP(Phase 2)로 분류하되, 공개 메뉴에 Event를 노출할지 여부는 별도 확인 필요 |
-| Thailand FDA Service Engine | **확인 필요** | 사용자 MVP 목록에 명시되지 않음. 단 기존 `AGENTS.md`는 "MVP에서는 Thailand FDA Service만 운영한다"고 명시. 기본값: MVP 포함으로 유지 권장(기존 운영 결정과의 연속성, 이미 구현된 도메인) |
+| Exposure Engine | Full | Homepage Exposure Module, Featured Supplier/Product/Buy Request Module, Country Gateway Module, Banner Module과 Admin Pick Plugin/Country Featured Plugin/Industry Featured Plugin 포함. Auto Ranking Plugin은 Analytics Engine의 기초 지표가 갖춰진 뒤 단계적으로 고도화 |
+| Event Engine | Partial (Basic) | Event Module, Event Application Module, Admin Event Approval Plugin 등 기본 등록/신청/승인 흐름은 MVP. Attendance Module/Event Report Module의 고급 통계와 Student/Supplier/Buyer Event Plugin의 세부 기능은 Post-MVP로 단계적 확장 |
+| Thailand FDA Service Engine | Full | FDA Application/Document/Quotation/Status Tracking/Completion Report Module 전체와 7개 카테고리 Plugin(Cosmetic/Food Supplement/Food/Medical Device/Import License/Label/Formula Review) 포함 |
 | UI Design System Engine | Partial | Design Token Module, Component Library Module, Layout System Module, Responsive Rule Module, Form/Table/Card UI Module 등 핵심 컴포넌트는 MVP. Theme Module의 다중 테마 전환, Accessibility Module의 고급 검증은 Post-MVP로 단계적 확장 |
 | Landing Page Builder Engine | Partial | Hero 관리, Section ON/OFF, Section Order, Featured Supplier/Product 수동 선택, Banner 관리, Popup 관리, Preview, Publish는 MVP. Section Scheduling(예약 발행)은 MVP 포함 권장하되, Auto Ranking Featured Plugin은 Exposure/Analytics Engine 성숙 이후 적용 |
 
-> 위 3건의 **확인 필요** 항목은 이번 요청 본문(섹션 7)과 기존 `AGENTS.md`/`DESIGN.md` 간 범위 차이에서 발생한 것으로, 문서 작성자가 임의로 축소/확대하지 않고 표로 명시했다. 사용자 확인 후 본 표를 확정한다.
+> 2026-06-28 확정: Exposure Engine, Event Engine(Basic), Thailand FDA Service Engine은 모두 MVP 범위에 포함한다.
 
 ### 6.2 MVP 제외 범위
 
@@ -1160,7 +1160,7 @@ supabase/migrations/<NNN>_<engine-slug>_<module-slug>.sql
 
 본 문서 확정 후 권장하는 작업 순서는 다음과 같다.
 
-1. **본 문서 리뷰 및 6장의 "확인 필요" 3건 확정** (Exposure/Event/Thailand FDA Service의 MVP 포함 여부)
+1. **Platform Experience Standard 작성** — Engine 공통 UX/운영 규칙 정의 (`docs/01-architecture/02-platform-experience-standard.md` 참조)
 2. **Product Constitution 작성** — 플랫폼 미션, 핵심 원칙, 절대 하지 않을 것(Anti-goals) 정리
 3. **User UX Matrix 작성** — Role별 화면 목록, 화면별 노출 데이터, 화면별 진입 경로 정리
 4. **Permission Matrix 작성** — Role × Engine × Module × Action 권한 표 (본 문서 4장의 Module 목록을 행으로 사용)
