@@ -21,10 +21,13 @@ const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const MAX_REASON_LENGTH = 1000;
 const ACTIVE_ROLE_STATUSES = ["active", "approved"] as const;
-const OPEN_APPLICATION_STATUSES: RoleApplicationStatus[] = [
-  "draft",
+const DUPLICATE_APPLICATION_STATUSES: RoleApplicationStatus[] = [
   "submitted",
   "requested",
+  "under_review",
+];
+const CANCELLABLE_APPLICATION_STATUSES: RoleApplicationStatus[] = [
+  "submitted",
   "under_review",
 ];
 
@@ -33,6 +36,10 @@ function getErrorMessage(error: unknown): string {
 }
 
 function normalizeReason(reason: string | undefined): string | null {
+  if (reason !== undefined && typeof reason !== "string") {
+    throw new Error("Invalid reason");
+  }
+
   const trimmed = reason?.trim() ?? "";
 
   if (!trimmed) {
@@ -86,19 +93,19 @@ export async function requestRole(
 
     const { data: existingApplication, error: applicationError } = await supabase
       .from("role_applications")
-      .select("id")
+      .select("id,status")
       .eq("account_id", user.id)
       .eq("requested_role_key", normalizedRoleKey)
-      .in("status", OPEN_APPLICATION_STATUSES)
+      .in("status", DUPLICATE_APPLICATION_STATUSES)
       .is("deleted_at", null)
-      .maybeSingle();
+      .limit(1);
 
     if (applicationError) {
       throw new Error(applicationError.message);
     }
 
-    if (existingApplication) {
-      return { error: null, ok: true, recordId: existingApplication.id };
+    if (existingApplication?.length) {
+      throw new Error("Role application is already submitted");
     }
 
     const { data, error } = await supabase
@@ -147,18 +154,19 @@ export async function cancelRoleApplication(
       throw new Error("Role application not found");
     }
 
-    if (!OPEN_APPLICATION_STATUSES.includes(application.status)) {
+    if (!CANCELLABLE_APPLICATION_STATUSES.includes(application.status)) {
       throw new Error("Role application cannot be cancelled");
     }
 
     const { data, error } = await supabase
       .from("role_applications")
       .update({
-        status: "withdrawn",
+        status: "cancelled",
         updated_at: new Date().toISOString(),
       })
       .eq("id", validatedApplicationId)
       .eq("account_id", user.id)
+      .in("status", CANCELLABLE_APPLICATION_STATUSES)
       .select("id")
       .single();
 

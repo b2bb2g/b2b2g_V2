@@ -33,7 +33,6 @@ const ROLE_APPLICATION_SELECT =
   "id,account_id,requested_role_key,status,reason,reviewed_at,rejection_reason,created_at,updated_at,deleted_at";
 const ACTIVE_ROLE_STATUSES: AccountRoleStatus[] = ["active", "approved"];
 const OPEN_APPLICATION_STATUSES: RoleApplicationStatus[] = [
-  "draft",
   "submitted",
   "requested",
   "under_review",
