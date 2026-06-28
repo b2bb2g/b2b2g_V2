@@ -1,5 +1,4 @@
 import { requireDashboardRoute, type DashboardRouteContext } from "@/lib/auth/guards";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type DashboardMetric = {
@@ -131,7 +130,6 @@ export type DashboardReferralData = DashboardSectionData & {
 
 export type DashboardMessageParticipant = {
   displayName: string;
-  email: string | null;
   isCurrentUser: boolean;
   lastReadAt: string | null;
   memberRole: string;
@@ -274,7 +272,7 @@ export type DashboardAccountData = {
   updatedAt: string | null;
 };
 
-type Supabase = Awaited<ReturnType<typeof createSupabaseServerClient>> | ReturnType<typeof createSupabaseAdminClient>;
+type Supabase = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
 function toCount(value: number | null): number {
   return value ?? 0;
@@ -606,13 +604,13 @@ async function getProfileNameMap(supabase: Supabase, profileIds: string[]) {
 
   const { data } = await supabase
     .from("profiles")
-    .select("id,display_name,email")
+    .select("id,display_name")
     .in("id", profileIds);
 
   return new Map(
     (data ?? []).map((profile) => [
       profile.id,
-      profile.display_name ?? profile.email ?? formatReferenceId(profile.id),
+      profile.display_name ?? formatReferenceId(profile.id),
     ]),
   );
 }
@@ -621,14 +619,6 @@ type DashboardProfileSummary = {
   displayName: string;
   email: string | null;
 };
-
-function getOptionalAdminSupabase() {
-  try {
-    return createSupabaseAdminClient();
-  } catch {
-    return null;
-  }
-}
 
 async function getProfileSummaryMap(supabase: Supabase, profileIds: string[]) {
   if (profileIds.length === 0) {
@@ -1989,8 +1979,7 @@ export async function getDashboardReferralsData(): Promise<DashboardReferralData
       .order("updated_at", { ascending: false })
       .limit(10);
     const studentProfileIds = (students ?? []).map((student) => student.profile_id);
-    const profileReadClient = getOptionalAdminSupabase() ?? supabase;
-    const profileSummaryMap = await getProfileSummaryMap(profileReadClient, studentProfileIds);
+    const profileSummaryMap = await getProfileSummaryMap(supabase, studentProfileIds);
 
     records.push(
       ...(students ?? []).map((student) => ({
@@ -2043,14 +2032,13 @@ export async function getDashboardReferralsData(): Promise<DashboardReferralData
       .maybeSingle();
 
     if (student?.professor_id) {
-      const profileReadClient = getOptionalAdminSupabase() ?? supabase;
-      const { data: professor } = await profileReadClient
+      const { data: professor } = await supabase
         .from("professors")
         .select("id,profile_id,university_name,approval_status,updated_at")
         .eq("id", student.professor_id)
         .maybeSingle();
       const profileSummaryMap = await getProfileSummaryMap(
-        profileReadClient,
+        supabase,
         professor?.profile_id ? [professor.profile_id] : [],
       );
       const professorProfile = profileSummaryMap.get(professor?.profile_id ?? "");
@@ -2216,7 +2204,7 @@ export async function getDashboardMessagesData(
   const { data: profiles } = profileIds.length
     ? await supabase
         .from("profiles")
-        .select("id,email,display_name,member_type_id")
+        .select("id,display_name,member_type_id")
         .in("id", profileIds)
     : { data: [] };
 
@@ -2234,8 +2222,7 @@ export async function getDashboardMessagesData(
     (profiles ?? []).map((profile) => [
       profile.id,
       {
-        displayName: profile.display_name ?? profile.email,
-        email: profile.email,
+        displayName: profile.display_name ?? formatReferenceId(profile.id),
         memberTypeCode: memberTypeById.get(profile.member_type_id) ?? null,
       },
     ]),
@@ -2279,7 +2266,6 @@ export async function getDashboardMessagesData(
 
           return {
             displayName: profile?.displayName ?? "Member",
-            email: profile?.email ?? null,
             isCurrentUser: member.profile_id === context.profileId,
             lastReadAt: member.last_read_at,
             memberRole: member.member_role,

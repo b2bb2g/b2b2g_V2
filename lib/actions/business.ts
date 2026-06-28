@@ -124,12 +124,72 @@ async function getMessageSendAccess(
     return { error: "blocked", ok: false };
   }
 
+  if (await hasDirectSupplierBuyerConversation(supabase, conversationId)) {
+    return { error: "blocked", ok: false };
+  }
+
   return {
     conversation,
     error: null,
     membership,
     ok: true,
   };
+}
+
+async function hasDirectSupplierBuyerConversation(
+  supabase: Supabase,
+  conversationId: string,
+): Promise<boolean> {
+  const { data: members, error: memberError } = await supabase
+    .from("conversation_members")
+    .select("profile_id")
+    .eq("conversation_id", conversationId)
+    .eq("is_active", true)
+    .is("deleted_at", null);
+
+  if (memberError) {
+    throw new Error(memberError.message);
+  }
+
+  const profileIds = Array.from(new Set((members ?? []).map((member) => member.profile_id)));
+
+  if (profileIds.length === 0) {
+    return false;
+  }
+
+  const { data: profiles, error: profileError } = await supabase
+    .from("profiles")
+    .select("member_type_id")
+    .in("id", profileIds);
+
+  if (profileError) {
+    throw new Error(profileError.message);
+  }
+
+  const memberTypeIds = Array.from(
+    new Set((profiles ?? []).map((profile) => profile.member_type_id).filter(Boolean)),
+  );
+
+  if (memberTypeIds.length === 0) {
+    return false;
+  }
+
+  const { data: memberTypes, error: memberTypeError } = await supabase
+    .from("member_types")
+    .select("code")
+    .in("id", memberTypeIds);
+
+  if (memberTypeError) {
+    throw new Error(memberTypeError.message);
+  }
+
+  const memberTypeCodes = new Set((memberTypes ?? []).map((memberType) => memberType.code));
+
+  return (
+    memberTypeCodes.has("supplier") &&
+    memberTypeCodes.has("buyer") &&
+    !memberTypeCodes.has("administrator")
+  );
 }
 
 async function writeMessageFailureAudit(
