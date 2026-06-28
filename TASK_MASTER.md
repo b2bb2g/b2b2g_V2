@@ -43,3 +43,4 @@
 | T-039 | Identity Engine Tests | Codex | TODO | tests/typecheck/lint | T-034 to T-038 | Verify role visibility, admin boundaries, typecheck, and lint. |
 | T-040 | Sprint 1 Identity Engine Implementation Task 01 | Codex | DONE | `types/database.ts`, `lib/auth/account-roles.ts`, `lib/queries/identity.ts`, `lib/actions/identity.ts` | T-032 | Added account role types, identity queries/actions, and legacy compatibility helper. |
 | T-041 | Sprint 1 Identity Engine Task 02 - Integration Gap Check | Codex | DONE | `docs/09-sprints/04-sprint-1-identity-integration-gap-check.md` | T-040 | Use this gap check to keep Task 03 focused on effective role context integration. |
+| T-042 | Sprint 1 Identity Engine Task 03 - Auth Role Resolver Wiring | Codex | DONE | `lib/auth/account-roles.ts`, `lib/auth/guards.ts`, `lib/auth/session.ts` | T-041 | Account roles are now read first in auth guard/session flows with legacy member type fallback. |

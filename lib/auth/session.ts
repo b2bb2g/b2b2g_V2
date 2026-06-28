@@ -1,5 +1,11 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  getPrimaryMemberTypeRole,
+  hasEffectiveRole,
+  resolveEffectiveRoles,
+  type AccountRoleLike,
+} from "@/lib/auth/account-roles";
 import { adminRoutePrefix, selectMemberTypePath } from "@/lib/constants/routes";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MemberTypeCode } from "@/types/database";
 
 export type PublicHeaderNotification = {
@@ -76,7 +82,7 @@ export async function getPublicHeaderUserContext(): Promise<PublicHeaderUserCont
     };
   }
 
-  const [memberTypeResult, notificationsResult, unreadNotificationsResult] = await Promise.all([
+  const [memberTypeResult, accountRolesResult, notificationsResult, unreadNotificationsResult] = await Promise.all([
     profile.member_type_id
       ? supabase
           .from("member_types")
@@ -84,6 +90,11 @@ export async function getPublicHeaderUserContext(): Promise<PublicHeaderUserCont
           .eq("id", profile.member_type_id)
           .maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase
+      .from("account_roles")
+      .select("role_key,status,deleted_at")
+      .eq("account_id", user.id)
+      .is("deleted_at", null),
     supabase
       .from("notifications")
       .select("body,created_at,notification_type,priority,read_at,title")
@@ -99,7 +110,11 @@ export async function getPublicHeaderUserContext(): Promise<PublicHeaderUserCont
       .is("deleted_at", null),
   ]);
   const memberType = memberTypeResult.data;
-  const memberTypeCode = (memberType?.code ?? null) as MemberTypeCode | null;
+  const effectiveRoles = resolveEffectiveRoles({
+    accountRoles: (accountRolesResult.data ?? []) satisfies AccountRoleLike[],
+    legacyMemberTypeCode: memberType?.code ?? null,
+  });
+  const memberTypeCode = getPrimaryMemberTypeRole(effectiveRoles);
   const notifications =
     notificationsResult.data?.map((notification) => ({
       body: notification.body,
@@ -115,7 +130,7 @@ export async function getPublicHeaderUserContext(): Promise<PublicHeaderUserCont
     approvalStatus: profile.approval_status,
     displayName: profile.display_name,
     email: profile.email || user.email || "",
-    href: memberTypeCode === "administrator" ? adminRoutePrefix : "/dashboard",
+    href: hasEffectiveRole(effectiveRoles, "administrator") ? adminRoutePrefix : "/dashboard",
     memberTypeCode,
     notifications,
     unreadNotificationCount: unreadNotificationsResult.count ?? 0,

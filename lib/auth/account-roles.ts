@@ -7,6 +7,8 @@ export type AccountRoleLike = {
   status: string;
 };
 
+export type DashboardRoleKey = Exclude<MemberTypeCode, "administrator">;
+
 const ACTIVE_ACCOUNT_ROLE_STATUSES = new Set<AccountRoleStatus>(["active", "approved"]);
 const ROLE_KEY_PATTERN = /^[a-z][a-z0-9_-]{1,63}$/;
 const PRIMARY_ROLE_PRIORITY: MemberTypeCode[] = [
@@ -17,6 +19,14 @@ const PRIMARY_ROLE_PRIORITY: MemberTypeCode[] = [
   "professor",
   "student",
 ];
+const DASHBOARD_ROLE_PRIORITY: DashboardRoleKey[] = [
+  "supplier",
+  "buyer",
+  "agent",
+  "professor",
+  "student",
+];
+const MEMBER_TYPE_ROLE_KEYS = new Set<MemberTypeCode>(PRIMARY_ROLE_PRIORITY);
 
 export function normalizeRoleKey(value: unknown): IdentityRoleKey | null {
   if (typeof value !== "string") {
@@ -30,6 +40,10 @@ export function normalizeRoleKey(value: unknown): IdentityRoleKey | null {
 
 export function isActiveAccountRoleStatus(status: string): status is AccountRoleStatus {
   return ACTIVE_ACCOUNT_ROLE_STATUSES.has(status as AccountRoleStatus);
+}
+
+export function isMemberTypeRoleKey(roleKey: string): roleKey is MemberTypeCode {
+  return MEMBER_TYPE_ROLE_KEYS.has(roleKey as MemberTypeCode);
 }
 
 function getActiveRoleKeys(accountRoles: readonly AccountRoleLike[]): IdentityRoleKey[] {
@@ -51,6 +65,39 @@ export function getPrimaryRoleFromAccountRoles(
   }
 
   return Array.from(activeRoleKeys)[0] ?? null;
+}
+
+export function hasEffectiveRole(
+  effectiveRoles: readonly IdentityRoleKey[],
+  roleKey: MemberTypeCode,
+): boolean {
+  return effectiveRoles.includes(roleKey);
+}
+
+export function getPrimaryMemberTypeRole(
+  effectiveRoles: readonly IdentityRoleKey[],
+): MemberTypeCode | null {
+  for (const roleKey of PRIMARY_ROLE_PRIORITY) {
+    if (effectiveRoles.includes(roleKey)) {
+      return roleKey;
+    }
+  }
+
+  const firstKnownRole = effectiveRoles.find(isMemberTypeRoleKey);
+
+  return firstKnownRole ?? null;
+}
+
+export function getPrimaryDashboardRole(
+  effectiveRoles: readonly IdentityRoleKey[],
+): DashboardRoleKey | null {
+  for (const roleKey of DASHBOARD_ROLE_PRIORITY) {
+    if (effectiveRoles.includes(roleKey)) {
+      return roleKey;
+    }
+  }
+
+  return null;
 }
 
 export function fallbackToLegacyMemberType(

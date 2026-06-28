@@ -5,6 +5,12 @@ import {
   selectMemberTypePath,
   signInPath,
 } from "@/lib/constants/routes";
+import {
+  getPrimaryDashboardRole,
+  hasEffectiveRole,
+  resolveEffectiveRoles,
+  type AccountRoleLike,
+} from "@/lib/auth/account-roles";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MemberTypeCode } from "@/types/database";
 
@@ -41,16 +47,42 @@ export async function requireAdminRoute() {
     .maybeSingle();
 
   if (!profile?.member_type_id) {
-    redirect("/");
+    const { data: accountRoles } = await supabase
+      .from("account_roles")
+      .select("role_key,status,deleted_at")
+      .eq("account_id", user.id)
+      .is("deleted_at", null);
+
+    const effectiveRoles = resolveEffectiveRoles({
+      accountRoles: accountRoles ?? [],
+      legacyMemberTypeCode: null,
+    });
+
+    if (!hasEffectiveRole(effectiveRoles, "administrator")) {
+      redirect("/");
+    }
+
+    return user;
   }
 
-  const { data: memberType } = await supabase
-    .from("member_types")
-    .select("code")
-    .eq("id", profile.member_type_id)
-    .maybeSingle();
+  const [memberTypeResult, accountRolesResult] = await Promise.all([
+    supabase
+      .from("member_types")
+      .select("code")
+      .eq("id", profile.member_type_id)
+      .maybeSingle(),
+    supabase
+      .from("account_roles")
+      .select("role_key,status,deleted_at")
+      .eq("account_id", user.id)
+      .is("deleted_at", null),
+  ]);
+  const effectiveRoles = resolveEffectiveRoles({
+    accountRoles: accountRolesResult.data ?? [],
+    legacyMemberTypeCode: memberTypeResult.data?.code ?? null,
+  });
 
-  if (memberType?.code !== "administrator") {
+  if (!hasEffectiveRole(effectiveRoles, "administrator")) {
     redirect("/");
   }
 
@@ -80,7 +112,7 @@ export async function requireDashboardRoute(): Promise<DashboardRouteContext> {
     redirect(pendingApprovalPath);
   }
 
-  const [{ data: memberType }, { data: careerRank }] = await Promise.all([
+  const [{ data: memberType }, { data: careerRank }, { data: accountRoles }] = await Promise.all([
     supabase
       .from("member_types")
       .select("code")
@@ -93,14 +125,24 @@ export async function requireDashboardRoute(): Promise<DashboardRouteContext> {
           .eq("id", profile.career_rank_id)
           .maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase
+      .from("account_roles")
+      .select("role_key,status,deleted_at")
+      .eq("account_id", user.id)
+      .is("deleted_at", null),
   ]);
+  const effectiveRoles = resolveEffectiveRoles({
+    accountRoles: (accountRoles ?? []) satisfies AccountRoleLike[],
+    legacyMemberTypeCode: memberType?.code ?? null,
+  });
+  const dashboardRole = getPrimaryDashboardRole(effectiveRoles);
 
-  if (!memberType?.code) {
+  if (!dashboardRole) {
+    if (hasEffectiveRole(effectiveRoles, "administrator")) {
+      redirect(adminRoutePrefix);
+    }
+
     redirect(pendingApprovalPath);
-  }
-
-  if (memberType.code === "administrator") {
-    redirect(adminRoutePrefix);
   }
 
   return {
@@ -108,7 +150,7 @@ export async function requireDashboardRoute(): Promise<DashboardRouteContext> {
     careerRankName: careerRank?.name ?? null,
     displayName: profile.display_name,
     email: profile.email,
-    memberTypeCode: memberType.code,
+    memberTypeCode: dashboardRole,
     profileId: profile.id,
   };
 }
