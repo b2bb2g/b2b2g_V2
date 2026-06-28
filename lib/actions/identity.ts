@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireAdminRoute } from "@/lib/auth/guards";
 import { requireCurrentUser } from "@/lib/auth/session";
 import { normalizeRoleKey } from "@/lib/auth/account-roles";
@@ -64,6 +65,12 @@ function validateApplicationId(applicationId: string): string {
   }
 
   return applicationId;
+}
+
+function getFormString(formData: FormData, key: string): string {
+  const value = formData.get(key);
+
+  return typeof value === "string" ? value : "";
 }
 
 export async function requestRole(
@@ -281,6 +288,7 @@ export async function approveRoleApplication(
     // TODO(Sprint 1): write audit event after role approval audit contract is finalized.
     revalidatePath("/admin");
     revalidatePath("/admin/members");
+    revalidatePath("/admin/role-applications");
     revalidatePath("/dashboard/account");
 
     return { error: null, ok: true, recordId: data.id };
@@ -326,10 +334,30 @@ export async function rejectRoleApplication(
     // TODO(Sprint 1): write audit event after role rejection audit contract is finalized.
     revalidatePath("/admin");
     revalidatePath("/admin/members");
+    revalidatePath("/admin/role-applications");
     revalidatePath("/dashboard/account");
 
     return { error: null, ok: true, recordId: data.id };
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
   }
+}
+
+export async function approveRoleApplicationAction(
+  formData: FormData,
+): Promise<void> {
+  const result = await approveRoleApplication(getFormString(formData, "applicationId"));
+
+  redirect(`/admin/role-applications?result=${result.ok ? "approved" : "error"}`);
+}
+
+export async function rejectRoleApplicationAction(
+  formData: FormData,
+): Promise<void> {
+  const result = await rejectRoleApplication(
+    getFormString(formData, "applicationId"),
+    getFormString(formData, "reason"),
+  );
+
+  redirect(`/admin/role-applications?result=${result.ok ? "rejected" : "error"}`);
 }

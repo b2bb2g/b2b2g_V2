@@ -209,6 +209,7 @@ const profileMenuByRole = {
   administrator: [
     { href: "/admin", labelKey: "nav.profile.admin.console", metaKey: "nav.profile.admin.consoleMeta" },
     { href: "/admin/members", labelKey: "nav.profile.admin.members", metaKey: "nav.profile.admin.membersMeta" },
+    { href: "/admin/role-applications", labelKey: "nav.profile.admin.roleApplications", metaKey: "nav.profile.admin.roleApplicationsMeta" },
     { href: "/admin/companies", labelKey: "nav.profile.admin.companies", metaKey: "nav.profile.admin.companiesMeta" },
     { href: "/admin/content", labelKey: "nav.profile.admin.content", metaKey: "nav.profile.admin.contentMeta" },
   ],
