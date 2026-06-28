@@ -125,3 +125,4 @@ If any Identity Engine change touches authorization, PII visibility, or admin ap
 | Task | Status | Summary |
 | --- | --- | --- |
 | Implementation Task 01 | Complete | Added `account_roles` / `role_applications` types, server-client Identity queries, user role application actions, and account-role compatibility helpers while preserving legacy `member_type_id` behavior. |
+| Task 02 - Integration Gap Check | Complete | Reviewed auth/dashboard/admin integration points and limited Task 03 to effective role context integration with legacy fallback. |
