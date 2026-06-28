@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-28T17:08:50.799Z",
+  "lastUpdated": "2026-06-28T17:16:09.600Z",
   "activeFeatures": [
     "landing-gallery-carousel",
     "landing-trust-infrastructure",
@@ -18,14 +18,14 @@
   "primaryFeature": "b2bb2g-mvp",
   "features": {
     "b2bb2g-mvp": {
-      "phase": "report",
+      "phase": "completed",
       "matchRate": null,
       "iterationCount": 25,
       "documents": {
         "archive": "docs/archive/2026-06/b2bb2g-mvp/ARCHIVE.md",
         "report": "docs/04-report/b2bb2g-mvp.report.md"
       },
-      "completedAt": "2026-06-28T15:35:52.768Z",
+      "completedAt": "2026-06-28T17:16:09.599Z",
       "archivedAt": "2026-06-18T20:43:54.000Z"
     },
     "landing-gallery-carousel": {
@@ -112,7 +112,7 @@
   "session": {
     "startedAt": "2026-06-18T08:29:41.099Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-28T17:08:50.799Z"
+    "lastActivity": "2026-06-28T17:16:09.600Z"
   },
   "history": [
     {
@@ -917,6 +917,13 @@
       "phase": "act",
       "nextPhase": "report",
       "timestamp": "2026-06-28T17:08:50.799Z"
+    },
+    {
+      "feature": "b2bb2g-mvp",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-06-28T17:16:09.600Z"
     }
   ]
 }

@@ -88,7 +88,7 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 1 Identity Engine Repository Audit
+1. Sprint 1 Identity Implementation Plan
 2. Identity Engine Types
 3. Identity Engine Queries
 4. Identity Engine Server Actions
@@ -133,4 +133,4 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 
 ## Next Required Action
 
-Create `docs/09-sprints/03-sprint-1-identity-repository-audit.md` before modifying Identity Engine code.
+Create `docs/09-sprints/04-sprint-1-identity-implementation-plan.md` before modifying Identity Engine code.

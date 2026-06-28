@@ -33,10 +33,11 @@
 | T-029 | 002 Migration Review Report | Codex | DONE | `docs/05-data/07-002-migration-review-report.md` | T-028 | Conditions closed by production apply confirmation for 002. |
 | T-030 | Engine Sprint Transition Plan | Codex | DONE | `PROJECT_MASTER.md`, `TASK_MASTER.md`, `docs/09-sprints/01-engine-sprint-plan.md`, `docs/09-sprints/02-sprint-1-identity-engine.md` | T-029 | Start Sprint 1 Identity Engine Repository Audit. |
 | T-031 | Sprint 1 Identity Engine Plan | Codex | DONE | `docs/09-sprints/02-sprint-1-identity-engine.md` | T-030 | Use as Sprint 1 scope gate. |
-| T-032 | Sprint 1 Identity Engine Repository Audit | Codex | TODO | `docs/09-sprints/03-sprint-1-identity-repository-audit.md` | T-031 | Audit existing role/member_type code before implementation. |
-| T-033 | Identity Engine Types | Codex | TODO | `types/`, Identity-related types | T-032 | Define server/client-safe Identity types after audit. |
-| T-034 | Identity Engine Queries | Codex | TODO | `lib/queries/`, Identity query files | T-033 | Add account_roles and role_applications reads with RLS boundaries. |
-| T-035 | Identity Engine Server Actions | Codex | TODO | `lib/actions/`, Identity action files | T-034 | Prepare role application and admin approval actions. |
-| T-036 | Identity Engine RLS Review | Codex | TODO | RLS docs and query/action review | T-034, T-035 | Confirm no runtime authority switch before helper/policy SQL. |
-| T-037 | Identity Engine Admin UI | Codex | TODO | `app/`, `components/` | T-035, T-036 | Prepare admin approval UI only after audit and actions. |
-| T-038 | Identity Engine Tests | Codex | TODO | tests/typecheck/lint | T-033 to T-037 | Verify role visibility, admin boundaries, typecheck, and lint. |
+| T-032 | Sprint 1 Identity Engine Repository Audit | Codex | DONE | `docs/09-sprints/03-sprint-1-identity-repository-audit.md` | T-031 | Use audit findings before implementation. |
+| T-033 | Sprint 1 Identity Implementation Plan | Codex | TODO | `docs/09-sprints/04-sprint-1-identity-implementation-plan.md` | T-032 | Write exact implementation sequence before code edits. |
+| T-034 | Identity Engine Types | Codex | TODO | `types/`, Identity-related types | T-033 | Define server/client-safe Identity types after implementation plan. |
+| T-035 | Identity Engine Queries | Codex | TODO | `lib/queries/`, Identity query files | T-034 | Add account_roles and role_applications reads with RLS boundaries. |
+| T-036 | Identity Engine Server Actions | Codex | TODO | `lib/actions/`, Identity action files | T-035 | Prepare role application and admin approval actions. |
+| T-037 | Identity Engine RLS Review | Codex | TODO | RLS docs and query/action review | T-035, T-036 | Confirm no runtime authority switch before helper/policy SQL. |
+| T-038 | Identity Engine Admin UI | Codex | TODO | `app/`, `components/` | T-036, T-037 | Prepare admin approval UI only after audit and actions. |
+| T-039 | Identity Engine Tests | Codex | TODO | tests/typecheck/lint | T-034 to T-038 | Verify role visibility, admin boundaries, typecheck, and lint. |
