@@ -750,6 +750,12 @@ const dictionaries = {
     "supplierSignup.country.thailand": "Thailand",
     "supplierSignup.country.usa": "United States",
     "supplierSignup.country.vietnam": "Vietnam",
+    "supplierSignup.auth.createAccount": "Create account",
+    "supplierSignup.auth.requiredDescription":
+      "Supplier application submission is available after sign-in. Create an account or sign in, then return to this page.",
+    "supplierSignup.auth.requiredTitle": "Sign in or create an account first",
+    "supplierSignup.auth.signIn": "Sign in",
+    "supplierSignup.error.title": "Supplier application could not be submitted",
     "supplierSignup.field.companyName": "Company name",
     "supplierSignup.field.contactEmail": "Contact email",
     "supplierSignup.field.contactName": "Contact name",
@@ -782,7 +788,17 @@ const dictionaries = {
       "No invitation token is present. This is a public Supplier signup preparation path.",
     "supplierSignup.security.title": "Security boundary",
     "supplierSignup.submit.disabled": "Submission disabled",
+    "supplierSignup.submit.authRequired": "Sign in or create an account before submitting.",
+    "supplierSignup.submit.enabled": "Submit Supplier application",
     "supplierSignup.submit.next": "Submission will be enabled next step.",
+    "supplierSignup.submit.pending": "Submitting application",
+    "supplierSignup.submit.ready":
+      "This writes only a Supplier role application. Company and product setup remain separate.",
+    "supplierSignup.submit.submitted": "Application submitted",
+    "supplierSignup.success.adminApproval": "Admin approval is required before Supplier activation.",
+    "supplierSignup.success.companyProduct":
+      "Company and product setup will open after approval.",
+    "supplierSignup.success.title": "Supplier application submitted",
     "supplierSignup.terms":
       "I understand Supplier activation, company publication, and product publication each require administrator approval.",
     "company.backToSuppliers": "Explore Korean Suppliers",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SignupStartCard } from "@/components/public/signup-start-card";
 import { SupplierSignupForm } from "@/components/public/supplier-signup-form";
+import { getCurrentUser } from "@/lib/auth/session";
 import { t } from "@/lib/i18n/translation";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 
@@ -29,13 +30,17 @@ export default async function SupplierSignupStartPage({
 }: Readonly<SignupStartPageProps>) {
   const resolvedSearchParams = searchParams ? await searchParams : {};
   const invitationToken = getInvitationToken(resolvedSearchParams);
+  const user = await getCurrentUser();
 
   return (
     <SignupStartCard
       hasInvitationToken={Boolean(invitationToken)}
       role="supplier"
     >
-      <SupplierSignupForm invitationToken={invitationToken} />
+      <SupplierSignupForm
+        invitationToken={invitationToken}
+        isAuthenticated={Boolean(user)}
+      />
     </SignupStartCard>
   );
 }

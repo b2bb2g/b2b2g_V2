@@ -1,7 +1,22 @@
+"use client";
+
+import Link from "next/link";
+import { useActionState } from "react";
+import {
+  submitSupplierRoleApplication,
+  type SupplierSignupSubmitState,
+} from "@/lib/actions/supplier-signup";
 import { t } from "@/lib/i18n/translation";
 
 type SupplierSignupFormProps = {
+  isAuthenticated: boolean;
   invitationToken?: string | null;
+};
+
+const initialSubmitState: SupplierSignupSubmitState = {
+  error: null,
+  ok: false,
+  recordId: null,
 };
 
 const countryOptions = [
@@ -38,15 +53,25 @@ function FieldLabel({
 }
 
 export function SupplierSignupForm({
+  isAuthenticated,
   invitationToken,
 }: Readonly<SupplierSignupFormProps>) {
   const trimmedToken = invitationToken?.trim();
+  const [state, formAction, isPending] = useActionState(
+    submitSupplierRoleApplication,
+    initialSubmitState,
+  );
+  const isSubmitted = state.ok;
+  const isSubmitDisabled = !isAuthenticated || isPending || isSubmitted;
 
   return (
     <section className="bg-canvas pb-14">
       <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <form className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]">
+          <form
+            action={formAction}
+            className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]"
+          >
             {trimmedToken ? (
               <input name="invitation_token" type="hidden" value={trimmedToken} />
             ) : null}
@@ -63,6 +88,48 @@ export function SupplierSignupForm({
               </p>
             </div>
 
+            {!isAuthenticated ? (
+              <div className="mt-6 rounded-2xl border border-action-blue/20 bg-action-blue/5 p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("supplierSignup.auth.requiredTitle")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {t("supplierSignup.auth.requiredDescription")}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link className="pill-primary min-h-10" href="/login">
+                    {t("supplierSignup.auth.signIn")}
+                  </Link>
+                  <Link className="pill-secondary min-h-10" href="/signup">
+                    {t("supplierSignup.auth.createAccount")}
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+
+            {state.ok ? (
+              <div className="mt-6 rounded-2xl border border-status-positive/20 bg-status-positive-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("supplierSignup.success.title")}
+                </p>
+                <ul className="mt-3 space-y-2 type-caption text-calm-ink-muted-80">
+                  <li>{t("supplierSignup.success.adminApproval")}</li>
+                  <li>{t("supplierSignup.success.companyProduct")}</li>
+                </ul>
+              </div>
+            ) : null}
+
+            {state.error ? (
+              <div className="mt-6 rounded-2xl border border-status-negative/20 bg-status-negative-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("supplierSignup.error.title")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {state.error}
+                </p>
+              </div>
+            ) : null}
+
             <div className="mt-7 grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
                 <FieldLabel htmlFor="supplier-contact-email">
@@ -74,6 +141,7 @@ export function SupplierSignupForm({
                   id="supplier-contact-email"
                   name="contact_email"
                   placeholder={t("supplierSignup.placeholder.contactEmail")}
+                  required
                   type="email"
                 />
               </div>
@@ -88,6 +156,7 @@ export function SupplierSignupForm({
                   id="supplier-contact-name"
                   name="contact_name"
                   placeholder={t("supplierSignup.placeholder.contactName")}
+                  required
                   type="text"
                 />
               </div>
@@ -102,6 +171,7 @@ export function SupplierSignupForm({
                   id="supplier-company-name"
                   name="company_name"
                   placeholder={t("supplierSignup.placeholder.companyName")}
+                  required
                   type="text"
                 />
               </div>
@@ -114,6 +184,7 @@ export function SupplierSignupForm({
                   className="min-h-11 w-full rounded-xl border border-calm-hairline bg-white px-4 type-caption text-calm-ink outline-none transition focus:border-action-blue"
                   id="supplier-country"
                   name="country"
+                  required
                 >
                   {countryOptions.map((key, index) => (
                     <option disabled={index === 0} key={key} value={index === 0 ? "" : t(key)}>
@@ -131,6 +202,7 @@ export function SupplierSignupForm({
                   className="min-h-11 w-full rounded-xl border border-calm-hairline bg-white px-4 type-caption text-calm-ink outline-none transition focus:border-action-blue"
                   id="supplier-product-category"
                   name="product_category"
+                  required
                 >
                   {productCategoryOptions.map((key, index) => (
                     <option disabled={index === 0} key={key} value={index === 0 ? "" : t(key)}>
@@ -149,6 +221,7 @@ export function SupplierSignupForm({
                   id="supplier-product-summary"
                   name="product_summary"
                   placeholder={t("supplierSignup.placeholder.productSummary")}
+                  required
                 />
               </div>
 
@@ -171,6 +244,7 @@ export function SupplierSignupForm({
               <input
                 className="mt-1 size-4 rounded border-calm-hairline"
                 name="terms_agreed"
+                required
                 type="checkbox"
                 value="yes"
               />
@@ -178,14 +252,22 @@ export function SupplierSignupForm({
             </label>
 
             <button
-              className="pill-primary mt-6 min-h-11 w-full cursor-not-allowed opacity-60"
-              disabled
-              type="button"
+              className={`pill-primary mt-6 min-h-11 w-full ${
+                isSubmitDisabled ? "cursor-not-allowed opacity-60" : ""
+              }`}
+              disabled={isSubmitDisabled}
+              type="submit"
             >
-              {t("supplierSignup.submit.disabled")}
+              {isSubmitted
+                ? t("supplierSignup.submit.submitted")
+                : isPending
+                  ? t("supplierSignup.submit.pending")
+                  : t("supplierSignup.submit.enabled")}
             </button>
             <p className="type-caption mt-3 text-center text-calm-ink-muted-48">
-              {t("supplierSignup.submit.next")}
+              {isAuthenticated
+                ? t("supplierSignup.submit.ready")
+                : t("supplierSignup.submit.authRequired")}
             </p>
           </form>
 
