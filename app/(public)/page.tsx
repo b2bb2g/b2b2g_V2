@@ -5,6 +5,10 @@ import { BuyRequestPreviewCarousel } from "@/components/public/buy-request-previ
 import { LandingEventCarousel } from "@/components/public/landing-event-carousel";
 import { LandingHeroSection, type LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
 import {
+  LandingFeaturedMarketplaceSection,
+  type LandingFeaturedMarketplaceConfig,
+} from "@/components/public/landing/landing-featured-marketplace-section";
+import {
   LandingRoleGatewaySection,
   type LandingRoleGatewayConfig,
 } from "@/components/public/landing/landing-role-gateway-section";
@@ -179,6 +183,145 @@ const landingRoleGatewayConfig: LandingRoleGatewayConfig = {
   sectionId: "landing-role-gateway",
   subtitle: t("home.roleGateway.subtitle"),
   title: t("home.roleGateway.title"),
+  visibility: {
+    endsAt: null,
+    isVisible: true,
+    startsAt: null,
+  },
+};
+
+const landingFeaturedMarketplaceConfig: LandingFeaturedMarketplaceConfig = {
+  groups: [
+    {
+      description: t("home.featuredMarketplace.suppliers.description"),
+      groupKey: "featured_suppliers",
+      isListEnabled: false,
+      items: [
+        {
+          badge: t("home.featuredMarketplace.suppliers.item1.badge"),
+          ctaLabel: t("home.featuredMarketplace.supplierCta"),
+          description: t("home.featuredMarketplace.suppliers.item1.description"),
+          href: "/commercial",
+          id: "featured-supplier-k-beauty-export-desk",
+          meta: t("home.featuredMarketplace.suppliers.item1.meta"),
+          title: t("home.featuredMarketplace.suppliers.item1.title"),
+          type: "supplier",
+        },
+        {
+          badge: t("home.featuredMarketplace.suppliers.item2.badge"),
+          ctaLabel: t("home.featuredMarketplace.supplierCta"),
+          description: t("home.featuredMarketplace.suppliers.item2.description"),
+          href: "/industrial",
+          id: "featured-supplier-industrial-parts-network",
+          meta: t("home.featuredMarketplace.suppliers.item2.meta"),
+          title: t("home.featuredMarketplace.suppliers.item2.title"),
+          type: "supplier",
+        },
+        {
+          badge: t("home.featuredMarketplace.suppliers.item3.badge"),
+          ctaLabel: t("home.featuredMarketplace.supplierCta"),
+          description: t("home.featuredMarketplace.suppliers.item3.description"),
+          href: "/thailand-fda-service",
+          id: "featured-supplier-food-supplement-partner",
+          meta: t("home.featuredMarketplace.suppliers.item3.meta"),
+          title: t("home.featuredMarketplace.suppliers.item3.title"),
+          type: "supplier",
+        },
+      ],
+      listCtaLabel: t("home.featuredMarketplace.listComingSoon"),
+      listHref: "/suppliers",
+      title: t("home.featuredMarketplace.suppliers.title"),
+    },
+    {
+      description: t("home.featuredMarketplace.products.description"),
+      groupKey: "featured_products",
+      isListEnabled: false,
+      items: [
+        {
+          badge: t("home.featuredMarketplace.products.item1.badge"),
+          ctaLabel: t("home.featuredMarketplace.productCta"),
+          description: t("home.featuredMarketplace.products.item1.description"),
+          href: "/commercial",
+          id: "featured-product-skincare-starter-set",
+          meta: t("home.featuredMarketplace.products.item1.meta"),
+          title: t("home.featuredMarketplace.products.item1.title"),
+          type: "product",
+        },
+        {
+          badge: t("home.featuredMarketplace.products.item2.badge"),
+          ctaLabel: t("home.featuredMarketplace.productCta"),
+          description: t("home.featuredMarketplace.products.item2.description"),
+          href: "/industrial",
+          id: "featured-product-factory-automation-module",
+          meta: t("home.featuredMarketplace.products.item2.meta"),
+          title: t("home.featuredMarketplace.products.item2.title"),
+          type: "product",
+        },
+        {
+          badge: t("home.featuredMarketplace.products.item3.badge"),
+          ctaLabel: t("home.featuredMarketplace.productCta"),
+          description: t("home.featuredMarketplace.products.item3.description"),
+          href: "/thailand-fda-service",
+          id: "featured-product-supplement-label-ready-package",
+          meta: t("home.featuredMarketplace.products.item3.meta"),
+          title: t("home.featuredMarketplace.products.item3.title"),
+          type: "product",
+        },
+      ],
+      listCtaLabel: t("home.featuredMarketplace.listComingSoon"),
+      listHref: "/products",
+      title: t("home.featuredMarketplace.products.title"),
+    },
+    {
+      description: t("home.featuredMarketplace.buyRequests.description"),
+      groupKey: "buy_requests",
+      isListEnabled: false,
+      items: [
+        {
+          badge: t("home.featuredMarketplace.buyRequests.item1.badge"),
+          ctaLabel: t("home.featuredMarketplace.buyRequestCta"),
+          description: t("home.featuredMarketplace.buyRequests.item1.description"),
+          href: "/buy-sell/buy-requests",
+          id: "featured-buy-request-thailand-retail-sourcing-brief",
+          meta: t("home.featuredMarketplace.buyRequests.item1.meta"),
+          title: t("home.featuredMarketplace.buyRequests.item1.title"),
+          type: "buy_request",
+        },
+        {
+          badge: t("home.featuredMarketplace.buyRequests.item2.badge"),
+          ctaLabel: t("home.featuredMarketplace.buyRequestCta"),
+          description: t("home.featuredMarketplace.buyRequests.item2.description"),
+          href: "/buy-sell/buy-requests",
+          id: "featured-buy-request-vietnam-machinery-inquiry",
+          meta: t("home.featuredMarketplace.buyRequests.item2.meta"),
+          title: t("home.featuredMarketplace.buyRequests.item2.title"),
+          type: "buy_request",
+        },
+        {
+          badge: t("home.featuredMarketplace.buyRequests.item3.badge"),
+          ctaLabel: t("home.featuredMarketplace.buyRequestCta"),
+          description: t("home.featuredMarketplace.buyRequests.item3.description"),
+          href: "/buy-sell/buy-requests",
+          id: "featured-buy-request-uae-project-supply-request",
+          meta: t("home.featuredMarketplace.buyRequests.item3.meta"),
+          title: t("home.featuredMarketplace.buyRequests.item3.title"),
+          type: "buy_request",
+        },
+      ],
+      listCtaLabel: t("home.featuredMarketplace.listComingSoon"),
+      listHref: "/buy-requests",
+      title: t("home.featuredMarketplace.buyRequests.title"),
+    },
+  ],
+  policyNotes: [
+    t("home.featuredMarketplace.policy.buyerContact"),
+    t("home.featuredMarketplace.policy.directContact"),
+    t("home.featuredMarketplace.policy.brokerage"),
+  ],
+  publishState: "published",
+  sectionId: "landing-featured-marketplace",
+  subtitle: t("home.featuredMarketplace.subtitle"),
+  title: t("home.featuredMarketplace.title"),
   visibility: {
     endsAt: null,
     isVisible: true,
@@ -609,6 +752,7 @@ export default async function HomePage() {
     <main className="bg-canvas">
       <LandingHeroSection config={landingHeroConfig} />
       <LandingRoleGatewaySection config={landingRoleGatewayConfig} />
+      <LandingFeaturedMarketplaceSection config={landingFeaturedMarketplaceConfig} />
 
       <TrustInfrastructureSection />
 
