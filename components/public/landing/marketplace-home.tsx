@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   ArrowRightIcon,
-  SearchIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
 
@@ -23,16 +22,6 @@ export type MarketplaceHomeProduct = {
   imageUrl: string;
   isVerifiedSupplier: boolean;
   supplierName: string;
-  title: string;
-};
-
-export type MarketplaceHomeBanner = {
-  badge: string;
-  cta: CtaLink;
-  description: string;
-  id: string;
-  imageAlt: string;
-  imageUrl: string;
   title: string;
 };
 
@@ -88,8 +77,6 @@ export type MarketplaceHomeFaq = {
 };
 
 export type MarketplaceHomeConfig = {
-  searchPlaceholder: string;
-  banners: MarketplaceHomeBanner[];
   premiumProducts: MarketplaceHomeProduct[];
   buyerRequests: MarketplaceHomeRequest[];
   events: MarketplaceHomeEvent[];
@@ -169,81 +156,10 @@ function SectionTitle({
   );
 }
 
-function MarketplaceSearch({ placeholder }: Readonly<{ placeholder: string }>) {
-  return (
-    <section className="rounded-[28px] border border-slate-200 bg-white/90 p-4 shadow-[0_22px_70px_rgb(15_23_42/0.08)] backdrop-blur sm:p-5">
-      <div className="grid gap-3 lg:grid-cols-[180px_minmax(0,1fr)_150px]">
-        <label className="sr-only" htmlFor="marketplace-category">Category</label>
-        <select
-          className="h-[52px] rounded-2xl border border-slate-200 bg-slate-50 px-4 text-[15px] font-semibold text-slate-700 outline-none"
-          defaultValue="all"
-          disabled
-          id="marketplace-category"
-        >
-          <option value="all">All Categories</option>
-        </select>
-        <div className="flex h-[52px] items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-slate-500">
-          <SearchIcon className="h-5 w-5 shrink-0 text-[#0066cc]" aria-hidden="true" />
-          <input
-            className="min-w-0 flex-1 bg-transparent text-[15px] font-medium outline-none placeholder:text-slate-400"
-            disabled
-            placeholder={placeholder}
-            type="search"
-          />
-        </div>
-        <button
-          className="h-[52px] rounded-2xl bg-[#0071e3] px-5 text-[15px] font-semibold text-white shadow-[0_16px_34px_rgb(0_113_227/0.24)] disabled:cursor-not-allowed disabled:opacity-80"
-          disabled
-          type="button"
-        >
-          Search
-        </button>
-      </div>
-      <p className="mt-3 text-sm font-medium text-slate-500">
-        Search is prepared for products, suppliers, and protected buyer requests.
-      </p>
-    </section>
-  );
-}
-
-function BannerCard({ item, priority }: Readonly<{ item: MarketplaceHomeBanner; priority?: boolean }>) {
-  return (
-    <article className="grid min-h-[250px] overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_18px_56px_rgb(15_23_42/0.07)] sm:grid-cols-[minmax(0,1fr)_190px]">
-      <div className="flex flex-col justify-between p-6">
-        <div>
-          <span className="inline-flex rounded-full bg-[#eaf4ff] px-3 py-1 text-xs font-bold text-[#0066cc]">
-            {item.badge}
-          </span>
-          <h2 className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.03em] text-slate-950">
-            {item.title}
-          </h2>
-          <p className="mt-3 text-[15px] leading-6 text-slate-600">{item.description}</p>
-        </div>
-        <ActionLink
-          className="mt-5 inline-flex h-10 w-fit items-center justify-center rounded-full bg-[#0071e3] px-4 text-sm font-semibold text-white shadow-[0_12px_24px_rgb(0_113_227/0.20)] disabled:cursor-not-allowed disabled:opacity-70"
-          item={item.cta}
-        >
-          {item.cta.label}
-        </ActionLink>
-      </div>
-      <div className="relative min-h-[180px] bg-[#eef5ff]">
-        <Image
-          alt={item.imageAlt}
-          className="object-cover"
-          fill
-          priority={priority}
-          sizes="(max-width: 768px) 80vw, 280px"
-          src={item.imageUrl}
-        />
-      </div>
-    </article>
-  );
-}
-
 function ProductCard({ item, priority = false }: Readonly<{ item: MarketplaceHomeProduct; priority?: boolean }>) {
   return (
-    <article className="flex min-h-[430px] flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_42px_rgb(15_23_42/0.06)] transition hover:-translate-y-1 hover:shadow-[0_26px_70px_rgb(15_23_42/0.10)]">
-      <div className="relative min-h-[220px] bg-[#f1f6ff]">
+    <article className="flex min-h-[500px] flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_42px_rgb(15_23_42/0.06)] transition hover:-translate-y-1 hover:shadow-[0_26px_70px_rgb(15_23_42/0.10)]">
+      <div className="relative aspect-square w-full bg-[#f1f6ff]">
         <Image
           alt={item.imageAlt}
           className="object-cover"
@@ -263,7 +179,7 @@ function ProductCard({ item, priority = false }: Readonly<{ item: MarketplaceHom
           <span aria-hidden="true">♡</span>
         </button>
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex min-h-[260px] flex-1 flex-col p-5">
         <div className="flex min-h-7 items-center justify-between gap-2 text-sm font-semibold text-slate-500">
           <span>{item.supplierName}</span>
           {item.isVerifiedSupplier ? (
@@ -503,13 +419,7 @@ function Footer() {
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
     <div className="bg-[linear-gradient(180deg,#f6fbff_0%,#ffffff_32%,#f6f8fb_100%)]">
-      <div className="mx-auto grid max-w-[1320px] gap-8 px-5 pb-16 pt-6 sm:px-8 lg:px-10">
-        <MarketplaceSearch placeholder={config.searchPlaceholder} />
-        <section className="grid gap-4 lg:grid-cols-3">
-          {config.banners.map((item, index) => (
-            <BannerCard item={item} key={item.id} priority={index === 0} />
-          ))}
-        </section>
+      <div className="mx-auto grid max-w-[1320px] gap-8 px-5 pb-16 pt-7 sm:px-8 lg:px-10">
         <section>
           <SectionTitle
             action={{ href: "/suppliers", isEnabled: false, label: "View all suppliers" }}

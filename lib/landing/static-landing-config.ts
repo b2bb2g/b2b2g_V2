@@ -798,35 +798,6 @@ const marketplaceHome: MarketplaceHomeConfig = {
       title: "New premium supplier program launched",
     },
   ],
-  banners: [
-    {
-      badge: "Premium Supplier Ad",
-      cta: { href: "/products", isEnabled: false, label: "View More" },
-      description: "Industrial power solutions prepared for global procurement teams.",
-      id: "home-banner-industrial-power",
-      imageAlt: "Industrial power solution product",
-      imageUrl: industrialPumpImage,
-      title: "Industrial Power Solutions",
-    },
-    {
-      badge: "Event Banner",
-      cta: { href: "/events", isEnabled: false, label: "Register Now" },
-      description: "Singapore sourcing summit for verified suppliers and trade operators.",
-      id: "home-banner-procurement-summit",
-      imageAlt: "Global procurement summit skyline",
-      imageUrl: skylineImage,
-      title: "Global Procurement Summit 2024",
-    },
-    {
-      badge: "Service",
-      cta: { href: "/service", isEnabled: false, label: "Learn More" },
-      description: "Registration and compliance support for Thailand market entry.",
-      id: "home-banner-thailand-fda",
-      imageAlt: "Thailand FDA laboratory flasks",
-      imageUrl: labImage,
-      title: "Thailand FDA Service",
-    },
-  ],
   buyerRequests: [
     {
       badge: "RFQ",
@@ -914,7 +885,6 @@ const marketplaceHome: MarketplaceHomeConfig = {
   premiumProducts: [
     ...marketplace.premiumProducts.items,
   ],
-  searchPlaceholder: "Search products, suppliers, buyer requests...",
   showcases: [
     ...marketplace.productShowcase.items,
   ],

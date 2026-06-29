@@ -29,7 +29,6 @@ import {
 import {
   DocumentCheckIcon,
   MailIcon,
-  SearchIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
 import {
@@ -561,11 +560,6 @@ function PublicSiteHeader({
             </Link>
           ))}
         </nav>
-
-        <div className="marketplace-header-search" role="search" aria-label="Marketplace search">
-          <SearchIcon className="h-4 w-4" aria-hidden="true" />
-          <input disabled placeholder="Search products, suppliers, requests..." type="search" />
-        </div>
 
         <div className="marketplace-header-buyers" aria-label="Verified buyer network">
           <span className="marketplace-buyer-stack">
