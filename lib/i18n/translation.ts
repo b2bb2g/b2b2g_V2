@@ -714,6 +714,60 @@ const dictionaries = {
     "signupStart.student.prepare.program":
       "Prepare program or class context if requested.",
     "signupStart.student.title": "Student Signup Start",
+    "buyerSignup.category.beauty": "Beauty and personal care",
+    "buyerSignup.category.consumerGoods": "Consumer goods",
+    "buyerSignup.category.epc": "EPC and project supply",
+    "buyerSignup.category.food": "Food and supplements",
+    "buyerSignup.category.industrial": "Industrial equipment",
+    "buyerSignup.category.other": "Other category",
+    "buyerSignup.category.placeholder": "Select interested product category",
+    "buyerSignup.country.korea": "South Korea",
+    "buyerSignup.country.other": "Other country",
+    "buyerSignup.country.placeholder": "Select buyer country",
+    "buyerSignup.country.thailand": "Thailand",
+    "buyerSignup.country.usa": "United States",
+    "buyerSignup.country.vietnam": "Vietnam",
+    "buyerSignup.directOff.description":
+      "Buyer direct signup is currently off. Use an Agent invitation link until the feature flag changes.",
+    "buyerSignup.directOff.title": "Direct signup unavailable",
+    "buyerSignup.field.buyerName": "Buyer name",
+    "buyerSignup.field.contactEmail": "Contact email",
+    "buyerSignup.field.country": "Country",
+    "buyerSignup.field.demandSummary": "Purchase demand summary",
+    "buyerSignup.field.organization": "Company / organization",
+    "buyerSignup.field.productCategory": "Interested product category",
+    "buyerSignup.field.website": "Website / company URL",
+    "buyerSignup.form.description":
+      "Prepare Buyer onboarding details from an Agent invitation. Direct Buyer signup is currently unavailable.",
+    "buyerSignup.form.eyebrow": "Buyer invitation draft",
+    "buyerSignup.form.title": "Prepare Buyer onboarding details",
+    "buyerSignup.placeholder.buyerName": "Buyer full name",
+    "buyerSignup.placeholder.contactEmail": "buyer@example.com",
+    "buyerSignup.placeholder.demandSummary":
+      "Briefly describe product categories, expected quantity, timeline, target market, or sourcing requirements.",
+    "buyerSignup.placeholder.organization":
+      "Company, distributor, importer, or buying office",
+    "buyerSignup.placeholder.website": "https://example.com",
+    "buyerSignup.policy.agentInvitation":
+      "Buyer onboarding is Agent Invitation based by default.",
+    "buyerSignup.policy.brokerageProtectsContact":
+      "Admin/Agent brokerage protects buyer contact information.",
+    "buyerSignup.policy.buyRequestsLater":
+      "Buyer can submit Buy Requests after account setup and permission checks.",
+    "buyerSignup.policy.directOff":
+      "Direct Buyer signup is currently unavailable.",
+    "buyerSignup.policy.noSupplierDirectContact":
+      "Supplier direct contact is not allowed by default.",
+    "buyerSignup.policy.title": "Buyer signup policy",
+    "buyerSignup.security.invitationToken":
+      "The invitation token is held only in a hidden field for a later step. It is not displayed, logged, or saved by this screen.",
+    "buyerSignup.security.noDirectSignup":
+      "No invitation token is present. Buyer onboarding currently requires an Agent invitation, so submission remains disabled.",
+    "buyerSignup.security.title": "Buyer contact data remains protected",
+    "buyerSignup.submit.disabled": "Submission disabled",
+    "buyerSignup.submit.next": "Submission will be enabled next step.",
+    "buyerSignup.terms":
+      "I understand Buyer onboarding requires Agent or Admin-controlled permission checks and that Supplier direct contact is not allowed by default.",
     "studentSignup.field.contactEmail": "Contact email",
     "studentSignup.field.departmentMajor": "Department / Major",
     "studentSignup.field.programCourse": "Program or course",
