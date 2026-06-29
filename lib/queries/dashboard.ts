@@ -1,5 +1,6 @@
 import { requireDashboardRoute, type DashboardRouteContext } from "@/lib/auth/guards";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import type { RoleApplicationStatus } from "@/types/database";
 
 export type DashboardMetric = {
   labelKey: string;
@@ -25,12 +26,23 @@ export type DashboardRolePanel = {
   titleKey: string;
 };
 
+export type DashboardSupplierOnboardingState = "approved" | "rejected" | "submitted";
+
+export type DashboardSupplierOnboardingData = {
+  applicationStatus: RoleApplicationStatus | null;
+  descriptionKey: string;
+  nextSteps: DashboardQuickAction[];
+  status: DashboardSupplierOnboardingState;
+  titleKey: string;
+};
+
 export type DashboardOverviewData = {
   activities: DashboardRecord[];
   context: DashboardRouteContext;
   metrics: DashboardMetric[];
   quickActions: DashboardQuickAction[];
   rolePanel: DashboardRolePanel;
+  supplierOnboarding: DashboardSupplierOnboardingData | null;
   workItems: DashboardRecord[];
 };
 
@@ -1024,13 +1036,100 @@ async function getWorkItems(
   }));
 }
 
+async function getSupplierOnboardingData(
+  supabase: Supabase,
+  context: DashboardRouteContext,
+): Promise<DashboardSupplierOnboardingData | null> {
+  const [roleResult, applicationResult] = await Promise.all([
+    supabase
+      .from("account_roles")
+      .select("id,status")
+      .eq("account_id", context.profileId)
+      .eq("role_key", "supplier")
+      .in("status", ["active", "approved"])
+      .is("deleted_at", null)
+      .limit(1),
+    supabase
+      .from("role_applications")
+      .select("status,updated_at,created_at")
+      .eq("account_id", context.profileId)
+      .eq("requested_role_key", "supplier")
+      .in("status", ["submitted", "under_review", "approved", "rejected"])
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
+      .limit(1),
+  ]);
+
+  const hasSupplierRole =
+    context.memberTypeCode === "supplier" || Boolean(roleResult.data?.length);
+  const latestApplication = applicationResult.data?.[0] ?? null;
+  const nextSteps: DashboardQuickAction[] = [
+    {
+      href: "#",
+      labelKey: "dashboard.supplierOnboarding.step.company",
+      metaKey: "dashboard.supplierOnboarding.step.companyMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.supplierOnboarding.step.products",
+      metaKey: "dashboard.supplierOnboarding.step.productsMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.supplierOnboarding.step.membership",
+      metaKey: "dashboard.supplierOnboarding.step.membershipMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.supplierOnboarding.step.verification",
+      metaKey: "dashboard.supplierOnboarding.step.verificationMeta",
+    },
+  ];
+
+  if (hasSupplierRole) {
+    return {
+      applicationStatus: latestApplication?.status ?? "approved",
+      descriptionKey: "dashboard.supplierOnboarding.approved.description",
+      nextSteps,
+      status: "approved",
+      titleKey: "dashboard.supplierOnboarding.approved.title",
+    };
+  }
+
+  if (latestApplication?.status === "rejected") {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.supplierOnboarding.rejected.description",
+      nextSteps,
+      status: "rejected",
+      titleKey: "dashboard.supplierOnboarding.rejected.title",
+    };
+  }
+
+  if (
+    latestApplication?.status === "submitted" ||
+    latestApplication?.status === "under_review"
+  ) {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.supplierOnboarding.submitted.description",
+      nextSteps,
+      status: "submitted",
+      titleKey: "dashboard.supplierOnboarding.submitted.title",
+    };
+  }
+
+  return null;
+}
+
 export async function getDashboardOverviewData(): Promise<DashboardOverviewData> {
   const context = await requireDashboardRoute();
   const supabase = await createSupabaseServerClient();
-  const [metrics, activities, workItems] = await Promise.all([
+  const [metrics, activities, workItems, supplierOnboarding] = await Promise.all([
     getOverviewMetrics(supabase, context),
     getRecentActivities(supabase, context.profileId),
     getWorkItems(supabase, context),
+    getSupplierOnboardingData(supabase, context),
   ]);
 
   return {
@@ -1039,6 +1138,7 @@ export async function getDashboardOverviewData(): Promise<DashboardOverviewData>
     metrics,
     quickActions: getQuickActions(context.memberTypeCode),
     rolePanel: getRolePanel(context.memberTypeCode),
+    supplierOnboarding,
     workItems,
   };
 }

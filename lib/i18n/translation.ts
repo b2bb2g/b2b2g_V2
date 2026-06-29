@@ -1401,6 +1401,45 @@ const dictionaries = {
       "Operate company profile, supplier catalog, buyer messages, and Thailand FDA service requests from one workspace.",
     "dashboard.role.supplier.focus": "Supplier workspace",
     "dashboard.role.supplier.title": "Prepare approved Korean supply for global buyers.",
+    "dashboard.supplierOnboarding.application.approved": "Approved",
+    "dashboard.supplierOnboarding.application.none": "No Supplier application record",
+    "dashboard.supplierOnboarding.application.rejected": "Rejected",
+    "dashboard.supplierOnboarding.application.submitted": "Submitted",
+    "dashboard.supplierOnboarding.application.under_review": "Under review",
+    "dashboard.supplierOnboarding.applicationStatus": "Supplier application state",
+    "dashboard.supplierOnboarding.approved.description":
+      "Your Supplier role is approved. Company setup is the next controlled step before public company pages, supplier profile records, products, membership tier, or verification badges can open.",
+    "dashboard.supplierOnboarding.approved.title":
+      "Supplier approved. Company setup opens next.",
+    "dashboard.supplierOnboarding.comingSoon": "Coming soon",
+    "dashboard.supplierOnboarding.noAutoCreation":
+      "Approval does not automatically create companies, suppliers, products, memberships, verification badges, analytics, buyer contact access, or reply privileges.",
+    "dashboard.supplierOnboarding.rejected.description":
+      "Your Supplier application was rejected. Contact the administrator for review guidance before submitting again.",
+    "dashboard.supplierOnboarding.rejected.title":
+      "Application rejected. Contact Admin or reapply after review.",
+    "dashboard.supplierOnboarding.securityBody":
+      "This placeholder exposes no Buyer PII and does not include buyer contact, inquiry, brokerage, or reply data.",
+    "dashboard.supplierOnboarding.securityTitle": "Buyer data remains protected",
+    "dashboard.supplierOnboarding.status.approved": "Supplier approved",
+    "dashboard.supplierOnboarding.status.rejected": "Application rejected",
+    "dashboard.supplierOnboarding.status.submitted": "Waiting for admin review",
+    "dashboard.supplierOnboarding.step.company": "Company setup",
+    "dashboard.supplierOnboarding.step.companyMeta":
+      "Prepare company profile, country, industry, and approval records after the next workflow opens.",
+    "dashboard.supplierOnboarding.step.membership": "Membership tier",
+    "dashboard.supplierOnboarding.step.membershipMeta":
+      "Free, Premium, or Enterprise tier assignment stays under administrator control.",
+    "dashboard.supplierOnboarding.step.products": "Product registration",
+    "dashboard.supplierOnboarding.step.productsMeta":
+      "Product registration remains separate and requires approval before public exposure.",
+    "dashboard.supplierOnboarding.step.verification": "Verification badge",
+    "dashboard.supplierOnboarding.step.verificationMeta":
+      "Company verification and public trust badges are reviewed separately.",
+    "dashboard.supplierOnboarding.submitted.description":
+      "Your Supplier application has been submitted and is waiting for administrator review. Company and product setup stay closed until approval.",
+    "dashboard.supplierOnboarding.submitted.title":
+      "Application submitted. Waiting for admin review.",
     "dashboard.statusBoard": "Status board",
     "dashboard.topbar.publicSite": "Public site",
     "dashboard.todayFocus": "Today focus",
