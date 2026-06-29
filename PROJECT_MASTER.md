@@ -140,6 +140,7 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 Invitation repository audit is complete. Existing global signup, Buyer referral, and member referral flows are classified; `member_referral_codes` is legacy invite-like infrastructure, while final Agent-Buyer/Professor-Student authority must move to Invitation plus relation candidate design.
 - Sprint 2 Invitation migration spec is complete. `012_invitation_core.sql` is planned for `invitations`, `invitation_tokens`, and `invitation_redemptions`, with no QR table and token-hash-only storage.
 - Sprint 2 Invitation token helper/types are complete. The helper layer provides 256-bit URL-safe token generation, SHA-256 hash storage support, timing-safe verification, URL building, expiry defaults, and tests without Supabase/DB access.
+- `012_invitation_core.sql` is authored but not applied to production. It creates `invitations`, `invitation_tokens`, and `invitation_redemptions` additively, keeps raw token storage out of schema, and defers RLS policies/helpers/backfill.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
