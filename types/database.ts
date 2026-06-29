@@ -177,6 +177,28 @@ export type RoleApplicationStatus =
   | "submitted"
   | "under_review"
   | "withdrawn";
+export type InvitationType =
+  | "supplier_admin_invite"
+  | "supplier_public_signup"
+  | "agent_admin_invite"
+  | "agent_public_application"
+  | "buyer_agent_invite"
+  | "buyer_direct_signup"
+  | "professor_admin_invite"
+  | "professor_public_application"
+  | "student_professor_invite";
+export type InvitationStatus =
+  | "accepted"
+  | "active"
+  | "cancelled"
+  | "draft"
+  | "expired"
+  | "revoked";
+export type InvitationRedemptionStatus =
+  | "accepted"
+  | "blocked"
+  | "expired"
+  | "rejected";
 export type RewardType =
   | "agent_performance"
   | "manual"
@@ -337,6 +359,141 @@ export type Database = {
           reviewed_by: string | null;
           status: RoleApplicationStatus;
           updated_at: string;
+        }>;
+        Relationships: [];
+      };
+      invitations: {
+        Row: {
+          accepted_at: string | null;
+          agent_id: string | null;
+          company_id: string | null;
+          created_at: string;
+          created_by: string | null;
+          deleted_at: string | null;
+          expires_at: string;
+          id: string;
+          invitation_type: InvitationType;
+          invited_email: string | null;
+          inviter_account_id: string | null;
+          max_uses: number;
+          parent_account_id: string | null;
+          parent_role_key: string | null;
+          professor_id: string | null;
+          revoked_at: string | null;
+          status: InvitationStatus;
+          target_role_key: IdentityRoleKey;
+          used_count: number;
+        };
+        Insert: {
+          accepted_at?: string | null;
+          agent_id?: string | null;
+          company_id?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          deleted_at?: string | null;
+          expires_at: string;
+          id?: string;
+          invitation_type: InvitationType;
+          invited_email?: string | null;
+          inviter_account_id?: string | null;
+          max_uses?: number;
+          parent_account_id?: string | null;
+          parent_role_key?: string | null;
+          professor_id?: string | null;
+          revoked_at?: string | null;
+          status?: InvitationStatus;
+          target_role_key: IdentityRoleKey;
+          used_count?: number;
+        };
+        Update: Partial<{
+          accepted_at: string | null;
+          agent_id: string | null;
+          company_id: string | null;
+          created_at: string;
+          created_by: string | null;
+          deleted_at: string | null;
+          expires_at: string;
+          id: string;
+          invitation_type: InvitationType;
+          invited_email: string | null;
+          inviter_account_id: string | null;
+          max_uses: number;
+          parent_account_id: string | null;
+          parent_role_key: string | null;
+          professor_id: string | null;
+          revoked_at: string | null;
+          status: InvitationStatus;
+          target_role_key: IdentityRoleKey;
+          used_count: number;
+        }>;
+        Relationships: [];
+      };
+      invitation_tokens: {
+        Row: {
+          created_at: string;
+          deleted_at: string | null;
+          expires_at: string;
+          id: string;
+          invitation_id: string;
+          revoked_at: string | null;
+          token_hash: string;
+          used_at: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          deleted_at?: string | null;
+          expires_at: string;
+          id?: string;
+          invitation_id: string;
+          revoked_at?: string | null;
+          token_hash: string;
+          used_at?: string | null;
+        };
+        Update: Partial<{
+          created_at: string;
+          deleted_at: string | null;
+          expires_at: string;
+          id: string;
+          invitation_id: string;
+          revoked_at: string | null;
+          token_hash: string;
+          used_at: string | null;
+        }>;
+        Relationships: [];
+      };
+      invitation_redemptions: {
+        Row: {
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          invitation_id: string;
+          redeemed_by: string | null;
+          redeemed_email: string | null;
+          redeemed_role_key: IdentityRoleKey | null;
+          status: InvitationRedemptionStatus;
+          token_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          deleted_at?: string | null;
+          id?: string;
+          invitation_id: string;
+          redeemed_by?: string | null;
+          redeemed_email?: string | null;
+          redeemed_role_key?: IdentityRoleKey | null;
+          status?: InvitationRedemptionStatus;
+          token_id?: string | null;
+        };
+        Update: Partial<{
+          created_at: string;
+          deleted_at: string | null;
+          id: string;
+          invitation_id: string;
+          redeemed_by: string | null;
+          redeemed_email: string | null;
+          redeemed_role_key: IdentityRoleKey | null;
+          status: InvitationRedemptionStatus;
+          token_id: string | null;
         }>;
         Relationships: [];
       };

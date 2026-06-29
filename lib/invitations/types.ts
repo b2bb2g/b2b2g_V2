@@ -23,6 +23,12 @@ export const INVITATION_STATUSES = [
 
 export type InvitationStatus = (typeof INVITATION_STATUSES)[number];
 
+export type InvitationRedemptionStatus =
+  | "accepted"
+  | "blocked"
+  | "expired"
+  | "rejected";
+
 export type InvitationTokenPayload = {
   expiresAt: Date;
   invitationType: InvitationType;
@@ -42,3 +48,53 @@ export type InvitationValidationResult =
       error: "empty_token" | "invalid_token" | "hash_mismatch";
       ok: false;
     };
+
+export type InvitationAdminRecord = {
+  acceptedAt: string | null;
+  agentId: string | null;
+  companyId: string | null;
+  createdAt: string;
+  createdBy: string | null;
+  deletedAt: string | null;
+  expiresAt: string;
+  id: string;
+  invitationType: InvitationType;
+  invitedEmail: string | null;
+  inviterAccountId: string | null;
+  maxUses: number;
+  parentAccountId: string | null;
+  parentRoleKey: string | null;
+  professorId: string | null;
+  revokedAt: string | null;
+  status: InvitationStatus;
+  targetRoleKey: string;
+  usedCount: number;
+};
+
+export type InvitationTokenAdminRecord = {
+  createdAt: string;
+  deletedAt: string | null;
+  expiresAt: string;
+  id: string;
+  invitationId: string;
+  revokedAt: string | null;
+  tokenHash: string;
+  usedAt: string | null;
+};
+
+export type InvitationRedemptionAdminRecord = {
+  createdAt: string;
+  deletedAt: string | null;
+  id: string;
+  invitationId: string;
+  redeemedBy: string | null;
+  redeemedEmail: string | null;
+  redeemedRoleKey: string | null;
+  status: InvitationRedemptionStatus;
+  tokenId: string | null;
+};
+
+export type InvitationWithTokenAdminRecord = {
+  invitation: InvitationAdminRecord;
+  token: InvitationTokenAdminRecord;
+};

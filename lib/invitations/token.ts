@@ -18,6 +18,10 @@ function isNonEmptyString(value: string): boolean {
   return value.trim().length > 0;
 }
 
+function toDate(value: Date | string): Date {
+  return value instanceof Date ? value : new Date(value);
+}
+
 export function generateInvitationToken(): string {
   return randomBytes(TOKEN_BYTE_LENGTH).toString("base64url");
 }
@@ -82,4 +86,71 @@ export function getDefaultInvitationExpiry(
   }
 
   return addDays(now, DEFAULT_EXPIRY_DAYS);
+}
+
+export type InvitationTokenInsertPayload = {
+  expires_at: string;
+  token_hash: string;
+};
+
+export type InvitationTokenStateInput = {
+  deletedAt?: Date | null | string;
+  expiresAt: Date | string;
+  revokedAt?: Date | null | string;
+  usedAt?: Date | null | string;
+};
+
+export type InvitationTokenState =
+  | "active"
+  | "deleted"
+  | "expired"
+  | "revoked"
+  | "used";
+
+export function buildInvitationTokenInsertPayload(
+  token: string,
+  invitationType: InvitationType,
+  now = new Date(),
+): InvitationTokenInsertPayload {
+  return {
+    expires_at: getDefaultInvitationExpiry(invitationType, now).toISOString(),
+    token_hash: hashInvitationToken(token),
+  };
+}
+
+export function isInvitationExpired(
+  expiresAt: Date | string,
+  now = new Date(),
+): boolean {
+  return toDate(expiresAt).getTime() <= now.getTime();
+}
+
+export function getInvitationTokenState(
+  input: InvitationTokenStateInput,
+  now = new Date(),
+): InvitationTokenState {
+  if (input.deletedAt) {
+    return "deleted";
+  }
+
+  if (input.revokedAt) {
+    return "revoked";
+  }
+
+  if (input.usedAt) {
+    return "used";
+  }
+
+  if (isInvitationExpired(input.expiresAt, now)) {
+    return "expired";
+  }
+
+  return "active";
+}
+
+export function isInvitationTokenUsable(
+  input: InvitationTokenStateInput,
+  now = new Date(),
+): boolean {
+  return getInvitationTokenState(input, now) === "active";
 }

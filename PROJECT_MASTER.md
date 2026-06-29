@@ -37,6 +37,7 @@ B2BB2G V2는 한국 기업의 제품, 산업설비, EPC 프로젝트, BUY & SELL
 | --- | --- | --- | --- |
 | `001_snapshot_baseline.sql` | Applied to production | Success. No rows returned | Baseline marker; no schema/data/RLS mutation. |
 | `002_role_compatibility.sql` | Applied to production | Success. No rows returned | Additive migration for `account_roles` and `role_applications`. |
+| `012_invitation_core.sql` | Applied to production | Success. `COMMIT` | Invitation tables verified; RLS enabled but policies remain absent. |
 
 ## Frozen Documents
 
@@ -73,6 +74,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/11-sprint-2-invitation-engine-plan.md`
 - `docs/09-sprints/12-sprint-2-invitation-repository-audit.md`
 - `docs/09-sprints/13-sprint-2-invitation-migration-spec.md`
+- `docs/09-sprints/14-sprint-2-invitation-migration-review.md`
+- `docs/09-sprints/15-sprint-2-signup-workflow.md`
+- `docs/09-sprints/16-sprint-2-012-apply-result.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
@@ -94,9 +98,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Invitation query/action contract before signup route work
-2. Supplier public signup connection after token/action contract
-3. Admin invitation flow after query/action contract
+1. Supplier public signup connection after token/action skeleton
+2. Admin invitation flow after RLS/query/action review
+3. Invitation RLS policy design before user-facing access
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -140,9 +144,11 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 Invitation repository audit is complete. Existing global signup, Buyer referral, and member referral flows are classified; `member_referral_codes` is legacy invite-like infrastructure, while final Agent-Buyer/Professor-Student authority must move to Invitation plus relation candidate design.
 - Sprint 2 Invitation migration spec is complete. `012_invitation_core.sql` is planned for `invitations`, `invitation_tokens`, and `invitation_redemptions`, with no QR table and token-hash-only storage.
 - Sprint 2 Invitation token helper/types are complete. The helper layer provides 256-bit URL-safe token generation, SHA-256 hash storage support, timing-safe verification, URL building, expiry defaults, and tests without Supabase/DB access.
-- `012_invitation_core.sql` is authored but not applied to production. It creates `invitations`, `invitation_tokens`, and `invitation_redemptions` additively, keeps raw token storage out of schema, and defers RLS policies/helpers/backfill.
+- `012_invitation_core.sql` is applied to production. It creates/verifies `invitations`, `invitation_tokens`, and `invitation_redemptions` additively, keeps raw token storage out of schema, and defers RLS policies/helpers/backfill.
+- Sprint 2 Signup Workflow is documented. Supplier signup/invitation/approval, Agent application/invitation, Buyer invitation/direct signup, Professor invitation, and Student invitation now have workflow contracts before UI/signup route work.
+- Invitation query/action skeleton is implemented under `lib/invitations/`. It is server-only/admin-only, stores only `token_hash`, returns raw token only to the issuing admin action, and does not connect UI, public routes, role applications, account roles, or organization bindings yet.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create the Invitation query/action contract before writing signup routes, Admin invitation UI, or Organization query expansion.
+Implement Supplier public signup flow only after Invitation RLS/user-facing access design is reviewed.
