@@ -737,6 +737,52 @@ const dictionaries = {
     "signupStart.supplier.title": "Supplier Signup Start",
     "signupStart.tokenHidden":
       "If you arrived from an invitation, the token is carried forward but never displayed here.",
+    "agentSignup.field.contactEmail": "Contact email",
+    "agentSignup.field.contactName": "Contact name",
+    "agentSignup.field.experienceSummary": "Experience summary",
+    "agentSignup.field.market": "Country / Market",
+    "agentSignup.field.organizationName": "Company or organization name",
+    "agentSignup.field.targetBuyerMarket": "Target buyer market",
+    "agentSignup.field.websiteOrProfile": "Website / profile URL",
+    "agentSignup.form.description":
+      "Fill in the preparation fields now. Submission is intentionally disabled until the next task connects account and role application writes.",
+    "agentSignup.form.eyebrow": "Agent application draft",
+    "agentSignup.form.title": "Prepare Agent application details",
+    "agentSignup.market.korea": "South Korea",
+    "agentSignup.market.other": "Other market",
+    "agentSignup.market.placeholder": "Select a country or market",
+    "agentSignup.market.thailand": "Thailand",
+    "agentSignup.market.usa": "United States",
+    "agentSignup.market.vietnam": "Vietnam",
+    "agentSignup.placeholder.contactEmail": "contact@example.com",
+    "agentSignup.placeholder.contactName": "Primary contact name",
+    "agentSignup.placeholder.experienceSummary":
+      "Describe your sourcing, buyer development, market support, or trade operations experience.",
+    "agentSignup.placeholder.organizationName":
+      "Agency, company, or trade organization",
+    "agentSignup.placeholder.targetBuyerMarket":
+      "Describe buyer industries, regions, or market segments you can support.",
+    "agentSignup.placeholder.websiteOrProfile": "https://example.com/profile",
+    "agentSignup.policy.approvalRequired":
+      "Admin approval is required before Agent activation.",
+    "agentSignup.policy.buyerInvites":
+      "After approval, Agent can create Buyer invitation links and QR entry paths.",
+    "agentSignup.policy.buyerPii":
+      "Buyer PII is not available outside the permitted Agent-Buyer scope.",
+    "agentSignup.policy.signupPaths":
+      "Agent can apply by public application or by Admin invitation.",
+    "agentSignup.policy.subordinateBuyers":
+      "Agent can manage only assigned or subordinate Buyers.",
+    "agentSignup.policy.title": "Agent signup policy",
+    "agentSignup.security.invitationToken":
+      "The invitation token is held only in a hidden field for the next step. It is not displayed or submitted yet.",
+    "agentSignup.security.publicApplication":
+      "No invitation token is present. This is a public Agent application preparation path.",
+    "agentSignup.security.title": "Security boundary",
+    "agentSignup.submit.disabled": "Submission disabled",
+    "agentSignup.submit.next": "Submission will be enabled next step.",
+    "agentSignup.terms":
+      "I understand Agent activation, Buyer invitation generation, and subordinate Buyer access require administrator approval and platform permission checks.",
     "supplierSignup.category.beauty": "Beauty and personal care",
     "supplierSignup.category.consumerGoods": "Consumer goods",
     "supplierSignup.category.epc": "EPC and project supply",
