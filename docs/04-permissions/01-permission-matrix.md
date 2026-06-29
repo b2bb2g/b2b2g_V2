@@ -422,6 +422,9 @@ Personal data policy:
 
 | Feature Flag | Permission Impact | Default |
 | --- | --- | --- |
+| `supplier_public_signup_enabled` | ON이면 Supplier Public Self Signup을 허용하되 Supplier Role Application과 Admin Approval은 필수다. Buyer PII 접근은 여전히 금지다. | `true` |
+| `supplier_invitation_enabled` | ON이면 Admin이 Supplier Invitation Link를 발급할 수 있다. Invitation은 공개/활성화/Buyer PII 권한을 부여하지 않는다. | `true` |
+| `supplier_requires_admin_approval` | ON이면 Supplier Role 활성화와 plan 적용 전 Admin Approval을 강제한다. MVP에서 OFF로 해석하지 않는다. | `true` |
 | `buyer_direct_signup_enabled` | OFF이면 Buyer는 Agent Referral Link/QR 기반 가입만 허용한다. ON이어도 Buyer 데이터 접근은 Owner/Agent/Admin 관계로 제한한다. | `false` |
 | `supplier_buyer_direct_contact_enabled` | ON이어도 전역 허용이 아니라 Admin-approved case 단위 Direct Contact Release만 허용한다. | `false` |
 | `admin_brokerage_required` | ON이면 Buyer-Supplier inquiry/proposal/message가 Admin Brokerage를 반드시 통과한다. MVP에서 OFF 권한은 일반 Admin UI에 두지 않는다. | `true` |

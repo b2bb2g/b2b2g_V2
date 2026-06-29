@@ -261,18 +261,19 @@ Recommended Task 03 boundary:
 | P1 | audit log 통합 보류 | Relation assignment changes must be auditable. | Add TODO in action plan; real integration in Admin/Audit sprint or safe existing helper path. |
 | P1 | Existing `students.professor_id` compatibility | Current Professor-Student access depends on legacy FK. | Keep fallback only during migration window and test false cases. |
 | P1 | Existing `country_agents` meaning | Country assignment can be confused with Buyer relation. | Explicitly deny use as Agent-Buyer authority. |
-| P2 | Invitation/referral relation overlap | Signup/referral backfill may produce incorrect relations if assumed. | Leave invitation/QR outside Sprint 2 implementation. |
+| P2 | Invitation/referral relation overlap | Signup/referral backfill may produce incorrect relations if assumed. | Hold Organization query/action expansion until the Sprint 2 Invitation Engine policy gate and audit/plan are complete. |
 
 ## 12. Codex Notes
 
 - This document authorizes only scoped Organization implementation planning.
-- It does not authorize DB migration, RLS SQL, Supabase production changes, large Admin UI, messaging, invitation/QR, or Student Growth changes.
+- It does not authorize DB migration, RLS SQL, Supabase production changes, large Admin UI, messaging, or Student Growth changes. Invitation/QR policy is handled by the Sprint 2 Invitation Engine priority gate.
 - Task 03 should begin with local helper/type work and no live query against missing tables.
 - If existing code conflicts with this plan, this plan and the Permission Matrix take precedence for Sprint 2.
 - If a function cannot safely implement behavior before migration, return a clear deferred/not implemented result rather than silently falling back to legacy tables.
 - `country_agents` remains market assignment.
 - `referral_relations` remains Buyer-Buyer referral.
 - Agent-Buyer, Professor-Student, and Company-Member authority must move to explicit relation tables before broad feature expansion.
+- Organization query/action work is on hold until `docs/09-sprints/09-sprint-2-invitation-priority-adjustment.md` and the follow-up Invitation Engine audit/plan clarify signup relation inputs.
 
 ## 13. Task 03 Completion Log
 

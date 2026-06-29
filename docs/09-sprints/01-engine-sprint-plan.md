@@ -26,7 +26,8 @@ No Sprint should start from UI or page implementation before Scope, DB, RLS, and
 | Sprint | Engine | Primary Goal |
 | --- | --- | --- |
 | Sprint 1 | Identity Engine | Establish `account_roles` based multi-role implementation path. |
-| Sprint 2 | Organization Engine | Define organization membership and relationship boundaries. |
+| Sprint 2A | Invitation Engine Policy Gate | Confirm Role signup/invitation policy for Supplier, Agent, Buyer, Professor, and Student before Organization query/action expansion. |
+| Sprint 2B | Organization Engine | Define organization membership and relationship boundaries. |
 | Sprint 3 | Company / Supplier Engine | Stabilize company, supplier profile, and supplier-owned content paths. |
 | Sprint 4 | Marketplace Engine | Implement approved product and marketplace listing flows. |
 | Sprint 5 | Buy Request Engine | Implement Buyer request flow without exposing Buyer PII. |
@@ -83,14 +84,14 @@ Implementation is blocked if any rule below is violated:
 
 ## 6. Current Sprint
 
-Current Sprint: **Sprint 1 Identity Engine**.
+Current Sprint: **Sprint 2 Invitation Engine Policy Gate / Organization Engine**.
 
-Sprint 1 starts with repository audit, not code modification.
+Sprint 2 now prioritizes Invitation Engine policy alignment before Organization query/action expansion.
 
 Next document:
 
 ```text
-docs/09-sprints/03-sprint-1-identity-repository-audit.md
+docs/09-sprints/11-sprint-2-invitation-engine-plan.md
 ```
 
 ## 7. Sprint Operating Notes

@@ -15,7 +15,7 @@ B2BB2G V2는 한국 기업의 제품, 산업설비, EPC 프로젝트, BUY & SELL
 - Current Phase: Engine Sprint Implementation
 - PDCA primary feature: `b2bb2g-mvp`
 - Current PDCA phase: `act`
-- Current Sprint: Sprint 2 Organization Engine
+- Current Sprint: Sprint 2 Invitation Engine Policy Gate / Organization Engine
 - Previous Sprint: Sprint 1 Identity Engine — Frozen with Known Limitations
 - Current implementation mode: Engine-by-Engine sprint execution
 
@@ -69,11 +69,12 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/06-sprint-1-identity-review-and-freeze.md`
 - `docs/09-sprints/07-sprint-2-organization-repository-audit.md`
 - `docs/09-sprints/08-sprint-2-organization-implementation-plan.md`
+- `docs/09-sprints/09-sprint-2-invitation-priority-adjustment.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- Sprint 2 Organization Engine Task 03 types/helper implementation
+- Sprint 2 Invitation Engine repository audit / implementation plan
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
 - RLS helper scope review before policy SQL
@@ -91,10 +92,10 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 2 Organization types/helper implementation
-2. Organization query layer with PII-safe DTOs
-3. Organization server action boundary design
-4. Company member, Agent-Buyer, and Professor-Student compatibility strategy
+1. Sprint 2 Invitation Engine repository audit / implementation plan
+2. Supplier Invitation + Public Signup policy implementation boundary
+3. Role signup policy alignment for Supplier, Agent, Buyer, Professor, and Student
+4. Organization query layer with PII-safe DTOs after invitation policy alignment
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
 ## Engine Sprint Rule
@@ -132,8 +133,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Implemented baseline: 002 role compatibility migration, `account_roles` / `role_applications` types, account-role-first legacy fallback, role application request/cancel, admin approve/reject, minimal admin UI, and pure helper tests.
 - Sprint 2 Organization Engine has started with repository audit only. Existing Organization relations currently depend on `suppliers.company_id`, `country_agents`, and `students.professor_id`; target relation tables remain `company_members`, `agent_buyers`, and `professor_students`.
 - Sprint 2 implementation plan is complete. Task 03 should start with local Organization types/helpers and must not query missing relation tables before migration readiness.
+- Sprint 2 priority changed: Invitation Engine policy alignment must happen before Organization query/action expansion. Supplier supports both Admin Invitation and Public Self Signup, but always requires Admin Approval and never receives Buyer PII.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Start Sprint 2 Organization Engine Task 03 with local types/helper implementation only.
+Create Sprint 2 Invitation Engine repository audit / implementation plan before expanding Organization query/action work.

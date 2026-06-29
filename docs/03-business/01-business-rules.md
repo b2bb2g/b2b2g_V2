@@ -51,6 +51,9 @@
 | BR-SUP-FREE-008 | Buyer Inquiry는 Admin Brokerage를 통해서만 확인한다. | Trade Brokerage Engine | Inquiry Brokerage Workflow, `inquiry_status` | Admin Forward 이후 필요한 범위만 노출. |
 | BR-SUP-FREE-009 | 메인 Featured 노출은 제한한다. | Supplier Membership Engine, Exposure Engine | Landing Page Publish Workflow | Featured eligibility는 Membership Rules와 연결. |
 | BR-SUP-FREE-010 | Proposal 제출 권한은 제한 가능하다. | Supplier Membership Engine, Trade Brokerage Engine | Proposal Workflow | 등급별 제출 가능 여부는 Decision Required. |
+| BR-SUP-FREE-011 | Supplier는 Admin Invitation Link로 초대 가입할 수 있다. | Invitation Engine, Identity Engine | Supplier Invitation Workflow, Role Application Workflow | 초대되어도 Admin Approval 전 공개/활성화되지 않는다. |
+| BR-SUP-FREE-012 | Supplier는 Public Signup으로 자발 가입 신청할 수 있다. | Invitation Engine, Identity Engine, Approval Engine | Supplier Public Signup Workflow, Role Application Workflow | 자발 가입은 Supplier Role Application을 만들고 Admin Approval을 기다린다. |
+| BR-SUP-FREE-013 | 초대/자발 가입 경로와 관계없이 Buyer PII 접근은 금지된다. | Trade Brokerage Engine, Organization Engine | Buyer Shield Plugin, Admin Brokerage Workflow | Membership/approval 상태가 Buyer email/phone/contact 접근 권한을 만들지 않는다. |
 
 ### 3.2 Premium Supplier
 
@@ -101,6 +104,14 @@
 | BR-AGENT-006 | 하부 Buyer와 직접 메시지가 가능하다. | Communication Engine | Agent Buyer Chat Plugin | Supplier-Buyer 금지와 별개로 허용. |
 | BR-AGENT-007 | 하부 Buyer 성과/활동을 확인할 수 있다. | Organization Engine, Analytics Engine | Agent Journey | 제한 요약만 허용. |
 | BR-AGENT-008 | 다른 Agent의 Buyer는 볼 수 없다. | Organization Engine | Organization Permission Plugin | RLS/Permission Matrix에서 강제 필요. |
+
+Invitation policy:
+
+- Supplier: Admin Invitation 가능, Public Self Signup 가능, Admin Approval 필수.
+- Agent: Public Application 가능, Admin Invitation 가능, Admin Approval 필수.
+- Buyer: 기본은 Agent Invitation Link 기반 가입, Direct Signup은 feature flag로 제어.
+- Professor: Admin Invitation 중심, Public Application 기본 OFF, Admin Approval 필수.
+- Student: Professor Invitation Link 또는 QR 기반 가입, Public Self Signup 불가, Professor 하부로 자동 연결.
 
 ## 6. Professor Business Rules
 

@@ -29,6 +29,9 @@
 
 | Flag Key | Default | Admin Editable | Related Engine | Description | MVP / Future | Risk |
 | --- | --- | --- | --- | --- | --- | --- |
+| `supplier_public_signup_enabled` | `true` | Yes | Invitation Engine, Identity Engine, Approval Engine | Supplier가 Public Signup으로 자발 가입 신청을 할 수 있는지 제어한다. | MVP | P2: 스팸/품질 관리 부담 증가, 승인 전 기능 제한 필수 |
+| `supplier_invitation_enabled` | `true` | Yes | Invitation Engine, Admin Control Engine, Identity Engine | Admin이 Supplier Invitation Link를 발급할 수 있는지 제어한다. | MVP | P2: 초대 남용 방지를 위한 audit 필요 |
+| `supplier_requires_admin_approval` | `true` | Restricted | Approval Engine, Identity Engine, Supplier Membership Engine | Supplier Role Application과 Supplier 기능 활성화에 Admin Approval을 강제한다. | MVP guard | P1: OFF 시 미검증 Supplier 공개/활성화 위험 |
 | `buyer_direct_signup_enabled` | `false` | Yes | Admin Control Engine, Invitation Engine, Identity Engine | Agent Referral Link 없이 Buyer가 직접 가입할 수 있는지 제어한다. | MVP | P1: Agent attribution과 Buyer quality control 약화 |
 | `agent_public_application_enabled` | `true` | Yes | Identity Engine, Approval Engine, Invitation Engine | Agent가 공개 신청 경로로 Role을 신청할 수 있는지 제어한다. | MVP | P2: 승인 대기/스팸 신청 증가 |
 | `professor_public_application_enabled` | `false` | Yes | Invitation Engine, Approval Engine | Professor가 공개 신청할 수 있는지 제어한다. 기본은 Admin Invitation 중심이다. | MVP | P1: 검증되지 않은 Professor가 Student 네트워크 접근 시도 |
@@ -55,6 +58,9 @@
 MVP 추천 기본값:
 
 ```text
+supplier_public_signup_enabled = true
+supplier_invitation_enabled = true
+supplier_requires_admin_approval = true
 buyer_direct_signup_enabled = false
 agent_public_application_enabled = true
 professor_public_application_enabled = false
@@ -90,6 +96,7 @@ multi_tenant_enabled = false
 
 Restricted flag:
 
+- `supplier_requires_admin_approval`
 - `supplier_buyer_direct_contact_enabled`
 - `admin_brokerage_required`
 - `landing_builder_enabled`
@@ -101,6 +108,9 @@ Restricted flag:
 
 | Flag Key | Permission / RLS Impact |
 | --- | --- |
+| `supplier_public_signup_enabled` | Public signup route를 열어도 Supplier Role Application은 pending/submitted 상태여야 하며 Admin Approval 전 공개/활성화/Buyer PII 접근은 금지해야 한다. |
+| `supplier_invitation_enabled` | Admin Invitation은 signup 경로만 열며 Buyer PII, Company/Product publish, Supplier-Buyer direct contact 권한을 부여하지 않는다. |
+| `supplier_requires_admin_approval` | OFF는 MVP에서 허용하지 않는다. Supplier Role, Membership tier, public exposure는 Admin Approval과 별도 Company/Product Approval을 거쳐야 한다. |
 | `buyer_direct_signup_enabled` | Direct signup route를 열더라도 Buyer 데이터 접근은 본인/Agent/Admin 관계로 제한해야 한다. |
 | `professor_public_application_enabled` | 공개 신청을 켜도 승인 전 Professor 기능과 Student 데이터 접근은 금지해야 한다. |
 | `student_signup_requires_professor_link` | OFF로 바꾸려면 무소속 Student 처리와 개인정보 접근 경계를 별도 설계해야 한다. |
