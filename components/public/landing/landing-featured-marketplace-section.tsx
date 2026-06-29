@@ -32,6 +32,7 @@ export type LandingFeaturedMarketplaceConfig = {
   sectionId: string;
   visibility: FeaturedMarketplaceVisibility;
   publishState: "draft" | "scheduled" | "published" | "hidden" | "archived";
+  eyebrow: string;
   title: string;
   subtitle: string;
   policyNotes: string[];
@@ -55,7 +56,7 @@ export function LandingFeaturedMarketplaceSection({
     >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         <div className="landing-featured-marketplace-header">
-          <p className="landing-section-kicker">Marketplace Preview</p>
+          <p className="landing-section-kicker">{config.eyebrow}</p>
           <h2 className="landing-section-title" id={`${config.sectionId}-title`}>
             {config.title}
           </h2>

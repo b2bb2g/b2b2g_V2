@@ -21,6 +21,7 @@ export type LandingRoleGatewayConfig = {
   sectionId: string;
   visibility: RoleGatewayVisibility;
   publishState: "draft" | "scheduled" | "published" | "hidden" | "archived";
+  eyebrow: string;
   title: string;
   subtitle: string;
   roles: RoleGatewayItem[];
@@ -43,7 +44,7 @@ export function LandingRoleGatewaySection({
     >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         <div className="landing-role-gateway-header">
-          <p className="landing-section-kicker">Role Gateway</p>
+          <p className="landing-section-kicker">{config.eyebrow}</p>
           <h2 className="landing-section-title" id={`${config.sectionId}-title`}>
             {config.title}
           </h2>

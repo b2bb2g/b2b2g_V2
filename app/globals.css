@@ -2068,6 +2068,10 @@ a {
   overflow: hidden;
 }
 
+.landing-v1-page > section {
+  scroll-margin-top: 96px;
+}
+
 .landing-hero-builder-inner {
   align-items: center;
 }
