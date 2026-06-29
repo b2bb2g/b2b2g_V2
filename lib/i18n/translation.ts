@@ -505,6 +505,40 @@ const dictionaries = {
     "auth.signup.policy.referralTitle": "Referral link required",
     "auth.signup.submit": "Create account",
     "auth.signup.title": "Create account",
+    "invitation.accept.agentProfessorDescription":
+      "Agent and Professor invitation flows remain approval-based before full dashboard access.",
+    "invitation.accept.agentProfessorTitle": "Agent and Professor onboarding",
+    "invitation.accept.buyerDescription":
+      "Buyer invites will be linked to an Agent after the acceptance workflow is connected.",
+    "invitation.accept.buyerTitle": "Buyer onboarding",
+    "invitation.accept.eyebrow": "Invitation link",
+    "invitation.accept.metaDescription":
+      "Review a B2BB2G invitation link before signup or sign-in.",
+    "invitation.accept.receivedDescription":
+      "We received your invitation token. Full token validation will be enabled after the public RLS policy is approved.",
+    "invitation.accept.receivedTitle": "Invitation received",
+    "invitation.accept.securityNote":
+      "For security, this page does not display or store your raw invitation token.",
+    "invitation.accept.signIn": "Sign in if you already have an account",
+    "invitation.accept.signupDisabled": "Continue with signup",
+    "invitation.accept.signupDisabledMeta":
+      "Signup connection is not enabled yet.",
+    "invitation.accept.studentDescription":
+      "Student invites will be linked to a Professor after the acceptance workflow is connected.",
+    "invitation.accept.studentTitle": "Student onboarding",
+    "invitation.accept.supplierDescription":
+      "Supplier signup will create a role application and still requires Admin approval before company or product exposure.",
+    "invitation.accept.supplierTitle": "Supplier onboarding",
+    "invitation.accept.title": "Invitation",
+    "invitation.accept.todoDescription":
+      "This page does not create accounts, role applications, organization bindings, QR codes, email delivery, or token redemption records yet.",
+    "invitation.accept.todoTitle": "Not connected yet",
+    "invitation.accept.unavailableDescription":
+      "This invitation link is missing or cannot be checked.",
+    "invitation.accept.unavailableTitle": "Invitation unavailable",
+    "invitation.accept.validationPendingDescription":
+      "The Invitation tables currently allow Admin-only RLS. Public validation and redemption will be connected after a reviewed RLS migration.",
+    "invitation.accept.validationPendingTitle": "Validation pending",
     "company.backToSuppliers": "Explore Korean Suppliers",
     "company.catalogDownloads": "Catalog downloads",
     "company.certificates": "Certificates",

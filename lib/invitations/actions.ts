@@ -87,6 +87,28 @@ export type AcceptInvitationTokenResult =
       ok: false;
     };
 
+export type PublicInvitationValidationResult =
+  | {
+      error: "invalid_token" | "missing_token";
+      hasToken: false;
+      invitedEmailMatchRequired: false;
+      invitationType: null;
+      ok: false;
+      status: "invalid";
+      targetRoleKey: null;
+      validationAvailable: false;
+    }
+  | {
+      error: null;
+      hasToken: true;
+      invitedEmailMatchRequired: null;
+      invitationType: null;
+      ok: true;
+      status: "received";
+      targetRoleKey: null;
+      validationAvailable: false;
+    };
+
 export type AdminInvitationCreateFormState =
   | {
       created: null;
@@ -499,6 +521,53 @@ export async function validateInvitationToken(
     return assertUsableInvitation(record);
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
+  }
+}
+
+export async function validateInvitationTokenForPublic(
+  rawToken: string | null | undefined,
+): Promise<PublicInvitationValidationResult> {
+  const token = rawToken?.trim() ?? "";
+
+  if (!token) {
+    return {
+      error: "missing_token",
+      hasToken: false,
+      invitedEmailMatchRequired: false,
+      invitationType: null,
+      ok: false,
+      status: "invalid",
+      targetRoleKey: null,
+      validationAvailable: false,
+    };
+  }
+
+  try {
+    // Public RLS for invitation lookup is intentionally deferred. Hashing here
+    // confirms the token can be processed without exposing or logging raw input.
+    hashInvitationToken(token);
+
+    return {
+      error: null,
+      hasToken: true,
+      invitedEmailMatchRequired: null,
+      invitationType: null,
+      ok: true,
+      status: "received",
+      targetRoleKey: null,
+      validationAvailable: false,
+    };
+  } catch {
+    return {
+      error: "invalid_token",
+      hasToken: false,
+      invitedEmailMatchRequired: false,
+      invitationType: null,
+      ok: false,
+      status: "invalid",
+      targetRoleKey: null,
+      validationAvailable: false,
+    };
   }
 }
 
