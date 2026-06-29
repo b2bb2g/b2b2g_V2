@@ -6,6 +6,7 @@ import type {
 import { t } from "@/lib/i18n/translation";
 
 type InvitationAcceptCardProps = {
+  invitationToken: string | null;
   validation: PublicInvitationValidationResult;
 };
 
@@ -161,13 +162,32 @@ function getStatusLabelKey(validation: PublicInvitationValidationResult): string
   return "invitation.accept.status.invalid";
 }
 
+function buildSignupStartHref(
+  role: PublicInvitationRole | null,
+  invitationToken: string | null,
+): string | null {
+  if (!role || !invitationToken?.trim()) {
+    return null;
+  }
+
+  const searchParams = new URLSearchParams({
+    invitation_token: invitationToken.trim(),
+  });
+
+  return `/signup/${role}?${searchParams.toString()}`;
+}
+
 export function InvitationAcceptCard({
+  invitationToken,
   validation,
 }: Readonly<InvitationAcceptCardProps>) {
   const role = getRoleFromValidation(validation);
   const roleGuide = role ? roleContent[role] : null;
   const ctaKey = roleGuide?.ctaKey ?? "invitation.accept.cta.generic";
   const isValid = validation.ok && validation.status === "valid";
+  const signupStartHref = isValid
+    ? buildSignupStartHref(role, invitationToken)
+    : null;
 
   return (
     <main className="bg-canvas">
@@ -252,15 +272,23 @@ export function InvitationAcceptCard({
               )}
 
               <div className="mt-8 space-y-3">
-                <button
-                  className="pill-primary min-h-11 w-full cursor-not-allowed opacity-60"
-                  disabled
-                  type="button"
-                >
-                  {t(ctaKey)}
-                </button>
+                {signupStartHref ? (
+                  <Link className="pill-primary min-h-11 w-full" href={signupStartHref}>
+                    {t(ctaKey)}
+                  </Link>
+                ) : (
+                  <button
+                    className="pill-primary min-h-11 w-full cursor-not-allowed opacity-60"
+                    disabled
+                    type="button"
+                  >
+                    {t(ctaKey)}
+                  </button>
+                )}
                 <p className="type-caption text-center text-calm-ink-muted-48">
-                  {t("invitation.accept.signupDisabledMeta")}
+                  {signupStartHref
+                    ? t("invitation.accept.signupStartMeta")
+                    : t("invitation.accept.signupDisabledMeta")}
                 </p>
                 <Link className="pill-secondary min-h-11 w-full" href="/login">
                   {t("invitation.accept.signIn")}

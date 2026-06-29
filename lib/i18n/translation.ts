@@ -581,6 +581,8 @@ const dictionaries = {
     "invitation.accept.signupDisabled": "Continue with signup",
     "invitation.accept.signupDisabledMeta":
       "Signup will be enabled next step.",
+    "invitation.accept.signupStartMeta":
+      "Review the next onboarding step before account creation opens.",
     "invitation.accept.status.expired": "Expired",
     "invitation.accept.status.invalid": "Invalid",
     "invitation.accept.status.revoked": "Revoked",
@@ -611,6 +613,130 @@ const dictionaries = {
     "invitation.accept.validationPendingTitle": "Validation pending",
     "invitation.accept.validationUnavailableDescription":
       "We received the token, but public validation is not available yet. Signup remains disabled until the reviewed RPC migration is applied.",
+    "signupStart.agent.approval":
+      "Agent applications require Admin approval before buyer invitation or support tools are activated.",
+    "signupStart.agent.capability.buyers":
+      "Manage assigned Buyer support after approval.",
+    "signupStart.agent.capability.invites":
+      "Prepare Buyer invitation links after the parent-invite workflow is connected.",
+    "signupStart.agent.capability.markets":
+      "Represent approved market or country lanes.",
+    "signupStart.agent.directStatus":
+      "Agent public application is available as a preparation path. Approval is still required before activation.",
+    "signupStart.agent.invitationStatus":
+      "Your invitation token was carried into the Agent onboarding start page without being displayed.",
+    "signupStart.agent.metaDescription":
+      "Start Agent onboarding for B2BB2G without creating an account yet.",
+    "signupStart.agent.prepare.approval":
+      "Prepare supporting details for Admin review.",
+    "signupStart.agent.prepare.market":
+      "Prepare the market or country scope you will support.",
+    "signupStart.agent.prepare.profile":
+      "Prepare your professional profile and contact channel.",
+    "signupStart.agent.title": "Agent Signup Start",
+    "signupStart.buyer.approval":
+      "Buyer access follows Agent invitation by default. Direct signup remains disabled by feature flag.",
+    "signupStart.buyer.capability.agent":
+      "Work through an assigned Agent support path.",
+    "signupStart.buyer.capability.brokerage":
+      "Supplier communication remains controlled through Admin Brokerage.",
+    "signupStart.buyer.capability.requests":
+      "Prepare sourcing requests after account creation is connected.",
+    "signupStart.buyer.directStatus":
+      "Buyer direct signup is currently off. Please use an Agent invitation link.",
+    "signupStart.buyer.invitationStatus":
+      "Your Buyer invitation token was carried forward. The next step will preserve Agent-linked onboarding.",
+    "signupStart.buyer.metaDescription":
+      "Start Buyer onboarding for B2BB2G without creating an account yet.",
+    "signupStart.buyer.prepare.agent":
+      "Keep the Agent invitation link available.",
+    "signupStart.buyer.prepare.company":
+      "Prepare company or sourcing organization details.",
+    "signupStart.buyer.prepare.demand":
+      "Prepare initial sourcing demand categories.",
+    "signupStart.buyer.title": "Buyer Signup Start",
+    "signupStart.card.approval": "Approval policy",
+    "signupStart.card.capabilities": "What this role can do",
+    "signupStart.card.prepare": "Prepare before continuing",
+    "signupStart.cta.disabled": "Account creation next",
+    "signupStart.cta.next":
+      "No account, role application, organization binding, or redemption is created on this page.",
+    "signupStart.currentStep": "Current step",
+    "signupStart.deferred.body":
+      "Account creation, role application, account role assignment, organization binding, redemption write, QR, email, and audit writes are deferred.",
+    "signupStart.deferred.title": "Not connected yet",
+    "signupStart.eyebrow": "Signup start",
+    "signupStart.nav.invitation": "Invitation",
+    "signupStart.professor.approval":
+      "Professor onboarding is Admin Invitation-first. Public application remains off by default.",
+    "signupStart.professor.capability.invites":
+      "Issue Student invitation or QR paths after approval.",
+    "signupStart.professor.capability.program":
+      "Manage student program and activity review after activation.",
+    "signupStart.professor.capability.students":
+      "Guide subordinate Students after Professor approval.",
+    "signupStart.professor.directStatus":
+      "Professor public application is currently off. Please use an Admin invitation.",
+    "signupStart.professor.invitationStatus":
+      "Your Professor invitation token was carried forward for the next onboarding step.",
+    "signupStart.professor.metaDescription":
+      "Start Professor onboarding for B2BB2G without creating an account yet.",
+    "signupStart.professor.prepare.approval":
+      "Prepare review details for platform Admin approval.",
+    "signupStart.professor.prepare.profile":
+      "Prepare your professor profile and program scope.",
+    "signupStart.professor.prepare.school":
+      "Prepare university or department context.",
+    "signupStart.professor.title": "Professor Signup Start",
+    "signupStart.security.body":
+      "The invitation token is only carried in the URL for the next step. It is not printed on the page, logged, or saved by this screen.",
+    "signupStart.security.title": "Token stays hidden",
+    "signupStart.step.invitationReady": "Invitation ready",
+    "signupStart.step.publicEntry": "Public entry policy",
+    "signupStart.student.approval":
+      "Student signup requires a Professor invitation. Public self-signup remains unavailable.",
+    "signupStart.student.capability.professor":
+      "Connect to Professor-guided activity after onboarding is connected.",
+    "signupStart.student.capability.research":
+      "Prepare market research participation after approval.",
+    "signupStart.student.capability.showcase":
+      "Build showcases from approved Supplier products after activation.",
+    "signupStart.student.directStatus":
+      "Student public signup is unavailable. Please use a Professor invitation link.",
+    "signupStart.student.invitationStatus":
+      "Your Professor-linked Student invitation token was carried forward.",
+    "signupStart.student.metaDescription":
+      "Start Student onboarding for B2BB2G without creating an account yet.",
+    "signupStart.student.prepare.invite":
+      "Use the Professor invitation link provided to you.",
+    "signupStart.student.prepare.profile":
+      "Prepare your student profile details.",
+    "signupStart.student.prepare.program":
+      "Prepare program or class context if requested.",
+    "signupStart.student.title": "Student Signup Start",
+    "signupStart.supplier.approval":
+      "Supplier onboarding always requires Admin approval before company, product, and membership activation.",
+    "signupStart.supplier.capability.company":
+      "Prepare a company profile for later approval.",
+    "signupStart.supplier.capability.membership":
+      "Free, Premium, or Enterprise membership is assigned after Admin approval.",
+    "signupStart.supplier.capability.products":
+      "Prepare product information for separate product approval.",
+    "signupStart.supplier.directStatus":
+      "Supplier public signup is available as a preparation path. Activation still requires Admin approval.",
+    "signupStart.supplier.invitationStatus":
+      "Your Supplier invitation token was carried into this start page without being displayed.",
+    "signupStart.supplier.metaDescription":
+      "Start Supplier onboarding for B2BB2G without creating an account yet.",
+    "signupStart.supplier.prepare.approval":
+      "Prepare documents for Admin review and company approval.",
+    "signupStart.supplier.prepare.company":
+      "Prepare company registration and export-ready profile details.",
+    "signupStart.supplier.prepare.products":
+      "Prepare product categories, descriptions, and approval materials.",
+    "signupStart.supplier.title": "Supplier Signup Start",
+    "signupStart.tokenHidden":
+      "If you arrived from an invitation, the token is carried forward but never displayed here.",
     "company.backToSuppliers": "Explore Korean Suppliers",
     "company.catalogDownloads": "Catalog downloads",
     "company.certificates": "Certificates",

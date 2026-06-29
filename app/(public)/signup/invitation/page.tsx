@@ -32,5 +32,5 @@ export default async function InvitationAcceptPage({
   const token = getSingleSearchParam(resolvedSearchParams.invitation_token);
   const validation = await validateInvitationTokenForPublic(token);
 
-  return <InvitationAcceptCard validation={validation} />;
+  return <InvitationAcceptCard invitationToken={token} validation={validation} />;
 }
