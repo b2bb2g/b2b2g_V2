@@ -508,9 +508,18 @@ const dictionaries = {
     "invitation.accept.agentProfessorDescription":
       "Agent and Professor invitation flows remain approval-based before full dashboard access.",
     "invitation.accept.agentProfessorTitle": "Agent and Professor onboarding",
+    "invitation.accept.agentDescription":
+      "Agent access starts with an invitation or application review. You will manage assigned buyer support after approval.",
+    "invitation.accept.agentTitle": "Prepare your Agent workspace",
     "invitation.accept.buyerDescription":
-      "Buyer invites will be linked to an Agent after the acceptance workflow is connected.",
-    "invitation.accept.buyerTitle": "Buyer onboarding",
+      "Your Buyer onboarding path is connected to Agent support. Direct supplier contact remains controlled by Admin Brokerage.",
+    "invitation.accept.buyerTitle": "Join with your Agent",
+    "invitation.accept.cta.agent": "Continue Agent Application",
+    "invitation.accept.cta.buyer": "Join with your Agent",
+    "invitation.accept.cta.generic": "Continue",
+    "invitation.accept.cta.professor": "Continue Professor Onboarding",
+    "invitation.accept.cta.student": "Join your Professor",
+    "invitation.accept.cta.supplier": "Continue Supplier Registration",
     "invitation.accept.eyebrow": "Invitation link",
     "invitation.accept.emailMatch.notRequired": "Not required by this token",
     "invitation.accept.emailMatch.required": "Required",
@@ -518,23 +527,71 @@ const dictionaries = {
       "This invitation token is expired. Please ask the sender for a new invitation link.",
     "invitation.accept.field.emailMatch": "Email match",
     "invitation.accept.field.role": "Target role",
+    "invitation.accept.footer.guide": "Read service guide",
+    "invitation.accept.footer.note":
+      "B2BB2G invitations are approval-controlled. Signup, role application, and redemption writes are not enabled on this page yet.",
+    "invitation.accept.faq.account.body":
+      "The next step will connect this checked invitation to account creation. This page does not create an account yet.",
+    "invitation.accept.faq.account.title": "Can I create an account now?",
+    "invitation.accept.faq.help.body":
+      "Use the sign-in link if you already have an account, or ask the sender or platform administrator for a fresh invitation.",
+    "invitation.accept.faq.help.title": "What if the link fails?",
+    "invitation.accept.faq.security.body":
+      "The validation RPC returns only status, invitation type, target role, and whether an email match is required.",
+    "invitation.accept.faq.security.title": "What does validation reveal?",
+    "invitation.accept.invalidDescription":
+      "This invitation is invalid or no longer available. Please request a new invitation or contact the platform administrator.",
     "invitation.accept.metaDescription":
       "Review a B2BB2G invitation link before signup or sign-in.",
+    "invitation.accept.process.approval.body":
+      "Supplier, Agent, and Professor access still requires administrator review before full activation.",
+    "invitation.accept.process.approval.title": "Approval stays controlled",
+    "invitation.accept.process.description":
+      "The page now verifies the token through the public-safe RPC, then holds the onboarding step until signup is connected.",
+    "invitation.accept.process.eyebrow": "Invitation process",
+    "invitation.accept.process.signup.body":
+      "The next sprint will connect signup and role application creation. This page intentionally keeps the button disabled.",
+    "invitation.accept.process.signup.title": "Signup comes next",
+    "invitation.accept.process.title": "A controlled path from invite to onboarding",
+    "invitation.accept.process.verify.body":
+      "The raw token is hashed by the application before the RPC checks invitation status.",
+    "invitation.accept.process.verify.title": "Token checked safely",
+    "invitation.accept.professorDescription":
+      "Professor onboarding remains approval-based. Student invitation and QR flows stay separate from this page.",
+    "invitation.accept.professorTitle": "Prepare your Professor role",
     "invitation.accept.receivedDescription":
       "We received your invitation token. Full token validation will be enabled after the public RLS policy is approved.",
     "invitation.accept.receivedTitle": "Invitation received",
+    "invitation.accept.retryHelp":
+      "Request a new invitation from the sender or contact the platform administrator for help.",
+    "invitation.accept.revokedDescription":
+      "This invitation was revoked. Please request a new invitation from the sender or contact the platform administrator.",
+    "invitation.accept.role.agent": "Agent",
+    "invitation.accept.role.buyer": "Buyer",
+    "invitation.accept.role.professor": "Professor",
+    "invitation.accept.role.student": "Student",
+    "invitation.accept.role.supplier": "Supplier",
     "invitation.accept.securityNote":
       "For security, this page does not display or store your raw invitation token.",
+    "invitation.accept.security.description":
+      "The accept page never displays invitation ids, token ids, token hashes, invited emails, parent accounts, company ids, Agent ids, or Professor ids.",
+    "invitation.accept.security.eyebrow": "Security boundary",
+    "invitation.accept.security.title": "Only limited invitation status is shown",
     "invitation.accept.signIn": "Sign in if you already have an account",
     "invitation.accept.signupDisabled": "Continue with signup",
     "invitation.accept.signupDisabledMeta":
-      "Signup connection is not enabled yet.",
+      "Signup will be enabled next step.",
+    "invitation.accept.status.expired": "Expired",
+    "invitation.accept.status.invalid": "Invalid",
+    "invitation.accept.status.revoked": "Revoked",
+    "invitation.accept.status.unavailable": "Unavailable",
+    "invitation.accept.status.valid": "Valid",
     "invitation.accept.studentDescription":
-      "Student invites will be linked to a Professor after the acceptance workflow is connected.",
-    "invitation.accept.studentTitle": "Student onboarding",
+      "Student onboarding must come through a Professor invitation. Public self-signup remains unavailable for Students.",
+    "invitation.accept.studentTitle": "Join your Professor",
     "invitation.accept.supplierDescription":
-      "Supplier signup will create a role application and still requires Admin approval before company or product exposure.",
-    "invitation.accept.supplierTitle": "Supplier onboarding",
+      "Supplier registration will move through role application, administrator approval, company approval, and membership assignment.",
+    "invitation.accept.supplierTitle": "Continue Supplier Registration",
     "invitation.accept.title": "Invitation",
     "invitation.accept.todoDescription":
       "This page does not create accounts, role applications, organization bindings, QR codes, email delivery, or token redemption records yet.",
@@ -543,8 +600,9 @@ const dictionaries = {
       "This invitation link is missing or cannot be checked.",
     "invitation.accept.unavailableTitle": "Invitation unavailable",
     "invitation.accept.validDescription":
-      "This invitation token is valid. Signup is still paused until the next onboarding workflow is connected.",
-    "invitation.accept.validTitle": "Invitation verified",
+      "Your invitation token was verified through the public-safe validation RPC. The next onboarding action is prepared but not connected yet.",
+    "invitation.accept.validTitle": "Invitation Received",
+    "invitation.accept.validationResult": "Validation result",
     "invitation.accept.validationCompleteDescription":
       "The token was checked through the public-safe validation RPC. No PII, token hash, or internal ids were returned.",
     "invitation.accept.validationCompleteTitle": "Validation complete",

@@ -38,6 +38,7 @@ B2BB2G V2는 한국 기업의 제품, 산업설비, EPC 프로젝트, BUY & SELL
 | `001_snapshot_baseline.sql` | Applied to production | Success. No rows returned | Baseline marker; no schema/data/RLS mutation. |
 | `002_role_compatibility.sql` | Applied to production | Success. No rows returned | Additive migration for `account_roles` and `role_applications`. |
 | `012_invitation_core.sql` | Applied to production | Success. `COMMIT` | Invitation tables verified; RLS enabled but policies remain absent. |
+| `014_public_invitation_validation.sql` | Applied to production | Success. No rows returned | Public-safe RPC only; no public table SELECT policy, signup, redemption, role application, or binding write. |
 
 ## Frozen Documents
 
@@ -78,6 +79,7 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/15-sprint-2-signup-workflow.md`
 - `docs/09-sprints/16-sprint-2-012-apply-result.md`
 - `docs/09-sprints/17-sprint-2-013-invitation-admin-rls-review.md`
+- `docs/09-sprints/18-sprint-2-014-apply-result.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
@@ -95,14 +97,14 @@ These documents are treated as high-priority Source of Truth and should not be c
 | P1 High | Conversation audit is still required before communication migration. | Required before `004_conversation_compatibility.sql` classification/backfill and before full Communication RLS enforcement. |
 | P1 High | Buyer PII projection must remain protected. | `buyer_masked_profiles` remains the target Supplier-safe projection; Supplier-facing queries must not expose Buyer email/phone/contact person. |
 | P1 High | RLS helper scope must be reviewed before policy SQL. | `009_rls_helpers.sql` and `010_rls_policies.sql` remain blocked until helper scope, fixed `search_path`, and tests are reviewed. |
-| P1 High | Invitation Admin query/action remains blocked in production until `013_invitation_admin_rls.sql` is applied and verified. | 013 is authored as Admin-only RLS; production apply requires backup confirmation and `public.is_admin()` verification. |
+| P1 High | Public Invitation Accept validates token status but does not create account, role application, redemption, or organization binding. | Keep signup CTA disabled until the next reviewed onboarding task connects writes. |
 | P2 Medium | 002 uses compatibility `role_key` text while ERD final model expects role authority alignment. | Sprint 1 froze this as a known limitation; final role authority alignment remains migration/backfill backlog. |
 
 ## Current Priority
 
-1. Apply and verify `013_invitation_admin_rls.sql` before using Admin Invitation UI in production
-2. Supplier public signup connection after user-facing Invitation RLS design
-3. Invitation acceptance flow design before public route/signup connection
+1. Supplier public signup connection after 014 RPC-backed invitation validation
+2. Buyer/Student parent invitation flow with Agent-Buyer and Professor-Student relation candidates
+3. Invitation redemption design before writing `invitation_redemptions`
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -151,8 +153,10 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Invitation query/action skeleton is implemented under `lib/invitations/`. It is server-only/admin-only, stores only `token_hash`, returns raw token only to the issuing admin action, and does not connect UI, public routes, role applications, account roles, or organization bindings yet.
 - `013_invitation_admin_rls.sql` is authored but not applied to production. It adds Admin-only select/insert/update policies for Invitation tables using the existing `public.is_admin()` helper and keeps public/user-facing access blocked. `createAdminInvitation` now cancels and soft-deletes a just-created invitation if token insertion fails.
 - Admin Invitation Management UI is implemented at `/admin/invitations`. It supports Admin create/list/revoke only, displays raw token or invitation URL only immediately after creation, and does not connect public accept, signup, QR, email, role application, account role, or organization binding flows.
+- `014_public_invitation_validation.sql` is applied to production. Public Accept now uses `validate_invitation_public(token_hash text)` through `validateInvitationTokenForPublic`, returning only validity/status, invitation type, target role, and email-match-required status.
+- Public Invitation Accept final wiring is complete. `/signup/invitation` now displays role-specific guidance and disabled role-specific CTA text while keeping signup, role application, account role, organization binding, redemption, QR, email, and audit writes deferred.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Apply and verify `013_invitation_admin_rls.sql` before connecting the Admin Invitation UI. Keep public signup and public token acceptance blocked until a separate user-facing RLS design is reviewed.
+Start Supplier Public Signup Flow only after confirming the account creation boundary, role application write rules, and no Buyer PII exposure. Keep redemption and organization binding writes deferred until separately reviewed.

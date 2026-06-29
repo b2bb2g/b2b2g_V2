@@ -8,6 +8,9 @@ type InvitationAcceptPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = buildPublicMetadata({
   canonicalPath: "/signup/invitation",
   description: t("invitation.accept.metaDescription"),

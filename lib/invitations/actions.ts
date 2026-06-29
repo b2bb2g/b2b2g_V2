@@ -215,6 +215,48 @@ function isSupportedInvitationType(value: string | null): value is InvitationTyp
   return value !== null && INVITATION_TYPES.includes(value as InvitationType);
 }
 
+function toPublicValidationFailure(
+  status: PublicInvitationRpcResult["status"] | null | undefined,
+  validationAvailable = true,
+): PublicInvitationValidationResult {
+  if (status === "expired") {
+    return {
+      error: "expired_token",
+      hasToken: true,
+      invitedEmailMatchRequired: false,
+      invitationType: null,
+      ok: false,
+      status: "expired",
+      targetRoleKey: null,
+      validationAvailable,
+    };
+  }
+
+  if (status === "revoked") {
+    return {
+      error: "revoked_token",
+      hasToken: true,
+      invitedEmailMatchRequired: false,
+      invitationType: null,
+      ok: false,
+      status: "revoked",
+      targetRoleKey: null,
+      validationAvailable,
+    };
+  }
+
+  return {
+    error: "invalid_token",
+    hasToken: true,
+    invitedEmailMatchRequired: false,
+    invitationType: null,
+    ok: false,
+    status: "invalid",
+    targetRoleKey: null,
+    validationAvailable,
+  };
+}
+
 function assertAdminCreatableInvitationType(invitationType: string): InvitationType {
   const supportedInvitationType = assertSupportedInvitationType(invitationType);
 
@@ -557,16 +599,7 @@ export async function validateInvitationTokenForPublic(
       !isSupportedInvitationType(result.invitation_type) ||
       !result.target_role_key
     ) {
-      return {
-        error: result?.status === "expired" ? "expired_token" : "invalid_token",
-        hasToken: true,
-        invitedEmailMatchRequired: false,
-        invitationType: null,
-        ok: false,
-        status: result?.status === "expired" ? "expired" : "invalid",
-        targetRoleKey: null,
-        validationAvailable: true,
-      };
+      return toPublicValidationFailure(result?.status);
     }
 
     return {

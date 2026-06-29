@@ -122,7 +122,7 @@ export type PublicInvitationRpcResult = {
   invited_email_required: boolean;
   invitation_type: InvitationType | null;
   is_valid: boolean;
-  status: "expired" | "invalid" | "valid" | string;
+  status: "expired" | "invalid" | "revoked" | "valid" | string;
   target_role_key: string | null;
 };
 
@@ -132,12 +132,13 @@ export type PublicInvitationValidationResult =
         | "expired_token"
         | "invalid_token"
         | "missing_token"
+        | "revoked_token"
         | "validation_unavailable";
       hasToken: boolean;
       invitedEmailMatchRequired: false;
       invitationType: null;
       ok: false;
-      status: "expired" | "invalid" | "unavailable";
+      status: "expired" | "invalid" | "revoked" | "unavailable";
       targetRoleKey: null;
       validationAvailable: boolean;
     }
