@@ -77,23 +77,6 @@ const hero: LandingHeroConfig = {
     { label: "Secure Trading" },
     { label: "24/7 Support" },
   ],
-  visualTiles: [
-    {
-      imageAlt: "Industrial equipment network preview",
-      imageUrl: industrialPumpImage,
-      label: "Premium industrial supply",
-    },
-    {
-      imageAlt: "Global trade event preview",
-      imageUrl: skylineImage,
-      label: "Global procurement events",
-    },
-    {
-      imageAlt: "Thailand FDA laboratory service preview",
-      imageUrl: labImage,
-      label: "Thailand FDA service",
-    },
-  ],
 };
 
 const marketplace: LandingMarketplaceConfig = {
@@ -611,16 +594,6 @@ const marketplace: LandingMarketplaceConfig = {
         imageUrl: industrialPumpImage,
         title: "Industrial Power Solutions",
         tone: "navy",
-      },
-      {
-        badge: "Event",
-        cta: { href: "/events", isEnabled: false, label: "Register Now" },
-        description: "Singapore · June 22 - June 23, 2024",
-        id: "top-banner-procurement-summit",
-        imageAlt: "Global procurement summit skyline",
-        imageUrl: skylineImage,
-        title: "Global Procurement Summit 2024",
-        tone: "blue",
       },
       {
         badge: "Service",

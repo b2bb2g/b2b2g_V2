@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   GlobeIcon,
   SearchIcon,
@@ -24,12 +23,6 @@ type HeroKeyword = {
   label: string;
 };
 
-type HeroTile = {
-  imageAlt: string;
-  imageUrl: string;
-  label: string;
-};
-
 type HeroVisibility = {
   isVisible: boolean;
   startsAt?: string | null;
@@ -47,7 +40,6 @@ export type LandingHeroConfig = {
   trustItems: HeroTrustItem[];
   kpiItems: HeroKpiItem[];
   featuredKeywords: HeroKeyword[];
-  visualTiles: HeroTile[];
   visibility: HeroVisibility;
   publishState: "draft" | "scheduled" | "published" | "hidden" | "archived";
 };
@@ -94,45 +86,32 @@ export function LandingHeroSection({
           </div>
         </div>
 
-        <div className="marketplace-hero-visual" aria-label={t("home.hero.mapPanel")}>
-          <div className="marketplace-world-card">
-            <div className="marketplace-world-map" aria-hidden="true">
-              <span className="marketplace-map-orbit orbit-a" />
-              <span className="marketplace-map-orbit orbit-b" />
-              <span className="marketplace-map-orbit orbit-c" />
-              <span className="marketplace-map-dot dot-a" />
-              <span className="marketplace-map-dot dot-b" />
-              <span className="marketplace-map-dot dot-c" />
-              <span className="marketplace-map-dot dot-d" />
-            </div>
-            <div className="marketplace-hero-kpi-row" aria-label={t("home.hero.kpiLabel")}>
-              {config.kpiItems.map((item) => (
-                <div key={item.label}>
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="marketplace-hero-tile-row">
-              {config.visualTiles.map((tile) => (
-                <div className="marketplace-hero-tile" key={tile.label}>
-                  <Image
-                    alt={tile.imageAlt}
-                    className="object-cover"
-                    fill
-                    sizes="(max-width: 768px) 38vw, 150px"
-                    src={tile.imageUrl}
-                  />
-                  <span>{tile.label}</span>
-                </div>
-              ))}
-            </div>
-            <p>
-              <GlobeIcon className="h-4 w-4" aria-hidden="true" />
-              Global marketplace signals are prepared for brokered trade flows.
-            </p>
+        <aside className="marketplace-hero-summary" aria-label={t("home.hero.mapPanel")}>
+          <p>
+            <GlobeIcon className="h-4 w-4" aria-hidden="true" />
+            Brokered global trade network
+          </p>
+          <div className="marketplace-hero-kpi-row" aria-label={t("home.hero.kpiLabel")}>
+            {config.kpiItems.map((item) => (
+              <div key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
-        </div>
+          <div className="marketplace-hero-keyword-row" aria-label={t("home.hero.keywordLabel")}>
+            {config.featuredKeywords.map((keyword) => (
+              <span key={keyword.label}>{keyword.label}</span>
+            ))}
+          </div>
+          <div className="marketplace-hero-policy-card">
+            <ShieldCheckIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="marketplace-hero-policy-copy">
+              <strong>Protected inquiry flow</strong>
+              <span>Buyer identity stays hidden until approved brokerage rules allow release.</span>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   );
