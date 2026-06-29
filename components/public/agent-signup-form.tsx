@@ -1,7 +1,22 @@
+"use client";
+
+import Link from "next/link";
+import { useActionState } from "react";
+import {
+  submitAgentRoleApplication,
+  type AgentSignupSubmitState,
+} from "@/lib/actions/agent-signup";
 import { t } from "@/lib/i18n/translation";
 
 type AgentSignupFormProps = {
+  isAuthenticated: boolean;
   invitationToken?: string | null;
+};
+
+const initialSubmitState: AgentSignupSubmitState = {
+  error: null,
+  ok: false,
+  recordId: null,
 };
 
 const marketOptions = [
@@ -28,15 +43,25 @@ function FieldLabel({
 }
 
 export function AgentSignupForm({
+  isAuthenticated,
   invitationToken,
 }: Readonly<AgentSignupFormProps>) {
   const trimmedToken = invitationToken?.trim();
+  const [state, formAction, isPending] = useActionState(
+    submitAgentRoleApplication,
+    initialSubmitState,
+  );
+  const isSubmitted = state.ok;
+  const isSubmitDisabled = !isAuthenticated || isPending || isSubmitted;
 
   return (
     <section className="bg-canvas pb-14">
       <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <form className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]">
+          <form
+            action={formAction}
+            className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]"
+          >
             {trimmedToken ? (
               <input name="invitation_token" type="hidden" value={trimmedToken} />
             ) : null}
@@ -53,6 +78,48 @@ export function AgentSignupForm({
               </p>
             </div>
 
+            {!isAuthenticated ? (
+              <div className="mt-6 rounded-2xl border border-action-blue/20 bg-action-blue/5 p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("agentSignup.auth.requiredTitle")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {t("agentSignup.auth.requiredDescription")}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link className="pill-primary min-h-10" href="/login">
+                    {t("agentSignup.auth.signIn")}
+                  </Link>
+                  <Link className="pill-secondary min-h-10" href="/signup">
+                    {t("agentSignup.auth.createAccount")}
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+
+            {state.ok ? (
+              <div className="mt-6 rounded-2xl border border-status-positive/20 bg-status-positive-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("agentSignup.success.title")}
+                </p>
+                <ul className="mt-3 space-y-2 type-caption text-calm-ink-muted-80">
+                  <li>{t("agentSignup.success.adminApproval")}</li>
+                  <li>{t("agentSignup.success.buyerInvites")}</li>
+                </ul>
+              </div>
+            ) : null}
+
+            {state.error ? (
+              <div className="mt-6 rounded-2xl border border-status-negative/20 bg-status-negative-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("agentSignup.error.title")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {state.error}
+                </p>
+              </div>
+            ) : null}
+
             <div className="mt-7 grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
                 <FieldLabel htmlFor="agent-contact-email">
@@ -64,6 +131,7 @@ export function AgentSignupForm({
                   id="agent-contact-email"
                   name="contact_email"
                   placeholder={t("agentSignup.placeholder.contactEmail")}
+                  required
                   type="email"
                 />
               </div>
@@ -78,6 +146,7 @@ export function AgentSignupForm({
                   id="agent-contact-name"
                   name="contact_name"
                   placeholder={t("agentSignup.placeholder.contactName")}
+                  required
                   type="text"
                 />
               </div>
@@ -90,6 +159,7 @@ export function AgentSignupForm({
                   className="min-h-11 w-full rounded-xl border border-calm-hairline bg-white px-4 type-caption text-calm-ink outline-none transition focus:border-action-blue"
                   id="agent-market"
                   name="country_market"
+                  required
                 >
                   {marketOptions.map((key, index) => (
                     <option disabled={index === 0} key={key} value={index === 0 ? "" : t(key)}>
@@ -109,6 +179,7 @@ export function AgentSignupForm({
                   id="agent-organization"
                   name="organization_name"
                   placeholder={t("agentSignup.placeholder.organizationName")}
+                  required
                   type="text"
                 />
               </div>
@@ -122,6 +193,7 @@ export function AgentSignupForm({
                   id="agent-experience-summary"
                   name="experience_summary"
                   placeholder={t("agentSignup.placeholder.experienceSummary")}
+                  required
                 />
               </div>
 
@@ -134,6 +206,7 @@ export function AgentSignupForm({
                   id="agent-target-buyer-market"
                   name="target_buyer_market"
                   placeholder={t("agentSignup.placeholder.targetBuyerMarket")}
+                  required
                 />
               </div>
 
@@ -156,6 +229,7 @@ export function AgentSignupForm({
               <input
                 className="mt-1 size-4 rounded border-calm-hairline"
                 name="terms_agreed"
+                required
                 type="checkbox"
                 value="yes"
               />
@@ -163,14 +237,22 @@ export function AgentSignupForm({
             </label>
 
             <button
-              className="pill-primary mt-6 min-h-11 w-full cursor-not-allowed opacity-60"
-              disabled
-              type="button"
+              className={`pill-primary mt-6 min-h-11 w-full ${
+                isSubmitDisabled ? "cursor-not-allowed opacity-60" : ""
+              }`}
+              disabled={isSubmitDisabled}
+              type="submit"
             >
-              {t("agentSignup.submit.disabled")}
+              {isSubmitted
+                ? t("agentSignup.submit.submitted")
+                : isPending
+                  ? t("agentSignup.submit.pending")
+                  : t("agentSignup.submit.enabled")}
             </button>
             <p className="type-caption mt-3 text-center text-calm-ink-muted-48">
-              {t("agentSignup.submit.next")}
+              {isAuthenticated
+                ? t("agentSignup.submit.ready")
+                : t("agentSignup.submit.authRequired")}
             </p>
           </form>
 

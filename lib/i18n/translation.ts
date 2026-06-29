@@ -737,6 +737,12 @@ const dictionaries = {
     "signupStart.supplier.title": "Supplier Signup Start",
     "signupStart.tokenHidden":
       "If you arrived from an invitation, the token is carried forward but never displayed here.",
+    "agentSignup.auth.createAccount": "Create account",
+    "agentSignup.auth.requiredDescription":
+      "Agent application submission is available after sign-in. Create an account or sign in, then return to this page.",
+    "agentSignup.auth.requiredTitle": "Sign in or create an account first",
+    "agentSignup.auth.signIn": "Sign in",
+    "agentSignup.error.title": "Agent application could not be submitted",
     "agentSignup.field.contactEmail": "Contact email",
     "agentSignup.field.contactName": "Contact name",
     "agentSignup.field.experienceSummary": "Experience summary",
@@ -745,7 +751,7 @@ const dictionaries = {
     "agentSignup.field.targetBuyerMarket": "Target buyer market",
     "agentSignup.field.websiteOrProfile": "Website / profile URL",
     "agentSignup.form.description":
-      "Fill in the preparation fields now. Submission is intentionally disabled until the next task connects account and role application writes.",
+      "Fill in the preparation fields now. Signed-in users can submit an Agent role application for Admin review.",
     "agentSignup.form.eyebrow": "Agent application draft",
     "agentSignup.form.title": "Prepare Agent application details",
     "agentSignup.market.korea": "South Korea",
@@ -780,7 +786,17 @@ const dictionaries = {
       "No invitation token is present. This is a public Agent application preparation path.",
     "agentSignup.security.title": "Security boundary",
     "agentSignup.submit.disabled": "Submission disabled",
+    "agentSignup.submit.authRequired": "Sign in or create an account before submitting.",
+    "agentSignup.submit.enabled": "Submit Agent application",
     "agentSignup.submit.next": "Submission will be enabled next step.",
+    "agentSignup.submit.pending": "Submitting application",
+    "agentSignup.submit.ready":
+      "This writes only an Agent role application. Agent profile, market assignment, and Buyer invitation setup remain separate.",
+    "agentSignup.submit.submitted": "Application submitted",
+    "agentSignup.success.adminApproval": "Admin approval is required before Agent activation.",
+    "agentSignup.success.buyerInvites":
+      "Buyer invitation links and QR will open only after approval.",
+    "agentSignup.success.title": "Agent application submitted",
     "agentSignup.terms":
       "I understand Agent activation, Buyer invitation generation, and subordinate Buyer access require administrator approval and platform permission checks.",
     "supplierSignup.category.beauty": "Beauty and personal care",
