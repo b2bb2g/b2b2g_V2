@@ -1341,6 +1341,32 @@ const dictionaries = {
     "admin.invitations.field.professorId": "Professor ID",
     "admin.invitations.field.targetRole": "대상 역할",
     "admin.invitations.field.usage": "사용량",
+    "admin.invitations.guide.agent_admin_invite.description":
+      "Agent 초대입니다. parent 관계는 필요하지 않습니다. 승인 정책은 별도 Role Application/Admin Approval 흐름을 따릅니다.",
+    "admin.invitations.guide.agent_admin_invite.title": "Agent Admin Invitation",
+    "admin.invitations.guide.badge": "생성 가이드",
+    "admin.invitations.guide.buyer_agent_invite.description":
+      "Agent가 하부 Buyer를 초대하는 경로입니다. parentRoleKey는 agent여야 하며 parentAccountId와 agentId가 필요합니다.",
+    "admin.invitations.guide.buyer_agent_invite.title": "Buyer Agent Invitation",
+    "admin.invitations.guide.missingPrefix": "필수값이 비어 있습니다:",
+    "admin.invitations.guide.noParentRequired": "parent/context 필드 불필요",
+    "admin.invitations.guide.professor_admin_invite.description":
+      "Professor 초대입니다. parent 관계는 필요하지 않습니다. Student 초대 링크 발급은 별도 단계입니다.",
+    "admin.invitations.guide.professor_admin_invite.title": "Professor Admin Invitation",
+    "admin.invitations.guide.publicTypesHidden":
+      "Public signup/application 타입은 이 폼에서 생성하지 않습니다.",
+    "admin.invitations.guide.publicTypesHiddenDescription":
+      "supplier_public_signup, agent_public_application, buyer_direct_signup, professor_public_application은 공개 신청/가입 흐름 전용이며 별도 RLS와 signup route 설계 후 연결합니다.",
+    "admin.invitations.guide.requiredFields": "필수 parent/context 값",
+    "admin.invitations.guide.student_professor_invite.description":
+      "Professor가 하부 Student를 초대하는 경로입니다. parentRoleKey는 professor여야 하며 parentAccountId와 professorId가 필요합니다.",
+    "admin.invitations.guide.student_professor_invite.title":
+      "Student Professor Invitation",
+    "admin.invitations.guide.supplier_admin_invite.description":
+      "Supplier 초대입니다. parent 관계는 필요하지 않습니다. 초대 가입 후에도 Admin Approval과 Company/Product Approval은 별도입니다.",
+    "admin.invitations.guide.supplier_admin_invite.title": "Supplier Admin Invitation",
+    "admin.invitations.guide.uuidManual":
+      "현재는 UUID 직접 입력 방식입니다. 다음 단계에서 Agent/Professor/Company 검색 선택 UI로 개선 예정입니다.",
     "admin.invitations.list.description":
       "공개 수락 경로는 아직 연결하지 않았습니다. 관리자 생성/조회/폐기만 처리합니다.",
     "admin.invitations.list.title": "초대 목록",

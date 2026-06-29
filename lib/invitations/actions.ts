@@ -14,6 +14,14 @@ import {
 import { getInvitationByTokenHash } from "./queries";
 import { INVITATION_TYPES, type InvitationType } from "./types";
 
+const ADMIN_CREATABLE_INVITATION_TYPES = [
+  "supplier_admin_invite",
+  "agent_admin_invite",
+  "buyer_agent_invite",
+  "professor_admin_invite",
+  "student_professor_invite",
+] as const satisfies readonly InvitationType[];
+
 export type CreateAdminInvitationInput = {
   agentId?: string | null;
   baseUrl?: string | null;
@@ -198,6 +206,44 @@ function assertSupportedInvitationType(invitationType: string): InvitationType {
   return invitationType as InvitationType;
 }
 
+function assertAdminCreatableInvitationType(invitationType: string): InvitationType {
+  const supportedInvitationType = assertSupportedInvitationType(invitationType);
+
+  if (!(ADMIN_CREATABLE_INVITATION_TYPES as readonly string[]).includes(supportedInvitationType)) {
+    throw new Error("Invitation type is not allowed in the Admin create form");
+  }
+
+  return supportedInvitationType;
+}
+
+function assertAdminInvitationContext(
+  input: CreateAdminInvitationInput,
+  invitationType: InvitationType,
+  parentRoleKey: string | null,
+): void {
+  if (invitationType === "buyer_agent_invite") {
+    if (parentRoleKey !== "agent") {
+      throw new Error("Buyer agent invitation requires parent role agent");
+    }
+
+    if (!input.parentAccountId || !input.agentId) {
+      throw new Error("Buyer agent invitation requires parent account id and agent id");
+    }
+  }
+
+  if (invitationType === "student_professor_invite") {
+    if (parentRoleKey !== "professor") {
+      throw new Error("Student professor invitation requires parent role professor");
+    }
+
+    if (!input.parentAccountId || !input.professorId) {
+      throw new Error(
+        "Student professor invitation requires parent account id and professor id",
+      );
+    }
+  }
+}
+
 async function cancelPartialInvitationCreate(
   invitationId: string,
   supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
@@ -220,6 +266,13 @@ function buildInvitationUrl(baseUrl: string | null | undefined, token: string): 
 
   if (!trimmedBaseUrl) {
     return null;
+  }
+
+  if (trimmedBaseUrl.startsWith("/")) {
+    const url = new URL(trimmedBaseUrl, "https://b2bb2g.local");
+    url.searchParams.set("invitation_token", token);
+
+    return `${url.pathname}${url.search}${url.hash}`;
   }
 
   const url = new URL(trimmedBaseUrl);
@@ -269,12 +322,15 @@ export async function createAdminInvitation(
 ): Promise<CreateAdminInvitationResult> {
   try {
     const adminUser = await requireAdminRoute();
-    const invitationType = assertSupportedInvitationType(input.invitationType);
+    const invitationType = assertAdminCreatableInvitationType(input.invitationType);
     const targetRoleKey = normalizeRoleKey(input.targetRoleKey);
+    const parentRoleKey = input.parentRoleKey?.trim().toLowerCase() || null;
 
     if (!targetRoleKey) {
       throw new Error("Invalid target role key");
     }
+
+    assertAdminInvitationContext(input, invitationType, parentRoleKey);
 
     const token = generateInvitationToken();
     const tokenInsertPayload = buildInvitationTokenInsertPayload(token, invitationType);
@@ -295,7 +351,7 @@ export async function createAdminInvitation(
         inviter_account_id: adminUser.id,
         max_uses: normalizeMaxUses(input.maxUses),
         parent_account_id: optionalUuid(input.parentAccountId, "parent account id"),
-        parent_role_key: input.parentRoleKey?.trim().toLowerCase() || null,
+        parent_role_key: parentRoleKey,
         professor_id: optionalUuid(input.professorId, "professor id"),
         status: "active",
         target_role_key: targetRoleKey,
@@ -389,7 +445,7 @@ export async function createAdminInvitationFormAction(
       baseUrl: optionalFormString(formData, "baseUrl"),
       companyId: optionalFormString(formData, "companyId"),
       expiresAt: normalizeFormExpiresAt(optionalFormString(formData, "expiresAt")),
-      invitationType: assertSupportedInvitationType(
+      invitationType: assertAdminCreatableInvitationType(
         requiredFormString(formData, "invitationType"),
       ),
       invitedEmail: optionalFormString(formData, "invitedEmail"),
