@@ -3032,6 +3032,16 @@ export type Database = {
         Args: { target_student_id: string };
         Returns: boolean;
       };
+      validate_invitation_public: {
+        Args: { token_hash: string };
+        Returns: {
+          invited_email_required: boolean;
+          invitation_type: string | null;
+          is_valid: boolean;
+          status: string;
+          target_role_key: string | null;
+        }[];
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

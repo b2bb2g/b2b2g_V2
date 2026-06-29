@@ -1,5 +1,8 @@
 import Link from "next/link";
-import type { PublicInvitationValidationResult } from "@/lib/invitations/actions";
+import type {
+  InvitationType,
+  PublicInvitationValidationResult,
+} from "@/lib/invitations/types";
 import { t } from "@/lib/i18n/translation";
 
 type InvitationAcceptCardProps = {
@@ -10,25 +13,61 @@ const onboardingNotes = [
   {
     bodyKey: "invitation.accept.supplierDescription",
     titleKey: "invitation.accept.supplierTitle",
+    types: ["supplier_admin_invite", "supplier_public_signup"],
   },
   {
     bodyKey: "invitation.accept.buyerDescription",
     titleKey: "invitation.accept.buyerTitle",
+    types: ["buyer_agent_invite", "buyer_direct_signup"],
   },
   {
     bodyKey: "invitation.accept.studentDescription",
     titleKey: "invitation.accept.studentTitle",
+    types: ["student_professor_invite"],
   },
   {
     bodyKey: "invitation.accept.agentProfessorDescription",
     titleKey: "invitation.accept.agentProfessorTitle",
+    types: [
+      "agent_admin_invite",
+      "agent_public_application",
+      "professor_admin_invite",
+      "professor_public_application",
+    ],
   },
 ] as const;
+
+function getStatusDescriptionKey(validation: PublicInvitationValidationResult): string {
+  if (validation.ok) {
+    return "invitation.accept.validDescription";
+  }
+
+  if (validation.status === "expired") {
+    return "invitation.accept.expiredDescription";
+  }
+
+  if (validation.status === "unavailable") {
+    return "invitation.accept.validationUnavailableDescription";
+  }
+
+  return "invitation.accept.unavailableDescription";
+}
+
+function getMatchingNotes(invitationType: InvitationType | null) {
+  if (!invitationType) {
+    return onboardingNotes;
+  }
+
+  return onboardingNotes.filter((note) =>
+    (note.types as readonly InvitationType[]).includes(invitationType),
+  );
+}
 
 export function InvitationAcceptCard({
   validation,
 }: Readonly<InvitationAcceptCardProps>) {
-  const isReceived = validation.ok && validation.status === "received";
+  const isValid = validation.ok && validation.status === "valid";
+  const matchingNotes = getMatchingNotes(validation.invitationType);
 
   return (
     <main className="bg-canvas">
@@ -50,23 +89,45 @@ export function InvitationAcceptCard({
                 {t("invitation.accept.eyebrow")}
               </p>
               <h1 className="type-display-md mt-4 text-calm-ink">
-                {isReceived
-                  ? t("invitation.accept.receivedTitle")
+                {isValid
+                  ? t("invitation.accept.validTitle")
                   : t("invitation.accept.unavailableTitle")}
               </h1>
               <p className="type-body mt-4 max-w-2xl text-calm-ink-muted-80">
-                {isReceived
-                  ? t("invitation.accept.receivedDescription")
-                  : t("invitation.accept.unavailableDescription")}
+                {t(getStatusDescriptionKey(validation))}
               </p>
 
               <div className="mt-8 rounded-xl border border-calm-hairline bg-canvas-parchment p-4">
                 <h2 className="type-body-strong text-calm-ink">
-                  {t("invitation.accept.validationPendingTitle")}
+                  {validation.validationAvailable
+                    ? t("invitation.accept.validationCompleteTitle")
+                    : t("invitation.accept.validationPendingTitle")}
                 </h2>
                 <p className="type-caption mt-2 text-calm-ink-muted-80">
-                  {t("invitation.accept.validationPendingDescription")}
+                  {validation.validationAvailable
+                    ? t("invitation.accept.validationCompleteDescription")
+                    : t("invitation.accept.validationPendingDescription")}
                 </p>
+                {validation.ok ? (
+                  <dl className="mt-4 grid gap-3 rounded-xl border border-calm-hairline bg-white p-4 type-caption text-calm-ink-muted-80 sm:grid-cols-2">
+                    <div>
+                      <dt className="font-semibold text-calm-ink">
+                        {t("invitation.accept.field.role")}
+                      </dt>
+                      <dd className="mt-1">{validation.targetRoleKey}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-calm-ink">
+                        {t("invitation.accept.field.emailMatch")}
+                      </dt>
+                      <dd className="mt-1">
+                        {validation.invitedEmailMatchRequired
+                          ? t("invitation.accept.emailMatch.required")
+                          : t("invitation.accept.emailMatch.notRequired")}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : null}
                 <p className="type-caption mt-3 text-calm-ink-muted-80">
                   {t("invitation.accept.securityNote")}
                 </p>
@@ -103,7 +164,7 @@ export function InvitationAcceptCard({
 
       <section className="bg-canvas py-14">
         <div className="mx-auto grid max-w-[1040px] gap-4 px-5 sm:px-8 md:grid-cols-2 lg:px-10">
-          {onboardingNotes.map((note) => (
+          {matchingNotes.map((note) => (
             <article
               className="rounded-2xl border border-calm-hairline bg-white p-5"
               key={note.titleKey}

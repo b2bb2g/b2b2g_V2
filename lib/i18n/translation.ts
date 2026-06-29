@@ -512,6 +512,12 @@ const dictionaries = {
       "Buyer invites will be linked to an Agent after the acceptance workflow is connected.",
     "invitation.accept.buyerTitle": "Buyer onboarding",
     "invitation.accept.eyebrow": "Invitation link",
+    "invitation.accept.emailMatch.notRequired": "Not required by this token",
+    "invitation.accept.emailMatch.required": "Required",
+    "invitation.accept.expiredDescription":
+      "This invitation token is expired. Please ask the sender for a new invitation link.",
+    "invitation.accept.field.emailMatch": "Email match",
+    "invitation.accept.field.role": "Target role",
     "invitation.accept.metaDescription":
       "Review a B2BB2G invitation link before signup or sign-in.",
     "invitation.accept.receivedDescription":
@@ -536,9 +542,17 @@ const dictionaries = {
     "invitation.accept.unavailableDescription":
       "This invitation link is missing or cannot be checked.",
     "invitation.accept.unavailableTitle": "Invitation unavailable",
+    "invitation.accept.validDescription":
+      "This invitation token is valid. Signup is still paused until the next onboarding workflow is connected.",
+    "invitation.accept.validTitle": "Invitation verified",
+    "invitation.accept.validationCompleteDescription":
+      "The token was checked through the public-safe validation RPC. No PII, token hash, or internal ids were returned.",
+    "invitation.accept.validationCompleteTitle": "Validation complete",
     "invitation.accept.validationPendingDescription":
-      "The Invitation tables currently allow Admin-only RLS. Public validation and redemption will be connected after a reviewed RLS migration.",
+      "The public validation RPC is not available yet. The page keeps signup and redemption disabled until the reviewed migration is applied.",
     "invitation.accept.validationPendingTitle": "Validation pending",
+    "invitation.accept.validationUnavailableDescription":
+      "We received the token, but public validation is not available yet. Signup remains disabled until the reviewed RPC migration is applied.",
     "company.backToSuppliers": "Explore Korean Suppliers",
     "company.catalogDownloads": "Catalog downloads",
     "company.certificates": "Certificates",

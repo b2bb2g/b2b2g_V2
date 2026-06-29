@@ -12,7 +12,12 @@ import {
   hashInvitationToken,
 } from "./token";
 import { getInvitationByTokenHash } from "./queries";
-import { INVITATION_TYPES, type InvitationType } from "./types";
+import {
+  INVITATION_TYPES,
+  type InvitationType,
+  type PublicInvitationRpcResult,
+  type PublicInvitationValidationResult,
+} from "./types";
 
 const ADMIN_CREATABLE_INVITATION_TYPES = [
   "supplier_admin_invite",
@@ -85,28 +90,6 @@ export type AcceptInvitationTokenResult =
   | {
       error: string;
       ok: false;
-    };
-
-export type PublicInvitationValidationResult =
-  | {
-      error: "invalid_token" | "missing_token";
-      hasToken: false;
-      invitedEmailMatchRequired: false;
-      invitationType: null;
-      ok: false;
-      status: "invalid";
-      targetRoleKey: null;
-      validationAvailable: false;
-    }
-  | {
-      error: null;
-      hasToken: true;
-      invitedEmailMatchRequired: null;
-      invitationType: null;
-      ok: true;
-      status: "received";
-      targetRoleKey: null;
-      validationAvailable: false;
     };
 
 export type AdminInvitationCreateFormState =
@@ -226,6 +209,10 @@ function assertSupportedInvitationType(invitationType: string): InvitationType {
   }
 
   return invitationType as InvitationType;
+}
+
+function isSupportedInvitationType(value: string | null): value is InvitationType {
+  return value !== null && INVITATION_TYPES.includes(value as InvitationType);
 }
 
 function assertAdminCreatableInvitationType(invitationType: string): InvitationType {
@@ -543,24 +530,59 @@ export async function validateInvitationTokenForPublic(
   }
 
   try {
-    // Public RLS for invitation lookup is intentionally deferred. Hashing here
-    // confirms the token can be processed without exposing or logging raw input.
-    hashInvitationToken(token);
+    const tokenHash = hashInvitationToken(token);
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase.rpc("validate_invitation_public", {
+      token_hash: tokenHash,
+    });
+
+    if (error) {
+      return {
+        error: "validation_unavailable",
+        hasToken: true,
+        invitedEmailMatchRequired: false,
+        invitationType: null,
+        ok: false,
+        status: "unavailable",
+        targetRoleKey: null,
+        validationAvailable: false,
+      };
+    }
+
+    const result = (data?.[0] ?? null) as PublicInvitationRpcResult | null;
+
+    if (
+      !result?.is_valid ||
+      result.status !== "valid" ||
+      !isSupportedInvitationType(result.invitation_type) ||
+      !result.target_role_key
+    ) {
+      return {
+        error: result?.status === "expired" ? "expired_token" : "invalid_token",
+        hasToken: true,
+        invitedEmailMatchRequired: false,
+        invitationType: null,
+        ok: false,
+        status: result?.status === "expired" ? "expired" : "invalid",
+        targetRoleKey: null,
+        validationAvailable: true,
+      };
+    }
 
     return {
       error: null,
       hasToken: true,
-      invitedEmailMatchRequired: null,
-      invitationType: null,
+      invitedEmailMatchRequired: result.invited_email_required,
+      invitationType: result.invitation_type,
       ok: true,
-      status: "received",
-      targetRoleKey: null,
-      validationAvailable: false,
+      status: "valid",
+      targetRoleKey: result.target_role_key,
+      validationAvailable: true,
     };
   } catch {
     return {
       error: "invalid_token",
-      hasToken: false,
+      hasToken: true,
       invitedEmailMatchRequired: false,
       invitationType: null,
       ok: false,

@@ -117,3 +117,37 @@ export type InvitationParentSelectorOptions = {
   agents: InvitationAgentParentOption[];
   professors: InvitationProfessorParentOption[];
 };
+
+export type PublicInvitationRpcResult = {
+  invited_email_required: boolean;
+  invitation_type: InvitationType | null;
+  is_valid: boolean;
+  status: "expired" | "invalid" | "valid" | string;
+  target_role_key: string | null;
+};
+
+export type PublicInvitationValidationResult =
+  | {
+      error:
+        | "expired_token"
+        | "invalid_token"
+        | "missing_token"
+        | "validation_unavailable";
+      hasToken: boolean;
+      invitedEmailMatchRequired: false;
+      invitationType: null;
+      ok: false;
+      status: "expired" | "invalid" | "unavailable";
+      targetRoleKey: null;
+      validationAvailable: boolean;
+    }
+  | {
+      error: null;
+      hasToken: true;
+      invitedEmailMatchRequired: boolean;
+      invitationType: InvitationType;
+      ok: true;
+      status: "valid";
+      targetRoleKey: string;
+      validationAvailable: true;
+    };
