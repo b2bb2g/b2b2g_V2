@@ -28,6 +28,8 @@ export type MarketplaceHomeProduct = {
 export type MarketplaceHomeRequest = {
   badge: string;
   id: string;
+  imageAlt?: string;
+  imageUrl?: string;
   quantity: string;
   spec: string;
   title: string;
@@ -158,7 +160,7 @@ function SectionTitle({
 
 function ProductCard({ item, priority = false }: Readonly<{ item: MarketplaceHomeProduct; priority?: boolean }>) {
   return (
-    <article className="flex min-h-[500px] flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_42px_rgb(15_23_42/0.06)] transition hover:-translate-y-1 hover:shadow-[0_26px_70px_rgb(15_23_42/0.10)]">
+    <article className="flex h-full min-h-[520px] flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_42px_rgb(15_23_42/0.06)] transition hover:-translate-y-1 hover:shadow-[0_26px_70px_rgb(15_23_42/0.10)]">
       <div className="relative aspect-square w-full bg-[#f1f6ff]">
         <Image
           alt={item.imageAlt}
@@ -179,22 +181,22 @@ function ProductCard({ item, priority = false }: Readonly<{ item: MarketplaceHom
           <span aria-hidden="true">♡</span>
         </button>
       </div>
-      <div className="flex min-h-[260px] flex-1 flex-col p-5">
+      <div className="flex min-h-[244px] flex-1 flex-col p-5">
         <div className="flex min-h-7 items-center justify-between gap-2 text-sm font-semibold text-slate-500">
-          <span>{item.supplierName}</span>
+          <span className="min-w-0 truncate">{item.supplierName}</span>
           {item.isVerifiedSupplier ? (
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0066cc]">
+            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#0066cc]">
               <ShieldCheckIcon className="h-3.5 w-3.5" aria-hidden="true" />
               Verified
             </span>
           ) : null}
         </div>
-        <h3 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em] text-slate-950">
+        <h3 className="mt-3 line-clamp-2 min-h-[56px] text-xl font-semibold leading-tight tracking-[-0.02em] text-slate-950">
           {item.title}
         </h3>
-        <p className="mt-3 min-h-[66px] text-[15px] leading-6 text-slate-600">{item.description}</p>
+        <p className="mt-3 line-clamp-3 min-h-[72px] text-[15px] leading-6 text-slate-600">{item.description}</p>
         <Link
-          className="mt-auto inline-flex h-11 items-center justify-center rounded-full bg-[#0071e3] px-5 text-sm font-semibold text-white shadow-[0_14px_28px_rgb(0_113_227/0.20)]"
+          className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-full bg-[#0071e3] px-5 text-sm font-semibold text-white shadow-[0_14px_28px_rgb(0_113_227/0.20)]"
           href={item.href}
         >
           {item.ctaLabel}
@@ -206,17 +208,22 @@ function ProductCard({ item, priority = false }: Readonly<{ item: MarketplaceHom
 
 function BuyerRequests({ items }: Readonly<{ items: MarketplaceHomeRequest[] }>) {
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
+    <section className="h-full rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
       <SectionTitle
         subtitle="Buyer identity is protected and company details remain masked."
         title="Buyer product requests"
       />
       <div className="grid gap-3">
-        {items.map((item) => (
-          <article className="grid min-h-[82px] grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-slate-100 py-4 last:border-0" key={item.id}>
+        {items.slice(0, 3).map((item) => (
+          <article className="grid min-h-[108px] grid-cols-[72px_minmax(0,1fr)_auto] gap-4 border-b border-slate-100 py-4 last:border-0" key={item.id}>
+            <div className="relative overflow-hidden rounded-2xl bg-[#eef5ff]">
+              {item.imageUrl ? (
+                <Image alt={item.imageAlt ?? item.title} className="object-cover" fill sizes="72px" src={item.imageUrl} />
+              ) : null}
+            </div>
             <div>
-              <h3 className="text-base font-semibold text-slate-950">{item.title}</h3>
-              <p className="mt-1 text-sm leading-5 text-slate-600">{item.spec}</p>
+              <h3 className="line-clamp-1 text-base font-semibold text-slate-950">{item.title}</h3>
+              <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{item.spec}</p>
               <span className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
                 {item.quantity}
               </span>
@@ -233,7 +240,7 @@ function BuyerRequests({ items }: Readonly<{ items: MarketplaceHomeRequest[] }>)
 
 function EventSchedule({ items }: Readonly<{ items: MarketplaceHomeEvent[] }>) {
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
+    <section className="h-full rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
       <SectionTitle subtitle="Curated trade events and marketplace programs." title="Event schedule" />
       <div className="grid gap-4">
         {items.slice(0, 3).map((item) => (
@@ -279,7 +286,7 @@ function AdvertisingRow({ items }: Readonly<{ items: MarketplaceHomeConfig["adBa
 
 function Showcase({ items }: Readonly<{ items: MarketplaceHomeShowcase[] }>) {
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
+    <section className="h-full rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
       <SectionTitle
         eyebrow="Innovation gallery"
         subtitle="Image-led product and project cards prepared for global exposure."
@@ -305,11 +312,11 @@ function Showcase({ items }: Readonly<{ items: MarketplaceHomeShowcase[] }>) {
 
 function VerifiedBuyers({ items }: Readonly<{ items: MarketplaceHomeBuyer[] }>) {
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
+    <section className="h-full rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.06)]">
       <SectionTitle subtitle="Masked buyer profiles for protected marketplace demand." title="Verified buyers" />
       <div className="grid gap-3">
-        {items.map((item) => (
-          <article className="grid grid-cols-[44px_minmax(0,1fr)_24px] items-center gap-3 border-b border-slate-100 py-3 last:border-0" key={item.id}>
+        {items.slice(0, 4).map((item) => (
+          <article className="grid min-h-[76px] grid-cols-[44px_minmax(0,1fr)_24px] items-center gap-3 border-b border-slate-100 py-3 last:border-0" key={item.id}>
             <span className="grid h-11 w-11 place-items-center rounded-full bg-[#eaf4ff] text-sm font-bold text-[#0066cc]">
               {item.avatarLabel}
             </span>
@@ -419,16 +426,11 @@ function Footer() {
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
     <div className="bg-[linear-gradient(180deg,#f6fbff_0%,#ffffff_32%,#f6f8fb_100%)]">
-      <div className="mx-auto grid max-w-[1320px] gap-8 px-5 pb-16 pt-7 sm:px-8 lg:px-10">
+      <div className="mx-auto grid max-w-[1320px] gap-8 px-5 pb-16 pt-8 sm:px-8 lg:px-10">
         <section>
-          <SectionTitle
-            action={{ href: "/suppliers", isEnabled: false, label: "View all suppliers" }}
-            eyebrow="Premium marketplace"
-            subtitle="High-visibility supplier placements with protected inquiry flow."
-            title="Premium Suppliers' Products"
-          />
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-            {config.premiumProducts.map((item, index) => (
+          <h1 className="sr-only">Premium Suppliers&apos; Products</h1>
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {config.premiumProducts.slice(0, 4).map((item, index) => (
               <ProductCard item={item} key={item.id} priority={index < 2} />
             ))}
           </div>
@@ -449,8 +451,8 @@ export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeCo
             subtitle="Fresh product listings prepared for brokered global inquiries."
             title="Latest Products"
           />
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-            {config.latestProducts.map((item) => (
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {config.latestProducts.slice(0, 8).map((item) => (
               <ProductCard item={item} key={item.id} />
             ))}
           </div>

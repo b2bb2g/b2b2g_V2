@@ -802,6 +802,8 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "RFQ",
       id: "home-request-stainless-steel-sheet",
+      imageAlt: "Stainless steel sheet industrial material",
+      imageUrl: warehouseImage,
       quantity: "Quantity: 24 tons",
       spec: "Grade 304, thickness 2 mm",
       title: "Stainless Steel Sheet",
@@ -809,6 +811,8 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "RFQ",
       id: "home-request-hydraulic-cylinder",
+      imageAlt: "Hydraulic cylinder machinery component",
+      imageUrl: industrialPumpImage,
       quantity: "Quantity: 300 units",
       spec: "Bore 100 mm, stroke 500 mm",
       title: "Hydraulic Cylinder",
@@ -816,6 +820,8 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "RFQ",
       id: "home-request-led-high-bay",
+      imageAlt: "Industrial LED lighting system",
+      imageUrl: electronicsImage,
       quantity: "Quantity: 1,200 units",
       spec: "Industrial high bay lighting",
       title: "LED Lighting System",
