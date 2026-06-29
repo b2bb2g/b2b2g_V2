@@ -77,6 +77,7 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/14-sprint-2-invitation-migration-review.md`
 - `docs/09-sprints/15-sprint-2-signup-workflow.md`
 - `docs/09-sprints/16-sprint-2-012-apply-result.md`
+- `docs/09-sprints/17-sprint-2-013-invitation-admin-rls-review.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
@@ -94,13 +95,14 @@ These documents are treated as high-priority Source of Truth and should not be c
 | P1 High | Conversation audit is still required before communication migration. | Required before `004_conversation_compatibility.sql` classification/backfill and before full Communication RLS enforcement. |
 | P1 High | Buyer PII projection must remain protected. | `buyer_masked_profiles` remains the target Supplier-safe projection; Supplier-facing queries must not expose Buyer email/phone/contact person. |
 | P1 High | RLS helper scope must be reviewed before policy SQL. | `009_rls_helpers.sql` and `010_rls_policies.sql` remain blocked until helper scope, fixed `search_path`, and tests are reviewed. |
+| P1 High | Invitation Admin query/action remains blocked in production until `013_invitation_admin_rls.sql` is applied and verified. | 013 is authored as Admin-only RLS; production apply requires backup confirmation and `public.is_admin()` verification. |
 | P2 Medium | 002 uses compatibility `role_key` text while ERD final model expects role authority alignment. | Sprint 1 froze this as a known limitation; final role authority alignment remains migration/backfill backlog. |
 
 ## Current Priority
 
-1. Supplier public signup connection after token/action skeleton
-2. Admin invitation flow after RLS/query/action review
-3. Invitation RLS policy design before user-facing access
+1. Apply and verify `013_invitation_admin_rls.sql` before Admin Invitation UI
+2. Supplier public signup connection after user-facing Invitation RLS design
+3. Admin invitation flow after 013 production apply
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -147,8 +149,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - `012_invitation_core.sql` is applied to production. It creates/verifies `invitations`, `invitation_tokens`, and `invitation_redemptions` additively, keeps raw token storage out of schema, and defers RLS policies/helpers/backfill.
 - Sprint 2 Signup Workflow is documented. Supplier signup/invitation/approval, Agent application/invitation, Buyer invitation/direct signup, Professor invitation, and Student invitation now have workflow contracts before UI/signup route work.
 - Invitation query/action skeleton is implemented under `lib/invitations/`. It is server-only/admin-only, stores only `token_hash`, returns raw token only to the issuing admin action, and does not connect UI, public routes, role applications, account roles, or organization bindings yet.
+- `013_invitation_admin_rls.sql` is authored but not applied to production. It adds Admin-only select/insert/update policies for Invitation tables using the existing `public.is_admin()` helper and keeps public/user-facing access blocked. `createAdminInvitation` now cancels and soft-deletes a just-created invitation if token insertion fails.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Implement Supplier public signup flow only after Invitation RLS/user-facing access design is reviewed.
+Apply and verify `013_invitation_admin_rls.sql` before connecting the Admin Invitation UI. Keep public signup and public token acceptance blocked until a separate user-facing RLS design is reviewed.

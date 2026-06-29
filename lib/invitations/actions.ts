@@ -136,6 +136,23 @@ function assertSupportedInvitationType(invitationType: string): InvitationType {
   return invitationType as InvitationType;
 }
 
+async function cancelPartialInvitationCreate(
+  invitationId: string,
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+): Promise<string | null> {
+  const cancelledAt = new Date().toISOString();
+  const { error } = await supabase
+    .from("invitations")
+    .update({
+      deleted_at: cancelledAt,
+      status: "cancelled",
+    })
+    .eq("id", invitationId)
+    .is("deleted_at", null);
+
+  return error?.message ?? null;
+}
+
 function buildInvitationUrl(baseUrl: string | null | undefined, token: string): string | null {
   const trimmedBaseUrl = baseUrl?.trim();
 
@@ -235,7 +252,15 @@ export async function createAdminInvitation(
     });
 
     if (tokenError) {
-      throw new Error(tokenError.message);
+      const cleanupError = await cancelPartialInvitationCreate(invitation.id, supabase);
+
+      if (cleanupError) {
+        throw new Error(
+          `Invitation token creation failed and partial invitation cleanup failed: ${cleanupError}`,
+        );
+      }
+
+      throw new Error("Invitation token creation failed; partial invitation was cancelled");
     }
 
     // TODO(Sprint 2): write audit event after invitation audit contract is finalized.
