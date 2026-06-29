@@ -71,11 +71,11 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/08-sprint-2-organization-implementation-plan.md`
 - `docs/09-sprints/09-sprint-2-invitation-priority-adjustment.md`
 - `docs/09-sprints/11-sprint-2-invitation-engine-plan.md`
+- `docs/09-sprints/12-sprint-2-invitation-repository-audit.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- Sprint 2 Invitation Engine repository audit
 - Sprint 2 Invitation Engine migration spec
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
@@ -94,9 +94,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 2 Invitation Engine repository audit
-2. Sprint 2 Invitation Engine migration spec
-3. Invitation types/helpers before signup route work
+1. Sprint 2 Invitation Engine migration spec
+2. Invitation token helper and types after migration spec
+3. Invitation query/action contract before signup route work
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -137,8 +137,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 implementation plan is complete. Task 03 should start with local Organization types/helpers and must not query missing relation tables before migration readiness.
 - Sprint 2 priority changed: Invitation Engine policy alignment must happen before Organization query/action expansion. Supplier supports both Admin Invitation and Public Self Signup, but always requires Admin Approval and never receives Buyer PII.
 - Sprint 2 Invitation Engine plan is complete. Supplier, Agent, Buyer, Professor, and Student signup paths are now organized into invitation types, feature flag impacts, security rules, and MVP task order.
+- Sprint 2 Invitation repository audit is complete. Existing global signup, Buyer referral, and member referral flows are classified; `member_referral_codes` is legacy invite-like infrastructure, while final Agent-Buyer/Professor-Student authority must move to Invitation plus relation candidate design.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create Sprint 2 Invitation Engine repository audit before writing invitation migration, query/action code, signup routes, or Organization query expansion.
+Create Sprint 2 Invitation Engine migration spec before writing invitation SQL, token helpers, query/action code, signup routes, or Organization query expansion.
