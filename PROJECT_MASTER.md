@@ -15,8 +15,8 @@ B2BB2G V2는 한국 기업의 제품, 산업설비, EPC 프로젝트, BUY & SELL
 - Current Phase: Engine Sprint Implementation
 - PDCA primary feature: `b2bb2g-mvp`
 - Current PDCA phase: `act`
-- Current Sprint: Sprint 1 Identity Engine — Frozen with Known Limitations
-- Next Sprint: Sprint 2 Organization Engine
+- Current Sprint: Sprint 2 Organization Engine
+- Previous Sprint: Sprint 1 Identity Engine — Frozen with Known Limitations
 - Current implementation mode: Engine-by-Engine sprint execution
 
 ## Current GitHub Branch
@@ -67,11 +67,12 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/01-engine-sprint-plan.md`
 - `docs/09-sprints/02-sprint-1-identity-engine.md`
 - `docs/09-sprints/06-sprint-1-identity-review-and-freeze.md`
+- `docs/09-sprints/07-sprint-2-organization-repository-audit.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- Sprint 2 Organization Engine plan/repository audit
+- Sprint 2 Organization Engine implementation plan
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
 - RLS helper scope review before policy SQL
@@ -89,10 +90,10 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 2 Organization Engine scope/repository audit
-2. Organization relationship Source of Truth review
-3. Existing organization/company/member relation code classification
-4. Organization query/action boundary design
+1. Sprint 2 Organization Engine implementation plan
+2. Organization Type update boundary
+3. Organization query/action boundary design
+4. Company member, Agent-Buyer, and Professor-Student compatibility strategy
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
 ## Engine Sprint Rule
@@ -128,8 +129,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 
 - Sprint 1 Identity Engine is frozen with known limitations.
 - Implemented baseline: 002 role compatibility migration, `account_roles` / `role_applications` types, account-role-first legacy fallback, role application request/cancel, admin approve/reject, minimal admin UI, and pure helper tests.
+- Sprint 2 Organization Engine has started with repository audit only. Existing Organization relations currently depend on `suppliers.company_id`, `country_agents`, and `students.professor_id`; target relation tables remain `company_members`, `agent_buyers`, and `professor_students`.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create Sprint 2 Organization Engine plan/repository audit before modifying Organization Engine code.
+Create `docs/09-sprints/08-sprint-2-organization-implementation-plan.md` before modifying Organization Engine code.
