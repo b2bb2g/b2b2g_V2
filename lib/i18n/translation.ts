@@ -714,6 +714,46 @@ const dictionaries = {
     "signupStart.student.prepare.program":
       "Prepare program or class context if requested.",
     "signupStart.student.title": "Student Signup Start",
+    "studentSignup.field.contactEmail": "Contact email",
+    "studentSignup.field.departmentMajor": "Department / Major",
+    "studentSignup.field.programCourse": "Program or course",
+    "studentSignup.field.showcaseSummary": "Portfolio / showcase summary",
+    "studentSignup.field.studentName": "Student name",
+    "studentSignup.field.university": "University",
+    "studentSignup.form.description":
+      "Prepare Student onboarding details from a Professor invitation. Public Student self signup is unavailable.",
+    "studentSignup.form.eyebrow": "Student invitation draft",
+    "studentSignup.form.title": "Prepare Student onboarding details",
+    "studentSignup.placeholder.contactEmail": "student@example.edu",
+    "studentSignup.placeholder.departmentMajor": "International trade, business, design, engineering, or related major",
+    "studentSignup.placeholder.programCourse": "Course, class, program, or professor-led activity",
+    "studentSignup.placeholder.showcaseSummary":
+      "Briefly describe your portfolio, product showcase interest, market research interest, or trade activity goals.",
+    "studentSignup.placeholder.studentName": "Student full name",
+    "studentSignup.placeholder.university": "University or institution name",
+    "studentSignup.policy.noDirectProduct":
+      "Student cannot register products directly; showcases use approved Supplier products later.",
+    "studentSignup.policy.professorInvitation":
+      "Student onboarding requires a Professor invitation link or QR.",
+    "studentSignup.policy.professorRelation":
+      "Professor relation will be confirmed after signup and connection review.",
+    "studentSignup.policy.publicOff":
+      "Public Student self signup is unavailable.",
+    "studentSignup.policy.showcaseLater":
+      "Student can prepare showcase activity after approval and Professor connection.",
+    "studentSignup.policy.title": "Student signup policy",
+    "studentSignup.publicOff.description":
+      "This page prepares invited Student onboarding only. Public self signup remains closed.",
+    "studentSignup.publicOff.title": "Public self signup unavailable",
+    "studentSignup.security.invitationToken":
+      "The invitation token is held only in a hidden field for a later step. It is not displayed, logged, or saved by this screen.",
+    "studentSignup.security.noPublicSignup":
+      "No invitation token is present. Student onboarding requires a Professor invitation, so submission remains disabled.",
+    "studentSignup.security.title": "Security boundary",
+    "studentSignup.submit.disabled": "Submission disabled",
+    "studentSignup.submit.next": "Submission will be enabled next step.",
+    "studentSignup.terms":
+      "I understand Student onboarding requires a Professor invitation, Professor relation confirmation, and platform permission checks before activity or showcase features open.",
     "signupStart.supplier.approval":
       "Supplier onboarding always requires Admin approval before company, product, and membership activation.",
     "signupStart.supplier.capability.company":
