@@ -31,6 +31,7 @@ import type {
   DashboardConversation,
   DashboardMessagesData,
   DashboardOverviewData,
+  DashboardProfessorOnboardingData,
   DashboardProductRecord,
   DashboardProductsData,
   DashboardQuickAction,
@@ -423,6 +424,90 @@ function AgentOnboardingPlaceholder({
   );
 }
 
+function getProfessorOnboardingTone(status: DashboardProfessorOnboardingData["status"]) {
+  if (status === "approved") {
+    return "positive";
+  }
+
+  if (status === "rejected") {
+    return "negative";
+  }
+
+  return "warning";
+}
+
+function ProfessorOnboardingPlaceholder({
+  onboarding,
+}: {
+  onboarding: DashboardProfessorOnboardingData;
+}) {
+  return (
+    <section className="mt-8 rounded-[24px] border border-action-blue/20 bg-[linear-gradient(135deg,#ffffff_0%,#f7fbff_58%,#edf5ff_100%)] p-5 shadow-[0_18px_44px_rgba(0,102,204,0.06)] sm:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <Badge dot={false} tone={getProfessorOnboardingTone(onboarding.status)}>
+            {t(`dashboard.professorOnboarding.status.${onboarding.status}`)}
+          </Badge>
+          <h2 className="type-tagline mt-3 text-calm-ink">
+            {t(onboarding.titleKey)}
+          </h2>
+          <p className="type-body mt-3 max-w-3xl text-calm-ink-muted-80">
+            {t(onboarding.descriptionKey)}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-calm-hairline bg-white px-4 py-3">
+          <p className="type-fine-print text-calm-ink-muted-48">
+            {t("dashboard.professorOnboarding.applicationStatus")}
+          </p>
+          <p className="type-caption-strong mt-1 text-calm-ink">
+            {onboarding.applicationStatus
+              ? t(`dashboard.professorOnboarding.application.${onboarding.applicationStatus}`)
+              : t("dashboard.professorOnboarding.application.none")}
+          </p>
+        </div>
+      </div>
+
+      <p className="mt-5 rounded-2xl border border-status-warning/20 bg-status-warning-bg px-4 py-3 type-caption text-status-warning">
+        {t("dashboard.professorOnboarding.noAutoCreation")}
+      </p>
+
+      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {onboarding.nextSteps.map((step) => (
+          <article
+            className="flex min-h-[168px] flex-col justify-between rounded-[18px] border border-calm-hairline bg-white p-5"
+            key={step.labelKey}
+          >
+            <div>
+              <p className="type-caption-strong text-action-blue">
+                {t(step.labelKey)}
+              </p>
+              <p className="type-caption mt-2 text-calm-ink-muted-80">
+                {t(step.metaKey)}
+              </p>
+            </div>
+            <button
+              className="mt-5 inline-flex min-h-10 w-full cursor-not-allowed items-center justify-center rounded-full border border-calm-hairline bg-canvas-parchment px-4 type-caption-strong text-calm-ink-muted-48"
+              disabled
+              type="button"
+            >
+              {t("dashboard.professorOnboarding.comingSoon")}
+            </button>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-5 rounded-2xl border border-calm-hairline bg-white px-4 py-3">
+        <p className="type-caption-strong text-calm-ink">
+          {t("dashboard.professorOnboarding.securityTitle")}
+        </p>
+        <p className="type-caption mt-2 text-calm-ink-muted-80">
+          {t("dashboard.professorOnboarding.securityBody")}
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export function DashboardOverviewPage({ data }: { data: DashboardOverviewData }) {
   return (
     <main className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
@@ -434,6 +519,10 @@ export function DashboardOverviewPage({ data }: { data: DashboardOverviewData })
 
       {data.agentOnboarding ? (
         <AgentOnboardingPlaceholder onboarding={data.agentOnboarding} />
+      ) : null}
+
+      {data.professorOnboarding ? (
+        <ProfessorOnboardingPlaceholder onboarding={data.professorOnboarding} />
       ) : null}
 
       <section className="mt-8">

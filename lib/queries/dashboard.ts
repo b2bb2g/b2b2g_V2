@@ -46,11 +46,22 @@ export type DashboardAgentOnboardingData = {
   titleKey: string;
 };
 
+export type DashboardProfessorOnboardingState = "approved" | "rejected" | "submitted";
+
+export type DashboardProfessorOnboardingData = {
+  applicationStatus: RoleApplicationStatus | null;
+  descriptionKey: string;
+  nextSteps: DashboardQuickAction[];
+  status: DashboardProfessorOnboardingState;
+  titleKey: string;
+};
+
 export type DashboardOverviewData = {
   agentOnboarding: DashboardAgentOnboardingData | null;
   activities: DashboardRecord[];
   context: DashboardRouteContext;
   metrics: DashboardMetric[];
+  professorOnboarding: DashboardProfessorOnboardingData | null;
   quickActions: DashboardQuickAction[];
   rolePanel: DashboardRolePanel;
   supplierOnboarding: DashboardSupplierOnboardingData | null;
@@ -1218,15 +1229,109 @@ async function getAgentOnboardingData(
   return null;
 }
 
+async function getProfessorOnboardingData(
+  supabase: Supabase,
+  context: DashboardRouteContext,
+): Promise<DashboardProfessorOnboardingData | null> {
+  const [roleResult, applicationResult] = await Promise.all([
+    supabase
+      .from("account_roles")
+      .select("id,status")
+      .eq("account_id", context.profileId)
+      .eq("role_key", "professor")
+      .in("status", ["active", "approved"])
+      .is("deleted_at", null)
+      .limit(1),
+    supabase
+      .from("role_applications")
+      .select("status,updated_at,created_at")
+      .eq("account_id", context.profileId)
+      .eq("requested_role_key", "professor")
+      .in("status", ["submitted", "under_review", "approved", "rejected"])
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
+      .limit(1),
+  ]);
+
+  const hasProfessorRole =
+    context.memberTypeCode === "professor" || Boolean(roleResult.data?.length);
+  const latestApplication = applicationResult.data?.[0] ?? null;
+  const nextSteps: DashboardQuickAction[] = [
+    {
+      href: "#",
+      labelKey: "dashboard.professorOnboarding.step.invitationLink",
+      metaKey: "dashboard.professorOnboarding.step.invitationLinkMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.professorOnboarding.step.invitationQr",
+      metaKey: "dashboard.professorOnboarding.step.invitationQrMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.professorOnboarding.step.studentManagement",
+      metaKey: "dashboard.professorOnboarding.step.studentManagementMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.professorOnboarding.step.programSetup",
+      metaKey: "dashboard.professorOnboarding.step.programSetupMeta",
+    },
+  ];
+
+  if (hasProfessorRole) {
+    return {
+      applicationStatus: latestApplication?.status ?? "approved",
+      descriptionKey: "dashboard.professorOnboarding.approved.description",
+      nextSteps,
+      status: "approved",
+      titleKey: "dashboard.professorOnboarding.approved.title",
+    };
+  }
+
+  if (latestApplication?.status === "rejected") {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.professorOnboarding.rejected.description",
+      nextSteps,
+      status: "rejected",
+      titleKey: "dashboard.professorOnboarding.rejected.title",
+    };
+  }
+
+  if (
+    latestApplication?.status === "submitted" ||
+    latestApplication?.status === "under_review"
+  ) {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.professorOnboarding.submitted.description",
+      nextSteps,
+      status: "submitted",
+      titleKey: "dashboard.professorOnboarding.submitted.title",
+    };
+  }
+
+  return null;
+}
+
 export async function getDashboardOverviewData(): Promise<DashboardOverviewData> {
   const context = await requireDashboardRoute();
   const supabase = await createSupabaseServerClient();
-  const [metrics, activities, workItems, supplierOnboarding, agentOnboarding] = await Promise.all([
+  const [
+    metrics,
+    activities,
+    workItems,
+    supplierOnboarding,
+    agentOnboarding,
+    professorOnboarding,
+  ] = await Promise.all([
     getOverviewMetrics(supabase, context),
     getRecentActivities(supabase, context.profileId),
     getWorkItems(supabase, context),
     getSupplierOnboardingData(supabase, context),
     getAgentOnboardingData(supabase, context),
+    getProfessorOnboardingData(supabase, context),
   ]);
 
   return {
@@ -1234,6 +1339,7 @@ export async function getDashboardOverviewData(): Promise<DashboardOverviewData>
     activities,
     context,
     metrics,
+    professorOnboarding,
     quickActions: getQuickActions(context.memberTypeCode),
     rolePanel: getRolePanel(context.memberTypeCode),
     supplierOnboarding,

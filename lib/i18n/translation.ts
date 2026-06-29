@@ -1582,6 +1582,45 @@ const dictionaries = {
       "Your Agent application has been submitted and is waiting for administrator review. Buyer invitation tools and assigned Buyer management stay closed until approval.",
     "dashboard.agentOnboarding.submitted.title":
       "Application submitted. Waiting for admin review.",
+    "dashboard.professorOnboarding.application.approved": "Approved",
+    "dashboard.professorOnboarding.application.none": "No Professor application record",
+    "dashboard.professorOnboarding.application.rejected": "Rejected",
+    "dashboard.professorOnboarding.application.submitted": "Submitted",
+    "dashboard.professorOnboarding.application.under_review": "Under review",
+    "dashboard.professorOnboarding.applicationStatus": "Professor application state",
+    "dashboard.professorOnboarding.approved.description":
+      "Your Professor role is approved. Student invitation tools are the next controlled step before invitation links, QR paths, student management, program setup, or analytics can open.",
+    "dashboard.professorOnboarding.approved.title":
+      "Professor approved. Student invitation tools open next.",
+    "dashboard.professorOnboarding.comingSoon": "Coming soon",
+    "dashboard.professorOnboarding.noAutoCreation":
+      "Approval does not automatically create Student invitation links, QR codes, Professor profile records, professor_students relations, Student PII access, program/course records, or analytics.",
+    "dashboard.professorOnboarding.rejected.description":
+      "Your Professor application was rejected. Contact the administrator for review guidance before submitting again.",
+    "dashboard.professorOnboarding.rejected.title":
+      "Application rejected. Contact Admin or reapply after review.",
+    "dashboard.professorOnboarding.securityBody":
+      "This placeholder exposes no Student PII. Student information remains closed until professor_students relation support and the required RLS helpers are implemented and verified.",
+    "dashboard.professorOnboarding.securityTitle": "Student data remains protected",
+    "dashboard.professorOnboarding.status.approved": "Professor approved",
+    "dashboard.professorOnboarding.status.rejected": "Application rejected",
+    "dashboard.professorOnboarding.status.submitted": "Waiting for admin review",
+    "dashboard.professorOnboarding.step.invitationLink": "Student invitation link",
+    "dashboard.professorOnboarding.step.invitationLinkMeta":
+      "Student invitation links remain disabled until the approved Professor invitation workflow is connected.",
+    "dashboard.professorOnboarding.step.invitationQr": "Student invitation QR",
+    "dashboard.professorOnboarding.step.invitationQrMeta":
+      "QR generation will be based on invitation URLs after the Student invitation workflow opens.",
+    "dashboard.professorOnboarding.step.programSetup": "Program / Course setup",
+    "dashboard.professorOnboarding.step.programSetupMeta":
+      "Program and course setup remains separate from role approval and does not expose Student data.",
+    "dashboard.professorOnboarding.step.studentManagement": "Student management",
+    "dashboard.professorOnboarding.step.studentManagementMeta":
+      "Student management stays closed until professor_students relation support and RLS checks exist.",
+    "dashboard.professorOnboarding.submitted.description":
+      "Your Professor application has been submitted and is waiting for administrator review. Student invitation tools and Student management stay closed until approval.",
+    "dashboard.professorOnboarding.submitted.title":
+      "Application submitted. Waiting for admin review.",
     "dashboard.supplierOnboarding.application.approved": "Approved",
     "dashboard.supplierOnboarding.application.none": "No Supplier application record",
     "dashboard.supplierOnboarding.application.rejected": "Rejected",
