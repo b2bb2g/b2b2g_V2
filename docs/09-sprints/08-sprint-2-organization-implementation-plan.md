@@ -273,3 +273,11 @@ Recommended Task 03 boundary:
 - `country_agents` remains market assignment.
 - `referral_relations` remains Buyer-Buyer referral.
 - Agent-Buyer, Professor-Student, and Company-Member authority must move to explicit relation tables before broad feature expansion.
+
+## 13. Task 03 Completion Log
+
+- Completed: local Organization relation types and pure helpers in `lib/auth/organization.ts`.
+- Completed: helper tests in `lib/auth/organization.test.mts`.
+- Completed: `npm test` now runs all auth helper test files via `lib/auth/*.test.mts`.
+- Not changed: database schema, Supabase production DB, RLS SQL, UI, live queries, generated database table types.
+- Guardrail retained: `country_agents` and `referral_relations` are not accepted as Agent-Buyer relation authority.
