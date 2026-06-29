@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SignupStartCard } from "@/components/public/signup-start-card";
+import { SupplierSignupForm } from "@/components/public/supplier-signup-form";
 import { t } from "@/lib/i18n/translation";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 
@@ -16,22 +17,25 @@ export const metadata: Metadata = buildPublicMetadata({
   title: t("signupStart.supplier.title"),
 });
 
-function hasInvitationToken(searchParams: Record<string, string | string[] | undefined>) {
+function getInvitationToken(searchParams: Record<string, string | string[] | undefined>) {
   const value = searchParams.invitation_token;
   const token = Array.isArray(value) ? value[0] : value;
 
-  return Boolean(token?.trim());
+  return token?.trim() || null;
 }
 
 export default async function SupplierSignupStartPage({
   searchParams,
 }: Readonly<SignupStartPageProps>) {
   const resolvedSearchParams = searchParams ? await searchParams : {};
+  const invitationToken = getInvitationToken(resolvedSearchParams);
 
   return (
     <SignupStartCard
-      hasInvitationToken={hasInvitationToken(resolvedSearchParams)}
+      hasInvitationToken={Boolean(invitationToken)}
       role="supplier"
-    />
+    >
+      <SupplierSignupForm invitationToken={invitationToken} />
+    </SignupStartCard>
   );
 }

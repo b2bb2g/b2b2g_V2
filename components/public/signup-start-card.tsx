@@ -1,9 +1,11 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { t } from "@/lib/i18n/translation";
 
 export type SignupStartRole = "agent" | "buyer" | "professor" | "student" | "supplier";
 
 type SignupStartCardProps = {
+  children?: ReactNode;
   hasInvitationToken: boolean;
   role: SignupStartRole;
 };
@@ -101,6 +103,7 @@ const signupStartConfig: Record<SignupStartRole, SignupStartConfig> = {
 };
 
 export function SignupStartCard({
+  children,
   hasInvitationToken,
   role,
 }: Readonly<SignupStartCardProps>) {
@@ -207,6 +210,8 @@ export function SignupStartCard({
           </article>
         </div>
       </section>
+
+      {children}
 
       <section className="border-y border-calm-hairline bg-white py-12">
         <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">

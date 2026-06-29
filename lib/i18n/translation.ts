@@ -737,6 +737,54 @@ const dictionaries = {
     "signupStart.supplier.title": "Supplier Signup Start",
     "signupStart.tokenHidden":
       "If you arrived from an invitation, the token is carried forward but never displayed here.",
+    "supplierSignup.category.beauty": "Beauty and personal care",
+    "supplierSignup.category.consumerGoods": "Consumer goods",
+    "supplierSignup.category.epc": "EPC and project supply",
+    "supplierSignup.category.food": "Food and supplements",
+    "supplierSignup.category.industrial": "Industrial equipment",
+    "supplierSignup.category.other": "Other category",
+    "supplierSignup.category.placeholder": "Select a product category",
+    "supplierSignup.country.korea": "South Korea",
+    "supplierSignup.country.other": "Other country",
+    "supplierSignup.country.placeholder": "Select a country",
+    "supplierSignup.country.thailand": "Thailand",
+    "supplierSignup.country.usa": "United States",
+    "supplierSignup.country.vietnam": "Vietnam",
+    "supplierSignup.field.companyName": "Company name",
+    "supplierSignup.field.contactEmail": "Contact email",
+    "supplierSignup.field.contactName": "Contact name",
+    "supplierSignup.field.country": "Country",
+    "supplierSignup.field.productCategory": "Product category",
+    "supplierSignup.field.productSummary": "Product summary",
+    "supplierSignup.field.websiteOrCatalog": "Website or catalog URL",
+    "supplierSignup.form.description":
+      "Fill in the preparation fields now. Submission is intentionally disabled until the next signup task connects account creation and approval writes.",
+    "supplierSignup.form.eyebrow": "Supplier registration draft",
+    "supplierSignup.form.title": "Prepare Supplier application details",
+    "supplierSignup.placeholder.companyName": "Example Trading Co., Ltd.",
+    "supplierSignup.placeholder.contactEmail": "contact@example.com",
+    "supplierSignup.placeholder.contactName": "Primary contact name",
+    "supplierSignup.placeholder.productSummary":
+      "Briefly describe your main products, certifications, export readiness, or target markets.",
+    "supplierSignup.placeholder.websiteOrCatalog": "https://example.com/catalog",
+    "supplierSignup.policy.approvalRequired":
+      "Admin approval is required before Supplier activation.",
+    "supplierSignup.policy.buyerPii":
+      "Buyer PII is never exposed through Supplier signup or invitation onboarding.",
+    "supplierSignup.policy.companyProductApproval":
+      "Company and product public exposure require separate approval after Supplier approval.",
+    "supplierSignup.policy.signupPaths":
+      "Supplier can apply by public signup or by Admin invitation.",
+    "supplierSignup.policy.title": "Supplier signup policy",
+    "supplierSignup.security.invitationToken":
+      "The invitation token is held only in a hidden field for the next step. It is not displayed or submitted yet.",
+    "supplierSignup.security.publicSignup":
+      "No invitation token is present. This is a public Supplier signup preparation path.",
+    "supplierSignup.security.title": "Security boundary",
+    "supplierSignup.submit.disabled": "Submission disabled",
+    "supplierSignup.submit.next": "Submission will be enabled next step.",
+    "supplierSignup.terms":
+      "I understand Supplier activation, company publication, and product publication each require administrator approval.",
     "company.backToSuppliers": "Explore Korean Suppliers",
     "company.catalogDownloads": "Catalog downloads",
     "company.certificates": "Certificates",
