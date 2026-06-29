@@ -799,6 +799,52 @@ const dictionaries = {
     "agentSignup.success.title": "Agent application submitted",
     "agentSignup.terms":
       "I understand Agent activation, Buyer invitation generation, and subordinate Buyer access require administrator approval and platform permission checks.",
+    "professorSignup.field.contactEmail": "Contact email",
+    "professorSignup.field.department": "Department",
+    "professorSignup.field.expectedStudentCount": "Expected student count",
+    "professorSignup.field.position": "Position / Title",
+    "professorSignup.field.professorName": "Professor name",
+    "professorSignup.field.programSummary": "Program or course summary",
+    "professorSignup.field.university": "University",
+    "professorSignup.form.description":
+      "Prepare Professor onboarding details from an Admin invitation. Public Professor application is currently unavailable.",
+    "professorSignup.form.eyebrow": "Professor invitation draft",
+    "professorSignup.form.title": "Prepare Professor application details",
+    "professorSignup.placeholder.contactEmail": "professor@example.edu",
+    "professorSignup.placeholder.department": "International Trade, Business, or related department",
+    "professorSignup.placeholder.position": "Professor, lecturer, program director, or advisor",
+    "professorSignup.placeholder.professorName": "Professor full name",
+    "professorSignup.placeholder.programSummary":
+      "Briefly describe the course, student program, trade activity, or mentoring context.",
+    "professorSignup.placeholder.university": "University or institution name",
+    "professorSignup.policy.approvalRequired":
+      "Admin approval is required before Professor activation.",
+    "professorSignup.policy.invitationBased":
+      "Professor onboarding is invitation-based by default.",
+    "professorSignup.policy.publicOff":
+      "Public Professor application is currently unavailable.",
+    "professorSignup.policy.studentInfo":
+      "After approval, Professor can view and manage subordinate Student information only within permitted scope.",
+    "professorSignup.policy.studentInvites":
+      "After approval, Professor can create Student invitation links and QR entry paths.",
+    "professorSignup.policy.title": "Professor signup policy",
+    "professorSignup.publicOff.description":
+      "This page prepares invited Professor onboarding only. Public application remains off until Admin policy changes.",
+    "professorSignup.publicOff.title": "Public application unavailable",
+    "professorSignup.security.invitationToken":
+      "The invitation token is held only in a hidden field for the next step. It is not displayed or submitted yet.",
+    "professorSignup.security.noPublicApplication":
+      "No invitation token is present. Public Professor application is off, so submission remains disabled.",
+    "professorSignup.security.title": "Security boundary",
+    "professorSignup.studentCount.10to30": "10-30 students",
+    "professorSignup.studentCount.31to60": "31-60 students",
+    "professorSignup.studentCount.over60": "More than 60 students",
+    "professorSignup.studentCount.placeholder": "Select expected student count",
+    "professorSignup.studentCount.under10": "Under 10 students",
+    "professorSignup.submit.disabled": "Submission disabled",
+    "professorSignup.submit.next": "Submission will be enabled next step.",
+    "professorSignup.terms":
+      "I understand Professor activation, Student invitation generation, and subordinate Student information access require administrator approval and platform permission checks.",
     "supplierSignup.category.beauty": "Beauty and personal care",
     "supplierSignup.category.consumerGoods": "Consumer goods",
     "supplierSignup.category.epc": "EPC and project supply",
