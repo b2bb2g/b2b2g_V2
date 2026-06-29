@@ -1463,6 +1463,45 @@ const dictionaries = {
       "Operate company profile, supplier catalog, buyer messages, and Thailand FDA service requests from one workspace.",
     "dashboard.role.supplier.focus": "Supplier workspace",
     "dashboard.role.supplier.title": "Prepare approved Korean supply for global buyers.",
+    "dashboard.agentOnboarding.application.approved": "Approved",
+    "dashboard.agentOnboarding.application.none": "No Agent application record",
+    "dashboard.agentOnboarding.application.rejected": "Rejected",
+    "dashboard.agentOnboarding.application.submitted": "Submitted",
+    "dashboard.agentOnboarding.application.under_review": "Under review",
+    "dashboard.agentOnboarding.applicationStatus": "Agent application state",
+    "dashboard.agentOnboarding.approved.description":
+      "Your Agent role is approved. Buyer invitation tools are the next controlled step before invitation links, QR paths, assigned Buyer management, market assignment, or analytics can open.",
+    "dashboard.agentOnboarding.approved.title":
+      "Agent approved. Buyer invitation tools open next.",
+    "dashboard.agentOnboarding.comingSoon": "Coming soon",
+    "dashboard.agentOnboarding.noAutoCreation":
+      "Approval does not automatically create Buyer invitation links, QR codes, Agent profile records, country/market assignments, agent_buyer relations, contact access, or analytics.",
+    "dashboard.agentOnboarding.rejected.description":
+      "Your Agent application was rejected. Contact the administrator for review guidance before submitting again.",
+    "dashboard.agentOnboarding.rejected.title":
+      "Application rejected. Contact Admin or reapply after review.",
+    "dashboard.agentOnboarding.securityBody":
+      "This placeholder exposes no Buyer PII. country_agents is market assignment only, not Buyer access authority; Buyer access must come from explicit Agent-Buyer relations later.",
+    "dashboard.agentOnboarding.securityTitle": "Buyer data remains protected",
+    "dashboard.agentOnboarding.status.approved": "Agent approved",
+    "dashboard.agentOnboarding.status.rejected": "Application rejected",
+    "dashboard.agentOnboarding.status.submitted": "Waiting for admin review",
+    "dashboard.agentOnboarding.step.assignedBuyers": "Assigned buyer management",
+    "dashboard.agentOnboarding.step.assignedBuyersMeta":
+      "Assigned Buyer management stays closed until explicit Agent-Buyer relation support exists.",
+    "dashboard.agentOnboarding.step.invitationLink": "Buyer invitation link",
+    "dashboard.agentOnboarding.step.invitationLinkMeta":
+      "Buyer invitation links remain disabled until the approved Agent invitation workflow is connected.",
+    "dashboard.agentOnboarding.step.invitationQr": "Buyer invitation QR",
+    "dashboard.agentOnboarding.step.invitationQrMeta":
+      "QR generation will be based on invitation URLs after the invitation workflow opens.",
+    "dashboard.agentOnboarding.step.marketAssignment": "Market assignment",
+    "dashboard.agentOnboarding.step.marketAssignmentMeta":
+      "Market or country assignment remains Admin-controlled and does not grant Buyer detail access.",
+    "dashboard.agentOnboarding.submitted.description":
+      "Your Agent application has been submitted and is waiting for administrator review. Buyer invitation tools and assigned Buyer management stay closed until approval.",
+    "dashboard.agentOnboarding.submitted.title":
+      "Application submitted. Waiting for admin review.",
     "dashboard.supplierOnboarding.application.approved": "Approved",
     "dashboard.supplierOnboarding.application.none": "No Supplier application record",
     "dashboard.supplierOnboarding.application.rejected": "Rejected",

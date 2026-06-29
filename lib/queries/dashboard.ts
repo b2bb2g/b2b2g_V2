@@ -36,7 +36,18 @@ export type DashboardSupplierOnboardingData = {
   titleKey: string;
 };
 
+export type DashboardAgentOnboardingState = "approved" | "rejected" | "submitted";
+
+export type DashboardAgentOnboardingData = {
+  applicationStatus: RoleApplicationStatus | null;
+  descriptionKey: string;
+  nextSteps: DashboardQuickAction[];
+  status: DashboardAgentOnboardingState;
+  titleKey: string;
+};
+
 export type DashboardOverviewData = {
+  agentOnboarding: DashboardAgentOnboardingData | null;
   activities: DashboardRecord[];
   context: DashboardRouteContext;
   metrics: DashboardMetric[];
@@ -1122,17 +1133,104 @@ async function getSupplierOnboardingData(
   return null;
 }
 
+async function getAgentOnboardingData(
+  supabase: Supabase,
+  context: DashboardRouteContext,
+): Promise<DashboardAgentOnboardingData | null> {
+  const [roleResult, applicationResult] = await Promise.all([
+    supabase
+      .from("account_roles")
+      .select("id,status")
+      .eq("account_id", context.profileId)
+      .eq("role_key", "agent")
+      .in("status", ["active", "approved"])
+      .is("deleted_at", null)
+      .limit(1),
+    supabase
+      .from("role_applications")
+      .select("status,updated_at,created_at")
+      .eq("account_id", context.profileId)
+      .eq("requested_role_key", "agent")
+      .in("status", ["submitted", "under_review", "approved", "rejected"])
+      .is("deleted_at", null)
+      .order("updated_at", { ascending: false })
+      .limit(1),
+  ]);
+
+  const hasAgentRole = context.memberTypeCode === "agent" || Boolean(roleResult.data?.length);
+  const latestApplication = applicationResult.data?.[0] ?? null;
+  const nextSteps: DashboardQuickAction[] = [
+    {
+      href: "#",
+      labelKey: "dashboard.agentOnboarding.step.invitationLink",
+      metaKey: "dashboard.agentOnboarding.step.invitationLinkMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.agentOnboarding.step.invitationQr",
+      metaKey: "dashboard.agentOnboarding.step.invitationQrMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.agentOnboarding.step.assignedBuyers",
+      metaKey: "dashboard.agentOnboarding.step.assignedBuyersMeta",
+    },
+    {
+      href: "#",
+      labelKey: "dashboard.agentOnboarding.step.marketAssignment",
+      metaKey: "dashboard.agentOnboarding.step.marketAssignmentMeta",
+    },
+  ];
+
+  if (hasAgentRole) {
+    return {
+      applicationStatus: latestApplication?.status ?? "approved",
+      descriptionKey: "dashboard.agentOnboarding.approved.description",
+      nextSteps,
+      status: "approved",
+      titleKey: "dashboard.agentOnboarding.approved.title",
+    };
+  }
+
+  if (latestApplication?.status === "rejected") {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.agentOnboarding.rejected.description",
+      nextSteps,
+      status: "rejected",
+      titleKey: "dashboard.agentOnboarding.rejected.title",
+    };
+  }
+
+  if (
+    latestApplication?.status === "submitted" ||
+    latestApplication?.status === "under_review"
+  ) {
+    return {
+      applicationStatus: latestApplication.status,
+      descriptionKey: "dashboard.agentOnboarding.submitted.description",
+      nextSteps,
+      status: "submitted",
+      titleKey: "dashboard.agentOnboarding.submitted.title",
+    };
+  }
+
+  return null;
+}
+
 export async function getDashboardOverviewData(): Promise<DashboardOverviewData> {
   const context = await requireDashboardRoute();
   const supabase = await createSupabaseServerClient();
-  const [metrics, activities, workItems, supplierOnboarding] = await Promise.all([
+  const [metrics, activities, workItems, supplierOnboarding, agentOnboarding] = await Promise.all([
     getOverviewMetrics(supabase, context),
     getRecentActivities(supabase, context.profileId),
     getWorkItems(supabase, context),
     getSupplierOnboardingData(supabase, context),
+    getAgentOnboardingData(supabase, context),
   ]);
 
   return {
+    agentOnboarding,
     activities,
     context,
     metrics,
