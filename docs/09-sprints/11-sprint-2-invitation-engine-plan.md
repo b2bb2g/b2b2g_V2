@@ -283,3 +283,9 @@ Feature flags cannot override Permission Matrix, RLS, Buyer PII masking, Admin A
 - Do not expose Buyer PII in any Supplier invitation or signup path.
 - Do not use `country_agents` or `referral_relations` as Agent-Buyer authority.
 - The next Codex task should be Sprint 2 Invitation Engine Task 02 - Repository Audit.
+
+## 15. Implementation Log
+
+| Task | Status | Notes |
+| --- | --- | --- |
+| Task 04 - Token Helper and Types | Complete | Added pure Invitation type definitions, 256-bit URL-safe token generation, SHA-256 token hashing, timing-safe verification, invitation URL builder, expiry defaults, and token helper tests. No DB, RLS, migration, Supabase client, or UI code was added. |

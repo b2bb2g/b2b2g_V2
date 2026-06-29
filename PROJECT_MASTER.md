@@ -94,9 +94,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Review/approve `012_invitation_core.sql` authoring scope or start Invitation token helper/types after explicit approval
-2. Invitation query/action contract before signup route work
-3. Supplier public signup connection after token/action contract
+1. Invitation query/action contract before signup route work
+2. Supplier public signup connection after token/action contract
+3. Admin invitation flow after query/action contract
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -139,8 +139,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 Invitation Engine plan is complete. Supplier, Agent, Buyer, Professor, and Student signup paths are now organized into invitation types, feature flag impacts, security rules, and MVP task order.
 - Sprint 2 Invitation repository audit is complete. Existing global signup, Buyer referral, and member referral flows are classified; `member_referral_codes` is legacy invite-like infrastructure, while final Agent-Buyer/Professor-Student authority must move to Invitation plus relation candidate design.
 - Sprint 2 Invitation migration spec is complete. `012_invitation_core.sql` is planned for `invitations`, `invitation_tokens`, and `invitation_redemptions`, with no QR table and token-hash-only storage.
+- Sprint 2 Invitation token helper/types are complete. The helper layer provides 256-bit URL-safe token generation, SHA-256 hash storage support, timing-safe verification, URL building, expiry defaults, and tests without Supabase/DB access.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Review and explicitly approve either `012_invitation_core.sql` authoring or Invitation token helper/types before writing signup routes or Organization query expansion.
+Create the Invitation query/action contract before writing signup routes, Admin invitation UI, or Organization query expansion.
