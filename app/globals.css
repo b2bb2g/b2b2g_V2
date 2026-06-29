@@ -2055,10 +2055,169 @@ a {
   position: relative;
   z-index: 1;
   margin-top: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   color: var(--calm-ink-muted-80);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.45;
+}
+
+.landing-hero-builder-section {
+  overflow: hidden;
+}
+
+.landing-hero-builder-inner {
+  align-items: center;
+}
+
+.landing-hero-builder-copy {
+  min-width: 0;
+}
+
+.landing-hero-search {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgb(18 38 63 / 10%);
+  border-radius: 18px;
+  background: rgb(255 255 255 / 84%);
+  padding: 10px;
+  color: var(--calm-ink-muted-80);
+  box-shadow: 0 16px 44px rgb(20 40 70 / 7%);
+}
+
+.landing-hero-search input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--calm-ink);
+  font-size: 14px;
+  font-weight: 650;
+  outline: 0;
+}
+
+.landing-hero-search input::placeholder {
+  color: rgb(66 84 108 / 72%);
+}
+
+.landing-hero-search button {
+  grid-column: 1 / -1;
+  min-height: 38px;
+  border-radius: 12px;
+  background: rgb(11 99 206 / 8%);
+  padding: 0 14px;
+  color: var(--action-blue);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.landing-hero-main-actions .landing-action-pill {
+  gap: 8px;
+}
+
+.landing-hero-role-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.landing-hero-role-card {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid rgb(18 38 63 / 10%);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 74%);
+  padding: 0 12px;
+  color: var(--calm-ink);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgb(20 40 70 / 5%);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.landing-hero-role-card:hover {
+  border-color: rgb(11 99 206 / 22%);
+  box-shadow: 0 14px 30px rgb(20 40 70 / 9%);
+  transform: translateY(-1px);
+}
+
+.home-hero-proof-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.landing-hero-builder-visual {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-hero-kpi-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.landing-hero-kpi-card {
+  min-width: 0;
+  border: 1px solid rgb(18 38 63 / 8%);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 13px 12px;
+  box-shadow: 0 12px 28px rgb(20 40 70 / 6%);
+}
+
+.landing-hero-kpi-card strong {
+  display: block;
+  color: var(--calm-ink);
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.landing-hero-kpi-card span {
+  margin-top: 6px;
+  display: block;
+  color: var(--calm-ink-muted-80);
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.landing-hero-market-board {
+  flex: 1;
+}
+
+.landing-hero-keyword-row {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.landing-hero-keyword-row span {
+  border-radius: 9999px;
+  border: 1px solid rgb(11 99 206 / 10%);
+  background: rgb(255 255 255 / 82%);
+  padding: 7px 10px;
+  color: var(--action-blue);
+  font-size: 11px;
+  font-weight: 850;
 }
 
 @media (min-width: 1024px) {
@@ -2068,6 +2227,18 @@ a {
 
   .home-hero-inner {
     grid-template-columns: minmax(0, 0.9fr) minmax(390px, 0.72fr);
+  }
+
+  .landing-hero-search {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .landing-hero-search button {
+    grid-column: auto;
+  }
+
+  .landing-hero-role-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -2096,6 +2267,18 @@ a {
 
   .home-hero-visual {
     min-height: 0;
+  }
+
+  .landing-hero-search {
+    align-items: stretch;
+  }
+
+  .landing-hero-role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero-kpi-grid {
+    grid-template-columns: 1fr;
   }
 
   .home-hero-tile-track {

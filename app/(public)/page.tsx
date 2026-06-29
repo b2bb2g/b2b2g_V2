@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@/components/public/icons";
 import { BuyRequestPreviewCarousel } from "@/components/public/buy-request-preview-carousel";
 import { LandingEventCarousel } from "@/components/public/landing-event-carousel";
-import { HomeHero, ProductCarousel } from "@/components/public/marketplace-carousel";
+import { LandingHeroSection, type LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
+import { ProductCarousel } from "@/components/public/marketplace-carousel";
 import { Reveal } from "@/components/public/scroll-reveal";
 import { SupplierSpotlightCarousel } from "@/components/public/supplier-spotlight-carousel";
 import { BrandLogo } from "@/components/shared/brand-logo";
@@ -35,6 +36,92 @@ const fdaCategories = [
   "Label Compliance",
   "Formula Review",
 ] as const;
+
+const landingHeroConfig: LandingHeroConfig = {
+  eyebrow: t("home.hero.builderEyebrow"),
+  featuredKeywords: [
+    { label: "K-Beauty" },
+    { label: "Food Supplement" },
+    { label: "Industrial" },
+    { label: "EPC" },
+    { label: "Thailand FDA" },
+  ],
+  kpiItems: [
+    {
+      label: t("home.hero.kpi.roles.label"),
+      value: t("home.hero.kpi.roles.value"),
+    },
+    {
+      label: t("home.hero.kpi.brokerage.label"),
+      value: t("home.hero.kpi.brokerage.value"),
+    },
+    {
+      label: t("home.hero.kpi.privacy.label"),
+      value: t("home.hero.kpi.privacy.value"),
+    },
+  ],
+  primaryCta: {
+    href: "/signup/supplier",
+    label: t("home.hero.cta.supplier"),
+  },
+  publishState: "published",
+  roleCtas: [
+    {
+      href: "/signup/supplier",
+      label: t("home.hero.role.supplier"),
+    },
+    {
+      href: "/signup/buyer",
+      label: t("home.hero.role.buyer"),
+    },
+    {
+      href: "/signup/agent",
+      label: t("home.hero.role.agent"),
+    },
+    {
+      href: "/signup/professor",
+      label: t("home.hero.role.professor"),
+    },
+    {
+      href: "/signup/student",
+      label: t("home.hero.role.student"),
+    },
+  ],
+  searchPlaceholder: t("home.hero.searchPlaceholder"),
+  secondaryCta: {
+    href: "/login",
+    label: t("nav.signIn"),
+  },
+  subtitle: t("home.hero.builderSubtitle"),
+  title: t("home.hero.builderTitle"),
+  trustItems: [
+    { label: t("home.hero.trust.adminApproval") },
+    { label: t("home.hero.trust.brokerage") },
+    { label: t("home.hero.trust.pii") },
+  ],
+  visibility: {
+    endsAt: null,
+    isVisible: true,
+    startsAt: null,
+  },
+  visualTiles: [
+    {
+      imageAlt: "Korean cosmetic product preview",
+      imageUrl: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80",
+      label: t("home.hero.tile.beauty"),
+    },
+    {
+      imageAlt: "Korean industrial supply preview",
+      imageUrl: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=900&q=80",
+      label: t("home.hero.tile.industrial"),
+    },
+    {
+      imageAlt: "Global buyer meeting preview",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=900&q=80",
+      label: t("home.hero.tile.matching"),
+    },
+  ],
+};
 
 type LandingProductItem = ReturnType<typeof getSampleItems>[number];
 
@@ -457,7 +544,7 @@ export default async function HomePage() {
 
   return (
     <main className="bg-canvas">
-      <HomeHero />
+      <LandingHeroSection config={landingHeroConfig} />
 
       <TrustInfrastructureSection />
 
