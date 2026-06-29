@@ -68,11 +68,12 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/02-sprint-1-identity-engine.md`
 - `docs/09-sprints/06-sprint-1-identity-review-and-freeze.md`
 - `docs/09-sprints/07-sprint-2-organization-repository-audit.md`
+- `docs/09-sprints/08-sprint-2-organization-implementation-plan.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- Sprint 2 Organization Engine implementation plan
+- Sprint 2 Organization Engine Task 03 types/helper implementation
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
 - RLS helper scope review before policy SQL
@@ -90,9 +91,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 2 Organization Engine implementation plan
-2. Organization Type update boundary
-3. Organization query/action boundary design
+1. Sprint 2 Organization types/helper implementation
+2. Organization query layer with PII-safe DTOs
+3. Organization server action boundary design
 4. Company member, Agent-Buyer, and Professor-Student compatibility strategy
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -130,8 +131,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 1 Identity Engine is frozen with known limitations.
 - Implemented baseline: 002 role compatibility migration, `account_roles` / `role_applications` types, account-role-first legacy fallback, role application request/cancel, admin approve/reject, minimal admin UI, and pure helper tests.
 - Sprint 2 Organization Engine has started with repository audit only. Existing Organization relations currently depend on `suppliers.company_id`, `country_agents`, and `students.professor_id`; target relation tables remain `company_members`, `agent_buyers`, and `professor_students`.
+- Sprint 2 implementation plan is complete. Task 03 should start with local Organization types/helpers and must not query missing relation tables before migration readiness.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create `docs/09-sprints/08-sprint-2-organization-implementation-plan.md` before modifying Organization Engine code.
+Start Sprint 2 Organization Engine Task 03 with local types/helper implementation only.
