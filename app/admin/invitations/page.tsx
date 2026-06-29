@@ -4,8 +4,14 @@ import { InvitationList } from "@/components/admin/invitation-list";
 import { Badge } from "@/components/shared/badge";
 import { requireAdminRoute } from "@/lib/auth/guards";
 import { t } from "@/lib/i18n/translation";
-import { listInvitationsForAdmin } from "@/lib/invitations/queries";
-import type { InvitationAdminRecord } from "@/lib/invitations/types";
+import {
+  listInvitationParentSelectorOptionsForAdmin,
+  listInvitationsForAdmin,
+} from "@/lib/invitations/queries";
+import type {
+  InvitationAdminRecord,
+  InvitationParentSelectorOptions,
+} from "@/lib/invitations/types";
 
 type AdminInvitationsPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -42,12 +48,23 @@ export default async function AdminInvitationsPage({
 
   const resolvedSearchParams = searchParams ? await searchParams : {};
   let invitations: InvitationAdminRecord[] = [];
+  let parentOptions: InvitationParentSelectorOptions = {
+    agents: [],
+    professors: [],
+  };
   let queryError: string | null = null;
+  let parentSelectorError: string | null = null;
 
   try {
     invitations = await listInvitationsForAdmin();
   } catch (error) {
     queryError = getErrorMessage(error);
+  }
+
+  try {
+    parentOptions = await listInvitationParentSelectorOptionsForAdmin();
+  } catch (error) {
+    parentSelectorError = getErrorMessage(error);
   }
 
   return (
@@ -73,7 +90,10 @@ export default async function AdminInvitationsPage({
       </div>
 
       <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(0,420px)_1fr]">
-        <InvitationCreateForm />
+        <InvitationCreateForm
+          parentOptions={parentOptions}
+          parentSelectorError={parentSelectorError}
+        />
         <InvitationList
           invitations={invitations}
           queryError={queryError}

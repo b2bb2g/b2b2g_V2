@@ -98,3 +98,22 @@ export type InvitationWithTokenAdminRecord = {
   invitation: InvitationAdminRecord;
   token: InvitationTokenAdminRecord;
 };
+
+export type InvitationAgentParentOption = {
+  accountId: string;
+  agentId: string;
+  approvalStatus: string;
+  marketSummary: string | null;
+};
+
+export type InvitationProfessorParentOption = {
+  accountId: string;
+  approvalStatus: string;
+  professorId: string;
+  universityName: string | null;
+};
+
+export type InvitationParentSelectorOptions = {
+  agents: InvitationAgentParentOption[];
+  professors: InvitationProfessorParentOption[];
+};

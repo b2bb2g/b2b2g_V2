@@ -1312,6 +1312,9 @@ const dictionaries = {
     "admin.invitations.create.eyebrow": "Invitation Engine",
     "admin.invitations.create.invitationId": "Invitation ID",
     "admin.invitations.create.invitationUrl": "초대 URL",
+    "admin.invitations.create.manualDescription":
+      "검색 선택이 불가능한 경우에만 UUID를 직접 입력하세요. 입력값은 hidden field로 제출됩니다.",
+    "admin.invitations.create.manualTitle": "고급 수동 입력",
     "admin.invitations.create.parentTitle": "상위 관계 후보",
     "admin.invitations.create.pending": "생성 중",
     "admin.invitations.create.rawToken": "원문 토큰",
@@ -1381,6 +1384,19 @@ const dictionaries = {
     "admin.invitations.revoke.pending": "초대 폐기 중",
     "admin.invitations.revoke.submit": "폐기",
     "admin.invitations.revoke.success": "초대가 폐기되었습니다.",
+    "admin.invitations.selector.agent.description":
+      "Buyer 초대의 상위 Agent를 선택합니다. 이메일/전화번호는 표시하지 않습니다.",
+    "admin.invitations.selector.agent.empty":
+      "선택 가능한 Agent 후보가 없습니다. 013 RLS 적용 상태 또는 Agent 데이터를 확인하세요.",
+    "admin.invitations.selector.agent.title": "Agent 선택",
+    "admin.invitations.selector.approvalStatus": "승인 상태",
+    "admin.invitations.selector.market": "담당 시장",
+    "admin.invitations.selector.professor.description":
+      "Student 초대의 상위 Professor를 선택합니다. 이메일/전화번호는 표시하지 않습니다.",
+    "admin.invitations.selector.professor.empty":
+      "선택 가능한 Professor 후보가 없습니다. 013 RLS 적용 상태 또는 Professor 데이터를 확인하세요.",
+    "admin.invitations.selector.professor.title": "Professor 선택",
+    "admin.invitations.selector.university": "소속 대학",
     "admin.invitations.status.accepted": "수락됨",
     "admin.invitations.status.active": "활성",
     "admin.invitations.status.cancelled": "취소됨",

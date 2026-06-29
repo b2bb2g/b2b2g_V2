@@ -6,7 +6,12 @@ import {
   createAdminInvitationFormAction,
   type AdminInvitationCreateFormState,
 } from "@/lib/invitations/actions";
-import type { InvitationType } from "@/lib/invitations/types";
+import type {
+  InvitationAgentParentOption,
+  InvitationParentSelectorOptions,
+  InvitationProfessorParentOption,
+  InvitationType,
+} from "@/lib/invitations/types";
 import { Badge } from "@/components/shared/badge";
 import { t } from "@/lib/i18n/translation";
 
@@ -88,7 +93,7 @@ function TextInput({
 }: {
   id: string;
   maxLength?: number;
-  name: string;
+  name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
@@ -108,6 +113,30 @@ function TextInput({
       type={type}
       value={value}
     />
+  );
+}
+
+function SelectorCard({
+  children,
+  isSelected,
+  onSelect,
+}: {
+  children: ReactNode;
+  isSelected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      className={`rounded-2xl border px-4 py-3 text-left transition ${
+        isSelected
+          ? "border-action-blue bg-action-blue/5 shadow-[0_10px_30px_rgb(11_99_206/0.10)]"
+          : "border-calm-hairline bg-white hover:border-action-blue/30"
+      }`}
+      onClick={onSelect}
+      type="button"
+    >
+      {children}
+    </button>
   );
 }
 
@@ -211,6 +240,137 @@ function InvitationTypeGuide({
   );
 }
 
+function AgentSelector({
+  agents,
+  selectedAgentId,
+  selectorError,
+  onSelect,
+}: {
+  agents: InvitationAgentParentOption[];
+  selectedAgentId: string;
+  selectorError: string | null;
+  onSelect: (agent: InvitationAgentParentOption) => void;
+}) {
+  return (
+    <section className="rounded-2xl border border-calm-hairline bg-canvas-parchment p-4">
+      <div>
+        <p className="type-caption-strong text-calm-ink">
+          {t("admin.invitations.selector.agent.title", "ko")}
+        </p>
+        <p className="type-caption mt-1 text-calm-ink-muted-80">
+          {t("admin.invitations.selector.agent.description", "ko")}
+        </p>
+      </div>
+
+      {selectorError ? (
+        <p className="mt-4 rounded-xl border border-status-negative/20 bg-status-negative-bg px-3 py-2 type-caption text-status-negative">
+          {selectorError}
+        </p>
+      ) : null}
+
+      {!selectorError && agents.length === 0 ? (
+        <p className="mt-4 rounded-xl border border-calm-hairline bg-white px-3 py-2 type-caption text-calm-ink-muted-48">
+          {t("admin.invitations.selector.agent.empty", "ko")}
+        </p>
+      ) : null}
+
+      {agents.length > 0 ? (
+        <div className="mt-4 grid gap-3">
+          {agents.map((agent) => (
+            <SelectorCard
+              isSelected={selectedAgentId === agent.agentId}
+              key={agent.agentId}
+              onSelect={() => onSelect(agent)}
+            >
+              <span className="block type-caption-strong text-calm-ink">
+                {t("admin.invitations.field.agentId", "ko")}: {agent.agentId}
+              </span>
+              <span className="mt-1 block break-all type-fine-print text-calm-ink-muted-48">
+                {t("admin.invitations.field.parentAccountId", "ko")}:{" "}
+                {agent.accountId}
+              </span>
+              <span className="mt-2 block type-caption text-calm-ink-muted-80">
+                {t("admin.invitations.selector.market", "ko")}:{" "}
+                {agent.marketSummary ?? t("admin.invitations.notAvailable", "ko")}
+              </span>
+              <span className="mt-1 block type-fine-print text-calm-ink-muted-48">
+                {t("admin.invitations.selector.approvalStatus", "ko")}:{" "}
+                {agent.approvalStatus}
+              </span>
+            </SelectorCard>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function ProfessorSelector({
+  onSelect,
+  professors,
+  selectedProfessorId,
+  selectorError,
+}: {
+  onSelect: (professor: InvitationProfessorParentOption) => void;
+  professors: InvitationProfessorParentOption[];
+  selectedProfessorId: string;
+  selectorError: string | null;
+}) {
+  return (
+    <section className="rounded-2xl border border-calm-hairline bg-canvas-parchment p-4">
+      <div>
+        <p className="type-caption-strong text-calm-ink">
+          {t("admin.invitations.selector.professor.title", "ko")}
+        </p>
+        <p className="type-caption mt-1 text-calm-ink-muted-80">
+          {t("admin.invitations.selector.professor.description", "ko")}
+        </p>
+      </div>
+
+      {selectorError ? (
+        <p className="mt-4 rounded-xl border border-status-negative/20 bg-status-negative-bg px-3 py-2 type-caption text-status-negative">
+          {selectorError}
+        </p>
+      ) : null}
+
+      {!selectorError && professors.length === 0 ? (
+        <p className="mt-4 rounded-xl border border-calm-hairline bg-white px-3 py-2 type-caption text-calm-ink-muted-48">
+          {t("admin.invitations.selector.professor.empty", "ko")}
+        </p>
+      ) : null}
+
+      {professors.length > 0 ? (
+        <div className="mt-4 grid gap-3">
+          {professors.map((professor) => (
+            <SelectorCard
+              isSelected={selectedProfessorId === professor.professorId}
+              key={professor.professorId}
+              onSelect={() => onSelect(professor)}
+            >
+              <span className="block type-caption-strong text-calm-ink">
+                {t("admin.invitations.field.professorId", "ko")}:{" "}
+                {professor.professorId}
+              </span>
+              <span className="mt-1 block break-all type-fine-print text-calm-ink-muted-48">
+                {t("admin.invitations.field.parentAccountId", "ko")}:{" "}
+                {professor.accountId}
+              </span>
+              <span className="mt-2 block type-caption text-calm-ink-muted-80">
+                {t("admin.invitations.selector.university", "ko")}:{" "}
+                {professor.universityName ?? t("admin.invitations.notAvailable", "ko")}
+              </span>
+              <span className="mt-1 block type-fine-print text-calm-ink-muted-48">
+                {t("admin.invitations.selector.approvalStatus", "ko")}:{" "}
+                {professor.approvalStatus}
+              </span>
+            </SelectorCard>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 function CreateResult({ state }: { state: AdminInvitationCreateFormState }) {
   if (state.error) {
     return (
@@ -267,7 +427,13 @@ function CreateResult({ state }: { state: AdminInvitationCreateFormState }) {
   );
 }
 
-export function InvitationCreateForm() {
+export function InvitationCreateForm({
+  parentOptions,
+  parentSelectorError,
+}: {
+  parentOptions: InvitationParentSelectorOptions;
+  parentSelectorError: string | null;
+}) {
   const [state, formAction] = useActionState(
     createAdminInvitationFormAction,
     initialState,
@@ -303,6 +469,20 @@ export function InvitationCreateForm() {
     }
   }
 
+  function handleAgentSelect(agent: InvitationAgentParentOption) {
+    setParentRoleKey("agent");
+    setParentAccountId(agent.accountId);
+    setAgentId(agent.agentId);
+    setProfessorId("");
+  }
+
+  function handleProfessorSelect(professor: InvitationProfessorParentOption) {
+    setParentRoleKey("professor");
+    setParentAccountId(professor.accountId);
+    setAgentId("");
+    setProfessorId(professor.professorId);
+  }
+
   return (
     <section className="rounded-[18px] border border-calm-hairline bg-white p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -324,6 +504,11 @@ export function InvitationCreateForm() {
       </div>
 
       <form action={formAction} className="mt-6 grid gap-5">
+        <input name="parentRoleKey" type="hidden" value={parentRoleKey} />
+        <input name="parentAccountId" type="hidden" value={parentAccountId} />
+        <input name="agentId" type="hidden" value={agentId} />
+        <input name="professorId" type="hidden" value={professorId} />
+
         <InvitationTypeGuide
           agentId={agentId}
           invitationType={selectedInvitationType}
@@ -408,10 +593,27 @@ export function InvitationCreateForm() {
               maxLength={500}
               name="baseUrl"
               placeholder="/signup/invitation"
-              type="url"
             />
           </div>
         </div>
+
+        {selectedInvitationType === "buyer_agent_invite" ? (
+          <AgentSelector
+            agents={parentOptions.agents}
+            onSelect={handleAgentSelect}
+            selectedAgentId={agentId}
+            selectorError={parentSelectorError}
+          />
+        ) : null}
+
+        {selectedInvitationType === "student_professor_invite" ? (
+          <ProfessorSelector
+            onSelect={handleProfessorSelect}
+            professors={parentOptions.professors}
+            selectedProfessorId={professorId}
+            selectorError={parentSelectorError}
+          />
+        ) : null}
 
         <div className="rounded-2xl border border-calm-hairline bg-canvas-parchment px-4 py-3">
           <p className="type-caption-strong text-calm-ink">
@@ -422,9 +624,12 @@ export function InvitationCreateForm() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-calm-hairline bg-canvas-parchment p-4">
-          <p className="type-caption-strong text-calm-ink">
-            {t("admin.invitations.create.parentTitle", "ko")}
+        <details className="rounded-2xl border border-calm-hairline bg-canvas-parchment p-4">
+          <summary className="cursor-pointer type-caption-strong text-calm-ink">
+            {t("admin.invitations.create.manualTitle", "ko")}
+          </summary>
+          <p className="type-caption mt-2 text-calm-ink-muted-80">
+            {t("admin.invitations.create.manualDescription", "ko")}
           </p>
           <div className="mt-4 grid gap-4 lg:grid-cols-2">
             <div className="grid gap-2">
@@ -434,7 +639,6 @@ export function InvitationCreateForm() {
               <select
                 className="min-h-11 rounded-xl border border-calm-hairline bg-white px-3 type-caption text-calm-ink outline-none transition focus:border-action-blue"
                 id="parentRoleKey"
-                name="parentRoleKey"
                 onChange={(event) => setParentRoleKey(event.target.value)}
                 required={Boolean(requiredParentRole)}
                 value={parentRoleKey}
@@ -452,7 +656,6 @@ export function InvitationCreateForm() {
               </FieldLabel>
               <TextInput
                 id="parentAccountId"
-                name="parentAccountId"
                 onChange={(event) => setParentAccountId(event.target.value)}
                 required={Boolean(requiredParentRole)}
                 value={parentAccountId}
@@ -464,7 +667,6 @@ export function InvitationCreateForm() {
               </FieldLabel>
               <TextInput
                 id="agentId"
-                name="agentId"
                 onChange={(event) => setAgentId(event.target.value)}
                 required={selectedInvitationType === "buyer_agent_invite"}
                 value={agentId}
@@ -476,7 +678,6 @@ export function InvitationCreateForm() {
               </FieldLabel>
               <TextInput
                 id="professorId"
-                name="professorId"
                 onChange={(event) => setProfessorId(event.target.value)}
                 required={selectedInvitationType === "student_professor_invite"}
                 value={professorId}
@@ -489,7 +690,7 @@ export function InvitationCreateForm() {
               <TextInput id="companyId" name="companyId" />
             </div>
           </div>
-        </div>
+        </details>
 
         <SubmitButton />
       </form>
