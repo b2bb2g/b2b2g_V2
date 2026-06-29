@@ -1,25 +1,10 @@
 import {
-  GlobeIcon,
   SearchIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
 import { t } from "@/lib/i18n/translation";
 
-type HeroCta = {
-  href: string;
-  label: string;
-};
-
 type HeroTrustItem = {
-  label: string;
-};
-
-type HeroKpiItem = {
-  label: string;
-  value: string;
-};
-
-type HeroKeyword = {
   label: string;
 };
 
@@ -33,13 +18,8 @@ export type LandingHeroConfig = {
   eyebrow: string;
   title: string;
   subtitle: string;
-  primaryCta: HeroCta;
-  secondaryCta: HeroCta;
-  roleCtas: HeroCta[];
   searchPlaceholder: string;
   trustItems: HeroTrustItem[];
-  kpiItems: HeroKpiItem[];
-  featuredKeywords: HeroKeyword[];
   visibility: HeroVisibility;
   publishState: "draft" | "scheduled" | "published" | "hidden" | "archived";
 };
@@ -86,32 +66,9 @@ export function LandingHeroSection({
           </div>
         </div>
 
-        <aside className="marketplace-hero-summary" aria-label={t("home.hero.mapPanel")}>
-          <p>
-            <GlobeIcon className="h-4 w-4" aria-hidden="true" />
-            Brokered global trade network
-          </p>
-          <div className="marketplace-hero-kpi-row" aria-label={t("home.hero.kpiLabel")}>
-            {config.kpiItems.map((item) => (
-              <div key={item.label}>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="marketplace-hero-keyword-row" aria-label={t("home.hero.keywordLabel")}>
-            {config.featuredKeywords.map((keyword) => (
-              <span key={keyword.label}>{keyword.label}</span>
-            ))}
-          </div>
-          <div className="marketplace-hero-policy-card">
-            <ShieldCheckIcon className="h-5 w-5" aria-hidden="true" />
-            <div className="marketplace-hero-policy-copy">
-              <strong>Protected inquiry flow</strong>
-              <span>Buyer identity stays hidden until approved brokerage rules allow release.</span>
-            </div>
-          </div>
-        </aside>
+        <p className="marketplace-hero-note">
+          Buyer identity stays protected through brokerage-first inquiry handling.
+        </p>
       </div>
     </section>
   );

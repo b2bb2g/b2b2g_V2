@@ -41,33 +41,7 @@ const warehouseImage =
 const hero: LandingHeroConfig = {
   ...visiblePublishedState,
   eyebrow: "Connect. Trade. Grow.",
-  featuredKeywords: [
-    { label: "Industrial equipment" },
-    { label: "K-products" },
-    { label: "RFQ brokerage" },
-    { label: "Thailand FDA" },
-  ],
-  kpiItems: [
-    { label: "Verified buyer network", value: "10,000+" },
-    { label: "Supplier categories", value: "120+" },
-    { label: "Brokerage-first inquiries", value: "100%" },
-  ],
-  primaryCta: {
-    href: "/signup/supplier",
-    label: "Start Supplier Registration",
-  },
-  roleCtas: [
-    { href: "/signup/supplier", label: "Supplier" },
-    { href: "/signup/buyer", label: "Buyer" },
-    { href: "/signup/agent", label: "Agent" },
-    { href: "/signup/professor", label: "Professor" },
-    { href: "/signup/student", label: "Showcase Member" },
-  ],
   searchPlaceholder: "Search products, suppliers, buyer requests...",
-  secondaryCta: {
-    href: "/login",
-    label: "Login",
-  },
   subtitle:
     "A trusted global marketplace connecting verified suppliers with protected buyer demand, events, and brokerage-ready trade opportunities.",
   title: "Your Global B2B Success Starts Here",
@@ -81,6 +55,47 @@ const hero: LandingHeroConfig = {
 
 const marketplace: LandingMarketplaceConfig = {
   ...visiblePublishedState,
+  activeProjects: {
+    ...visiblePublishedState,
+    items: [
+      {
+        category: "EPC",
+        companyName: "Gulf Infrastructure Desk",
+        href: "/epc",
+        id: "active-project-water-treatment",
+        imageAlt: "Water treatment infrastructure project",
+        imageUrl: warehouseImage,
+        title: "Water Treatment Plant Equipment",
+      },
+      {
+        category: "Industrial",
+        companyName: "Vietnam Factory Sourcing",
+        href: "/industrial",
+        id: "active-project-factory-upgrade",
+        imageAlt: "Industrial factory upgrade project",
+        imageUrl: logisticsImage,
+        title: "Factory Automation Upgrade",
+      },
+      {
+        category: "Service",
+        companyName: "Thailand Compliance Desk",
+        href: "/service",
+        id: "active-project-fda-compliance",
+        imageAlt: "Thailand FDA compliance project",
+        imageUrl: labImage,
+        title: "Thailand FDA Registration Support",
+      },
+    ],
+    publishState: "published",
+    sectionId: "active-projects",
+    subtitle: "Structured project opportunities prepared for approved marketplace workflows.",
+    title: "Active Projects",
+    viewAll: {
+      href: "/epc",
+      isEnabled: false,
+      label: "View all projects",
+    },
+  },
   advertisingBanner: {
     cta: {
       href: "/signup/supplier",
@@ -596,6 +611,16 @@ const marketplace: LandingMarketplaceConfig = {
         tone: "navy",
       },
       {
+        badge: "Event",
+        cta: { href: "/events", isEnabled: false, label: "Register Now" },
+        description: "Singapore · June 22 - June 23, 2024",
+        id: "top-banner-procurement-summit",
+        imageAlt: "Global procurement summit skyline",
+        imageUrl: skylineImage,
+        title: "Global Procurement Summit 2024",
+        tone: "blue",
+      },
+      {
         badge: "Service",
         cta: { href: "/service", isEnabled: false, label: "Learn More" },
         description: "Your trusted partner for FDA registration and compliance.",
@@ -718,7 +743,6 @@ const noticeCtaFooter: LandingNoticeCtaFooterConfig = {
         { href: "/signup/agent", label: "Agent Application" },
         { href: "/signup/buyer", label: "Buyer Onboarding" },
         { href: "/signup/professor", label: "Professor Invitation" },
-        { href: "/signup/student", label: "Showcase Member" },
       ],
     },
   ],
