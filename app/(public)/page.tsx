@@ -4,6 +4,10 @@ import { ArrowRightIcon } from "@/components/public/icons";
 import { BuyRequestPreviewCarousel } from "@/components/public/buy-request-preview-carousel";
 import { LandingEventCarousel } from "@/components/public/landing-event-carousel";
 import { LandingHeroSection, type LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
+import {
+  LandingRoleGatewaySection,
+  type LandingRoleGatewayConfig,
+} from "@/components/public/landing/landing-role-gateway-section";
 import { ProductCarousel } from "@/components/public/marketplace-carousel";
 import { Reveal } from "@/components/public/scroll-reveal";
 import { SupplierSpotlightCarousel } from "@/components/public/supplier-spotlight-carousel";
@@ -121,6 +125,65 @@ const landingHeroConfig: LandingHeroConfig = {
       label: t("home.hero.tile.matching"),
     },
   ],
+};
+
+const landingRoleGatewayConfig: LandingRoleGatewayConfig = {
+  publishState: "published",
+  roles: [
+    {
+      description: t("home.roleGateway.supplier.description"),
+      primaryCtaHref: "/signup/supplier",
+      primaryCtaLabel: t("home.roleGateway.supplier.cta"),
+      roleKey: "supplier",
+      secondaryText: t("home.roleGateway.supplier.secondary"),
+      statusLabel: t("home.roleGateway.supplier.status"),
+      title: t("home.roleGateway.supplier.title"),
+    },
+    {
+      description: t("home.roleGateway.buyer.description"),
+      primaryCtaHref: "/signup/buyer",
+      primaryCtaLabel: t("home.roleGateway.buyer.cta"),
+      roleKey: "buyer",
+      secondaryText: t("home.roleGateway.buyer.secondary"),
+      statusLabel: t("home.roleGateway.buyer.status"),
+      title: t("home.roleGateway.buyer.title"),
+    },
+    {
+      description: t("home.roleGateway.agent.description"),
+      primaryCtaHref: "/signup/agent",
+      primaryCtaLabel: t("home.roleGateway.agent.cta"),
+      roleKey: "agent",
+      secondaryText: t("home.roleGateway.agent.secondary"),
+      statusLabel: t("home.roleGateway.agent.status"),
+      title: t("home.roleGateway.agent.title"),
+    },
+    {
+      description: t("home.roleGateway.professor.description"),
+      primaryCtaHref: "/signup/professor",
+      primaryCtaLabel: t("home.roleGateway.professor.cta"),
+      roleKey: "professor",
+      secondaryText: t("home.roleGateway.professor.secondary"),
+      statusLabel: t("home.roleGateway.professor.status"),
+      title: t("home.roleGateway.professor.title"),
+    },
+    {
+      description: t("home.roleGateway.student.description"),
+      primaryCtaHref: "/signup/student",
+      primaryCtaLabel: t("home.roleGateway.student.cta"),
+      roleKey: "student",
+      secondaryText: t("home.roleGateway.student.secondary"),
+      statusLabel: t("home.roleGateway.student.status"),
+      title: t("home.roleGateway.student.title"),
+    },
+  ],
+  sectionId: "landing-role-gateway",
+  subtitle: t("home.roleGateway.subtitle"),
+  title: t("home.roleGateway.title"),
+  visibility: {
+    endsAt: null,
+    isVisible: true,
+    startsAt: null,
+  },
 };
 
 type LandingProductItem = ReturnType<typeof getSampleItems>[number];
@@ -545,6 +608,7 @@ export default async function HomePage() {
   return (
     <main className="bg-canvas">
       <LandingHeroSection config={landingHeroConfig} />
+      <LandingRoleGatewaySection config={landingRoleGatewayConfig} />
 
       <TrustInfrastructureSection />
 
