@@ -1,6 +1,7 @@
 import type { LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
 import type { LandingMarketplaceConfig } from "@/components/public/landing/landing-marketplace-sections";
 import type { LandingNoticeCtaFooterConfig } from "@/components/public/landing/landing-notice-cta-footer-section";
+import type { MarketplaceHomeConfig } from "@/components/public/landing/marketplace-home";
 
 const visiblePublishedState = {
   publishState: "published" as const,
@@ -30,7 +31,7 @@ const skylineImage =
 const agricultureImage =
   "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80";
 const packagingImage =
-  "https://images.unsplash.com/photo-1581093458791-9d42e25bfda8?auto=format&fit=crop&w=900&q=80";
+  "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80";
 const roboticsImage =
   "https://images.unsplash.com/photo-1516192518150-0d8fee5425e3?auto=format&fit=crop&w=900&q=80";
 const electronicsImage =
@@ -756,8 +757,175 @@ const noticeCtaFooter: LandingNoticeCtaFooterConfig = {
   title: "Footer",
 };
 
+const marketplaceHome: MarketplaceHomeConfig = {
+  adBanners: [
+    {
+      cta: { href: "/signup/supplier", label: "Advertise Products" },
+      description: "Promote approved products to verified global buyers with clean, premium marketplace placement.",
+      id: "ad-promote-products",
+      title: "Promote products to verified global buyers",
+    },
+    {
+      cta: { href: "/signup/supplier", label: "Learn More" },
+      description: "Premium supplier benefits prepare your products for stronger visibility, trust badges, and event exposure.",
+      id: "ad-premium-benefits",
+      title: "Premium supplier benefit programs",
+    },
+  ],
+  announcements: [
+    {
+      dateLabel: "Jun 30",
+      description: "Scheduled maintenance is planned for marketplace search and inquiry preview services.",
+      href: "/notice",
+      id: "home-announcement-maintenance",
+      statusLabel: "System",
+      title: "Platform system maintenance notice",
+    },
+    {
+      dateLabel: "Jun 26",
+      description: "Supplier registration for Thailand Industrial Expo sourcing sessions is now open.",
+      href: "/notice",
+      id: "home-announcement-thailand-expo",
+      statusLabel: "Event",
+      title: "Thailand Industrial Expo registration open",
+    },
+    {
+      dateLabel: "Jun 21",
+      description: "Verified suppliers can prepare premium exposure requests for the next marketplace cycle.",
+      href: "/notice",
+      id: "home-announcement-premium-supplier",
+      statusLabel: "Supplier",
+      title: "New premium supplier program launched",
+    },
+  ],
+  banners: [
+    {
+      badge: "Premium Supplier Ad",
+      cta: { href: "/products", isEnabled: false, label: "View More" },
+      description: "Industrial power solutions prepared for global procurement teams.",
+      id: "home-banner-industrial-power",
+      imageAlt: "Industrial power solution product",
+      imageUrl: industrialPumpImage,
+      title: "Industrial Power Solutions",
+    },
+    {
+      badge: "Event Banner",
+      cta: { href: "/events", isEnabled: false, label: "Register Now" },
+      description: "Singapore sourcing summit for verified suppliers and trade operators.",
+      id: "home-banner-procurement-summit",
+      imageAlt: "Global procurement summit skyline",
+      imageUrl: skylineImage,
+      title: "Global Procurement Summit 2024",
+    },
+    {
+      badge: "Service",
+      cta: { href: "/service", isEnabled: false, label: "Learn More" },
+      description: "Registration and compliance support for Thailand market entry.",
+      id: "home-banner-thailand-fda",
+      imageAlt: "Thailand FDA laboratory flasks",
+      imageUrl: labImage,
+      title: "Thailand FDA Service",
+    },
+  ],
+  buyerRequests: [
+    {
+      badge: "RFQ",
+      id: "home-request-stainless-steel-sheet",
+      quantity: "Quantity: 24 tons",
+      spec: "Grade 304, thickness 2 mm",
+      title: "Stainless Steel Sheet",
+    },
+    {
+      badge: "RFQ",
+      id: "home-request-hydraulic-cylinder",
+      quantity: "Quantity: 300 units",
+      spec: "Bore 100 mm, stroke 500 mm",
+      title: "Hydraulic Cylinder",
+    },
+    {
+      badge: "RFQ",
+      id: "home-request-led-high-bay",
+      quantity: "Quantity: 1,200 units",
+      spec: "Industrial high bay lighting",
+      title: "LED Lighting System",
+    },
+    {
+      badge: "RFQ",
+      id: "home-request-packaging-film-roll",
+      quantity: "Quantity: 18 pallets",
+      spec: "PET, width 500 mm",
+      title: "Packaging Film Roll",
+    },
+  ],
+  events: [
+    {
+      badge: "Expo",
+      dateLabel: "May 28",
+      id: "home-event-thailand-industrial-expo",
+      imageAlt: "Thailand industrial event hall",
+      imageUrl: cityEventImage,
+      locationLabel: "Bangkok, Thailand",
+      title: "Thailand Industrial Expo 2024",
+    },
+    {
+      badge: "Mission",
+      dateLabel: "Jun 15",
+      id: "home-event-korea-trade-mission",
+      imageAlt: "Korea trade event",
+      imageUrl: skylineImage,
+      locationLabel: "Seoul, Korea",
+      title: "Korea Trade Mission",
+    },
+    {
+      badge: "Summit",
+      dateLabel: "Jun 22",
+      id: "home-event-procurement-summit",
+      imageAlt: "Global procurement summit city",
+      imageUrl: logisticsImage,
+      locationLabel: "Singapore",
+      title: "Global Procurement Summit",
+    },
+  ],
+  faqs: [
+    {
+      answer: "Start with supplier registration. Admin approval is required before company setup and product publishing are opened.",
+      id: "home-faq-verified-supplier",
+      question: "How can I become a verified supplier?",
+    },
+    {
+      answer: "Inquiry creation is planned for the brokerage workflow. Public marketplace cards do not expose buyer contact data.",
+      id: "home-faq-product-inquiry",
+      question: "How do I submit a product inquiry?",
+    },
+    {
+      answer: "Buyer requests are routed through protected brokerage, so buyer identity and contact details remain hidden from suppliers by default.",
+      id: "home-faq-buyer-privacy",
+      question: "How is buyer information protected?",
+    },
+    {
+      answer: "Premium supplier placement can improve exposure in product banners, featured rows, and marketplace highlight zones.",
+      id: "home-faq-premium",
+      question: "How does the premium supplier program work?",
+    },
+  ],
+  latestProducts: [
+    ...marketplace.latestProducts.items,
+  ],
+  premiumProducts: [
+    ...marketplace.premiumProducts.items,
+  ],
+  searchPlaceholder: "Search products, suppliers, buyer requests...",
+  showcases: [
+    ...marketplace.productShowcase.items,
+  ],
+  verifiedBuyers: [
+    ...marketplace.verifiedBuyers.items,
+  ],
+};
+
 export const staticLandingConfig = {
   hero,
   marketplace,
+  marketplaceHome,
   noticeCtaFooter,
 };

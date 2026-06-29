@@ -9357,3 +9357,26 @@ button.apple-footer-link {
     grid-template-columns: 1fr;
   }
 }
+
+/* Marketplace Home header fit */
+.marketplace-public-header nav {
+  justify-content: flex-start !important;
+}
+
+.marketplace-public-header > div {
+  gap: 12px;
+}
+
+.marketplace-header-logo span {
+  width: 116px !important;
+}
+
+.marketplace-header-nav-link {
+  padding-inline: 8px;
+  font-size: 11px;
+}
+
+.marketplace-header-search {
+  max-width: 240px;
+  flex-basis: 240px;
+}
