@@ -7,6 +7,7 @@ import type { ReactNode, SVGProps } from "react";
 import { signOut } from "@/lib/actions/auth";
 import { ActionFeedbackProvider } from "@/components/shared/action-feedback";
 import { Badge, StatusBadge } from "@/components/shared/badge";
+import { BrandLogo } from "@/components/shared/brand-logo";
 import {
   BoxIcon,
   BuildingIcon,
@@ -28,6 +29,7 @@ import {
 import {
   DocumentCheckIcon,
   MailIcon,
+  SearchIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
 import {
@@ -102,108 +104,15 @@ const shellConfig: Record<
   },
 };
 
-type PublicMegaMenu = {
-  badgeKey: string;
-  descriptionKey: string;
-  href: string;
-  links: readonly {
-    href: string;
-    labelKey: string;
-    metaKey: string;
-  }[];
-  signalKey: string;
-};
-
-const publicMegaMenus: readonly PublicMegaMenu[] = [
-  {
-    badgeKey: "nav.mega.commercial.badge",
-    descriptionKey: "nav.mega.commercial.description",
-    href: "/commercial",
-    links: [
-      { href: "/commercial", labelKey: "nav.mega.commercial.link.products", metaKey: "nav.mega.commercial.meta.products" },
-      { href: "/companies", labelKey: "nav.mega.commercial.link.suppliers", metaKey: "nav.mega.commercial.meta.suppliers" },
-      { href: "/commercial", labelKey: "nav.mega.commercial.link.categories", metaKey: "nav.mega.commercial.meta.categories" },
-    ],
-    signalKey: "nav.mega.commercial.signal",
-  },
-  {
-    badgeKey: "nav.mega.industrial.badge",
-    descriptionKey: "nav.mega.industrial.description",
-    href: "/industrial",
-    links: [
-      { href: "/industrial", labelKey: "nav.mega.industrial.link.machinery", metaKey: "nav.mega.industrial.meta.machinery" },
-      { href: "/industrial", labelKey: "nav.mega.industrial.link.equipment", metaKey: "nav.mega.industrial.meta.equipment" },
-      { href: "/buy-sell", labelKey: "nav.mega.industrial.link.requests", metaKey: "nav.mega.industrial.meta.requests" },
-    ],
-    signalKey: "nav.mega.industrial.signal",
-  },
-  {
-    badgeKey: "nav.mega.epc.badge",
-    descriptionKey: "nav.mega.epc.description",
-    href: "/epc",
-    links: [
-      { href: "/epc", labelKey: "nav.mega.epc.link.projects", metaKey: "nav.mega.epc.meta.projects" },
-      { href: "/epc", labelKey: "nav.mega.epc.link.energy", metaKey: "nav.mega.epc.meta.energy" },
-      { href: "/networking", labelKey: "nav.mega.epc.link.partners", metaKey: "nav.mega.epc.meta.partners" },
-    ],
-    signalKey: "nav.mega.epc.signal",
-  },
-  {
-    badgeKey: "nav.mega.events.badge",
-    descriptionKey: "nav.mega.events.description",
-    href: "/events",
-    links: [
-      { href: "/events", labelKey: "nav.mega.events.link.programs", metaKey: "nav.mega.events.meta.programs" },
-      { href: "/events", labelKey: "nav.mega.events.link.webinars", metaKey: "nav.mega.events.meta.webinars" },
-      { href: "/events", labelKey: "nav.mega.events.link.missions", metaKey: "nav.mega.events.meta.missions" },
-    ],
-    signalKey: "nav.mega.events.signal",
-  },
-  {
-    badgeKey: "nav.mega.buySell.badge",
-    descriptionKey: "nav.mega.buySell.description",
-    href: "/buy-sell",
-    links: [
-      { href: "/buy-sell/buy-requests", labelKey: "nav.mega.buySell.link.buyRequests", metaKey: "nav.mega.buySell.meta.buyRequests" },
-      { href: "/buy-sell", labelKey: "nav.mega.buySell.link.sellProducts", metaKey: "nav.mega.buySell.meta.sellProducts" },
-      { href: "/dashboard/messages", labelKey: "nav.mega.buySell.link.quotation", metaKey: "nav.mega.buySell.meta.quotation" },
-    ],
-    signalKey: "nav.mega.buySell.signal",
-  },
-  {
-    badgeKey: "nav.mega.networking.badge",
-    descriptionKey: "nav.mega.networking.description",
-    href: "/networking",
-    links: [
-      { href: "/networking", labelKey: "nav.mega.networking.link.matching", metaKey: "nav.mega.networking.meta.matching" },
-      { href: "/networking", labelKey: "nav.mega.networking.link.agent", metaKey: "nav.mega.networking.meta.agent" },
-      { href: "/dashboard/activities", labelKey: "nav.mega.networking.link.ambassador", metaKey: "nav.mega.networking.meta.ambassador" },
-    ],
-    signalKey: "nav.mega.networking.signal",
-  },
-  {
-    badgeKey: "nav.mega.service.badge",
-    descriptionKey: "nav.mega.service.description",
-    href: "/service",
-    links: [
-      { href: "/service", labelKey: "nav.mega.service.link.fda", metaKey: "nav.mega.service.meta.fda" },
-      { href: "/service", labelKey: "nav.mega.service.link.label", metaKey: "nav.mega.service.meta.label" },
-      { href: "/service", labelKey: "nav.mega.service.link.license", metaKey: "nav.mega.service.meta.license" },
-    ],
-    signalKey: "nav.mega.service.signal",
-  },
-  {
-    badgeKey: "nav.mega.notice.badge",
-    descriptionKey: "nav.mega.notice.description",
-    href: "/notice",
-    links: [
-      { href: "/notice", labelKey: "nav.mega.notice.link.updates", metaKey: "nav.mega.notice.meta.updates" },
-      { href: "/privacy", labelKey: "nav.mega.notice.link.policy", metaKey: "nav.mega.notice.meta.policy" },
-      { href: "/guide", labelKey: "nav.mega.notice.link.guide", metaKey: "nav.mega.notice.meta.guide" },
-    ],
-    signalKey: "nav.mega.notice.signal",
-  },
-];
+const marketplacePublicNavigation = [
+  { href: "/commercial", label: "Commercial" },
+  { href: "/industrial", label: "Industrial" },
+  { href: "/epc", label: "EPC" },
+  { href: "/events", label: "Event" },
+  { href: "/buy-sell", label: "BUY & SELL" },
+  { href: "/networking", label: "Networking" },
+  { href: "/service", label: "Service" },
+] as const;
 
 const profileMenuByRole = {
   administrator: [
@@ -252,13 +161,6 @@ const profileMenuByRole = {
   readonly { href: string; labelKey: string; metaKey: string }[]
 >;
 
-const guestRolePreview = [
-  { labelKey: "nav.guest.supplier", metaKey: "nav.guest.supplierMeta" },
-  { labelKey: "nav.guest.buyer", metaKey: "nav.guest.buyerMeta" },
-  { labelKey: "nav.guest.agent", metaKey: "nav.guest.agentMeta" },
-  { labelKey: "nav.guest.ambassador", metaKey: "nav.guest.ambassadorMeta" },
-] as const;
-
 const adminNotificationItems = [
   {
     bodyKey: "admin.notifications.fda.body",
@@ -303,25 +205,6 @@ const adminProfileMenuItems = [
   },
 ] as const;
 
-function HeaderWordmark() {
-  return (
-    <span className="group/logo inline-flex items-center gap-3" aria-label={t("brand.name")}>
-      <span className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-white/[0.16] bg-[linear-gradient(145deg,#111827,#04070d)] text-[12px] font-black tracking-[-0.01em] text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_14px_30px_rgb(0_0_0/0.25)]">
-        <span className="absolute h-5 w-5 rounded-full border border-action-blue/55 transition group-hover/logo:scale-110" />
-        <span>B2</span>
-      </span>
-      <span className="hidden leading-none sm:block">
-        <span className="block text-[17px] font-black tracking-[-0.01em] text-white">
-          B2BB2G
-        </span>
-        <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/[0.45]">
-          Trade Network
-        </span>
-      </span>
-    </span>
-  );
-}
-
 function BellIcon(props: Readonly<SVGProps<SVGSVGElement>>) {
   return (
     <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" {...props}>
@@ -336,70 +219,12 @@ function BellIcon(props: Readonly<SVGProps<SVGSVGElement>>) {
   );
 }
 
-function HeaderMegaPanel({ menu }: Readonly<{ menu: PublicMegaMenu }>) {
-  return (
-    <div className="absolute left-1/2 top-full hidden w-[360px] -translate-x-1/2 pt-4 group-hover/nav:block group-focus-within/nav:block">
-      <div className="rounded-[26px] border border-white/[0.12] bg-[#0c111a]/[0.96] p-4 text-white shadow-[0_24px_70px_rgb(0_0_0/0.42)] backdrop-blur-2xl">
-        <div className="flex items-start justify-between gap-4 border-b border-white/[0.10] pb-4">
-          <div>
-            <Badge dot={false} tone="info">
-              {t(menu.badgeKey)}
-            </Badge>
-            <p className="mt-3 text-[13px] leading-5 text-white/[0.66]">{t(menu.descriptionKey)}</p>
-          </div>
-          <span className="rounded-full border border-white/[0.12] bg-white/[0.06] px-3 py-1 text-[11px] font-semibold text-white/[0.58]">
-            {t(menu.signalKey)}
-          </span>
-        </div>
-        <div className="mt-3 space-y-1">
-          {menu.links.map((link) => (
-            <Link
-              className="group/item flex items-center justify-between gap-4 rounded-2xl px-3 py-3 transition hover:bg-white/[0.08]"
-              href={link.href}
-              key={`${menu.href}-${link.labelKey}`}
-            >
-              <span>
-                <span className="block text-[13px] font-semibold text-white">{t(link.labelKey)}</span>
-                <span className="mt-0.5 block text-[12px] text-white/[0.48]">{t(link.metaKey)}</span>
-              </span>
-              <span className="text-[16px] text-white/[0.30] transition group-hover/item:translate-x-0.5 group-hover/item:text-action-blue">
-                →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function GuestAccessMenu() {
   return (
-    <div className="group/auth relative flex shrink-0 items-center gap-2">
-      <Link className="public-header-ghost-btn" href="/login">
+    <div className="flex shrink-0 items-center">
+      <Link className="marketplace-login-button" href="/login">
         {t("nav.signIn")}
       </Link>
-      <Link className="public-header-primary-btn" href="/signup">
-        {t("auth.login.createAccount")}
-      </Link>
-      <div className="absolute right-0 top-full hidden w-[326px] pt-4 group-hover/auth:block group-focus-within/auth:block">
-        <div className="rounded-[26px] border border-white/[0.12] bg-[#0c111a]/[0.96] p-4 text-white shadow-[0_24px_70px_rgb(0_0_0/0.42)] backdrop-blur-2xl">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[13px] font-semibold">{t("nav.guest.title")}</p>
-            <Badge dot={false} tone="positive">
-              {t("nav.guest.badge")}
-            </Badge>
-          </div>
-          <div className="mt-3 space-y-1">
-            {guestRolePreview.map((item) => (
-              <div className="rounded-2xl bg-white/[0.045] px-3 py-2.5" key={item.labelKey}>
-                <p className="text-[12px] font-semibold text-white">{t(item.labelKey)}</p>
-                <p className="mt-0.5 text-[11px] leading-4 text-white/50">{t(item.metaKey)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -719,51 +544,56 @@ function PublicSiteHeader({
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.10] bg-[#07090d]/[0.94] backdrop-blur-xl">
-      <div className="mx-auto flex min-h-[72px] max-w-[1440px] items-center gap-5 px-5 sm:px-8 lg:px-10">
-        <Link aria-label={t("brand.name")} className="shrink-0" href="/">
-          <HeaderWordmark />
+    <header className="marketplace-public-header">
+      <div className="mx-auto flex min-h-[74px] max-w-[1440px] items-center gap-4 px-5 sm:px-8 lg:px-10">
+        <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
+          <BrandLogo className="h-10 w-[152px] rounded-[10px]" />
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 lg:flex">
-          {publicNavigation.map((item) => {
-            const menu = publicMegaMenus.find((entry) => entry.href === item.href);
-
-            return (
-              <div className="group/nav relative" key={item.href}>
-                <Link
-                  className={`inline-flex min-h-10 items-center rounded-full px-3 text-[13px] font-semibold tracking-[-0.01em] transition ${
-                    pathname === item.href
-                      ? "bg-white text-calm-ink"
-                      : "text-white/[0.62] hover:bg-white/[0.09] hover:text-white"
-                  }`}
-                  href={item.href}
-                >
-                  {t(item.labelKey)}
-                </Link>
-                {menu ? <HeaderMegaPanel menu={menu} /> : null}
-              </div>
-            );
-          })}
-        </nav>
-
-        <div className="ml-auto">
-          <PublicAuthControls publicUser={publicUser} />
-        </div>
-      </div>
-      <div className="border-t border-white/10 lg:hidden">
-        <nav className="mx-auto flex max-w-[1440px] gap-2 overflow-x-auto px-5 py-3 sm:px-8">
-          {publicNavigation.map((item) => (
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex">
+          {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`shrink-0 rounded-full px-3 py-2 text-[12px] font-medium transition ${
-                pathname === item.href
-                  ? "bg-white text-calm-ink"
-                  : "bg-white/5 text-white/72 hover:bg-white/10 hover:text-white"
-              }`}
+              className={`marketplace-header-nav-link ${pathname === item.href ? "active" : ""}`}
               href={item.href}
               key={item.href}
             >
-              {t(item.labelKey)}
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="marketplace-header-search" role="search" aria-label="Marketplace search">
+          <SearchIcon className="h-4 w-4" aria-hidden="true" />
+          <input disabled placeholder="Search products, suppliers, requests..." type="search" />
+        </div>
+
+        <div className="marketplace-header-buyers" aria-label="Verified buyer network">
+          <span className="marketplace-buyer-stack">
+            <span>B</span>
+            <span>G</span>
+            <span>T</span>
+            <span>D</span>
+          </span>
+          <strong>10,000+ Buyers</strong>
+        </div>
+
+        <button className="marketplace-language-button" disabled type="button">
+          Language
+        </button>
+
+        <div className="ml-auto lg:ml-0">
+          <PublicAuthControls publicUser={publicUser} />
+        </div>
+      </div>
+      <div className="marketplace-mobile-nav xl:hidden">
+        <nav className="mx-auto flex max-w-[1440px] gap-2 overflow-x-auto px-5 py-3 sm:px-8">
+          {marketplacePublicNavigation.map((item) => (
+            <Link
+              className={`marketplace-mobile-nav-link ${pathname === item.href ? "active" : ""}`}
+              href={item.href}
+              key={item.href}
+            >
+              {item.label}
             </Link>
           ))}
         </nav>

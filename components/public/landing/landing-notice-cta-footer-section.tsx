@@ -1,6 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { ArrowRightIcon, ShieldCheckIcon } from "@/components/public/icons";
+import { ArrowRightIcon } from "@/components/public/icons";
 import { BrandLogo } from "@/components/shared/brand-logo";
 
 type LandingFooterVisibility = {
@@ -92,32 +91,6 @@ function GatewayLink({
   );
 }
 
-function PreviewLink({
-  children,
-  className,
-  href,
-  isEnabled,
-}: Readonly<{
-  children: ReactNode;
-  className: string;
-  href: string;
-  isEnabled?: boolean;
-}>) {
-  if (isEnabled === false) {
-    return (
-      <button className={className} disabled type="button">
-        {children}
-      </button>
-    );
-  }
-
-  return (
-    <Link className={className} href={href}>
-      {children}
-    </Link>
-  );
-}
-
 export function LandingNoticeCtaFooterSection({
   config,
 }: Readonly<{
@@ -130,102 +103,45 @@ export function LandingNoticeCtaFooterSection({
   return (
     <section
       aria-labelledby={`${config.sectionId}-title`}
-      className="landing-notice-footer-section"
+      className="marketplace-footer-section"
       id={config.sectionId}
     >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-        <div className="landing-notice-footer-header">
-          <p className="landing-section-kicker">{config.eyebrow}</p>
-          <h2 className="landing-section-title" id={`${config.sectionId}-title`}>
-            {config.title}
-          </h2>
-          <p className="landing-section-lead">{config.subtitle}</p>
-        </div>
-
-        <div className="landing-notice-event-grid">
-          <div className="landing-notice-event-panel">
-            <div className="landing-notice-event-panel-head">
-              <h3>{config.noticeTitle}</h3>
-              <span>{config.noticeItems.length}</span>
-            </div>
-            <div className="landing-notice-list">
-              {config.noticeItems.map((item) => (
-                <PreviewLink
-                  className="landing-notice-item"
-                  href={item.href}
-                  isEnabled={item.isEnabled}
-                  key={item.id}
-                >
-                  <span className="landing-notice-item-meta">
-                    <span>{item.statusLabel}</span>
-                    <time>{item.dateLabel}</time>
-                  </span>
-                  <strong>{item.title}</strong>
-                  <p>{item.description}</p>
-                </PreviewLink>
-              ))}
-            </div>
-          </div>
-
-          <div className="landing-notice-event-panel landing-event-preview-panel">
-            <div className="landing-notice-event-panel-head">
-              <h3>{config.eventTitle}</h3>
-              <span>{config.eventItems.length}</span>
-            </div>
-            <div className="landing-event-preview-list">
-              {config.eventItems.map((item) => (
-                <PreviewLink
-                  className="landing-event-preview-item"
-                  href={item.href}
-                  isEnabled={item.isEnabled}
-                  key={item.id}
-                >
-                  <span className="landing-event-preview-status">
-                    <ShieldCheckIcon className="h-4 w-4" aria-hidden="true" />
-                    {item.statusLabel}
-                  </span>
-                  <strong>{item.title}</strong>
-                  <p>{item.description}</p>
-                  <span className="landing-event-preview-meta">
-                    <span>{item.dateLabel}</span>
-                    <span>{item.locationLabel}</span>
-                  </span>
-                </PreviewLink>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="landing-final-cta-panel">
-          <div className="landing-final-cta-copy">
-            <p className="landing-section-kicker landing-section-kicker-on-dark">{config.eyebrow}</p>
+        <div className="marketplace-final-cta-panel">
+          <div>
+            <p>{config.eyebrow}</p>
             <h2>{config.finalCta.title}</h2>
             <p>{config.finalCta.subtitle}</p>
           </div>
 
-          <div className="landing-final-cta-actions">
-            <GatewayLink className="landing-final-cta-primary" item={config.finalCta.primaryCta} />
-            <GatewayLink className="landing-final-cta-secondary" item={config.finalCta.secondaryCta} />
-            <GatewayLink className="landing-final-cta-secondary" item={config.finalCta.signInCta} />
+          <div className="marketplace-final-cta-actions">
+            <GatewayLink className="marketplace-final-cta-primary" item={config.finalCta.primaryCta} />
+            <GatewayLink className="marketplace-final-cta-secondary" item={config.finalCta.secondaryCta} />
+            <GatewayLink className="marketplace-final-cta-secondary" item={config.finalCta.signInCta} />
           </div>
         </div>
 
-        <footer className="landing-builder-footer">
-          <div className="landing-builder-footer-brand">
+        <footer className="marketplace-footer">
+          <div className="marketplace-footer-brand">
             <Link aria-label={config.brandLabel} className="inline-flex w-fit" href="/">
-              <BrandLogo className="h-9 w-[150px] rounded-[10px]" />
+              <BrandLogo className="h-10 w-[160px] rounded-[12px]" />
             </Link>
             <p>{config.footerTagline}</p>
+            <div className="marketplace-footer-socials" aria-label="Social links coming soon">
+              <button disabled type="button">IN</button>
+              <button disabled type="button">YT</button>
+              <button disabled type="button">X</button>
+            </div>
           </div>
 
-          <div className="landing-builder-footer-groups">
+          <div className="marketplace-footer-groups">
             {config.footerGroups.map((group) => (
-              <nav aria-label={group.groupTitle} className="landing-builder-footer-group" key={group.groupTitle}>
+              <nav aria-label={group.groupTitle} className="marketplace-footer-group" key={group.groupTitle}>
                 <h3>{group.groupTitle}</h3>
                 <div>
                   {group.links.map((link) => (
                     <GatewayLink
-                      className="landing-builder-footer-link"
+                      className="marketplace-footer-link"
                       item={link}
                       key={`${group.groupTitle}-${link.label}`}
                       showIcon={false}
@@ -236,8 +152,21 @@ export function LandingNoticeCtaFooterSection({
             ))}
           </div>
 
-          <div className="landing-builder-footer-bottom">
+          <div className="marketplace-footer-newsletter">
+            <h3>Subscribe to our newsletter</h3>
+            <p>Get marketplace updates, event notices, and supplier exposure news.</p>
+            <form>
+              <input disabled placeholder="Enter your email" type="email" />
+              <button disabled type="button">Submit</button>
+            </form>
+          </div>
+
+          <div className="marketplace-footer-bottom">
             <p>{config.rightsLabel}</p>
+            <div>
+              <button disabled type="button">English</button>
+              <button disabled type="button">Legal</button>
+            </div>
           </div>
         </footer>
       </div>
