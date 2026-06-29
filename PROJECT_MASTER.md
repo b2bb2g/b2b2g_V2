@@ -100,9 +100,9 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Apply and verify `013_invitation_admin_rls.sql` before Admin Invitation UI
+1. Apply and verify `013_invitation_admin_rls.sql` before using Admin Invitation UI in production
 2. Supplier public signup connection after user-facing Invitation RLS design
-3. Admin invitation flow after 013 production apply
+3. Invitation acceptance flow design before public route/signup connection
 4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
@@ -150,6 +150,7 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 Signup Workflow is documented. Supplier signup/invitation/approval, Agent application/invitation, Buyer invitation/direct signup, Professor invitation, and Student invitation now have workflow contracts before UI/signup route work.
 - Invitation query/action skeleton is implemented under `lib/invitations/`. It is server-only/admin-only, stores only `token_hash`, returns raw token only to the issuing admin action, and does not connect UI, public routes, role applications, account roles, or organization bindings yet.
 - `013_invitation_admin_rls.sql` is authored but not applied to production. It adds Admin-only select/insert/update policies for Invitation tables using the existing `public.is_admin()` helper and keeps public/user-facing access blocked. `createAdminInvitation` now cancels and soft-deletes a just-created invitation if token insertion fails.
+- Admin Invitation Management UI is implemented at `/admin/invitations`. It supports Admin create/list/revoke only, displays raw token or invitation URL only immediately after creation, and does not connect public accept, signup, QR, email, role application, account role, or organization binding flows.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action

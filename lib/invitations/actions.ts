@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireAdminRoute } from "@/lib/auth/guards";
 import { normalizeRoleKey } from "@/lib/auth/account-roles";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -77,6 +79,22 @@ export type AcceptInvitationTokenResult =
       ok: false;
     };
 
+export type AdminInvitationCreateFormState =
+  | {
+      created: null;
+      error: string | null;
+      ok: false;
+    }
+  | {
+      created: {
+        invitationId: string;
+        invitationUrl: string | null;
+        token: string;
+      };
+      error: null;
+      ok: true;
+    };
+
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const MAX_INVITED_EMAIL_LENGTH = 320;
@@ -100,6 +118,28 @@ function optionalUuid(value: string | null | undefined, label: string): string |
   }
 
   return validateUuid(value, label);
+}
+
+function optionalFormString(formData: FormData, name: string): string | null {
+  const value = formData.get(name);
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+
+  return trimmed || null;
+}
+
+function requiredFormString(formData: FormData, name: string): string {
+  const value = optionalFormString(formData, name);
+
+  if (!value) {
+    throw new Error(`Missing ${name}`);
+  }
+
+  return value;
 }
 
 function normalizeInvitedEmail(email: string | null | undefined): string | null {
@@ -126,6 +166,28 @@ function normalizeMaxUses(maxUses: number | undefined): number {
   }
 
   return maxUses;
+}
+
+function normalizeFormMaxUses(value: string | null): number | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  return normalizeMaxUses(Number(value));
+}
+
+function normalizeFormExpiresAt(value: string | null): string | null {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+
+  if (Number.isNaN(parsed.getTime())) {
+    throw new Error("Invalid expires at");
+  }
+
+  return parsed.toISOString();
 }
 
 function assertSupportedInvitationType(invitationType: string): InvitationType {
@@ -315,6 +377,55 @@ export async function revokeInvitation(
   } catch (error) {
     return { error: getErrorMessage(error), ok: false };
   }
+}
+
+export async function createAdminInvitationFormAction(
+  _previousState: AdminInvitationCreateFormState,
+  formData: FormData,
+): Promise<AdminInvitationCreateFormState> {
+  try {
+    const result = await createAdminInvitation({
+      agentId: optionalFormString(formData, "agentId"),
+      baseUrl: optionalFormString(formData, "baseUrl"),
+      companyId: optionalFormString(formData, "companyId"),
+      expiresAt: normalizeFormExpiresAt(optionalFormString(formData, "expiresAt")),
+      invitationType: assertSupportedInvitationType(
+        requiredFormString(formData, "invitationType"),
+      ),
+      invitedEmail: optionalFormString(formData, "invitedEmail"),
+      maxUses: normalizeFormMaxUses(optionalFormString(formData, "maxUses")),
+      parentAccountId: optionalFormString(formData, "parentAccountId"),
+      parentRoleKey: optionalFormString(formData, "parentRoleKey"),
+      professorId: optionalFormString(formData, "professorId"),
+      targetRoleKey: requiredFormString(formData, "targetRoleKey"),
+    });
+
+    if (!result.ok) {
+      return { created: null, error: result.error, ok: false };
+    }
+
+    revalidatePath("/admin/invitations");
+
+    return {
+      created: {
+        invitationId: result.invitationId,
+        invitationUrl: result.invitationUrl,
+        token: result.token,
+      },
+      error: null,
+      ok: true,
+    };
+  } catch (error) {
+    return { created: null, error: getErrorMessage(error), ok: false };
+  }
+}
+
+export async function revokeInvitationFormAction(formData: FormData): Promise<void> {
+  const invitationId = requiredFormString(formData, "invitationId");
+  const result = await revokeInvitation(invitationId);
+
+  revalidatePath("/admin/invitations");
+  redirect(`/admin/invitations?result=${result.ok ? "revoked" : "error"}`);
 }
 
 export async function validateInvitationToken(
