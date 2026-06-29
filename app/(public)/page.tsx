@@ -3,6 +3,10 @@ import Link from "next/link";
 import { ArrowRightIcon } from "@/components/public/icons";
 import { BuyRequestPreviewCarousel } from "@/components/public/buy-request-preview-carousel";
 import { LandingEventCarousel } from "@/components/public/landing-event-carousel";
+import {
+  LandingCountryServiceSection,
+  type LandingCountryServiceConfig,
+} from "@/components/public/landing/landing-country-service-section";
 import { LandingHeroSection, type LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
 import {
   LandingFeaturedMarketplaceSection,
@@ -322,6 +326,117 @@ const landingFeaturedMarketplaceConfig: LandingFeaturedMarketplaceConfig = {
   sectionId: "landing-featured-marketplace",
   subtitle: t("home.featuredMarketplace.subtitle"),
   title: t("home.featuredMarketplace.title"),
+  visibility: {
+    endsAt: null,
+    isVisible: true,
+    startsAt: null,
+  },
+};
+
+const landingCountryServiceConfig: LandingCountryServiceConfig = {
+  countryGatewaySubtitle: t("home.countryService.country.subtitle"),
+  countryGatewayTitle: t("home.countryService.country.title"),
+  countryGateways: [
+    {
+      countryName: t("home.countryService.country.korea.name"),
+      ctaLabel: t("home.countryService.viewGateway"),
+      description: t("home.countryService.country.korea.description"),
+      href: "/commercial",
+      id: "country-gateway-korea",
+      marketLabel: t("home.countryService.country.korea.market"),
+      statusLabel: t("home.countryService.country.korea.status"),
+    },
+    {
+      countryName: t("home.countryService.country.thailand.name"),
+      ctaLabel: t("home.countryService.viewGateway"),
+      description: t("home.countryService.country.thailand.description"),
+      href: "/thailand-fda-service",
+      id: "country-gateway-thailand",
+      marketLabel: t("home.countryService.country.thailand.market"),
+      statusLabel: t("home.countryService.country.thailand.status"),
+    },
+    {
+      countryName: t("home.countryService.country.japan.name"),
+      ctaLabel: t("home.countryService.comingSoon"),
+      description: t("home.countryService.country.japan.description"),
+      href: "/countries/japan",
+      id: "country-gateway-japan",
+      isEnabled: false,
+      marketLabel: t("home.countryService.country.japan.market"),
+      statusLabel: t("home.countryService.country.japan.status"),
+    },
+    {
+      countryName: t("home.countryService.country.vietnam.name"),
+      ctaLabel: t("home.countryService.comingSoon"),
+      description: t("home.countryService.country.vietnam.description"),
+      href: "/countries/vietnam",
+      id: "country-gateway-vietnam",
+      isEnabled: false,
+      marketLabel: t("home.countryService.country.vietnam.market"),
+      statusLabel: t("home.countryService.country.vietnam.status"),
+    },
+    {
+      countryName: t("home.countryService.country.indonesia.name"),
+      ctaLabel: t("home.countryService.comingSoon"),
+      description: t("home.countryService.country.indonesia.description"),
+      href: "/countries/indonesia",
+      id: "country-gateway-indonesia",
+      isEnabled: false,
+      marketLabel: t("home.countryService.country.indonesia.market"),
+      statusLabel: t("home.countryService.country.indonesia.status"),
+    },
+  ],
+  eyebrow: t("home.countryService.eyebrow"),
+  publishState: "published",
+  sectionId: "landing-country-service-gateway",
+  serviceGatewaySubtitle: t("home.countryService.service.subtitle"),
+  serviceGatewayTitle: t("home.countryService.service.title"),
+  serviceGateways: [
+    {
+      ctaLabel: t("home.countryService.viewGateway"),
+      description: t("home.countryService.service.fda.description"),
+      href: "/thailand-fda-service",
+      id: "service-gateway-thailand-fda",
+      serviceName: t("home.countryService.service.fda.name"),
+      statusLabel: t("home.countryService.service.fda.status"),
+    },
+    {
+      ctaLabel: t("home.countryService.viewGateway"),
+      description: t("home.countryService.service.events.description"),
+      href: "/events",
+      id: "service-gateway-events",
+      serviceName: t("home.countryService.service.events.name"),
+      statusLabel: t("home.countryService.service.events.status"),
+    },
+    {
+      ctaLabel: t("home.countryService.comingSoon"),
+      description: t("home.countryService.service.studentShowcase.description"),
+      href: "/student-showcase",
+      id: "service-gateway-student-showcase",
+      isEnabled: false,
+      serviceName: t("home.countryService.service.studentShowcase.name"),
+      statusLabel: t("home.countryService.service.studentShowcase.status"),
+    },
+    {
+      ctaLabel: t("home.countryService.viewGateway"),
+      description: t("home.countryService.service.buyRequestBrokerage.description"),
+      href: "/buy-sell/buy-requests",
+      id: "service-gateway-buy-request-brokerage",
+      serviceName: t("home.countryService.service.buyRequestBrokerage.name"),
+      statusLabel: t("home.countryService.service.buyRequestBrokerage.status"),
+    },
+    {
+      ctaLabel: t("home.countryService.comingSoon"),
+      description: t("home.countryService.service.supplierMembership.description"),
+      href: "/supplier-membership",
+      id: "service-gateway-supplier-membership",
+      isEnabled: false,
+      serviceName: t("home.countryService.service.supplierMembership.name"),
+      statusLabel: t("home.countryService.service.supplierMembership.status"),
+    },
+  ],
+  subtitle: t("home.countryService.subtitle"),
+  title: t("home.countryService.title"),
   visibility: {
     endsAt: null,
     isVisible: true,
@@ -753,6 +868,7 @@ export default async function HomePage() {
       <LandingHeroSection config={landingHeroConfig} />
       <LandingRoleGatewaySection config={landingRoleGatewayConfig} />
       <LandingFeaturedMarketplaceSection config={landingFeaturedMarketplaceConfig} />
+      <LandingCountryServiceSection config={landingCountryServiceConfig} />
 
       <TrustInfrastructureSection />
 

@@ -299,6 +299,63 @@ const dictionaries = {
     "home.featuredMarketplace.suppliers.item3.title": "Food Supplement Partner",
     "home.featuredMarketplace.suppliers.title": "Featured Suppliers",
     "home.featuredMarketplace.title": "Marketplace signals before direct matching.",
+    "home.countryService.comingSoon": "Coming soon",
+    "home.countryService.country.indonesia.description":
+      "Future country path for supplier membership, buyer demand, and regional event discovery.",
+    "home.countryService.country.indonesia.market": "Supplier / Buyer / Event",
+    "home.countryService.country.indonesia.name": "Indonesia",
+    "home.countryService.country.indonesia.status": "Planned",
+    "home.countryService.country.japan.description":
+      "Future country path for product discovery, buyer signals, and partner network routing.",
+    "home.countryService.country.japan.market": "Market / Buyer / Event",
+    "home.countryService.country.japan.name": "Japan",
+    "home.countryService.country.japan.status": "Planned",
+    "home.countryService.country.korea.description":
+      "Primary supplier discovery gateway for commercial, industrial, EPC, and service-ready products.",
+    "home.countryService.country.korea.market": "Supplier / Product / EPC",
+    "home.countryService.country.korea.name": "Korea",
+    "home.countryService.country.korea.status": "Supply hub",
+    "home.countryService.country.subtitle":
+      "Static country entry cards show future market, supplier, buyer, FDA, and event routing before country DB data is connected.",
+    "home.countryService.country.thailand.description":
+      "Service-led gateway for Thailand FDA workflows, buyer demand, and local trade follow-up.",
+    "home.countryService.country.thailand.market": "FDA / Buyer / Service",
+    "home.countryService.country.thailand.name": "Thailand",
+    "home.countryService.country.thailand.status": "Service hub",
+    "home.countryService.country.title": "Country Gateway",
+    "home.countryService.country.vietnam.description":
+      "Future sourcing lane for industrial demand, supplier discovery, and event-based market entry.",
+    "home.countryService.country.vietnam.market": "Industrial / Buyer / Event",
+    "home.countryService.country.vietnam.name": "Vietnam",
+    "home.countryService.country.vietnam.status": "Planned",
+    "home.countryService.eyebrow": "Country / Service Gateway",
+    "home.countryService.service.buyRequestBrokerage.description":
+      "Route buyer demand through controlled brokerage before supplier follow-up.",
+    "home.countryService.service.buyRequestBrokerage.name": "Buy Request Brokerage",
+    "home.countryService.service.buyRequestBrokerage.status": "Brokered",
+    "home.countryService.service.events.description":
+      "Trade programs, webinars, and buyer missions surfaced from approved event content.",
+    "home.countryService.service.events.name": "Events",
+    "home.countryService.service.events.status": "Preview",
+    "home.countryService.service.fda.description":
+      "Thailand FDA service entry for cosmetics, food supplements, food, medical devices, and labeling support.",
+    "home.countryService.service.fda.name": "Thailand FDA Service",
+    "home.countryService.service.fda.status": "Active path",
+    "home.countryService.service.studentShowcase.description":
+      "Future showcase path for Professor-connected Students after approval and relation checks.",
+    "home.countryService.service.studentShowcase.name": "Student Showcase",
+    "home.countryService.service.studentShowcase.status": "Planned",
+    "home.countryService.service.subtitle":
+      "Service cards stay static until FDA, event, student, brokerage, and membership data sources are wired into the builder.",
+    "home.countryService.service.supplierMembership.description":
+      "Future membership gateway for Free, Premium, and Enterprise Supplier operating levels.",
+    "home.countryService.service.supplierMembership.name": "Supplier Membership",
+    "home.countryService.service.supplierMembership.status": "Planned",
+    "home.countryService.service.title": "Service Gateway",
+    "home.countryService.subtitle":
+      "Country and service pathways make the public landing page navigable before Admin Builder and live database sections are connected.",
+    "home.countryService.title": "Enter by market or operating service.",
+    "home.countryService.viewGateway": "View gateway",
     "home.hero.title": "Meet Korean suppliers ready for global buyers.",
     "home.hero.lead":
       "Discover products, supplier records, buyer requests, and trade services in one focused global sourcing network.",
