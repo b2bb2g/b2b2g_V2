@@ -9,6 +9,10 @@ import {
 } from "@/components/public/landing/landing-country-service-section";
 import { LandingHeroSection, type LandingHeroConfig } from "@/components/public/landing/landing-hero-section";
 import {
+  LandingNoticeCtaFooterSection,
+  type LandingNoticeCtaFooterConfig,
+} from "@/components/public/landing/landing-notice-cta-footer-section";
+import {
   LandingFeaturedMarketplaceSection,
   type LandingFeaturedMarketplaceConfig,
 } from "@/components/public/landing/landing-featured-marketplace-section";
@@ -19,7 +23,6 @@ import {
 import { ProductCarousel } from "@/components/public/marketplace-carousel";
 import { Reveal } from "@/components/public/scroll-reveal";
 import { SupplierSpotlightCarousel } from "@/components/public/supplier-spotlight-carousel";
-import { BrandLogo } from "@/components/shared/brand-logo";
 import { getCurrentUser } from "@/lib/auth/session";
 import { t } from "@/lib/i18n/translation";
 import { getSampleItems } from "@/lib/sample/public-samples";
@@ -444,6 +447,143 @@ const landingCountryServiceConfig: LandingCountryServiceConfig = {
   },
 };
 
+const landingNoticeCtaFooterConfig: LandingNoticeCtaFooterConfig = {
+  brandLabel: t("brand.name"),
+  eventItems: [
+    {
+      dateLabel: t("home.noticeCtaFooter.events.item1.date"),
+      description: t("home.noticeCtaFooter.events.item1.description"),
+      href: "/events",
+      id: "footer-event-buyer-mission",
+      locationLabel: t("home.noticeCtaFooter.events.item1.location"),
+      statusLabel: t("home.noticeCtaFooter.events.item1.status"),
+      title: t("home.noticeCtaFooter.events.item1.title"),
+    },
+    {
+      dateLabel: t("home.noticeCtaFooter.events.item2.date"),
+      description: t("home.noticeCtaFooter.events.item2.description"),
+      href: "/events",
+      id: "footer-event-regulatory-webinar",
+      locationLabel: t("home.noticeCtaFooter.events.item2.location"),
+      statusLabel: t("home.noticeCtaFooter.events.item2.status"),
+      title: t("home.noticeCtaFooter.events.item2.title"),
+    },
+    {
+      dateLabel: t("home.noticeCtaFooter.events.item3.date"),
+      description: t("home.noticeCtaFooter.events.item3.description"),
+      href: "/events",
+      id: "footer-event-supplier-session",
+      locationLabel: t("home.noticeCtaFooter.events.item3.location"),
+      statusLabel: t("home.noticeCtaFooter.events.item3.status"),
+      title: t("home.noticeCtaFooter.events.item3.title"),
+    },
+  ],
+  eventTitle: t("home.noticeCtaFooter.events.title"),
+  eyebrow: t("home.noticeCtaFooter.eyebrow"),
+  finalCta: {
+    primaryCta: {
+      href: "/signup/supplier",
+      label: t("home.noticeCtaFooter.finalCta.primary"),
+    },
+    secondaryCta: {
+      href: "/signup/buyer",
+      label: t("home.noticeCtaFooter.finalCta.secondary"),
+    },
+    signInCta: {
+      href: "/login",
+      label: t("nav.signIn"),
+    },
+    subtitle: t("home.noticeCtaFooter.finalCta.subtitle"),
+    title: t("home.noticeCtaFooter.finalCta.title"),
+  },
+  footerGroups: [
+    {
+      groupTitle: t("home.noticeCtaFooter.footer.platform"),
+      links: [
+        { href: "/commercial", label: t("nav.commercial") },
+        { href: "/industrial", label: t("nav.industrial") },
+        { href: "/epc", label: t("nav.epc") },
+        { href: "/buy-sell", label: t("nav.buySell") },
+      ],
+    },
+    {
+      groupTitle: t("home.noticeCtaFooter.footer.services"),
+      links: [
+        { href: "/thailand-fda-service", label: t("home.countryService.service.fda.name") },
+        { href: "/events", label: t("nav.events") },
+        { href: "/buy-sell/buy-requests", label: t("home.countryService.service.buyRequestBrokerage.name") },
+        {
+          href: "/supplier-membership",
+          isEnabled: false,
+          label: t("home.countryService.service.supplierMembership.name"),
+        },
+      ],
+    },
+    {
+      groupTitle: t("home.noticeCtaFooter.footer.roles"),
+      links: [
+        { href: "/signup/supplier", label: t("home.roleGateway.supplier.title") },
+        { href: "/signup/buyer", label: t("home.roleGateway.buyer.title") },
+        { href: "/signup/agent", label: t("home.roleGateway.agent.title") },
+        { href: "/signup/professor", label: t("home.roleGateway.professor.title") },
+        { href: "/signup/student", label: t("home.roleGateway.student.title") },
+      ],
+    },
+    {
+      groupTitle: t("home.noticeCtaFooter.footer.legalSupport"),
+      links: [
+        { href: "/privacy", label: t("legal.privacy.title") },
+        { href: "/terms", label: t("legal.terms.title") },
+        { href: "/cookies", label: t("legal.cookies.title") },
+        { href: "/guide", label: t("legal.guide.title") },
+        {
+          href: "/support",
+          isEnabled: false,
+          label: t("home.noticeCtaFooter.footer.supportComingSoon"),
+        },
+      ],
+    },
+  ],
+  footerTagline: t("footer.tagline"),
+  noticeItems: [
+    {
+      dateLabel: t("home.noticeCtaFooter.notice.item1.date"),
+      description: t("home.noticeCtaFooter.notice.item1.description"),
+      href: "/notice",
+      id: "footer-notice-approval-first",
+      statusLabel: t("home.noticeCtaFooter.notice.item1.status"),
+      title: t("home.noticeCtaFooter.notice.item1.title"),
+    },
+    {
+      dateLabel: t("home.noticeCtaFooter.notice.item2.date"),
+      description: t("home.noticeCtaFooter.notice.item2.description"),
+      href: "/notice",
+      id: "footer-notice-brokerage-policy",
+      statusLabel: t("home.noticeCtaFooter.notice.item2.status"),
+      title: t("home.noticeCtaFooter.notice.item2.title"),
+    },
+    {
+      dateLabel: t("home.noticeCtaFooter.notice.item3.date"),
+      description: t("home.noticeCtaFooter.notice.item3.description"),
+      href: "/notice",
+      id: "footer-notice-builder-preview",
+      statusLabel: t("home.noticeCtaFooter.notice.item3.status"),
+      title: t("home.noticeCtaFooter.notice.item3.title"),
+    },
+  ],
+  noticeTitle: t("home.noticeCtaFooter.notice.title"),
+  publishState: "published",
+  rightsLabel: t("home.noticeCtaFooter.footer.rights"),
+  sectionId: "landing-notice-cta-footer",
+  subtitle: t("home.noticeCtaFooter.subtitle"),
+  title: t("home.noticeCtaFooter.title"),
+  visibility: {
+    endsAt: null,
+    isVisible: true,
+    startsAt: null,
+  },
+};
+
 type LandingProductItem = ReturnType<typeof getSampleItems>[number];
 
 function SectionIntro({
@@ -849,19 +989,12 @@ export default async function HomePage() {
   const industrialItems = getSampleItems("industrial");
   const epcItems = getSampleItems("epc");
   const eventItems = getSampleItems("events");
-  const noticeItems = getSampleItems("notice").slice(0, 4);
   const tradeAmbassadorItems = commercialItems.slice(4, 12).map((item) => ({
     ...item,
     meta: t("home.section.studentShowcase"),
   }));
   const featuredSupplierBannerItems = commercialItems.slice(1, 4);
   const industrialBannerItems = industrialItems.slice(1, 4);
-  const legalFooterLinks = [
-    { href: "/privacy", label: t("legal.privacy.title") },
-    { href: "/terms", label: t("legal.terms.title") },
-    { href: "/cookies", label: t("legal.cookies.title") },
-    { href: "/guide", label: t("legal.guide.title") },
-  ] as const;
 
   return (
     <main className="bg-canvas">
@@ -975,124 +1108,7 @@ export default async function HomePage() {
       </section>
 
       <ServiceCatalogSection />
-
-      <section className="bg-canvas py-20">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-          <Reveal>
-            <SectionIntro
-              descriptionKey="home.notice.description"
-              href="/notice"
-              titleKey="home.section.notice"
-            />
-          </Reveal>
-          <div className="mt-8 divide-y divide-calm-divider-soft border-t border-b border-calm-divider-soft">
-            {noticeItems.map((item, index) => (
-              <Reveal delayMs={index * 50} key={item.id}>
-                <Link
-                  className="flex flex-col gap-2 py-5 transition hover:opacity-70 sm:flex-row sm:items-center sm:justify-between"
-                  href={item.href}
-                >
-                  <span className="flex items-center gap-3">
-                    <span className="type-caption-strong shrink-0 text-action-blue">
-                      {item.meta}
-                    </span>
-                    <span className="type-body-strong text-calm-ink">{item.title}</span>
-                  </span>
-                  <span className="type-caption text-calm-ink-muted-48">
-                    {item.createdAt.slice(0, 10)}
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="closing-cta-section">
-        <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-          <Reveal>
-            <div className="closing-cta-panel">
-              <div className="closing-cta-copy">
-                <p className="landing-section-kicker landing-section-kicker-on-dark">{t("footer.cta.eyebrow")}</p>
-                <h2 className="closing-cta-title">
-                  {t("footer.cta.title")}
-                </h2>
-                <p className="closing-cta-lead">
-                  {t("footer.cta.description")}
-                </p>
-              </div>
-
-              <div className="closing-cta-aside">
-                <div className="closing-lane-strip" aria-hidden="true">
-                  <span>K-Beauty</span>
-                  <span>Food Supplement</span>
-                  <span>Machinery</span>
-                  <span>EPC</span>
-                  <span>Trade Service</span>
-                  <span>Buyer Matching</span>
-                </div>
-                <div className="closing-cta-actions">
-                  <Link className="landing-action-pill landing-action-pill-primary" href="/buy-sell/buy-requests">
-                    {t("footer.cta.primary")}
-                  </Link>
-                  <Link className="landing-action-pill landing-action-pill-on-dark" href="/commercial">
-                    {t("footer.cta.secondary")}
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 lg:px-10">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <Link aria-label={t("brand.name")} className="inline-flex w-fit" href="/">
-                <BrandLogo className="h-9 w-[150px] rounded-[10px]" />
-              </Link>
-              <p className="max-w-md text-[13px] font-medium leading-6 text-calm-ink-muted-80">
-                {t("footer.tagline")}
-              </p>
-            </div>
-
-            <nav
-              className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-bold text-calm-ink-muted-80 lg:justify-end"
-              aria-label={t("footer.columns.platform")}
-            >
-              <Link className="transition hover:text-action-blue" href="/commercial">{t("nav.commercial")}</Link>
-              <Link className="transition hover:text-action-blue" href="/industrial">{t("nav.industrial")}</Link>
-              <Link className="transition hover:text-action-blue" href="/epc">{t("nav.epc")}</Link>
-              <Link className="transition hover:text-action-blue" href="/buy-sell">{t("nav.buySell")}</Link>
-              <Link className="transition hover:text-action-blue" href="/service">{t("nav.thailandFda")}</Link>
-              <Link className="transition hover:text-action-blue" href="/events">{t("nav.events")}</Link>
-              <Link className="transition hover:text-action-blue" href="/notice">{t("nav.notice")}</Link>
-            </nav>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 pt-5 text-[12px] text-calm-ink-muted-48 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-medium">
-              &copy; {new Date().getFullYear()} {t("brand.name")}. {t("footer.rights")}
-            </p>
-            <nav
-              className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end"
-              aria-label={t("footer.legal.label")}
-            >
-              {legalFooterLinks.map((item) => (
-                <Link
-                  className="font-semibold transition hover:text-action-blue"
-                  href={item.href}
-                  key={item.href}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </footer>
+      <LandingNoticeCtaFooterSection config={landingNoticeCtaFooterConfig} />
     </main>
   );
 }
