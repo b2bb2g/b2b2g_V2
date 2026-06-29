@@ -70,11 +70,13 @@ These documents are treated as high-priority Source of Truth and should not be c
 - `docs/09-sprints/07-sprint-2-organization-repository-audit.md`
 - `docs/09-sprints/08-sprint-2-organization-implementation-plan.md`
 - `docs/09-sprints/09-sprint-2-invitation-priority-adjustment.md`
+- `docs/09-sprints/11-sprint-2-invitation-engine-plan.md`
 - `docs/05-data/07-002-migration-review-report.md`
 
 ## Pending Documents
 
-- Sprint 2 Invitation Engine repository audit / implementation plan
+- Sprint 2 Invitation Engine repository audit
+- Sprint 2 Invitation Engine migration spec
 - 003 Brokerage Core Migration readiness/review documents
 - Existing conversation audit before communication migration
 - RLS helper scope review before policy SQL
@@ -92,10 +94,10 @@ These documents are treated as high-priority Source of Truth and should not be c
 
 ## Current Priority
 
-1. Sprint 2 Invitation Engine repository audit / implementation plan
-2. Supplier Invitation + Public Signup policy implementation boundary
-3. Role signup policy alignment for Supplier, Agent, Buyer, Professor, and Student
-4. Organization query layer with PII-safe DTOs after invitation policy alignment
+1. Sprint 2 Invitation Engine repository audit
+2. Sprint 2 Invitation Engine migration spec
+3. Invitation types/helpers before signup route work
+4. Organization query layer with PII-safe DTOs after invitation relation inputs are clear
 5. Identity backlog tracking for audit, RLS, signup backfill, and integration tests
 
 ## Engine Sprint Rule
@@ -134,8 +136,9 @@ ChatGPT Review is expected to challenge assumptions, review source-of-truth cons
 - Sprint 2 Organization Engine has started with repository audit only. Existing Organization relations currently depend on `suppliers.company_id`, `country_agents`, and `students.professor_id`; target relation tables remain `company_members`, `agent_buyers`, and `professor_students`.
 - Sprint 2 implementation plan is complete. Task 03 should start with local Organization types/helpers and must not query missing relation tables before migration readiness.
 - Sprint 2 priority changed: Invitation Engine policy alignment must happen before Organization query/action expansion. Supplier supports both Admin Invitation and Public Self Signup, but always requires Admin Approval and never receives Buyer PII.
+- Sprint 2 Invitation Engine plan is complete. Supplier, Agent, Buyer, Professor, and Student signup paths are now organized into invitation types, feature flag impacts, security rules, and MVP task order.
 - Remaining Identity backlog: audit logging, RLS helper/policies, role switch UI, signup backfill, legacy role cleanup, and server action integration tests.
 
 ## Next Required Action
 
-Create Sprint 2 Invitation Engine repository audit / implementation plan before expanding Organization query/action work.
+Create Sprint 2 Invitation Engine repository audit before writing invitation migration, query/action code, signup routes, or Organization query expansion.
