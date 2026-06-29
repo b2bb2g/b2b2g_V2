@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRightIcon } from "@/components/public/icons";
 import { BrandLogo } from "@/components/shared/brand-logo";
 
 type LandingFooterVisibility = {
@@ -86,7 +85,7 @@ function GatewayLink({
   return (
     <Link className={className} href={item.href}>
       {item.label}
-      {showIcon ? <ArrowRightIcon className="h-4 w-4" aria-hidden="true" /> : null}
+      {showIcon ? <span aria-hidden="true">→</span> : null}
     </Link>
   );
 }
@@ -103,45 +102,31 @@ export function LandingNoticeCtaFooterSection({
   return (
     <section
       aria-labelledby={`${config.sectionId}-title`}
-      className="marketplace-footer-section"
+      className="apple-footer-section"
       id={config.sectionId}
     >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-        <div className="marketplace-final-cta-panel">
-          <div>
-            <p>{config.eyebrow}</p>
-            <h2>{config.finalCta.title}</h2>
-            <p>{config.finalCta.subtitle}</p>
-          </div>
-
-          <div className="marketplace-final-cta-actions">
-            <GatewayLink className="marketplace-final-cta-primary" item={config.finalCta.primaryCta} />
-            <GatewayLink className="marketplace-final-cta-secondary" item={config.finalCta.secondaryCta} />
-            <GatewayLink className="marketplace-final-cta-secondary" item={config.finalCta.signInCta} />
-          </div>
-        </div>
-
-        <footer className="marketplace-footer">
-          <div className="marketplace-footer-brand">
+        <footer className="apple-footer">
+          <div className="apple-footer-brand">
             <Link aria-label={config.brandLabel} className="inline-flex w-fit" href="/">
               <BrandLogo className="h-10 w-[160px] rounded-[12px]" />
             </Link>
             <p>{config.footerTagline}</p>
-            <div className="marketplace-footer-socials" aria-label="Social links coming soon">
+            <div className="apple-footer-socials" aria-label="Social links coming soon">
               <button disabled type="button">IN</button>
               <button disabled type="button">YT</button>
               <button disabled type="button">X</button>
             </div>
           </div>
 
-          <div className="marketplace-footer-groups">
+          <div className="apple-footer-groups">
             {config.footerGroups.map((group) => (
-              <nav aria-label={group.groupTitle} className="marketplace-footer-group" key={group.groupTitle}>
+              <nav aria-label={group.groupTitle} className="apple-footer-group" key={group.groupTitle}>
                 <h3>{group.groupTitle}</h3>
                 <div>
                   {group.links.map((link) => (
                     <GatewayLink
-                      className="marketplace-footer-link"
+                      className="apple-footer-link"
                       item={link}
                       key={`${group.groupTitle}-${link.label}`}
                       showIcon={false}
@@ -152,7 +137,7 @@ export function LandingNoticeCtaFooterSection({
             ))}
           </div>
 
-          <div className="marketplace-footer-newsletter">
+          <div className="apple-footer-newsletter">
             <h3>Subscribe to our newsletter</h3>
             <p>Get marketplace updates, event notices, and supplier exposure news.</p>
             <form>
@@ -161,7 +146,7 @@ export function LandingNoticeCtaFooterSection({
             </form>
           </div>
 
-          <div className="marketplace-footer-bottom">
+          <div className="apple-footer-bottom">
             <p>{config.rightsLabel}</p>
             <div>
               <button disabled type="button">English</button>

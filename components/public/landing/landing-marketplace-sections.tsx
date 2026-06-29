@@ -240,22 +240,25 @@ function SmartLink({
 }
 
 function SectionHeader({
+  eyebrow,
   subtitle,
   title,
   viewAll,
 }: Readonly<{
+  eyebrow?: string;
   subtitle?: string;
   title: string;
   viewAll?: CtaLink;
 }>) {
   return (
-    <div className="marketplace-section-head">
+    <div className="apple-landing-section-head">
       <div>
+        {eyebrow ? <p className="apple-landing-eyebrow">{eyebrow}</p> : null}
         <h2>{title}</h2>
         {subtitle ? <p>{subtitle}</p> : null}
       </div>
       {viewAll ? (
-        <SmartLink className="marketplace-view-link" item={viewAll}>
+        <SmartLink className="apple-landing-text-link" item={viewAll}>
           {viewAll.label}
           <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
         </SmartLink>
@@ -264,27 +267,34 @@ function SectionHeader({
   );
 }
 
-function ProductCard({ item }: Readonly<{ item: LandingProductItem }>) {
+function ProductCard({
+  item,
+  priority = false,
+}: Readonly<{
+  item: LandingProductItem;
+  priority?: boolean;
+}>) {
   return (
-    <article className="marketplace-product-card">
-      <div className="marketplace-product-image">
+    <article className="apple-product-card">
+      <div className="apple-product-media">
         <Image
           alt={item.imageAlt}
           className="object-cover"
           fill
-          sizes="(max-width: 768px) 78vw, 260px"
+          priority={priority}
+          sizes="(max-width: 768px) 86vw, 280px"
           src={item.imageUrl}
         />
-        <button aria-label={`Save interest for ${item.title}`} className="marketplace-interest-button" type="button">
+        <button aria-label={`Save interest for ${item.title}`} className="apple-heart-button" type="button">
           <span aria-hidden="true">♡</span>
         </button>
-        <span className="marketplace-product-category">{item.category}</span>
+        <span className="apple-product-chip">{item.category}</span>
       </div>
-      <div className="marketplace-product-body">
-        <div className="marketplace-product-company-row">
+      <div className="apple-product-copy">
+        <div className="apple-product-supplier">
           <span>{item.supplierName}</span>
           {item.isVerifiedSupplier ? (
-            <span className="marketplace-verified-badge">
+            <span className="apple-verified-pill">
               <ShieldCheckIcon className="h-3.5 w-3.5" aria-hidden="true" />
               Verified
             </span>
@@ -292,7 +302,7 @@ function ProductCard({ item }: Readonly<{ item: LandingProductItem }>) {
         </div>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
-        <Link className="marketplace-inquire-button" href={item.href}>
+        <Link className="apple-primary-button" href={item.href}>
           {item.ctaLabel}
         </Link>
       </div>
@@ -300,25 +310,32 @@ function ProductCard({ item }: Readonly<{ item: LandingProductItem }>) {
   );
 }
 
-function BannerRow({ config }: Readonly<{ config: LandingMarketplaceConfig["topBanners"] }>) {
+function PremiumBannerAds({ config }: Readonly<{ config: LandingMarketplaceConfig["topBanners"] }>) {
   if (!isRenderable(config)) {
     return null;
   }
 
   return (
-    <section className="marketplace-banner-row" aria-label="Marketplace banners">
-      {config.items.map((item) => (
-        <article className={`marketplace-banner-card tone-${item.tone}`} key={item.id}>
-          <div>
+    <section className="apple-banner-stage" aria-label="Premium supplier banner ads">
+      {config.items.map((item, index) => (
+        <article className="apple-banner-card" key={item.id}>
+          <div className="apple-banner-copy">
             <span>{item.badge}</span>
             <h2>{item.title}</h2>
             <p>{item.description}</p>
-            <SmartLink className="marketplace-small-link" item={item.cta}>
+            <SmartLink className="apple-secondary-button" item={item.cta}>
               {item.cta.label}
             </SmartLink>
           </div>
-          <div className="marketplace-banner-media">
-            <Image alt={item.imageAlt} className="object-cover" fill sizes="(max-width: 768px) 42vw, 160px" src={item.imageUrl} />
+          <div className="apple-banner-media">
+            <Image
+              alt={item.imageAlt}
+              className="object-cover"
+              fill
+              priority={index === 0}
+              sizes="(max-width: 900px) 84vw, 360px"
+              src={item.imageUrl}
+            />
           </div>
         </article>
       ))}
@@ -332,18 +349,18 @@ function PremiumProducts({ config }: Readonly<{ config: LandingMarketplaceConfig
   }
 
   return (
-    <section className="marketplace-section" id={config.sectionId}>
-      <SectionHeader subtitle={config.subtitle} title={config.title} viewAll={config.viewAll} />
-      <div className="marketplace-product-carousel">
-        {config.items.map((item) => (
-          <ProductCard item={item} key={item.id} />
+    <section className="apple-landing-section" id={config.sectionId}>
+      <SectionHeader eyebrow="Featured marketplace" subtitle={config.subtitle} title={config.title} viewAll={config.viewAll} />
+      <div className="apple-premium-product-grid">
+        {config.items.map((item, index) => (
+          <ProductCard item={item} key={item.id} priority={index < 2} />
         ))}
       </div>
     </section>
   );
 }
 
-function MarketActivityGrid({
+function RequestEventBuyerSection({
   config,
   verifiedBuyers,
 }: Readonly<{
@@ -354,18 +371,15 @@ function MarketActivityGrid({
     return null;
   }
 
-  const eventItems = [
-    ...config.eventHighlights.items,
-    ...config.upcomingEvents.items,
-  ].slice(0, 4);
+  const eventItems = config.eventHighlights.items.slice(0, 3);
 
   return (
-    <section className="marketplace-activity-grid" id={config.sectionId}>
-      <div className="marketplace-panel">
+    <section className="apple-three-column-section" id={config.sectionId}>
+      <div className="apple-glass-panel">
         <SectionHeader title={config.buyerRequests.title} viewAll={config.buyerRequests.viewAll} />
-        <div className="marketplace-request-list">
+        <div className="apple-request-list">
           {config.buyerRequests.items.map((item) => (
-            <article className="marketplace-request-item" key={item.id}>
+            <article className="apple-request-item" key={item.id}>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.spec}</p>
@@ -375,20 +389,20 @@ function MarketActivityGrid({
             </article>
           ))}
         </div>
-        <p className="marketplace-policy-note">Buyer identity is protected. Contact details are not shown to suppliers.</p>
+        <p className="apple-privacy-note">Buyer identity is masked. Contact details are never shown on public listings.</p>
       </div>
 
-      <div className="marketplace-panel">
-        <SectionHeader title="Event Schedule" viewAll={config.upcomingEvents.viewAll} />
-        <div className="marketplace-event-list">
+      <div className="apple-glass-panel">
+        <SectionHeader title="Event banner ads" viewAll={config.eventHighlights.viewAll} />
+        <div className="apple-event-list">
           {eventItems.map((item) => (
-            <Link className="marketplace-event-item" href={item.href} key={item.id}>
-              <div className="marketplace-event-thumb">
-                <Image alt={item.imageAlt} className="object-cover" fill sizes="96px" src={item.imageUrl} />
+            <Link className="apple-event-item" href={item.href} key={item.id}>
+              <div className="apple-event-image">
+                <Image alt={item.imageAlt} className="object-cover" fill sizes="112px" src={item.imageUrl} />
               </div>
               <div>
                 <time>{item.dateLabel}</time>
-                <strong>{item.title}</strong>
+                <h3>{item.title}</h3>
                 <p>{item.locationLabel}</p>
                 <span>{item.badge}</span>
               </div>
@@ -398,12 +412,12 @@ function MarketActivityGrid({
       </div>
 
       {isRenderable(verifiedBuyers) ? (
-        <div className="marketplace-panel">
-          <SectionHeader title={verifiedBuyers.title} viewAll={verifiedBuyers.viewAll} />
-          <div className="marketplace-buyer-list">
+        <div className="apple-glass-panel">
+          <SectionHeader subtitle={verifiedBuyers.subtitle} title={verifiedBuyers.title} viewAll={verifiedBuyers.viewAll} />
+          <div className="apple-buyer-list">
             {verifiedBuyers.items.map((item) => (
-              <article className="marketplace-buyer-item" key={item.id}>
-                <span className="marketplace-buyer-avatar">{item.avatarLabel}</span>
+              <article className="apple-buyer-item" key={item.id}>
+                <span className="apple-buyer-avatar">{item.avatarLabel}</span>
                 <div>
                   <h3>{item.companyName}</h3>
                   <p>{item.role}</p>
@@ -419,80 +433,49 @@ function MarketActivityGrid({
   );
 }
 
-function ShowcaseProjects({
-  activeProjects,
-  showcase,
-}: Readonly<{
-  activeProjects: LandingMarketplaceConfig["activeProjects"];
-  showcase: LandingMarketplaceConfig["productShowcase"];
-}>) {
-  if (!isRenderable(showcase) && !isRenderable(activeProjects)) {
-    return null;
-  }
-
-  return (
-    <section className="marketplace-showcase-project-grid">
-      {isRenderable(showcase) ? (
-        <div className="marketplace-panel">
-          <SectionHeader subtitle={showcase.subtitle} title={showcase.title} viewAll={showcase.viewAll} />
-          <div className="marketplace-showcase-grid">
-            {showcase.items.map((item) => (
-              <Link className="marketplace-showcase-card" href={item.href} key={item.id}>
-                <div>
-                  <Image alt={item.imageAlt} className="object-cover" fill sizes="(max-width: 768px) 70vw, 220px" src={item.imageUrl} />
-                </div>
-                <span>{item.category}</span>
-                <h3>{item.title}</h3>
-                <p>{item.companyName}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
-      {isRenderable(activeProjects) ? (
-        <div className="marketplace-panel">
-          <SectionHeader subtitle={activeProjects.subtitle} title={activeProjects.title} viewAll={activeProjects.viewAll} />
-          <div className="marketplace-project-list">
-            {activeProjects.items.map((item) => (
-              <Link className="marketplace-project-item" href={item.href} key={item.id}>
-                <div className="marketplace-project-thumb">
-                  <Image alt={item.imageAlt} className="object-cover" fill sizes="96px" src={item.imageUrl} />
-                </div>
-                <div>
-                  <span>{item.category}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.companyName}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
-function PremiumSupplierAd({ config }: Readonly<{ config: LandingMarketplaceConfig["supplierHighlight"] }>) {
+function ShowcaseSection({ config }: Readonly<{ config: LandingMarketplaceConfig["productShowcase"] }>) {
   if (!isRenderable(config)) {
     return null;
   }
 
   return (
-    <section className="marketplace-supplier-ad" id={config.sectionId}>
+    <section className="apple-landing-section" id={config.sectionId}>
+      <SectionHeader eyebrow="Innovation gallery" subtitle={config.subtitle} title={config.title} viewAll={config.viewAll} />
+      <div className="apple-showcase-grid">
+        {config.items.map((item) => (
+          <Link className="apple-showcase-card" href={item.href} key={item.id}>
+            <div>
+              <Image alt={item.imageAlt} className="object-cover" fill sizes="(max-width: 768px) 86vw, 360px" src={item.imageUrl} />
+            </div>
+            <span>{item.category}</span>
+            <h3>{item.title}</h3>
+            <p>{item.companyName}</p>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PremiumSupplierAdvertising({ config }: Readonly<{ config: LandingMarketplaceConfig["supplierHighlight"] }>) {
+  if (!isRenderable(config)) {
+    return null;
+  }
+
+  return (
+    <section className="apple-advertising-card" id={config.sectionId}>
       <div>
-        <span>{config.banner.kicker}</span>
+        <p className="apple-landing-eyebrow">{config.banner.kicker}</p>
         <h2>{config.banner.title}</h2>
         <p>{config.banner.description}</p>
-        <SmartLink className="marketplace-primary-link" item={config.banner.cta}>
+        <SmartLink className="apple-primary-button apple-advertising-cta" item={config.banner.cta}>
           {config.banner.cta.label}
-          <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
         </SmartLink>
       </div>
-      <div className="marketplace-ad-products" aria-label="Premium supplier product thumbnails">
+      <div className="apple-ad-product-strip" aria-label="Premium supplier product thumbnails">
         {config.productImages.map((item) => (
           <span key={item.id}>
-            <Image alt={item.imageAlt} className="object-cover" fill sizes="84px" src={item.imageUrl} />
+            <Image alt={item.imageAlt} className="object-cover" fill sizes="120px" src={item.imageUrl} />
           </span>
         ))}
       </div>
@@ -506,9 +489,9 @@ function LatestProducts({ config }: Readonly<{ config: LandingMarketplaceConfig[
   }
 
   return (
-    <section className="marketplace-section" id={config.sectionId}>
-      <SectionHeader subtitle={config.subtitle} title={config.title} viewAll={config.viewAll} />
-      <div className="marketplace-latest-products-grid">
+    <section className="apple-landing-section" id={config.sectionId}>
+      <SectionHeader eyebrow="Fresh arrivals" subtitle={config.subtitle} title={config.title} viewAll={config.viewAll} />
+      <div className="apple-latest-product-grid">
         {config.items.map((item) => (
           <ProductCard item={item} key={item.id} />
         ))}
@@ -525,13 +508,13 @@ function AnnouncementsFaq({
   faqs: LandingMarketplaceConfig["faqs"];
 }>) {
   return (
-    <section className="marketplace-announcement-faq-grid">
+    <section className="apple-announcement-faq-grid">
       {isRenderable(announcements) ? (
-        <div className="marketplace-panel">
+        <div className="apple-glass-panel">
           <SectionHeader title={announcements.title} viewAll={announcements.viewAll} />
-          <div className="marketplace-announcement-list">
+          <div className="apple-announcement-list">
             {announcements.items.map((item) => (
-              <Link className="marketplace-announcement-item" href={item.href} key={item.id}>
+              <Link className="apple-announcement-item" href={item.href} key={item.id}>
                 <time>{item.dateLabel}</time>
                 <div>
                   <span>{item.statusLabel}</span>
@@ -545,11 +528,11 @@ function AnnouncementsFaq({
       ) : null}
 
       {isRenderable(faqs) ? (
-        <div className="marketplace-panel">
+        <div className="apple-glass-panel">
           <SectionHeader title={faqs.title} viewAll={faqs.viewAll} />
-          <div className="marketplace-faq-list">
+          <div className="apple-faq-list">
             {faqs.items.map((item) => (
-              <details className="marketplace-faq-item" key={item.id}>
+              <details className="apple-faq-item" key={item.id}>
                 <summary>
                   <span>{item.question}</span>
                   <span aria-hidden="true">+</span>
@@ -574,12 +557,12 @@ export function LandingMarketplaceSections({
   }
 
   return (
-    <div className="marketplace-landing-flow" id={config.sectionId}>
-      <BannerRow config={config.topBanners} />
+    <div className="apple-landing-flow" id={config.sectionId}>
+      <PremiumBannerAds config={config.topBanners} />
       <PremiumProducts config={config.premiumProducts} />
-      <MarketActivityGrid config={config.intelligencePanel} verifiedBuyers={config.verifiedBuyers} />
-      <ShowcaseProjects activeProjects={config.activeProjects} showcase={config.productShowcase} />
-      <PremiumSupplierAd config={config.supplierHighlight} />
+      <RequestEventBuyerSection config={config.intelligencePanel} verifiedBuyers={config.verifiedBuyers} />
+      <ShowcaseSection config={config.productShowcase} />
+      <PremiumSupplierAdvertising config={config.supplierHighlight} />
       <LatestProducts config={config.latestProducts} />
       <AnnouncementsFaq announcements={config.announcements} faqs={config.faqs} />
     </div>
