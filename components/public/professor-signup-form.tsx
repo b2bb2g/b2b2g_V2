@@ -1,7 +1,30 @@
+"use client";
+
+import Link from "next/link";
+import { useActionState } from "react";
+import {
+  submitProfessorRoleApplication,
+  type ProfessorSignupSubmitState,
+} from "@/lib/actions/professor-signup";
 import { t } from "@/lib/i18n/translation";
 
+export type ProfessorInvitationSubmitState =
+  | "invalid"
+  | "missing"
+  | "unavailable"
+  | "valid_admin_invite"
+  | "wrong_type";
+
 type ProfessorSignupFormProps = {
+  invitationState: ProfessorInvitationSubmitState;
   invitationToken?: string | null;
+  isAuthenticated: boolean;
+};
+
+const initialSubmitState: ProfessorSignupSubmitState = {
+  error: null,
+  ok: false,
+  recordId: null,
 };
 
 const expectedStudentCountOptions = [
@@ -27,15 +50,37 @@ function FieldLabel({
 }
 
 export function ProfessorSignupForm({
+  invitationState,
   invitationToken,
+  isAuthenticated,
 }: Readonly<ProfessorSignupFormProps>) {
   const trimmedToken = invitationToken?.trim();
+  const [state, formAction, isPending] = useActionState(
+    submitProfessorRoleApplication,
+    initialSubmitState,
+  );
+  const isSubmitted = state.ok;
+  const hasValidInvitation = invitationState === "valid_admin_invite";
+  const isSubmitDisabled =
+    !isAuthenticated || !hasValidInvitation || isPending || isSubmitted;
+  const invitationNoticeKey = hasValidInvitation
+    ? "professorSignup.invitation.validDescription"
+    : invitationState === "missing"
+      ? "professorSignup.invitation.requiredDescription"
+      : invitationState === "unavailable"
+        ? "professorSignup.invitation.unavailableDescription"
+        : invitationState === "wrong_type"
+          ? "professorSignup.invitation.wrongTypeDescription"
+          : "professorSignup.invitation.invalidDescription";
 
   return (
     <section className="bg-canvas pb-14">
       <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <form className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]">
+          <form
+            action={formAction}
+            className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]"
+          >
             {trimmedToken ? (
               <input name="invitation_token" type="hidden" value={trimmedToken} />
             ) : null}
@@ -61,6 +106,69 @@ export function ProfessorSignupForm({
               </p>
             </div>
 
+            {!isAuthenticated ? (
+              <div className="mt-6 rounded-2xl border border-action-blue/20 bg-action-blue/5 p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("professorSignup.auth.requiredTitle")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {t("professorSignup.auth.requiredDescription")}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link className="pill-primary min-h-10" href="/login">
+                    {t("professorSignup.auth.signIn")}
+                  </Link>
+                  <Link className="pill-secondary min-h-10" href="/signup">
+                    {t("professorSignup.auth.createAccount")}
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+
+            {isAuthenticated ? (
+              <div
+                className={`mt-6 rounded-2xl border p-4 ${
+                  hasValidInvitation
+                    ? "border-status-positive/20 bg-status-positive-bg"
+                    : "border-status-warning/20 bg-status-warning-bg"
+                }`}
+              >
+                <p className="type-caption-strong text-calm-ink">
+                  {t(
+                    hasValidInvitation
+                      ? "professorSignup.invitation.validTitle"
+                      : "professorSignup.invitation.requiredTitle",
+                  )}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {t(invitationNoticeKey)}
+                </p>
+              </div>
+            ) : null}
+
+            {state.ok ? (
+              <div className="mt-6 rounded-2xl border border-status-positive/20 bg-status-positive-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("professorSignup.success.title")}
+                </p>
+                <ul className="mt-3 space-y-2 type-caption text-calm-ink-muted-80">
+                  <li>{t("professorSignup.success.adminApproval")}</li>
+                  <li>{t("professorSignup.success.studentInvites")}</li>
+                </ul>
+              </div>
+            ) : null}
+
+            {state.error ? (
+              <div className="mt-6 rounded-2xl border border-status-negative/20 bg-status-negative-bg p-4">
+                <p className="type-caption-strong text-calm-ink">
+                  {t("professorSignup.error.title")}
+                </p>
+                <p className="type-caption mt-2 text-calm-ink-muted-80">
+                  {state.error}
+                </p>
+              </div>
+            ) : null}
+
             <div className="mt-7 grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
                 <FieldLabel htmlFor="professor-contact-email">
@@ -72,6 +180,7 @@ export function ProfessorSignupForm({
                   id="professor-contact-email"
                   name="contact_email"
                   placeholder={t("professorSignup.placeholder.contactEmail")}
+                  required
                   type="email"
                 />
               </div>
@@ -86,6 +195,7 @@ export function ProfessorSignupForm({
                   id="professor-name"
                   name="professor_name"
                   placeholder={t("professorSignup.placeholder.professorName")}
+                  required
                   type="text"
                 />
               </div>
@@ -100,6 +210,7 @@ export function ProfessorSignupForm({
                   id="professor-university"
                   name="university"
                   placeholder={t("professorSignup.placeholder.university")}
+                  required
                   type="text"
                 />
               </div>
@@ -113,6 +224,7 @@ export function ProfessorSignupForm({
                   id="professor-department"
                   name="department"
                   placeholder={t("professorSignup.placeholder.department")}
+                  required
                   type="text"
                 />
               </div>
@@ -126,6 +238,7 @@ export function ProfessorSignupForm({
                   id="professor-position"
                   name="position_title"
                   placeholder={t("professorSignup.placeholder.position")}
+                  required
                   type="text"
                 />
               </div>
@@ -139,6 +252,7 @@ export function ProfessorSignupForm({
                   id="professor-program-summary"
                   name="program_or_course_summary"
                   placeholder={t("professorSignup.placeholder.programSummary")}
+                  required
                 />
               </div>
 
@@ -150,6 +264,7 @@ export function ProfessorSignupForm({
                   className="min-h-11 w-full rounded-xl border border-calm-hairline bg-white px-4 type-caption text-calm-ink outline-none transition focus:border-action-blue"
                   id="professor-student-count"
                   name="expected_student_count"
+                  required
                 >
                   {expectedStudentCountOptions.map((key, index) => (
                     <option disabled={index === 0} key={key} value={index === 0 ? "" : t(key)}>
@@ -164,6 +279,7 @@ export function ProfessorSignupForm({
               <input
                 className="mt-1 size-4 rounded border-calm-hairline"
                 name="terms_agreed"
+                required
                 type="checkbox"
                 value="yes"
               />
@@ -171,14 +287,28 @@ export function ProfessorSignupForm({
             </label>
 
             <button
-              className="pill-primary mt-6 min-h-11 w-full cursor-not-allowed opacity-60"
-              disabled
-              type="button"
+              className={`pill-primary mt-6 min-h-11 w-full ${
+                isSubmitDisabled ? "cursor-not-allowed opacity-60" : ""
+              }`}
+              disabled={isSubmitDisabled}
+              type="submit"
             >
-              {t("professorSignup.submit.disabled")}
+              {isSubmitted
+                ? t("professorSignup.submit.submitted")
+                : isPending
+                  ? t("professorSignup.submit.pending")
+                  : hasValidInvitation
+                    ? t("professorSignup.submit.enabled")
+                    : t("professorSignup.submit.disabled")}
             </button>
             <p className="type-caption mt-3 text-center text-calm-ink-muted-48">
-              {t("professorSignup.submit.next")}
+              {isSubmitted
+                ? t("professorSignup.submit.afterSubmitted")
+                : !isAuthenticated
+                  ? t("professorSignup.submit.authRequired")
+                  : hasValidInvitation
+                    ? t("professorSignup.submit.ready")
+                    : t("professorSignup.submit.invitationRequired")}
             </p>
           </form>
 

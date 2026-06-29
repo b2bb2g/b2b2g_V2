@@ -806,10 +806,28 @@ const dictionaries = {
     "professorSignup.field.professorName": "Professor name",
     "professorSignup.field.programSummary": "Program or course summary",
     "professorSignup.field.university": "University",
+    "professorSignup.auth.createAccount": "Create account",
+    "professorSignup.auth.requiredDescription":
+      "Professor application submission is available after sign-in with a valid Admin invitation. Create an account or sign in, then return to this page.",
+    "professorSignup.auth.requiredTitle": "Sign in or create an account first",
+    "professorSignup.auth.signIn": "Sign in",
+    "professorSignup.error.title": "Professor application could not be submitted",
     "professorSignup.form.description":
       "Prepare Professor onboarding details from an Admin invitation. Public Professor application is currently unavailable.",
     "professorSignup.form.eyebrow": "Professor invitation draft",
     "professorSignup.form.title": "Prepare Professor application details",
+    "professorSignup.invitation.invalidDescription":
+      "This invitation is invalid, expired, revoked, or already unavailable. Request a new Admin invitation before submitting.",
+    "professorSignup.invitation.requiredDescription":
+      "Professor onboarding requires an Admin invitation. Public Professor application is currently unavailable.",
+    "professorSignup.invitation.requiredTitle": "Admin invitation required",
+    "professorSignup.invitation.unavailableDescription":
+      "Invitation validation is temporarily unavailable. Please try again later or contact Admin.",
+    "professorSignup.invitation.validDescription":
+      "A valid Professor Admin invitation was detected. Signed-in users can submit a Professor role application for Admin review.",
+    "professorSignup.invitation.validTitle": "Professor invitation verified",
+    "professorSignup.invitation.wrongTypeDescription":
+      "This invitation is not valid for Professor onboarding. Use the Professor Admin invitation link issued to you.",
     "professorSignup.placeholder.contactEmail": "professor@example.edu",
     "professorSignup.placeholder.department": "International Trade, Business, or related department",
     "professorSignup.placeholder.position": "Professor, lecturer, program director, or advisor",
@@ -841,8 +859,24 @@ const dictionaries = {
     "professorSignup.studentCount.over60": "More than 60 students",
     "professorSignup.studentCount.placeholder": "Select expected student count",
     "professorSignup.studentCount.under10": "Under 10 students",
+    "professorSignup.submit.afterSubmitted":
+      "Admin approval is required. Student invitation links and QR will open only after approval.",
+    "professorSignup.submit.authRequired":
+      "Sign in or create an account before submitting.",
     "professorSignup.submit.disabled": "Submission disabled",
+    "professorSignup.submit.enabled": "Submit Professor application",
+    "professorSignup.submit.invitationRequired":
+      "Professor onboarding requires a valid Admin invitation before submitting.",
     "professorSignup.submit.next": "Submission will be enabled next step.",
+    "professorSignup.submit.pending": "Submitting application",
+    "professorSignup.submit.ready":
+      "This writes only a Professor role application. Professor profile, Student invitation tools, and Student relations remain separate.",
+    "professorSignup.submit.submitted": "Application submitted",
+    "professorSignup.success.adminApproval":
+      "Admin approval is required before Professor activation.",
+    "professorSignup.success.studentInvites":
+      "Student invitation links and QR will open only after approval.",
+    "professorSignup.success.title": "Professor application submitted",
     "professorSignup.terms":
       "I understand Professor activation, Student invitation generation, and subordinate Student information access require administrator approval and platform permission checks.",
     "supplierSignup.category.beauty": "Beauty and personal care",
