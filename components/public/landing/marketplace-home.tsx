@@ -181,47 +181,61 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-calm-hairline bg-white transition hover:border-action-blue/30">
-      <div className="relative aspect-square overflow-hidden bg-canvas-parchment">
-        <Image
-          alt={item.imageAlt}
-          className="object-cover transition duration-700 group-hover:scale-[1.025]"
-          fill
-          loading={priority ? undefined : "eager"}
-          priority={priority}
-          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 42vw, 280px"
-          src={item.imageUrl}
-        />
-        <div className="absolute left-3 top-3 flex max-w-[calc(100%-64px)] flex-wrap gap-2">
-          <span className="rounded-full bg-white/90 px-3 py-1 type-fine-print font-semibold text-action-blue backdrop-blur">
-            {item.category}
-          </span>
-          {item.isVerifiedSupplier ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-calm-ink px-3 py-1 type-fine-print font-semibold text-white">
-              <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
-              Verified
+    <article className="group flex min-w-0 flex-col rounded-[22px] border border-calm-hairline bg-white p-3 transition hover:-translate-y-0.5 hover:border-action-blue/30 hover:shadow-[0_18px_44px_rgb(15_23_42/0.08)]">
+      <div className="relative overflow-hidden rounded-[18px] border border-calm-hairline bg-canvas-parchment">
+        <div className="relative aspect-square">
+          <Image
+            alt={item.imageAlt}
+            className="object-cover transition duration-700 group-hover:scale-[1.025]"
+            fill
+            loading={priority ? undefined : "eager"}
+            priority={priority}
+            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 42vw, 280px"
+            src={item.imageUrl}
+          />
+        </div>
+        <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
+          <div className="flex min-w-0 flex-wrap gap-2">
+            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 type-fine-print font-semibold text-action-blue backdrop-blur">
+              {item.category}
             </span>
-          ) : null}
+            {item.isVerifiedSupplier ? (
+              <span className="inline-flex items-center gap-1 rounded-full border border-calm-ink/10 bg-calm-ink px-3 py-1 type-fine-print font-semibold text-white">
+                <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
+                Verified
+              </span>
+            ) : null}
+          </div>
         </div>
         <button
           aria-label={`Save interest for ${item.title}`}
-          className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full border border-calm-hairline bg-white/90 text-[18px] text-action-blue backdrop-blur transition hover:border-action-blue/40"
+          className="absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full border border-white/70 bg-white/90 text-[18px] text-action-blue backdrop-blur transition hover:border-action-blue/40"
           type="button"
         >
           <span aria-hidden="true">♡</span>
         </button>
       </div>
-      <div className="flex min-h-[212px] flex-1 flex-col p-5">
-        <p className="truncate type-caption-strong text-calm-ink-muted-80">{item.supplierName}</p>
-        <h3 className="type-tagline mt-2 line-clamp-2 min-h-[52px] text-calm-ink">
+      <div className="flex min-h-[238px] flex-1 flex-col px-2 pb-2 pt-4">
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <p className="truncate type-caption-strong text-calm-ink-muted-80">{item.supplierName}</p>
+          {item.isVerifiedSupplier ? (
+            <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-action-blue" />
+          ) : null}
+        </div>
+        <h3 className="mt-2 line-clamp-2 min-h-[54px] text-[22px] font-semibold leading-[1.18] tracking-[-0.01em] text-calm-ink">
           {item.title}
         </h3>
-        <p className="type-caption mt-2 line-clamp-3 min-h-[60px] text-calm-ink-muted-80">
+        <p className="mt-2 line-clamp-3 min-h-[60px] type-caption text-calm-ink-muted-80">
           {item.description}
         </p>
-        <Link className="pill-primary mt-auto w-full" href={item.href}>
-          {item.ctaLabel}
-        </Link>
+        <div className="mt-auto pt-5">
+          <Link className="pill-primary w-full" href={item.href}>
+            {item.ctaLabel}
+          </Link>
+          <p className="mt-3 text-center type-fine-print text-calm-ink-muted-48">
+            Brokered inquiry workflow
+          </p>
+        </div>
       </div>
     </article>
   );
