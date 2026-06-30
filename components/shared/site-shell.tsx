@@ -544,12 +544,12 @@ function PublicSiteHeader({
 
   return (
     <header className="marketplace-public-header">
-      <div className="mx-auto flex min-h-[74px] max-w-[1440px] items-center gap-4 px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto flex min-h-[62px] max-w-[1320px] items-center gap-3 px-5 sm:px-8 lg:px-10">
         <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
           <BrandLogo />
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 xl:flex">
           {marketplacePublicNavigation.map((item) => (
             <Link
               className={`marketplace-header-nav-link ${pathname === item.href ? "active" : ""}`}
