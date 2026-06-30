@@ -546,7 +546,7 @@ function PublicSiteHeader({
     <header className="marketplace-public-header">
       <div className="mx-auto flex min-h-[74px] max-w-[1440px] items-center gap-4 px-5 sm:px-8 lg:px-10">
         <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
-          <BrandLogo className="h-10 w-[152px] rounded-[10px]" />
+          <BrandLogo />
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex">

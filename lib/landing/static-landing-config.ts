@@ -775,7 +775,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
   announcements: [
     {
       dateLabel: "Jun 30",
-      description: "Scheduled maintenance is planned for marketplace search and inquiry preview services.",
+      description: "Scheduled maintenance is planned for marketplace inquiry preview and brokerage readiness services.",
       href: "/notice",
       id: "home-announcement-maintenance",
       statusLabel: "System",
@@ -829,6 +829,8 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "RFQ",
       id: "home-request-packaging-film-roll",
+      imageAlt: "Packaging film roll material",
+      imageUrl: packagingImage,
       quantity: "Quantity: 18 pallets",
       spec: "PET, width 500 mm",
       title: "Packaging Film Roll",

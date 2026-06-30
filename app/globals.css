@@ -9380,3 +9380,33 @@ button.apple-footer-link {
   max-width: 240px;
   flex-basis: 240px;
 }
+
+/* Marketplace Home unified public shell */
+.marketplace-header-logo > span {
+  width: auto !important;
+  height: auto !important;
+}
+
+.marketplace-header-logo > span span {
+  width: auto !important;
+  height: auto !important;
+}
+
+.marketplace-public-header {
+  border-bottom: 1px solid rgb(15 23 42 / 7%);
+  background: rgb(255 255 255 / 82%);
+  box-shadow: 0 12px 40px rgb(15 23 42 / 4%);
+}
+
+.marketplace-header-nav-link {
+  padding-inline: 10px;
+  color: rgb(15 23 42 / 72%);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.marketplace-language-button,
+.marketplace-login-button {
+  min-height: 38px;
+  font-weight: 820;
+}
