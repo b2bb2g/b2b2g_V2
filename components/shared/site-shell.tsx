@@ -104,13 +104,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Commercial" },
-  { href: "/industrial", label: "Industrial" },
-  { href: "/epc", label: "EPC" },
-  { href: "/events", label: "Event" },
-  { href: "/buy-sell", label: "BUY & SELL" },
-  { href: "/networking", label: "Networking" },
-  { href: "/service", label: "Service" },
+  { href: "/commercial", label: "Commercial", meta: "Catalog" },
+  { href: "/industrial", label: "Industrial", meta: "Machinery" },
+  { href: "/epc", label: "EPC", meta: "Projects" },
+  { href: "/events", label: "Event", meta: "Programs" },
+  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ" },
+  { href: "/networking", label: "Networking", meta: "Partners" },
+  { href: "/service", label: "Service", meta: "FDA" },
 ] as const;
 
 const profileMenuByRole = {
@@ -549,14 +549,15 @@ function PublicSiteHeader({
           <BrandLogo />
         </Link>
 
-        <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
+        <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center lg:flex">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`marketplace-header-nav-link ${pathname === item.href ? "active" : ""}`}
+              className={`marketplace-header-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
               href={item.href}
               key={item.href}
             >
-              {item.label}
+              <span className="marketplace-header-nav-label">{item.label}</span>
+              <span className="marketplace-header-nav-meta">{item.meta}</span>
             </Link>
           ))}
         </nav>
