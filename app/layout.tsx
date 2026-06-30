@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { GlobalUtilityLayer } from "@/components/public/global-utility-layer";
 import { getSiteUrl } from "@/lib/seo/metadata";
 import "./globals.css";
@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     images: ["/b2bb2g-logo.jpg"],
     title: "B2BB2G.COM",
   },
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
 };
 
 export default function RootLayout({

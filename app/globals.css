@@ -9568,3 +9568,20 @@ button.apple-footer-link {
   background: rgb(255 255 255 / 72%);
   color: #0071e3;
 }
+
+.marketplace-home-root,
+.marketplace-home-root * {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .marketplace-home-root {
+    width: 100%;
+    max-width: 100vw;
+  }
+}
