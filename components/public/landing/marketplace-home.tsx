@@ -103,7 +103,7 @@ function PublicContainer({
   children: ReactNode;
   className?: string;
 }>) {
-  return <div className={`mx-auto w-full max-w-[1480px] px-5 sm:px-8 lg:px-10 ${className}`}>{children}</div>;
+  return <div className={`mx-auto w-full max-w-[1480px] px-4 sm:px-8 lg:px-10 ${className}`}>{children}</div>;
 }
 
 function Eyebrow({ children }: Readonly<{ children: ReactNode }>) {
@@ -127,12 +127,12 @@ function SectionHeader({
 }>) {
   return (
     <div className="mb-6 flex min-w-0 flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-3xl">
+      <div className="max-w-[calc(100vw-32px)] sm:max-w-3xl">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-2 text-[30px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#202124] sm:text-[40px]">
+        <h2 className="mt-2 max-w-[calc(100vw-32px)] text-[30px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#202124] [overflow-wrap:anywhere] sm:max-w-3xl sm:text-[40px]">
           {title}
         </h2>
-        {subtitle ? <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[#4f535b]">{subtitle}</p> : null}
+        {subtitle ? <p className="mt-3 max-w-[calc(100vw-32px)] text-[16px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:max-w-2xl">{subtitle}</p> : null}
       </div>
       {action ? (
         action.isEnabled === false ? (
@@ -179,13 +179,13 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[24px] border border-[#dce7f6] bg-white shadow-[0_18px_44px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#9cc4f7] hover:shadow-[0_26px_70px_rgba(15,23,42,0.12)]">
+    <article className="group relative flex h-full w-full max-w-full min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dce7f6] bg-white shadow-[0_14px_34px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#9cc4f7] hover:shadow-[0_26px_70px_rgba(15,23,42,0.12)] sm:rounded-[24px] sm:shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
       <Link
         aria-label={`View ${item.title}`}
         className="absolute inset-0 z-10 rounded-[24px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b63ce]"
         href={item.href}
       />
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#f4f7fb]">
+      <div className="relative aspect-square overflow-hidden bg-[#f4f7fb] sm:aspect-[4/3]">
         <Image
           alt={item.imageAlt}
           className="object-cover transition duration-700 group-hover:scale-[1.04]"
@@ -195,7 +195,7 @@ function ProductCard({
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 44vw, 340px"
           src={item.imageUrl}
         />
-        <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
+        <div className="absolute left-2 right-2 top-2 flex items-start justify-between gap-2 sm:left-3 sm:right-3 sm:top-3">
           {item.isVerifiedSupplier ? (
             <MarkBadge tone="blue">
               <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
@@ -206,32 +206,33 @@ function ProductCard({
           )}
           <button
             aria-label={`Save ${item.title}`}
-            className="relative z-20 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/95 text-[22px] text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:scale-105"
+            className="relative z-20 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/95 text-[20px] text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.12)] backdrop-blur transition hover:scale-105 sm:h-10 sm:w-10 sm:text-[22px]"
             type="button"
           >
             <span aria-hidden="true">♡</span>
           </button>
         </div>
       </div>
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <div className="flex min-w-0 items-center justify-between gap-3">
-          <p className="truncate text-[13px] font-semibold text-[#606672]">{item.supplierName}</p>
+      <div className="flex flex-1 flex-col p-3.5 min-[420px]:p-4 sm:p-5">
+        <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <p className="truncate text-[12px] font-semibold text-[#606672] min-[420px]:text-[13px]">{item.supplierName}</p>
           {item.isVerifiedSupplier ? (
-            <span className="shrink-0 rounded-full bg-[#eef5ff] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.06em] text-[#0b63ce]">
+            <span className="w-fit shrink-0 rounded-full bg-[#eef5ff] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.06em] text-[#0b63ce]">
               Premium
             </span>
           ) : null}
         </div>
-        <h3 className="mt-2 line-clamp-2 min-h-[52px] text-[22px] font-semibold leading-[1.18] tracking-[-0.02em] text-[#202124]">
+        <h3 className="mt-2 line-clamp-2 min-h-[40px] text-[16px] font-semibold leading-[1.18] tracking-[-0.02em] text-[#202124] min-[420px]:text-[18px] sm:min-h-[52px] sm:text-[22px]">
           {item.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-[15px] leading-6 text-[#5f6672]">{item.description}</p>
-        <div className="mt-auto flex items-center justify-between pt-5">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f7fb] px-3 py-1.5 text-[12px] font-semibold text-[#4f535b]">
+        <p className="mt-1.5 hidden text-[12.5px] leading-5 text-[#5f6672] min-[420px]:mt-2 min-[420px]:line-clamp-2 min-[420px]:text-[13px] sm:text-[15px] sm:leading-6">{item.description}</p>
+        <div className="mt-auto flex items-center justify-between pt-4 sm:pt-5">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f7fb] px-2 py-1.5 text-[10.5px] font-semibold text-[#4f535b] min-[420px]:px-2.5 min-[420px]:text-[11px] sm:px-3 sm:text-[12px]">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0b63ce]" />
-            Managed RFQ
+            <span className="hidden min-[360px]:inline">RFQ ready</span>
+            <span className="min-[360px]:hidden">RFQ</span>
           </span>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#0b63ce] text-white transition group-hover:translate-x-0.5">
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#0b63ce] text-white transition group-hover:translate-x-0.5 sm:h-9 sm:w-9">
             <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </span>
         </div>
@@ -240,38 +241,60 @@ function ProductCard({
   );
 }
 
-function OpeningStage({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
+function ProductRail({
+  priorityCount = 0,
+  products,
+}: Readonly<{
+  priorityCount?: number;
+  products: MarketplaceHomeProduct[];
+}>) {
   return (
-    <section className="bg-[#f3f7fd] py-10 sm:py-14">
+    <div className="flex gap-3 overflow-x-auto pb-2 pr-4 [scrollbar-width:none] md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+      {products.map((item, index) => (
+        <div className="w-[78vw] max-w-[320px] shrink-0 md:w-auto md:max-w-none md:shrink" key={item.id}>
+          <ProductCard item={item} priority={index < priorityCount} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function OpeningStage({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
+  const trustItems = [
+    { desktop: "Verified suppliers", mobile: "Verified" },
+    { desktop: "Protected buyer identity", mobile: "Protected" },
+    { desktop: "Approved content", mobile: "Approved" },
+    { desktop: "Managed RFQ workflow", mobile: "RFQ ready" },
+  ];
+
+  return (
+    <section className="bg-[#f3f7fd] py-7 sm:py-14">
       <PublicContainer>
-        <div className="mb-6 flex min-w-0 flex-col gap-5 overflow-hidden lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-5 flex min-w-0 flex-col gap-4 overflow-hidden lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-4xl">
             <MarkBadge tone="soft">Global B2B Marketplace</MarkBadge>
-            <h1 className="mt-5 max-w-4xl text-[28px] font-semibold leading-[1.08] tracking-[-0.03em] text-[#202124] [overflow-wrap:anywhere] sm:text-[52px] lg:text-[64px]">
+            <h1 className="mt-4 max-w-4xl text-[30px] font-semibold leading-[1.04] tracking-[-0.035em] text-[#202124] [overflow-wrap:anywhere] sm:mt-5 sm:text-[52px] lg:text-[64px]">
               <span className="block sm:inline">Source verified products</span>
               <span className="block sm:inline"> from approved</span>
               <span className="block sm:inline"> global suppliers.</span>
             </h1>
-            <p className="mt-4 max-w-[28rem] text-[15px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:max-w-2xl sm:text-[18px]">
+            <p className="mt-3 max-w-[28rem] text-[15px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:mt-4 sm:max-w-2xl sm:text-[18px]">
               <span className="block sm:inline">Approved products.</span>
               <span className="block sm:inline"> Protected buyer demand.</span>
               <span className="block sm:inline"> Built for B2B sourcing.</span>
             </p>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:w-[520px]">
-            {["Verified suppliers", "Protected buyer identity", "Approved content", "Managed RFQ workflow"].map((item) => (
-              <span className="min-w-0 rounded-full bg-white px-4 py-3 text-[14px] font-semibold text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.05)] [overflow-wrap:anywhere]" key={item}>
-                {item}
+          <div className="grid grid-cols-2 gap-2 lg:w-[520px]">
+            {trustItems.map((item) => (
+              <span className="min-w-0 rounded-[16px] bg-white px-3 py-2.5 text-[12px] font-semibold leading-tight text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.05)] [overflow-wrap:anywhere] sm:rounded-full sm:px-4 sm:py-3 sm:text-[14px]" key={item.desktop}>
+                <span className="sm:hidden">{item.mobile}</span>
+                <span className="hidden sm:inline">{item.desktop}</span>
               </span>
             ))}
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {products.slice(0, 4).map((item, index) => (
-            <ProductCard item={item} key={item.id} priority={index < 2} />
-          ))}
-        </div>
+        <ProductRail priorityCount={2} products={products.slice(0, 4)} />
       </PublicContainer>
     </section>
   );
@@ -283,18 +306,14 @@ function ProductShelf({
   products: MarketplaceHomeProduct[];
 }>) {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-white py-12 sm:py-20">
       <PublicContainer>
         <SectionHeader
           eyebrow="Supplier catalog"
           subtitle="A curated product shelf designed for B2B buyers who need visual clarity, supplier trust, and protected inquiry routing."
           title="Premium supplier showroom"
         />
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {products.slice(0, 8).map((item, index) => (
-            <ProductCard item={item} key={item.id} priority={index < 2} />
-          ))}
-        </div>
+        <ProductRail priorityCount={2} products={products.slice(0, 8)} />
       </PublicContainer>
     </section>
   );
@@ -302,12 +321,12 @@ function ProductShelf({
 
 function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
   return (
-    <article className="grid min-w-0 grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-4 rounded-[20px] border border-[#e3ebf7] bg-white p-3">
+    <article className="grid min-w-0 grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] border border-[#e3ebf7] bg-white p-3 sm:grid-cols-[64px_minmax(0,1fr)_auto] sm:gap-4 sm:rounded-[20px]">
       <div className="relative aspect-square overflow-hidden rounded-[16px] bg-[#f4f7fb]">
         {item.imageUrl ? <Image alt={item.imageAlt ?? item.title} className="object-cover" fill sizes="64px" src={item.imageUrl} /> : null}
       </div>
       <div className="min-w-0">
-        <h3 className="truncate text-[17px] font-semibold text-[#202124]">{item.title}</h3>
+        <h3 className="truncate text-[16px] font-semibold text-[#202124] sm:text-[17px]">{item.title}</h3>
         <p className="mt-1 truncate text-[14px] text-[#5f6672]">{item.spec}</p>
         <p className="mt-1 text-[12px] font-semibold uppercase tracking-[0.04em] text-[#858891]">{item.quantity}</p>
       </div>
@@ -320,7 +339,7 @@ function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
 
 function EventRow({ item }: Readonly<{ item: MarketplaceHomeEvent }>) {
   return (
-    <Link className="grid min-w-0 grid-cols-[82px_minmax(0,1fr)] gap-4 rounded-[20px] border border-[#e3ebf7] bg-white p-3 transition hover:border-[#9cc4f7]" href="/events">
+    <Link className="grid min-w-0 grid-cols-[68px_minmax(0,1fr)] gap-3 rounded-[18px] border border-[#e3ebf7] bg-white p-3 transition hover:border-[#9cc4f7] sm:grid-cols-[82px_minmax(0,1fr)] sm:gap-4 sm:rounded-[20px]" href="/events">
       <div className="relative aspect-square overflow-hidden rounded-[16px] bg-[#f4f7fb]">
         <Image alt={item.imageAlt} className="object-cover" fill sizes="82px" src={item.imageUrl} />
       </div>
@@ -359,12 +378,12 @@ function MarketplaceSignals({
   requests: MarketplaceHomeRequest[];
 }>) {
   return (
-    <section className="bg-[#f3f7fd] py-16 sm:py-20">
+    <section className="bg-[#f3f7fd] py-12 sm:py-20">
       <PublicContainer>
         <div className="grid gap-5 lg:grid-cols-3">
-          <article className="rounded-[28px] border border-[#dce7f6] bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-6">
+          <article className="rounded-[24px] border border-[#dce7f6] bg-white p-4 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:rounded-[28px] sm:p-6">
             <Eyebrow>Buyer requests</Eyebrow>
-            <h2 className="mt-2 text-[34px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124]">Protected RFQ board</h2>
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124] sm:text-[34px]">Protected RFQ board</h2>
             <div className="mt-6 grid gap-3">
               {requests.slice(0, 3).map((item) => <RequestRow item={item} key={item.id} />)}
             </div>
@@ -373,17 +392,17 @@ function MarketplaceSignals({
             </p>
           </article>
 
-          <article className="rounded-[28px] border border-[#dce7f6] bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-6">
+          <article className="rounded-[24px] border border-[#dce7f6] bg-white p-4 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:rounded-[28px] sm:p-6">
             <Eyebrow>Trade programs</Eyebrow>
-            <h2 className="mt-2 text-[34px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124]">Event schedule</h2>
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124] sm:text-[34px]">Event schedule</h2>
             <div className="mt-6 grid gap-3">
               {events.slice(0, 3).map((item) => <EventRow item={item} key={item.id} />)}
             </div>
           </article>
 
-          <article className="rounded-[28px] border border-[#dce7f6] bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-6">
+          <article className="rounded-[24px] border border-[#dce7f6] bg-white p-4 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:rounded-[28px] sm:p-6">
             <Eyebrow>Verified demand</Eyebrow>
-            <h2 className="mt-2 text-[34px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124]">Masked buyer network</h2>
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.06] tracking-[-0.03em] text-[#202124] sm:text-[34px]">Masked buyer network</h2>
             <div className="mt-6 grid gap-3">
               {buyers.slice(0, 4).map((item) => <BuyerProof item={item} key={item.id} />)}
             </div>
@@ -473,9 +492,7 @@ function LatestProducts({ products }: Readonly<{ products: MarketplaceHomeProduc
           subtitle="Recently added supplier products with large thumbnails, concise descriptions, and clear trust markers."
           title="Latest products"
         />
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {products.slice(0, 8).map((item) => <ProductCard item={item} key={item.id} />)}
-        </div>
+        <ProductRail products={products.slice(0, 8)} />
       </PublicContainer>
     </section>
   );
