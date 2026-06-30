@@ -161,8 +161,8 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dde8f5] bg-white shadow-[0_16px_42px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_28px_72px_rgb(15_23_42/0.13)]">
-      <div className="relative aspect-[5/4] overflow-hidden bg-[#f3f7fc]">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dde8f5] bg-white shadow-[0_14px_36px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_24px_62px_rgb(15_23_42/0.12)]">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f7fc]">
         <Image
           alt={item.imageAlt}
           className="object-cover transition duration-700 group-hover:scale-[1.045]"
@@ -197,20 +197,20 @@ function ProductCard({
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-3.5">
         <div className="flex min-w-0 items-center justify-between gap-3">
           <p className="truncate text-[12px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
           <span className="shrink-0 rounded-full bg-[#eef5ff] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-normal text-action-blue">
             {item.category}
           </span>
         </div>
-        <h3 className="mt-2 line-clamp-2 text-[18px] font-semibold leading-[1.16] tracking-normal text-calm-ink">
+        <h3 className="mt-2 line-clamp-2 text-[17px] font-semibold leading-[1.16] tracking-normal text-calm-ink">
           {item.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-[13px] leading-5 text-calm-ink-muted-80">
+        <p className="mt-1.5 line-clamp-1 text-[13px] leading-5 text-calm-ink-muted-80">
           {item.description}
         </p>
-        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+        <div className="mt-auto flex items-center justify-between gap-3 pt-3">
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-calm-ink-muted-80">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-action-blue" />
             Protected RFQ
@@ -261,72 +261,34 @@ function SectionHead({
 }
 
 function CommerceHero({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
-  const feature = products[0];
-  const quickProducts = products.slice(1, 5);
+  const heroProducts = products.slice(0, 4);
 
   return (
-    <section className="bg-[#f4f8ff] py-8 sm:py-10">
+    <section className="bg-[#f4f8ff] py-7 sm:py-9">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-5 lg:grid-cols-[0.92fr_1.08fr]">
-          <article className="relative overflow-hidden rounded-[34px] bg-calm-ink p-6 text-white shadow-[0_28px_90px_rgb(15_23_42/0.24)] sm:p-8">
-            <div className="absolute right-[-80px] top-[-110px] h-64 w-64 rounded-full bg-action-blue/35 blur-3xl" />
+        <div className="grid gap-5 lg:grid-cols-[0.74fr_1.26fr]">
+          <article className="relative overflow-hidden rounded-[30px] border border-[#d7e5f7] bg-white p-6 shadow-[0_18px_54px_rgb(15_23_42/0.08)] sm:p-7">
+            <div className="absolute right-[-70px] top-[-100px] h-56 w-56 rounded-full bg-action-blue/12 blur-3xl" />
             <div className="relative">
-              <MarkBadge tone="light">B2B commerce hub</MarkBadge>
-              <h1 className="mt-5 max-w-xl text-[40px] font-semibold leading-[0.98] tracking-normal sm:text-[64px]">
-                Sourcing that looks premium and operates safely.
+              <MarkBadge tone="blue">B2B commerce hub</MarkBadge>
+              <h1 className="mt-5 max-w-xl text-[38px] font-semibold leading-[1.02] tracking-normal text-calm-ink sm:text-[54px]">
+                Premium B2B products, curated for global sourcing.
               </h1>
-              <p className="mt-5 max-w-xl text-[16px] leading-7 text-white/72">
-                Approved supplier products, protected buyer demand, event programs, and services presented as a modern global marketplace.
+              <p className="mt-4 max-w-xl text-[15px] leading-7 text-calm-ink-muted-80">
+                Browse supplier products, protected buyer demand, trade events, and service programs in one controlled marketplace.
               </p>
-              <div className="mt-7 grid gap-2 sm:grid-cols-2">
+              <div className="mt-6 flex flex-wrap gap-2">
                 {TRUST_MARKS.map((item) => (
-                  <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3 text-[13px] font-semibold text-white/84" key={item}>
+                  <span className="rounded-full bg-[#eef5ff] px-3.5 py-2 text-[12px] font-semibold text-action-blue" key={item}>
                     {item}
-                  </div>
+                  </span>
                 ))}
               </div>
             </div>
           </article>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {feature ? (
-              <article className="group overflow-hidden rounded-[30px] border border-[#d7e5f7] bg-white shadow-[0_20px_64px_rgb(15_23_42/0.10)] sm:col-span-2">
-                <div className="grid sm:grid-cols-[1fr_0.92fr]">
-                  <div className="relative min-h-[260px] overflow-hidden bg-[#f3f7fc]">
-                    <Image
-                      alt={feature.imageAlt}
-                      className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                      fill
-                      priority
-                      sizes="(max-width: 640px) 92vw, 600px"
-                      src={feature.imageUrl}
-                    />
-                    <div className="absolute left-4 top-4">
-                      <MarkBadge tone="blue">
-                        <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
-                        Flagship
-                      </MarkBadge>
-                    </div>
-                  </div>
-                  <div className="flex flex-col p-5 sm:p-6">
-                    <p className="text-[12px] font-semibold uppercase tracking-normal text-action-blue">
-                      Featured supplier product
-                    </p>
-                    <h2 className="mt-3 text-[30px] font-semibold leading-[1.03] tracking-normal text-calm-ink">
-                      {feature.title}
-                    </h2>
-                    <p className="mt-3 text-[14px] font-semibold text-calm-ink-muted-80">{feature.supplierName}</p>
-                    <p className="mt-3 line-clamp-3 text-[14px] leading-6 text-calm-ink-muted-80">{feature.description}</p>
-                    <Link className="mt-auto inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-action-blue px-5 text-[13px] font-semibold text-white transition hover:bg-action-blue-focus" href={feature.href}>
-                      {feature.ctaLabel}
-                      <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ) : null}
-
-            {quickProducts.slice(0, 2).map((item, index) => (
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {heroProducts.map((item, index) => (
               <ProductCard item={item} key={item.id} priority={index === 0} />
             ))}
           </div>
