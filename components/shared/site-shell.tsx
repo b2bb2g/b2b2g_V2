@@ -565,19 +565,6 @@ function PublicSiteHeader({
           <PublicAuthControls publicUser={publicUser} />
         </div>
       </div>
-      <div className="marketplace-mobile-nav xl:hidden">
-        <nav className="mx-auto flex max-w-[1440px] gap-2 overflow-x-auto px-5 py-3 sm:px-8">
-          {marketplacePublicNavigation.map((item) => (
-            <Link
-              className={`marketplace-mobile-nav-link ${pathname === item.href ? "active" : ""}`}
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
     </header>
   );
 }

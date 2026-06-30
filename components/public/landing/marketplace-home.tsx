@@ -161,7 +161,7 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dde8f5] bg-white shadow-[0_14px_36px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_24px_62px_rgb(15_23_42/0.12)]">
+    <article className="group flex min-w-0 self-start overflow-hidden rounded-[20px] border border-[#dde8f5] bg-white shadow-[0_14px_36px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_24px_62px_rgb(15_23_42/0.12)]">
       <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f7fc]">
         <Image
           alt={item.imageAlt}
@@ -210,7 +210,7 @@ function ProductCard({
         <p className="mt-1.5 line-clamp-1 text-[13px] leading-5 text-calm-ink-muted-80">
           {item.description}
         </p>
-        <div className="mt-auto flex items-center justify-between gap-3 pt-3">
+        <div className="mt-3 flex items-center justify-between gap-3">
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-calm-ink-muted-80">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-action-blue" />
             Protected RFQ
@@ -266,7 +266,7 @@ function CommerceHero({ products }: Readonly<{ products: MarketplaceHomeProduct[
   return (
     <section className="bg-[#f4f8ff] py-7 sm:py-9">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-5 lg:grid-cols-[0.74fr_1.26fr]">
+        <div className="grid items-start gap-5 lg:grid-cols-[0.72fr_1.28fr]">
           <article className="relative overflow-hidden rounded-[30px] border border-[#d7e5f7] bg-white p-6 shadow-[0_18px_54px_rgb(15_23_42/0.08)] sm:p-7">
             <div className="absolute right-[-70px] top-[-100px] h-56 w-56 rounded-full bg-action-blue/12 blur-3xl" />
             <div className="relative">
@@ -287,7 +287,7 @@ function CommerceHero({ products }: Readonly<{ products: MarketplaceHomeProduct[
             </div>
           </article>
 
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid items-start gap-5 sm:grid-cols-2">
             {heroProducts.map((item, index) => (
               <ProductCard item={item} key={item.id} priority={index === 0} />
             ))}

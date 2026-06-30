@@ -9739,30 +9739,6 @@ button.apple-footer-link {
   transform: translateY(-1px);
 }
 
-.marketplace-mobile-nav {
-  display: none;
-  border-top: 1px solid rgb(215 229 247 / 72%);
-  background: rgb(255 255 255 / 90%);
-  backdrop-filter: saturate(180%) blur(16px);
-}
-
-.marketplace-mobile-nav-link {
-  flex: 0 0 auto;
-  min-height: 36px;
-  border-radius: 999px;
-  padding-inline: 13px;
-  color: var(--calm-ink-muted-80);
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.marketplace-mobile-nav-link:hover,
-.marketplace-mobile-nav-link.active {
-  background: rgb(11 99 206 / 6%);
-  color: var(--action-blue);
-}
-
 .marketplace-home-root,
 .marketplace-home-root * {
   min-width: 0;
@@ -9792,12 +9768,6 @@ button.apple-footer-link {
 
   .marketplace-login-button {
     padding-inline: 13px;
-  }
-}
-
-@media (max-width: 1279px) {
-  .marketplace-mobile-nav {
-    display: block;
   }
 }
 
