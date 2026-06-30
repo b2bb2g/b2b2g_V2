@@ -9547,15 +9547,16 @@ button.apple-footer-link {
 .marketplace-public-header {
   border-bottom: 1px solid rgb(15 23 42 / 8%);
   background:
+    radial-gradient(circle at 18% 0%, rgb(219 234 254 / 52%), transparent 32%),
     linear-gradient(180deg, rgb(255 255 255 / 94%), rgb(248 251 255 / 88%));
-  box-shadow: 0 18px 48px rgb(15 23 42 / 6%);
+  box-shadow: 0 20px 58px rgb(15 23 42 / 7%);
   backdrop-filter: saturate(180%) blur(20px);
 }
 
 .marketplace-public-header > div {
-  min-height: 92px;
+  min-height: 88px;
   max-width: 1440px;
-  gap: 22px;
+  gap: 24px;
 }
 
 .marketplace-header-logo > span {
@@ -9564,35 +9565,38 @@ button.apple-footer-link {
 }
 
 .marketplace-header-nav-shell {
-  gap: 6px;
-  max-width: 980px;
-  border: 1px solid rgb(15 23 42 / 8%);
-  border-radius: 28px;
-  background: rgb(255 255 255 / 74%);
-  padding: 7px;
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 86%), 0 18px 44px rgb(15 23 42 / 5%);
+  gap: 4px;
+  max-width: 1040px;
+  border: 1px solid rgb(15 23 42 / 9%);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 86%), rgb(246 250 255 / 74%));
+  padding: 6px;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 92%), 0 16px 44px rgb(15 23 42 / 6%);
 }
 
 .marketplace-header-nav-link {
-  min-height: 58px;
-  min-width: 108px;
+  position: relative;
+  min-height: 54px;
+  min-width: 118px;
   border: 1px solid transparent;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 8px 13px;
+  padding: 7px 14px 8px;
   color: rgb(16 16 20 / 72%);
-  font-size: 14px;
-  font-weight: 780;
+  font-size: 15px;
+  font-weight: 820;
   letter-spacing: 0;
 }
 
 .marketplace-header-nav-link:hover,
 .marketplace-header-nav-link.active {
-  border-color: rgb(0 113 227 / 14%);
-  background: #ffffff;
+  border-color: rgb(0 113 227 / 16%);
+  background: linear-gradient(180deg, #ffffff, #f7fbff);
   color: #0b63ce;
-  box-shadow: 0 12px 28px rgb(15 23 42 / 8%);
+  box-shadow: 0 14px 32px rgb(15 23 42 / 9%);
+  transform: translateY(-1px);
 }
 
 .marketplace-header-nav-label {
@@ -9600,10 +9604,13 @@ button.apple-footer-link {
 }
 
 .marketplace-header-nav-meta {
-  margin-top: 4px;
-  color: rgb(15 23 42 / 42%);
-  font-size: 10px;
-  font-weight: 760;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: rgb(239 246 255 / 76%);
+  color: rgb(11 99 206 / 72%);
+  padding: 3px 7px;
+  font-size: 9px;
+  font-weight: 840;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -9614,29 +9621,30 @@ button.apple-footer-link {
 }
 
 .marketplace-login-button {
-  min-height: 48px;
-  padding-inline: 24px;
+  min-height: 50px;
+  padding-inline: 26px;
   font-size: 14px;
   font-weight: 820;
+  box-shadow: 0 18px 38px rgb(15 23 42 / 16%);
 }
 
 @media (max-width: 1280px) {
   .marketplace-public-header > div {
-    min-height: 82px;
+    min-height: 78px;
     gap: 14px;
   }
 
   .marketplace-header-nav-shell {
-    gap: 4px;
-    max-width: 820px;
+    gap: 3px;
+    max-width: 840px;
     padding: 6px;
   }
 
   .marketplace-header-nav-link {
-    min-height: 50px;
+    min-height: 46px;
     min-width: auto;
-    padding: 7px 10px;
-    font-size: 13px;
+    padding: 7px 12px;
+    font-size: 14px;
   }
 
   .marketplace-header-nav-meta {
