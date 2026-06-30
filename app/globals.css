@@ -9486,3 +9486,59 @@ button.apple-footer-link {
     font-size: 11px;
   }
 }
+
+/* Apple-inspired B2B commerce shell refresh */
+.marketplace-public-header {
+  border-bottom: 1px solid rgb(0 0 0 / 7%);
+  background: rgb(245 245 247 / 84%);
+  box-shadow: none;
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+.marketplace-public-header > div {
+  min-height: 56px;
+}
+
+.marketplace-header-logo > span {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.marketplace-header-nav-link {
+  min-height: 34px;
+  border-radius: 999px;
+  padding-inline: 11px;
+  color: rgb(29 29 31 / 78%);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.marketplace-header-nav-link:hover,
+.marketplace-header-nav-link.active {
+  border-color: rgb(0 0 0 / 6%);
+  background: rgb(255 255 255 / 78%);
+  color: #0b63ce;
+  box-shadow: none;
+}
+
+.marketplace-header-buyers {
+  color: rgb(29 29 31 / 54%);
+  font-size: 11px;
+}
+
+.marketplace-language-button {
+  min-height: 34px;
+  border-color: rgb(0 0 0 / 8%);
+  background: rgb(255 255 255 / 68%);
+  color: rgb(29 29 31 / 72%);
+  font-size: 12px;
+}
+
+.marketplace-login-button {
+  min-height: 34px;
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  color: #fff;
+  box-shadow: none;
+}

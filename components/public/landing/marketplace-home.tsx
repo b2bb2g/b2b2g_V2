@@ -95,50 +95,39 @@ export type MarketplaceHomeConfig = {
   faqs: MarketplaceHomeFaq[];
 };
 
-const MARKET_LANES = [
-  "Commercial sourcing",
-  "Industrial equipment",
-  "EPC projects",
-  "FDA service desk",
-  "Events",
-  "Brokered RFQ",
+const CATEGORY_TABS = ["Commercial", "Industrial", "EPC", "Events", "BUY & SELL", "Networking", "Service"];
+
+const COMMERCE_PROOF = [
+  "Verified supplier catalog",
+  "Masked buyer requests",
+  "Admin-brokered inquiry",
+  "Global service desk",
 ];
 
-const OPERATING_STEPS = [
-  "Supplier approval",
-  "Company profile",
-  "Product review",
-  "Brokered inquiry",
-];
-
-const ROLE_PATHWAYS = [
+const ROLE_ENTRY_POINTS = [
   {
-    cta: "Apply as supplier",
-    description: "Prepare supplier approval, company setup, products, and premium exposure.",
+    description: "Apply for supplier approval, then prepare company profile, products, and premium exposure.",
     href: "/signup/supplier",
-    key: "supplier",
     label: "Supplier",
+    meta: "Company and product growth",
   },
   {
-    cta: "Apply as agent",
-    description: "Build assigned buyer networks without crossing protected data boundaries.",
-    href: "/signup/agent",
-    key: "agent",
-    label: "Agent",
-  },
-  {
-    cta: "Buyer onboarding",
-    description: "Join invited buying workflows and submit structured product demand.",
+    description: "Submit buyer demand through protected RFQ workflows and agent-supported onboarding.",
     href: "/signup/buyer",
-    key: "buyer",
     label: "Buyer",
+    meta: "Protected sourcing",
   },
   {
-    cta: "Professor access",
-    description: "Run program-based onboarding and innovation showcase preparation.",
+    description: "Build assigned buyer networks and prepare invitation-based buyer onboarding.",
+    href: "/signup/agent",
+    label: "Agent",
+    meta: "Network operation",
+  },
+  {
+    description: "Join invitation-based programs and prepare controlled innovation showcase pathways.",
     href: "/signup/professor",
-    key: "professor",
     label: "Professor",
+    meta: "Program operation",
   },
 ];
 
@@ -168,33 +157,31 @@ function ActionLink({
 
 function SectionHeader({
   action,
+  align = "left",
   eyebrow,
   subtitle,
   title,
 }: Readonly<{
   action?: CtaLink;
+  align?: "center" | "left";
   eyebrow?: string;
   subtitle?: string;
   title: string;
 }>) {
   return (
-    <div className="mb-5 flex flex-col gap-4 md:mb-7 md:flex-row md:items-end md:justify-between">
-      <div className="min-w-0">
-        {eyebrow ? (
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#2563eb]">{eyebrow}</p>
-        ) : null}
-        <h2 className="mt-2 max-w-4xl text-[32px] font-black leading-[0.98] tracking-[-0.065em] text-[#07111f] md:text-[48px]">
-          {title}
-        </h2>
-        {subtitle ? (
-          <p className="mt-3 max-w-2xl text-[15px] leading-7 text-slate-600 md:text-base">
-            {subtitle}
-          </p>
-        ) : null}
-      </div>
+    <div className={`mb-8 ${align === "center" ? "mx-auto max-w-4xl text-center" : "max-w-4xl"}`}>
+      {eyebrow ? (
+        <p className="text-[12px] font-black uppercase tracking-[0.18em] text-[#2563eb]">{eyebrow}</p>
+      ) : null}
+      <h2 className="mt-3 text-[34px] font-black leading-[0.98] tracking-[-0.065em] text-[#0b1220] md:text-[56px]">
+        {title}
+      </h2>
+      {subtitle ? (
+        <p className="mt-4 text-[17px] leading-8 text-slate-600 md:text-[19px]">{subtitle}</p>
+      ) : null}
       {action ? (
         <ActionLink
-          className="inline-flex h-11 w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-sm font-black text-[#2563eb] shadow-sm transition hover:-translate-y-0.5 hover:border-[#2563eb]/30 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-[#2563eb] px-6 text-sm font-black text-white shadow-[0_16px_36px_rgb(37_99_235/0.22)] transition hover:-translate-y-0.5 hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-60"
           item={action}
         >
           {action.label}
@@ -206,31 +193,29 @@ function SectionHeader({
 }
 
 function ProductCard({
-  featured = false,
   item,
   priority = false,
 }: Readonly<{
-  featured?: boolean;
   item: MarketplaceHomeProduct;
   priority?: boolean;
 }>) {
   return (
-    <article className={`group flex min-w-0 flex-col overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_20px_80px_rgb(15_23_42/0.08)] transition hover:-translate-y-1 hover:shadow-[0_34px_90px_rgb(15_23_42/0.13)] ${featured ? "h-full" : ""}`}>
-      <div className="relative aspect-square overflow-hidden bg-[#eef5ff]">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[32px] border border-slate-200/80 bg-white shadow-[0_18px_60px_rgb(15_23_42/0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_30px_90px_rgb(15_23_42/0.11)]">
+      <div className="relative aspect-square overflow-hidden bg-[#f3f7fc]">
         <Image
           alt={item.imageAlt}
-          className="object-cover transition duration-500 group-hover:scale-[1.035]"
+          className="object-cover transition duration-700 group-hover:scale-[1.035]"
           fill
           priority={priority}
-          sizes={featured ? "(max-width: 768px) 92vw, 520px" : "(max-width: 768px) 92vw, 340px"}
+          sizes="(max-width: 768px) 92vw, (max-width: 1200px) 42vw, 320px"
           src={item.imageUrl}
         />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-          <span className="rounded-full bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#2563eb] backdrop-blur">
+          <span className="rounded-full bg-white/92 px-3 py-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#2563eb] backdrop-blur">
             {item.category}
           </span>
           {item.isVerifiedSupplier ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#07111f] px-3 py-1 text-[11px] font-black uppercase tracking-[0.08em] text-white">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#0b1220] px-3 py-1 text-[11px] font-black uppercase tracking-[0.08em] text-white">
               <ShieldCheckIcon className="h-3.5 w-3.5" aria-hidden="true" />
               Verified
             </span>
@@ -238,20 +223,22 @@ function ProductCard({
         </div>
         <button
           aria-label={`Save interest for ${item.title}`}
-          className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/70 bg-white/90 text-lg font-black text-[#2563eb] backdrop-blur"
+          className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/70 bg-white/92 text-lg font-black text-[#2563eb] backdrop-blur"
           type="button"
         >
           <span aria-hidden="true">♡</span>
         </button>
       </div>
       <div className="flex min-h-[244px] flex-1 flex-col p-5">
-        <span className="min-w-0 truncate text-sm font-bold text-slate-500">{item.supplierName}</span>
-        <h3 className="mt-3 line-clamp-2 min-h-[58px] text-[21px] font-black leading-tight tracking-[-0.04em] text-[#07111f]">
+        <span className="truncate text-sm font-bold text-slate-500">{item.supplierName}</span>
+        <h3 className="mt-3 line-clamp-2 min-h-[58px] text-[21px] font-black leading-tight tracking-[-0.04em] text-[#0b1220]">
           {item.title}
         </h3>
-        <p className="mt-3 line-clamp-3 min-h-[72px] text-[15px] leading-6 text-slate-600">{item.description}</p>
+        <p className="mt-3 line-clamp-3 min-h-[72px] text-[15px] leading-6 text-slate-600">
+          {item.description}
+        </p>
         <Link
-          className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-full bg-[#2563eb] px-5 text-sm font-black text-white shadow-[0_16px_34px_rgb(37_99_235/0.22)] transition hover:bg-[#1d4ed8]"
+          className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-full bg-[#2563eb] px-5 text-sm font-black text-white transition hover:bg-[#1d4ed8]"
           href={item.href}
         >
           {item.ctaLabel}
@@ -261,46 +248,81 @@ function ProductCard({
   );
 }
 
-function HeroCommandCenter({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
-  const heroProduct = config.premiumProducts[0];
+function CommerceLead({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
+  const leadProduct = config.premiumProducts[0];
+  const secondProduct = config.premiumProducts[1];
   const leadRequest = config.buyerRequests[0];
   const leadEvent = config.events[0];
 
   return (
-    <section className="grid gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(460px,0.92fr)]">
-      <div className="relative min-w-0 overflow-hidden rounded-[38px] border border-slate-200 bg-[#07111f] p-7 text-white shadow-[0_30px_100px_rgb(7_17_31/0.20)] md:p-10">
-        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#60a5fa,#34d399,#fbbf24)]" />
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#93c5fd]">B2B2G Trade Operating Home</p>
-        <h1 className="mt-5 max-w-4xl text-[42px] font-black leading-[0.93] tracking-[-0.08em] md:text-[72px]">
-          Source, verify, broker, and grow global B2B demand.
-        </h1>
-        <p className="mt-6 max-w-2xl text-[17px] leading-8 text-white/72">
-          One marketplace surface for approved suppliers, masked buyer requests, trade events, FDA service pathways, and role-based onboarding.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-2">
-          {MARKET_LANES.map((item) => (
-            <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-bold text-white/78" key={item}>
-              {item}
-            </span>
-          ))}
-        </div>
-        <div className="mt-10 grid gap-3 md:grid-cols-4">
-          {OPERATING_STEPS.map((item, index) => (
-            <div className="rounded-[22px] border border-white/10 bg-white/[0.06] p-4" key={item}>
-              <span className="text-xs font-black text-[#93c5fd]">0{index + 1}</span>
-              <p className="mt-2 text-sm font-black leading-5 text-white">{item}</p>
-            </div>
-          ))}
-        </div>
+    <section className="grid gap-5 pt-3">
+      <div className="mx-auto flex w-fit flex-wrap justify-center gap-2 rounded-full border border-slate-200 bg-white/88 p-1 shadow-[0_18px_60px_rgb(15_23_42/0.06)] backdrop-blur">
+        {CATEGORY_TABS.map((item) => (
+          <span className="rounded-full px-4 py-2 text-xs font-black text-slate-700" key={item}>
+            {item}
+          </span>
+        ))}
       </div>
 
-      <div className="grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-1">
-        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px] xl:grid-cols-[minmax(0,1fr)_180px]">
-          <ProductCard featured item={heroProduct} priority />
-          <div className="grid gap-5">
-            <article className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_20px_80px_rgb(15_23_42/0.08)]">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(420px,0.85fr)]">
+        <article className="relative min-h-[620px] overflow-hidden rounded-[42px] border border-slate-200 bg-white shadow-[0_26px_90px_rgb(15_23_42/0.08)]">
+          <Image
+            alt={leadProduct.imageAlt}
+            className="object-cover"
+            fill
+            priority
+            sizes="(max-width: 1024px) 94vw, 760px"
+            src={leadProduct.imageUrl}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(255_255_255/0.96),rgb(255_255_255/0.72)_42%,rgb(8_18_32/0.54)_100%)]" />
+          <div className="relative flex min-h-[620px] flex-col justify-between p-7 md:p-11">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#2563eb]">B2B commerce, brokered safely</p>
+              <h1 className="mt-5 max-w-3xl text-[46px] font-black leading-[0.92] tracking-[-0.085em] text-[#0b1220] md:text-[82px]">
+                Global trade, beautifully organized.
+              </h1>
+              <p className="mt-6 max-w-2xl text-[18px] leading-8 text-slate-700 md:text-[21px]">
+                A premium marketplace home for verified products, protected buyer demand, events, and service pathways.
+              </p>
+            </div>
+            <div className="grid gap-3 md:grid-cols-4">
+              {COMMERCE_PROOF.map((item) => (
+                <div className="rounded-[24px] border border-white/40 bg-white/82 p-4 text-sm font-black text-[#0b1220] shadow-[0_14px_36px_rgb(15_23_42/0.08)] backdrop-blur" key={item}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <div className="grid gap-5">
+          <article className="overflow-hidden rounded-[42px] border border-slate-200 bg-[#f8fbff] shadow-[0_26px_90px_rgb(15_23_42/0.08)]">
+            <div className="relative aspect-[1.55/1] bg-[#eef5ff]">
+              <Image
+                alt={secondProduct.imageAlt}
+                className="object-cover"
+                fill
+                priority
+                sizes="(max-width: 1024px) 94vw, 460px"
+                src={secondProduct.imageUrl}
+              />
+            </div>
+            <div className="p-6">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#2563eb]">Premium supplier</p>
+              <h2 className="mt-3 text-[30px] font-black leading-none tracking-[-0.06em] text-[#0b1220]">
+                {secondProduct.title}
+              </h2>
+              <p className="mt-3 text-[15px] leading-6 text-slate-600">{secondProduct.description}</p>
+              <Link className="mt-5 inline-flex h-11 items-center rounded-full bg-[#2563eb] px-5 text-sm font-black text-white" href={secondProduct.href}>
+                Inquire Now
+              </Link>
+            </div>
+          </article>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            <article className="rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_20px_70px_rgb(15_23_42/0.07)]">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-[#2563eb]">Protected RFQ</p>
-              <h2 className="mt-3 text-[24px] font-black leading-[1.02] tracking-[-0.05em] text-[#07111f]">
+              <h2 className="mt-3 text-[26px] font-black leading-none tracking-[-0.055em] text-[#0b1220]">
                 {leadRequest.title}
               </h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">{leadRequest.spec}</p>
@@ -308,9 +330,9 @@ function HeroCommandCenter({ config }: Readonly<{ config: MarketplaceHomeConfig 
                 {leadRequest.quantity}
               </span>
             </article>
-            <article className="rounded-[30px] border border-slate-200 bg-[#f8fafc] p-5 shadow-[0_20px_80px_rgb(15_23_42/0.06)]">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0f766e]">Next program</p>
-              <h2 className="mt-3 text-[24px] font-black leading-[1.02] tracking-[-0.05em] text-[#07111f]">
+            <article className="rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_20px_70px_rgb(15_23_42/0.07)]">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0f766e]">Trade event</p>
+              <h2 className="mt-3 text-[26px] font-black leading-none tracking-[-0.055em] text-[#0b1220]">
                 {leadEvent.title}
               </h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">{leadEvent.locationLabel}</p>
@@ -325,14 +347,15 @@ function HeroCommandCenter({ config }: Readonly<{ config: MarketplaceHomeConfig 
   );
 }
 
-function ProductDiscovery({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
+function PremiumProducts({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
   return (
-    <section>
+    <section className="rounded-[46px] bg-white px-5 py-10 shadow-[0_26px_90px_rgb(15_23_42/0.07)] md:px-8 md:py-14">
       <SectionHeader
         action={{ href: "/products", isEnabled: false, label: "Browse products" }}
-        eyebrow="Product discovery"
-        subtitle="Large image cards, verified supplier signals, and brokered inquiry CTAs for serious sourcing."
-        title="Premium supplier products"
+        align="center"
+        eyebrow="Premium suppliers"
+        subtitle="Product cards use the same information rhythm across the marketplace: image, supplier, trust signal, description, and brokered inquiry CTA."
+        title="Products first. Noise last."
       />
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {products.slice(1, 5).map((item, index) => (
@@ -343,7 +366,7 @@ function ProductDiscovery({ products }: Readonly<{ products: MarketplaceHomeProd
   );
 }
 
-function RequestAndEventBoard({
+function RequestEventPanel({
   events,
   requests,
 }: Readonly<{
@@ -351,52 +374,54 @@ function RequestAndEventBoard({
   requests: MarketplaceHomeRequest[];
 }>) {
   return (
-    <section className="grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)]">
-      <div className="min-w-0 rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.08)]">
+    <section className="grid gap-5 lg:grid-cols-2">
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
         <SectionHeader
-          eyebrow="RFQ desk"
-          subtitle="Demand cards keep buyer identity protected while preserving sourcing context."
+          eyebrow="Buyer demand"
+          subtitle="RFQ cards expose sourcing context while keeping buyer identity protected."
           title="Buyer product requests"
         />
         <div className="grid gap-3">
-          {requests.slice(0, 4).map((item) => (
-            <article className="grid min-h-[104px] grid-cols-[72px_minmax(0,1fr)_auto] gap-4 rounded-[24px] border border-slate-100 bg-[#fbfdff] p-3" key={item.id}>
+          {requests.slice(0, 3).map((item) => (
+            <article className="grid grid-cols-[72px_minmax(0,1fr)_auto] gap-4 rounded-[26px] bg-[#f7faff] p-3" key={item.id}>
               <div className="relative overflow-hidden rounded-2xl bg-[#eef5ff]">
                 {item.imageUrl ? (
                   <Image alt={item.imageAlt ?? item.title} className="object-cover" fill sizes="72px" src={item.imageUrl} />
                 ) : null}
               </div>
-              <div>
-                <h3 className="line-clamp-1 text-base font-black text-[#07111f]">{item.title}</h3>
+              <div className="min-w-0">
+                <h3 className="line-clamp-1 text-base font-black text-[#0b1220]">{item.title}</h3>
                 <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{item.spec}</p>
-                <span className="mt-2 inline-flex rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500">
-                  {item.quantity}
-                </span>
+                <p className="mt-2 text-xs font-bold text-slate-500">{item.quantity}</p>
               </div>
-              <strong className="h-fit rounded-full bg-[#eff6ff] px-3 py-1 text-xs font-black text-[#2563eb]">
+              <strong className="h-fit rounded-full bg-white px-3 py-1 text-xs font-black text-[#2563eb]">
                 {item.badge}
               </strong>
             </article>
           ))}
         </div>
+        <p className="mt-5 rounded-[22px] bg-[#eff6ff] px-4 py-3 text-sm font-bold leading-6 text-[#1d4ed8]">
+          Buyer company and contact information stays masked on public surfaces.
+        </p>
       </div>
-      <div className="min-w-0 rounded-[34px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.08)]">
+
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
         <SectionHeader
-          eyebrow="Event calendar"
-          subtitle="Trade programs, missions, and service windows that drive marketplace activity."
-          title="Events and service timing"
+          eyebrow="Events"
+          subtitle="A curated schedule for sourcing, compliance, and global trade programs."
+          title="Trade calendar"
         />
         <div className="grid gap-3">
           {events.slice(0, 3).map((item) => (
-            <article className="grid min-h-[116px] grid-cols-[116px_minmax(0,1fr)] gap-4 rounded-[24px] border border-slate-100 bg-[#fbfdff] p-3" key={item.id}>
-              <div className="relative overflow-hidden rounded-2xl bg-[#eef5ff]">
+            <article className="grid grid-cols-[116px_minmax(0,1fr)] gap-4 rounded-[26px] bg-[#f7faff] p-3" key={item.id}>
+              <div className="relative min-h-[108px] overflow-hidden rounded-2xl bg-[#eef5ff]">
                 <Image alt={item.imageAlt} className="object-cover" fill sizes="116px" src={item.imageUrl} />
               </div>
-              <div>
-                <time className="text-xs font-black text-[#0f766e]">{item.dateLabel}</time>
-                <h3 className="mt-1 text-base font-black leading-tight text-[#07111f]">{item.title}</h3>
+              <div className="min-w-0">
+                <time className="text-xs font-black uppercase tracking-[0.1em] text-[#0f766e]">{item.dateLabel}</time>
+                <h3 className="mt-2 line-clamp-2 text-base font-black leading-tight text-[#0b1220]">{item.title}</h3>
                 <p className="mt-1 text-sm text-slate-600">{item.locationLabel}</p>
-                <span className="mt-2 inline-flex rounded-full bg-[#ecfdf5] px-3 py-1 text-xs font-black text-[#0f766e]">
+                <span className="mt-2 inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-[#0f766e]">
                   {item.badge}
                 </span>
               </div>
@@ -408,28 +433,27 @@ function RequestAndEventBoard({
   );
 }
 
-function RoleGateways() {
+function RoleSystem() {
   return (
-    <section className="rounded-[36px] border border-slate-200 bg-white p-6 shadow-[0_24px_90px_rgb(15_23_42/0.08)] md:p-8">
+    <section className="rounded-[46px] bg-[#0b1220] px-5 py-10 text-white shadow-[0_26px_90px_rgb(15_23_42/0.12)] md:px-8 md:py-14">
       <SectionHeader
-        eyebrow="Role gateways"
-        subtitle="The public surface should guide every user into a controlled operating path."
-        title="Choose the right entry into the trade system"
+        align="center"
+        eyebrow="Role-based commerce"
+        subtitle="Each user enters a controlled path, keeping approval, privacy, and brokerage rules intact."
+        title="One marketplace. Separate operating lanes."
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {ROLE_PATHWAYS.map((item) => (
+        {ROLE_ENTRY_POINTS.map((item) => (
           <Link
-            className="group rounded-[28px] border border-slate-200 bg-[#f8fafc] p-5 transition hover:-translate-y-1 hover:border-[#2563eb]/30 hover:bg-white hover:shadow-[0_20px_70px_rgb(15_23_42/0.10)]"
+            className="group rounded-[32px] border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1 hover:bg-white/[0.10]"
             href={item.href}
-            key={item.key}
+            key={item.label}
           >
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#07111f] text-sm font-black uppercase text-white">
-              {item.label.slice(0, 1)}
-            </span>
-            <h3 className="mt-5 text-2xl font-black tracking-[-0.055em] text-[#07111f]">{item.label}</h3>
-            <p className="mt-3 min-h-[76px] text-[15px] leading-6 text-slate-600">{item.description}</p>
-            <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#2563eb]">
-              {item.cta}
+            <span className="text-xs font-black uppercase tracking-[0.16em] text-[#93c5fd]">{item.meta}</span>
+            <h3 className="mt-4 text-[30px] font-black tracking-[-0.06em] text-white">{item.label}</h3>
+            <p className="mt-3 min-h-[96px] text-[15px] leading-6 text-white/64">{item.description}</p>
+            <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#93c5fd]">
+              Start path
               <ArrowRightIcon className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true" />
             </span>
           </Link>
@@ -439,19 +463,27 @@ function RoleGateways() {
   );
 }
 
-function ExposureBanners({ items }: Readonly<{ items: MarketplaceHomeConfig["adBanners"] }>) {
+function ExposureStrip({ items }: Readonly<{ items: MarketplaceHomeConfig["adBanners"] }>) {
   return (
     <section className="grid gap-5 lg:grid-cols-2">
-      {items.map((item, index) => (
-        <article className={`min-w-0 overflow-hidden rounded-[36px] border p-7 shadow-[0_24px_90px_rgb(15_23_42/0.08)] ${index === 0 ? "border-[#bfdbfe] bg-[#eff6ff]" : "border-[#bbf7d0] bg-[#f0fdf4]"}`} key={item.id}>
-          <span className={`inline-flex rounded-full bg-white px-3 py-1 text-xs font-black uppercase tracking-[0.12em] ${index === 0 ? "text-[#2563eb]" : "text-[#15803d]"}`}>
+      {items.slice(0, 2).map((item, index) => (
+        <article
+          className={`rounded-[42px] border p-8 shadow-[0_22px_80px_rgb(15_23_42/0.07)] ${
+            index === 0 ? "border-[#bfdbfe] bg-[#eff6ff]" : "border-[#bbf7d0] bg-[#f0fdf4]"
+          }`}
+          key={item.id}
+        >
+          <p className={`text-xs font-black uppercase tracking-[0.16em] ${index === 0 ? "text-[#2563eb]" : "text-[#15803d]"}`}>
             Premium exposure
-          </span>
-          <h2 className="mt-5 max-w-2xl text-[34px] font-black leading-[0.96] tracking-[-0.065em] text-[#07111f] md:text-[46px]">
+          </p>
+          <h2 className="mt-4 max-w-2xl text-[36px] font-black leading-[0.98] tracking-[-0.065em] text-[#0b1220] md:text-[54px]">
             {item.title}
           </h2>
-          <p className="mt-4 max-w-xl text-[16px] leading-7 text-slate-600">{item.description}</p>
-          <ActionLink className="mt-7 inline-flex h-12 w-fit items-center rounded-full bg-[#07111f] px-6 text-sm font-black text-white shadow-[0_16px_34px_rgb(7_17_31/0.20)]" item={item.cta}>
+          <p className="mt-4 max-w-xl text-[17px] leading-8 text-slate-600">{item.description}</p>
+          <ActionLink
+            className="mt-7 inline-flex h-12 items-center rounded-full bg-[#0b1220] px-6 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60"
+            item={item.cta}
+          >
             {item.cta.label}
           </ActionLink>
         </article>
@@ -468,40 +500,50 @@ function ShowcaseAndBuyers({
   showcases: MarketplaceHomeShowcase[];
 }>) {
   return (
-    <section className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)]">
-      <div className="min-w-0 rounded-[36px] border border-slate-200 bg-white p-6 shadow-[0_24px_90px_rgb(15_23_42/0.08)]">
+    <section className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1.32fr)_minmax(360px,0.68fr)]">
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
         <SectionHeader
-          eyebrow="Innovation gallery"
-          subtitle="Visual showcase cards for products, teams, and project-ready concepts."
-          title="Innovation showcase"
+          eyebrow="Product showcase"
+          subtitle="Image-led product and project cards for future marketplace storytelling."
+          title="Innovation, ready to be discovered."
         />
         <div className="grid gap-4 sm:grid-cols-3">
           {showcases.slice(0, 3).map((item) => (
-            <Link className="group" href={item.href} key={item.id}>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-[#eef5ff]">
-                <Image alt={item.imageAlt} className="object-cover transition duration-500 group-hover:scale-[1.035]" fill sizes="(max-width: 768px) 92vw, 260px" src={item.imageUrl} />
+            <Link className="group min-w-0" href={item.href} key={item.id}>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[30px] bg-[#eef5ff]">
+                <Image
+                  alt={item.imageAlt}
+                  className="object-cover transition duration-700 group-hover:scale-[1.035]"
+                  fill
+                  sizes="(max-width: 768px) 92vw, 260px"
+                  src={item.imageUrl}
+                />
               </div>
               <span className="mt-4 inline-flex rounded-full bg-[#eff6ff] px-3 py-1 text-xs font-black text-[#2563eb]">
                 {item.category}
               </span>
-              <h3 className="mt-3 line-clamp-2 text-xl font-black tracking-[-0.04em] text-[#07111f]">{item.title}</h3>
+              <h3 className="mt-3 line-clamp-2 text-xl font-black tracking-[-0.04em] text-[#0b1220]">{item.title}</h3>
               <p className="mt-1 text-sm font-bold text-slate-500">{item.companyName}</p>
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="min-w-0 rounded-[36px] border border-slate-200 bg-white p-6 shadow-[0_24px_90px_rgb(15_23_42/0.08)]">
-        <SectionHeader subtitle="Masked buyer profiles for protected demand." title="Verified buyers" />
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
+        <SectionHeader
+          eyebrow="Buyer network"
+          subtitle="Proof of demand without public contact exposure."
+          title="Verified buyers"
+        />
         <div className="grid gap-3">
-          {buyers.slice(0, 5).map((item) => (
-            <article className="grid min-h-[76px] grid-cols-[44px_minmax(0,1fr)_24px] items-center gap-3 rounded-[24px] border border-slate-100 bg-[#fbfdff] p-3" key={item.id}>
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-[#eff6ff] text-sm font-black text-[#2563eb]">
+          {buyers.slice(0, 4).map((item) => (
+            <article className="grid grid-cols-[48px_minmax(0,1fr)_24px] items-center gap-3 rounded-[26px] bg-[#f7faff] p-3" key={item.id}>
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-white text-sm font-black text-[#2563eb]">
                 {item.avatarLabel}
               </span>
-              <div>
-                <h3 className="text-sm font-black text-[#07111f]">{item.companyName}</h3>
-                <p className="text-sm text-slate-600">{item.role}</p>
+              <div className="min-w-0">
+                <h3 className="truncate text-sm font-black text-[#0b1220]">{item.companyName}</h3>
+                <p className="truncate text-sm text-slate-600">{item.role}</p>
                 <span className="text-xs font-bold text-slate-400">{item.country}</span>
               </div>
               <ShieldCheckIcon className="h-5 w-5 text-[#2563eb]" aria-hidden="true" />
@@ -518,9 +560,10 @@ function LatestProducts({ products }: Readonly<{ products: MarketplaceHomeProduc
     <section>
       <SectionHeader
         action={{ href: "/products", isEnabled: false, label: "View all products" }}
-        eyebrow="Fresh supply"
-        subtitle="A consistent grid for new products, supplier trust, and structured inquiry readiness."
-        title="Latest marketplace products"
+        align="center"
+        eyebrow="Latest products"
+        subtitle="A calmer two-row grid for fresh product discovery with consistent card rhythm."
+        title="New supply, presented clearly."
       />
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {products.slice(0, 8).map((item) => (
@@ -531,7 +574,7 @@ function LatestProducts({ products }: Readonly<{ products: MarketplaceHomeProduc
   );
 }
 
-function KnowledgeFooter({
+function KnowledgeSection({
   announcements,
   faqs,
 }: Readonly<{
@@ -540,29 +583,29 @@ function KnowledgeFooter({
 }>) {
   return (
     <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
-      <div className="min-w-0 rounded-[36px] border border-slate-200 bg-white p-6 shadow-[0_24px_90px_rgb(15_23_42/0.08)]">
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
         <SectionHeader title="Announcements" />
         <div className="grid gap-3">
-          {announcements.map((item) => (
-            <Link className="grid grid-cols-[76px_minmax(0,1fr)] gap-4 rounded-[24px] border border-slate-100 bg-[#fbfdff] p-3 transition hover:bg-white" href={item.href} key={item.id}>
-              <time className="grid min-h-[68px] place-items-center rounded-2xl bg-[#eff6ff] text-center text-xs font-black text-[#2563eb]">
+          {announcements.slice(0, 3).map((item) => (
+            <Link className="grid grid-cols-[78px_minmax(0,1fr)] gap-4 rounded-[26px] bg-[#f7faff] p-3 transition hover:bg-[#eff6ff]" href={item.href} key={item.id}>
+              <time className="grid min-h-[74px] place-items-center rounded-2xl bg-white text-center text-xs font-black text-[#2563eb]">
                 {item.dateLabel}
               </time>
-              <div>
-                <span className="text-xs font-black uppercase tracking-[0.08em] text-[#2563eb]">{item.statusLabel}</span>
-                <h3 className="mt-1 text-base font-black text-[#07111f]">{item.title}</h3>
+              <div className="min-w-0">
+                <span className="text-xs font-black uppercase tracking-[0.1em] text-[#2563eb]">{item.statusLabel}</span>
+                <h3 className="mt-1 line-clamp-1 text-base font-black text-[#0b1220]">{item.title}</h3>
                 <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{item.description}</p>
               </div>
             </Link>
           ))}
         </div>
       </div>
-      <div className="min-w-0 rounded-[36px] border border-slate-200 bg-white p-6 shadow-[0_24px_90px_rgb(15_23_42/0.08)]">
+      <div className="rounded-[42px] border border-slate-200 bg-white p-6 shadow-[0_22px_80px_rgb(15_23_42/0.07)] md:p-8">
         <SectionHeader title="FAQ" />
         <div className="grid gap-2">
-          {faqs.map((item) => (
-            <details className="rounded-[24px] border border-slate-100 bg-[#fbfdff] px-4 py-4" key={item.id}>
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-black tracking-[-0.02em] text-[#07111f] [&::-webkit-details-marker]:hidden">
+          {faqs.slice(0, 4).map((item) => (
+            <details className="rounded-[26px] bg-[#f7faff] px-4 py-4" key={item.id}>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-black tracking-[-0.02em] text-[#0b1220] [&::-webkit-details-marker]:hidden">
                 <span>{item.question}</span>
                 <span aria-hidden="true" className="text-xl text-[#2563eb]">+</span>
               </summary>
@@ -577,29 +620,29 @@ function KnowledgeFooter({
 
 function MarketplaceFooter() {
   const columns = [
-    ["Source", "Premium products", "Supplier directory", "Product showcase", "Events"],
-    ["Demand", "RFQ desk", "Buyer privacy", "Admin brokerage", "Agent network"],
-    ["Services", "Thailand FDA", "Membership", "Verification", "Exposure"],
-    ["Company", "About B2B2G", "Announcements", "Support", "Language"],
+    ["Shop", "Commercial", "Industrial", "EPC", "Latest products"],
+    ["Trade", "RFQ Desk", "Buyer protection", "Admin brokerage", "Agent network"],
+    ["Services", "Thailand FDA", "Events", "Supplier membership", "Verification"],
+    ["Company", "About", "Announcements", "Support", "Language"],
   ];
 
   return (
-    <footer className="border-t border-white/10 bg-[#07111f] text-white">
+    <footer className="bg-[#f5f5f7] text-[#1d1d1f]">
       <div className="mx-auto max-w-[1440px] px-5 py-12 sm:px-8 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1.7fr_0.9fr]">
+        <div className="grid gap-10 border-t border-slate-200 pt-10 lg:grid-cols-[1.15fr_1.85fr_0.85fr]">
           <div>
-            <h2 className="text-4xl font-black tracking-[-0.08em]">B2B2G</h2>
-            <p className="mt-4 max-w-sm text-sm leading-6 text-white/62">
-              A brokered B2B trade operating system for verified supply, protected demand, and global service workflows.
+            <h2 className="text-[34px] font-black tracking-[-0.08em]">B2B2G</h2>
+            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-600">
+              Global B2B commerce with verified supply, protected demand, and service workflows.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-4">
+          <div className="grid gap-7 sm:grid-cols-4">
             {columns.map(([title, ...items]) => (
               <nav aria-label={title} key={title}>
-                <h3 className="text-sm font-black text-white">{title}</h3>
-                <div className="mt-4 grid gap-2">
+                <h3 className="text-xs font-black text-[#1d1d1f]">{title}</h3>
+                <div className="mt-3 grid gap-2">
                   {items.map((item) => (
-                    <button className="w-fit text-left text-xs font-bold text-white/55 disabled:cursor-not-allowed" disabled key={item} type="button">
+                    <button className="w-fit text-left text-xs font-semibold text-slate-500 disabled:cursor-not-allowed" disabled key={item} type="button">
                       {item}
                     </button>
                   ))}
@@ -607,19 +650,20 @@ function MarketplaceFooter() {
               </nav>
             ))}
           </div>
-          <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-5">
-            <h3 className="text-sm font-black">Marketplace memo</h3>
-            <p className="mt-3 text-sm leading-6 text-white/62">Supplier exposure, buyer demand, events, and service gateway updates.</p>
+          <div className="rounded-[28px] border border-slate-200 bg-white p-5">
+            <h3 className="text-sm font-black">Marketplace updates</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">Product, event, and service notices for global trade teams.</p>
             <form className="mt-5 grid gap-2">
-              <input className="min-h-11 min-w-0 rounded-full border border-white/15 bg-white/10 px-4 text-sm text-white outline-none placeholder:text-white/38" disabled placeholder="Work email" type="email" />
-              <button className="min-h-11 rounded-full bg-white px-4 text-sm font-black text-[#2563eb] disabled:cursor-not-allowed" disabled type="button">
+              <input className="min-h-11 min-w-0 rounded-full border border-slate-200 bg-[#f5f5f7] px-4 text-sm outline-none" disabled placeholder="Work email" type="email" />
+              <button className="min-h-11 rounded-full bg-[#2563eb] px-4 text-sm font-black text-white disabled:cursor-not-allowed" disabled type="button">
                 Subscribe
               </button>
             </form>
           </div>
         </div>
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/48">
-          © 2026 B2B2G. Buyer contact data is protected by platform policy.
+        <div className="mt-10 flex flex-col gap-3 border-t border-slate-200 pt-6 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+          <span>© 2026 B2B2G. Buyer contact data is protected by platform policy.</span>
+          <span>Privacy · Terms · Language</span>
         </div>
       </div>
     </footer>
@@ -628,16 +672,16 @@ function MarketplaceFooter() {
 
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
-    <div className="overflow-x-hidden bg-[#eef3f9] text-[#07111f]">
-      <div className="mx-auto grid max-w-[1440px] gap-8 px-5 pb-16 pt-6 sm:px-8 lg:px-10">
-        <HeroCommandCenter config={config} />
-        <ProductDiscovery products={config.premiumProducts} />
-        <RequestAndEventBoard events={config.events} requests={config.buyerRequests} />
-        <RoleGateways />
-        <ExposureBanners items={config.adBanners} />
+    <div className="overflow-x-hidden bg-[#f5f5f7] text-[#0b1220]">
+      <div className="mx-auto grid max-w-[1440px] gap-16 px-4 pb-16 pt-4 sm:px-6 lg:px-10">
+        <CommerceLead config={config} />
+        <PremiumProducts products={config.premiumProducts} />
+        <RequestEventPanel events={config.events} requests={config.buyerRequests} />
+        <RoleSystem />
+        <ExposureStrip items={config.adBanners} />
         <ShowcaseAndBuyers buyers={config.verifiedBuyers} showcases={config.showcases} />
         <LatestProducts products={config.latestProducts} />
-        <KnowledgeFooter announcements={config.announcements} faqs={config.faqs} />
+        <KnowledgeSection announcements={config.announcements} faqs={config.faqs} />
       </div>
       <MarketplaceFooter />
     </div>

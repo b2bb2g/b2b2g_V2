@@ -104,12 +104,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Marketplace" },
+  { href: "/commercial", label: "Commercial" },
   { href: "/industrial", label: "Industrial" },
-  { href: "/buy-sell", label: "RFQ Desk" },
-  { href: "/events", label: "Trade Events" },
-  { href: "/service", label: "FDA Service" },
-  { href: "/networking", label: "Network" },
+  { href: "/epc", label: "EPC" },
+  { href: "/events", label: "Event" },
+  { href: "/buy-sell", label: "BUY & SELL" },
+  { href: "/networking", label: "Networking" },
+  { href: "/service", label: "Service" },
 ] as const;
 
 const profileMenuByRole = {
