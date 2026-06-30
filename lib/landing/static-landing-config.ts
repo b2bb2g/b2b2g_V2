@@ -42,9 +42,9 @@ const warehouseImage =
 const hero: LandingHeroConfig = {
   ...visiblePublishedState,
   eyebrow: "Connect. Trade. Grow.",
-  searchPlaceholder: "Search products, suppliers, buyer requests...",
+  searchPlaceholder: "Explore approved products, suppliers, and RFQ programs",
   subtitle:
-    "A trusted global marketplace connecting verified suppliers with protected buyer demand, events, and brokerage-ready trade opportunities.",
+    "A trusted global marketplace connecting verified suppliers with protected buyer demand, events, and admin-reviewed trade opportunities.",
   title: "Your Global B2B Success Starts Here",
   trustItems: [
     { label: "Verified Suppliers" },
@@ -138,7 +138,7 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         dateLabel: "Jun 18",
-        description: "Buyer privacy and brokered inquiry protection have been upgraded across public surfaces.",
+        description: "Buyer privacy and managed inquiry protection have been upgraded across public surfaces.",
         href: "/notice",
         id: "announcement-security",
         statusLabel: "Security",
@@ -165,7 +165,7 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         answer:
-          "Product inquiry creation is planned for the brokerage flow. Direct buyer contact is not enabled from the public landing page.",
+          "Product inquiry creation is planned for the managed RFQ flow. Buyer identity data is not exposed from the public landing page.",
         id: "faq-product-inquiry",
         question: "How do I submit a product inquiry?",
       },
@@ -177,9 +177,9 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         answer:
-          "Buyer requests are routed through protected brokerage, so buyer identity and contact details remain hidden from suppliers by default.",
+          "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and contact details remain hidden from suppliers by default.",
         id: "faq-contact",
-        question: "Can suppliers bypass brokerage?",
+        question: "Can suppliers access buyer contact data?",
       },
       {
         answer:
@@ -452,7 +452,7 @@ const marketplace: LandingMarketplaceConfig = {
     ],
     publishState: "published",
     sectionId: "marketplace-latest-products",
-    subtitle: "Fresh marketplace listings prepared for brokered inquiry flow.",
+    subtitle: "Fresh marketplace listings prepared for managed inquiry flow.",
     title: "Latest Products",
     viewAll: {
       href: "/products",
@@ -706,7 +706,7 @@ const noticeCtaFooter: LandingNoticeCtaFooterConfig = {
       label: "Login",
     },
     subtitle:
-      "Build a verified supplier presence, explore protected buyer demand, and prepare your products for brokered global trade.",
+      "Build a verified supplier presence, explore protected buyer demand, and prepare your products for admin-reviewed global trade.",
     title: "Ready to enter the global B2B marketplace?",
   },
   footerGroups: [
@@ -748,10 +748,10 @@ const noticeCtaFooter: LandingNoticeCtaFooterConfig = {
     },
   ],
   footerTagline:
-    "B2B2G connects verified suppliers, protected buyer demand, events, services, and innovation showcases through a brokerage-first marketplace.",
+    "B2B2G connects verified suppliers, protected buyer demand, events, services, and innovation showcases through an admin-reviewed marketplace.",
   noticeItems: [],
   noticeTitle: "Announcements",
-  rightsLabel: "© 2026 B2B2G. All rights reserved. Buyer contact data is protected by platform policy.",
+  rightsLabel: "© 2026 B2B2G. All rights reserved. Buyer identity data is protected by platform policy.",
   sectionId: "marketplace-footer",
   subtitle: "Marketplace links, service gateways, support, and newsletter readiness in one polished footer.",
   title: "Footer",
@@ -775,7 +775,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
   announcements: [
     {
       dateLabel: "Jun 30",
-      description: "Scheduled maintenance is planned for marketplace inquiry preview and brokerage readiness services.",
+      description: "Scheduled maintenance is planned for marketplace inquiry preview and managed RFQ readiness services.",
       href: "/notice",
       id: "home-announcement-maintenance",
       statusLabel: "System",
@@ -872,12 +872,12 @@ const marketplaceHome: MarketplaceHomeConfig = {
       question: "How can I become a verified supplier?",
     },
     {
-      answer: "Inquiry creation is planned for the brokerage workflow. Public marketplace cards do not expose buyer contact data.",
+      answer: "Inquiry creation is planned for the managed RFQ workflow. Public marketplace cards do not expose buyer contact data.",
       id: "home-faq-product-inquiry",
       question: "How do I submit a product inquiry?",
     },
     {
-      answer: "Buyer requests are routed through protected brokerage, so buyer identity and contact details remain hidden from suppliers by default.",
+      answer: "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and contact details remain hidden from suppliers by default.",
       id: "home-faq-buyer-privacy",
       question: "How is buyer information protected?",
     },

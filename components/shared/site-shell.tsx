@@ -549,7 +549,7 @@ function PublicSiteHeader({
           <BrandLogo />
         </Link>
 
-        <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center gap-1 xl:flex">
+        <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {marketplacePublicNavigation.map((item) => (
             <Link
               className={`marketplace-header-nav-link ${pathname === item.href ? "active" : ""}`}

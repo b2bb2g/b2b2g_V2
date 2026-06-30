@@ -9545,11 +9545,16 @@ button.apple-footer-link {
 
 /* Designer-led B2B ecommerce reset */
 .marketplace-public-header {
-  background: rgb(251 251 253 / 82%);
+  border-bottom: 1px solid rgb(15 23 42 / 7%);
+  background: rgb(255 255 255 / 86%);
+  box-shadow: 0 12px 36px rgb(15 23 42 / 5%);
+  backdrop-filter: saturate(180%) blur(18px);
 }
 
 .marketplace-public-header > div {
-  max-width: 1440px;
+  min-height: 66px;
+  max-width: 1320px;
+  gap: 18px;
 }
 
 .marketplace-header-logo > span {
@@ -9558,15 +9563,20 @@ button.apple-footer-link {
 }
 
 .marketplace-header-nav-link {
-  color: rgb(16 16 20 / 74%);
+  min-height: 36px;
+  border: 1px solid transparent;
+  color: rgb(16 16 20 / 70%);
   font-size: 12px;
-  font-weight: 760;
+  font-weight: 740;
+  letter-spacing: 0;
 }
 
 .marketplace-header-nav-link:hover,
 .marketplace-header-nav-link.active {
-  background: rgb(255 255 255 / 72%);
-  color: #0071e3;
+  border-color: rgb(0 113 227 / 12%);
+  background: rgb(239 246 255 / 80%);
+  color: #0b63ce;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 5%);
 }
 
 .marketplace-home-root,
