@@ -103,13 +103,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Commercial", section: "01" },
-  { href: "/industrial", label: "Industrial", section: "02" },
-  { href: "/epc", label: "EPC", section: "03" },
-  { href: "/events", label: "Event", section: "04" },
-  { href: "/buy-sell", label: "BUY & SELL", section: "05" },
-  { href: "/networking", label: "Networking", section: "06" },
-  { href: "/service", label: "Service", section: "07" },
+  { href: "/commercial", label: "Commercial" },
+  { href: "/industrial", label: "Industrial" },
+  { href: "/epc", label: "EPC" },
+  { href: "/events", label: "Event" },
+  { href: "/buy-sell", label: "BUY & SELL" },
+  { href: "/networking", label: "Networking" },
+  { href: "/service", label: "Service" },
 ] as const;
 
 const profileMenuByRole = {
@@ -542,30 +542,26 @@ function PublicSiteHeader({
   const pathname = usePathname();
 
   return (
-    <header className="enterprise-public-header">
-      <div className="enterprise-public-header-inner">
-        <Link aria-label={t("brand.name")} className="enterprise-brand" href="/">
-          <span aria-hidden="true" className="enterprise-brand-symbol">B2</span>
-          <span className="enterprise-brand-copy">
-            <span className="enterprise-brand-name">B2B2G</span>
-            <span className="enterprise-brand-meta">Global B2B Marketplace</span>
-          </span>
+    <header className="apple-store-header">
+      <div className="apple-store-header-inner">
+        <Link aria-label={t("brand.name")} className="apple-store-brand" href="/">
+          <span aria-hidden="true" className="apple-store-brand-mark">B2</span>
+          <span className="apple-store-brand-wordmark">B2B2G</span>
         </Link>
 
-        <nav className="enterprise-nav" aria-label="Marketplace navigation">
+        <nav aria-label="Marketplace navigation" className="apple-store-nav">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`enterprise-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
+              className={`apple-store-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
               href={item.href}
               key={item.href}
             >
-              <span className="enterprise-nav-section">{item.section}</span>
-              <span className="enterprise-nav-label">{item.label}</span>
+              {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="enterprise-header-actions">
+        <div className="apple-store-header-actions">
           <PublicAuthControls publicUser={publicUser} />
         </div>
       </div>

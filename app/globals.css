@@ -9745,6 +9745,179 @@ button.apple-footer-link {
   min-width: 0;
 }
 
+/* Apple Store inspired public header */
+.apple-store-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgb(0 0 0 / 8%);
+  background: rgb(245 245 247 / 86%);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+.apple-store-header-inner {
+  display: grid;
+  box-sizing: border-box;
+  width: min(100%, 1440px);
+  min-height: 52px;
+  margin: 0 auto;
+  grid-template-columns: 170px minmax(0, 1fr) 112px;
+  align-items: center;
+  gap: 24px;
+  padding: 0 40px;
+}
+
+.apple-store-brand {
+  display: inline-flex;
+  width: fit-content;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  color: #1d1d1f;
+}
+
+.apple-store-brand-mark {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 11px;
+  background: #1d1d1f;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.apple-store-brand-wordmark {
+  color: #1d1d1f;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.apple-store-nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.4vw, 34px);
+}
+
+.apple-store-nav-link {
+  position: relative;
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  color: rgb(29 29 31 / 74%);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: color 180ms ease;
+}
+
+.apple-store-nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #0066cc;
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.42);
+  transform-origin: center;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.apple-store-nav-link:hover,
+.apple-store-nav-link.active {
+  color: #1d1d1f;
+}
+
+.apple-store-nav-link:hover::after,
+.apple-store-nav-link.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.apple-store-header-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.apple-store-header .marketplace-login-button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1d1d1f;
+  border-radius: 999px;
+  background: #1d1d1f;
+  padding: 0 18px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: none;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.apple-store-header .marketplace-login-button:hover {
+  border-color: #0066cc;
+  background: #0066cc;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1060px) {
+  .apple-store-header-inner {
+    grid-template-columns: 150px minmax(0, 1fr) 96px;
+    gap: 14px;
+    padding: 0 24px;
+  }
+
+  .apple-store-nav {
+    gap: 14px;
+  }
+
+  .apple-store-nav-link {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 860px) {
+  .apple-store-header-inner {
+    display: flex;
+    min-height: 58px;
+    padding: 0 20px;
+  }
+
+  .apple-store-nav {
+    display: none;
+  }
+
+  .apple-store-header-actions {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .apple-store-header-inner {
+    padding: 0 16px;
+  }
+
+  .apple-store-brand-wordmark {
+    font-size: 21px;
+  }
+
+  .apple-store-header .marketplace-login-button {
+    min-height: 34px;
+    padding-inline: 15px;
+    font-size: 12px;
+  }
+}
+
 /* Enterprise public header v2 */
 .enterprise-public-header {
   position: sticky;

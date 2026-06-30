@@ -177,9 +177,9 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         answer:
-          "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and contact details remain hidden from suppliers by default.",
+          "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and identity fields remain hidden from suppliers by default.",
         id: "faq-contact",
-        question: "Can suppliers access buyer contact data?",
+        question: "Can suppliers access buyer identity data?",
       },
       {
         answer:
@@ -857,12 +857,12 @@ const marketplaceHome: MarketplaceHomeConfig = {
       question: "How can I become a verified supplier?",
     },
     {
-      answer: "Inquiry creation is planned for the managed RFQ workflow. Public marketplace cards do not expose buyer contact data.",
+      answer: "Inquiry creation is planned for the managed RFQ workflow. Public marketplace cards do not expose buyer identity data.",
       id: "home-faq-product-inquiry",
       question: "How do I submit a product inquiry?",
     },
     {
-      answer: "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and contact details remain hidden from suppliers by default.",
+      answer: "Buyer requests are routed through admin-reviewed RFQ handling, so buyer identity and identity fields remain hidden from suppliers by default.",
       id: "home-faq-buyer-privacy",
       question: "How is buyer information protected?",
     },
