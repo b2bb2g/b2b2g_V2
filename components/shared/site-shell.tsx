@@ -103,13 +103,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Commercial", meta: "Catalog", shortLabel: "COM" },
-  { href: "/industrial", label: "Industrial", meta: "Machinery", shortLabel: "IND" },
-  { href: "/epc", label: "EPC", meta: "Projects", shortLabel: "EPC" },
-  { href: "/events", label: "Event", meta: "Programs", shortLabel: "EVT" },
-  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ", shortLabel: "RFQ" },
-  { href: "/networking", label: "Networking", meta: "Partners", shortLabel: "NET" },
-  { href: "/service", label: "Service", meta: "FDA", shortLabel: "SVC" },
+  { href: "/commercial", label: "Commercial", section: "01" },
+  { href: "/industrial", label: "Industrial", section: "02" },
+  { href: "/epc", label: "EPC", section: "03" },
+  { href: "/events", label: "Event", section: "04" },
+  { href: "/buy-sell", label: "BUY & SELL", section: "05" },
+  { href: "/networking", label: "Networking", section: "06" },
+  { href: "/service", label: "Service", section: "07" },
 ] as const;
 
 const profileMenuByRole = {
@@ -542,33 +542,30 @@ function PublicSiteHeader({
   const pathname = usePathname();
 
   return (
-    <header className="marketplace-public-header">
-      <div className="mx-auto flex min-h-[62px] max-w-[1320px] items-center gap-3 px-5 sm:px-8 lg:px-10">
-        <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
-          <span aria-hidden="true" className="marketplace-header-brand-mark">B2</span>
-          <span className="marketplace-header-brand-copy">
-            <span className="marketplace-header-brand-name">B2B2G</span>
-            <span className="marketplace-header-brand-meta">Global Commerce OS</span>
+    <header className="enterprise-public-header">
+      <div className="enterprise-public-header-inner">
+        <Link aria-label={t("brand.name")} className="enterprise-brand" href="/">
+          <span aria-hidden="true" className="enterprise-brand-symbol">B2</span>
+          <span className="enterprise-brand-copy">
+            <span className="enterprise-brand-name">B2B2G</span>
+            <span className="enterprise-brand-meta">Global B2B Marketplace</span>
           </span>
         </Link>
 
-        <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center lg:flex">
+        <nav className="enterprise-nav" aria-label="Marketplace navigation">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`marketplace-header-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
+              className={`enterprise-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
               href={item.href}
               key={item.href}
             >
-              <span className="marketplace-header-nav-index">{item.shortLabel}</span>
-              <span className="marketplace-header-nav-copy">
-                <span className="marketplace-header-nav-label">{item.label}</span>
-                <span className="marketplace-header-nav-meta">{item.meta}</span>
-              </span>
+              <span className="enterprise-nav-section">{item.section}</span>
+              <span className="enterprise-nav-label">{item.label}</span>
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto lg:ml-0">
+        <div className="enterprise-header-actions">
           <PublicAuthControls publicUser={publicUser} />
         </div>
       </div>
