@@ -331,7 +331,6 @@ const marketplace: LandingMarketplaceConfig = {
     items: [
       {
         category: "Industrial",
-        ctaLabel: "View Product",
         description: "High-pressure valve system for factory utility lines.",
         href: "/products",
         id: "latest-industrial-valve",
@@ -343,7 +342,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Machinery",
-        ctaLabel: "View Product",
         description: "Efficient motor unit for industrial automation projects.",
         href: "/products",
         id: "latest-electric-motor",
@@ -355,7 +353,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Medical",
-        ctaLabel: "View Product",
         description: "Digital monitor for clinical and industrial health environments.",
         href: "/products",
         id: "latest-medical-monitor",
@@ -367,7 +364,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Lighting",
-        ctaLabel: "View Product",
         description: "Energy-saving LED high bay light for warehouse sites.",
         href: "/products",
         id: "latest-led-high-bay",
@@ -379,7 +375,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Packaging",
-        ctaLabel: "View Product",
         description: "Packaging machine line for export-ready production.",
         href: "/products",
         id: "latest-packaging-machine",
@@ -391,7 +386,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Industrial",
-        ctaLabel: "View Product",
         description: "Air compressor package for plant operations.",
         href: "/products",
         id: "latest-air-compressor",
@@ -403,7 +397,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Chemicals",
-        ctaLabel: "View Product",
         description: "Chemical raw materials prepared for controlled sourcing.",
         href: "/products",
         id: "latest-chemical-raw-materials",
@@ -415,7 +408,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Materials",
-        ctaLabel: "View Product",
         description: "Steel pipe bundle for industrial and EPC projects.",
         href: "/products",
         id: "latest-steel-pipe",
@@ -427,7 +419,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Energy",
-        ctaLabel: "View Product",
         description: "Solar inverter package for distributed energy projects.",
         href: "/products",
         id: "latest-solar-inverter",
@@ -439,7 +430,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Industrial",
-        ctaLabel: "View Product",
         description: "Industrial pump for water and chemical transfer lines.",
         href: "/products",
         id: "latest-industrial-pump",
@@ -465,7 +455,6 @@ const marketplace: LandingMarketplaceConfig = {
     items: [
       {
         category: "Premium",
-        ctaLabel: "Inquire Now",
         description: "Heavy-duty pump for industrial water, cooling, and process utility lines.",
         href: "/products",
         id: "premium-industrial-pump",
@@ -477,7 +466,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Premium",
-        ctaLabel: "Inquire Now",
         description: "Generator set for facility backup power and industrial sites.",
         href: "/products",
         id: "premium-generator-set",
@@ -489,7 +477,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Premium",
-        ctaLabel: "Inquire Now",
         description: "Solar panel package for commercial and utility-scale projects.",
         href: "/products",
         id: "premium-solar-panel",
@@ -501,7 +488,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Premium",
-        ctaLabel: "Inquire Now",
         description: "Precision CNC machining capacity for export manufacturing.",
         href: "/products",
         id: "premium-cnc-machining",
@@ -513,7 +499,6 @@ const marketplace: LandingMarketplaceConfig = {
       },
       {
         category: "Premium",
-        ctaLabel: "Inquire Now",
         description: "Chemical raw materials for controlled sourcing and review.",
         href: "/products",
         id: "premium-chemical-raw-materials",

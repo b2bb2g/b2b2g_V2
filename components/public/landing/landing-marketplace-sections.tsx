@@ -33,7 +33,7 @@ export type LandingBannerItem = {
 
 export type LandingProductItem = {
   category: string;
-  ctaLabel: string;
+  ctaLabel?: string;
   description: string;
   href: string;
   id: string;
@@ -302,9 +302,11 @@ function ProductCard({
         </div>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
-        <Link className="apple-primary-button" href={item.href}>
-          {item.ctaLabel}
-        </Link>
+        {item.ctaLabel ? (
+          <Link className="apple-primary-button" href={item.href}>
+            {item.ctaLabel}
+          </Link>
+        ) : null}
       </div>
     </article>
   );

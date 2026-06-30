@@ -14,7 +14,6 @@ type CtaLink = {
 
 export type MarketplaceHomeProduct = {
   category: string;
-  ctaLabel: string;
   description: string;
   href: string;
   id: string;
@@ -191,7 +190,12 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe8f7] bg-white shadow-[0_14px_38px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_26px_70px_rgb(15_23_42/0.13)]">
+    <article className="group relative flex h-full min-w-0 cursor-pointer flex-col overflow-hidden rounded-[22px] border border-[#dbe8f7] bg-white shadow-[0_14px_38px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/35 hover:shadow-[0_26px_70px_rgb(15_23_42/0.13)]">
+      <Link
+        aria-label={`Open product detail for ${item.title}`}
+        className="absolute inset-0 z-10 rounded-[22px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-blue"
+        href={item.href}
+      />
       <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f7fc]">
         <Image
           alt={item.imageAlt}
@@ -213,7 +217,7 @@ function ProductCard({
           )}
           <button
             aria-label={`Save interest for ${item.title}`}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/94 text-[18px] text-action-blue shadow-[0_10px_24px_rgb(15_23_42/0.12)] backdrop-blur transition hover:scale-105"
+            className="relative z-20 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/94 text-[18px] text-action-blue shadow-[0_10px_24px_rgb(15_23_42/0.12)] backdrop-blur transition hover:scale-105"
             type="button"
           >
             <span aria-hidden="true">♡</span>
@@ -238,10 +242,9 @@ function ProductCard({
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-action-blue" />
             RFQ ready
           </span>
-          <Link className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-action-blue px-4 text-[12px] font-semibold text-white transition hover:bg-action-blue-focus" href={item.href}>
-            {item.ctaLabel}
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#eef5ff] text-action-blue transition group-hover:translate-x-0.5 group-hover:bg-action-blue group-hover:text-white">
             <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
-          </Link>
+          </span>
         </div>
       </div>
     </article>
@@ -285,10 +288,6 @@ function HeroProduct({
             </Badge>
           ) : null}
         </div>
-        <span className="mt-6 inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-action-blue px-5 text-[13px] font-semibold text-white">
-          {item.ctaLabel}
-          <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
-        </span>
       </div>
     </Link>
   );
