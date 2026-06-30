@@ -95,27 +95,6 @@ export type MarketplaceHomeConfig = {
   faqs: MarketplaceHomeFaq[];
 };
 
-const HOME_CAPABILITY_CARDS = [
-  {
-    body: "Verified suppliers can prepare company profiles, products, and membership placement after approval.",
-    title: "Supplier catalog",
-  },
-  {
-    body: "Buyer demand appears as protected RFQ signals. Private buyer identity fields stay hidden.",
-    title: "Protected demand",
-  },
-  {
-    body: "Events, Thailand FDA service, and market programs create structured trade entry points.",
-    title: "Trade programs",
-  },
-];
-
-const OPERATING_NOTES = [
-  "Supplier content requires approval before public exposure.",
-  "Buyer demand is routed through protected brokerage workflows.",
-  "Product inquiry actions are placeholders until the brokerage flow opens.",
-];
-
 function SafeAction({
   children,
   className,
@@ -181,152 +160,71 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col rounded-[22px] border border-calm-hairline bg-white p-3 transition hover:-translate-y-0.5 hover:border-action-blue/30 hover:shadow-[0_18px_44px_rgb(15_23_42/0.08)]">
-      <div className="relative overflow-hidden rounded-[18px] border border-calm-hairline bg-canvas-parchment">
-        <div className="relative aspect-square">
+    <article className="group relative flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_60px_rgb(15_23_42/0.06)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/25 hover:shadow-[0_28px_80px_rgb(15_23_42/0.12)]">
+      <div className="relative bg-gradient-to-b from-slate-50 to-white p-4">
+        <div className="relative aspect-square overflow-hidden rounded-[24px] bg-[#f3f7fb]">
           <Image
             alt={item.imageAlt}
-            className="object-cover transition duration-700 group-hover:scale-[1.025]"
+            className="object-cover transition duration-700 group-hover:scale-[1.04]"
             fill
             loading={priority ? undefined : "eager"}
             priority={priority}
-            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 42vw, 280px"
+            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 42vw, 320px"
             src={item.imageUrl}
           />
-        </div>
-        <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
-          <div className="flex min-w-0 flex-wrap gap-2">
-            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 type-fine-print font-semibold text-action-blue backdrop-blur">
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-3">
+            <span className="max-w-[70%] truncate rounded-full border border-white/80 bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-action-blue backdrop-blur">
               {item.category}
             </span>
+            <button
+              aria-label={`Save interest for ${item.title}`}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/70 bg-white/90 text-[18px] text-action-blue backdrop-blur transition hover:border-action-blue/40 hover:bg-white"
+              type="button"
+            >
+              <span aria-hidden="true">♡</span>
+            </button>
+          </div>
+          <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3">
             {item.isVerifiedSupplier ? (
-              <span className="inline-flex items-center gap-1 rounded-full border border-calm-ink/10 bg-calm-ink px-3 py-1 type-fine-print font-semibold text-white">
-                <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
+              <span className="inline-flex min-h-8 items-center gap-1.5 rounded-full bg-calm-ink px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.07em] text-white shadow-[0_10px_24px_rgb(15_23_42/0.18)]">
+                <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
                 Verified
               </span>
-            ) : null}
+            ) : (
+              <span className="inline-flex min-h-8 items-center rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.07em] text-calm-ink-muted-80 backdrop-blur">
+                Catalog
+              </span>
+            )}
+            <span className="rounded-full bg-action-blue px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.07em] text-white shadow-[0_10px_24px_rgb(0_102_204/0.22)]">
+              RFQ Ready
+            </span>
           </div>
         </div>
-        <button
-          aria-label={`Save interest for ${item.title}`}
-          className="absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full border border-white/70 bg-white/90 text-[18px] text-action-blue backdrop-blur transition hover:border-action-blue/40"
-          type="button"
-        >
-          <span aria-hidden="true">♡</span>
-        </button>
       </div>
-      <div className="flex min-h-[238px] flex-1 flex-col px-2 pb-2 pt-4">
-        <div className="flex min-w-0 items-center justify-between gap-3">
-          <p className="truncate type-caption-strong text-calm-ink-muted-80">{item.supplierName}</p>
+      <div className="flex min-h-[260px] flex-1 flex-col px-5 pb-5 pt-1">
+        <div className="flex min-w-0 items-center gap-2">
+          <p className="truncate text-[13px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
           {item.isVerifiedSupplier ? (
             <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-action-blue" />
           ) : null}
         </div>
-        <h3 className="mt-2 line-clamp-2 min-h-[54px] text-[22px] font-semibold leading-[1.18] tracking-[-0.01em] text-calm-ink">
+        <h3 className="mt-3 line-clamp-2 min-h-[58px] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] text-calm-ink">
           {item.title}
         </h3>
-        <p className="mt-2 line-clamp-3 min-h-[60px] type-caption text-calm-ink-muted-80">
+        <p className="mt-3 line-clamp-3 min-h-[66px] text-[15px] leading-[1.45] text-calm-ink-muted-80">
           {item.description}
         </p>
-        <div className="mt-auto pt-5">
-          <Link className="pill-primary w-full" href={item.href}>
-            {item.ctaLabel}
-          </Link>
-          <p className="mt-3 text-center type-fine-print text-calm-ink-muted-48">
-            Brokered inquiry workflow
-          </p>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function MarketplaceEntry() {
-  return (
-    <section className="border-b border-calm-hairline bg-canvas-parchment py-14 sm:py-16">
-      <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
-        <nav className="flex items-center gap-2 type-caption text-calm-ink-muted-48">
-          <Link className="text-action-blue" href="/">
-            B2B2G
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-calm-ink-muted-80">Marketplace Home</span>
-        </nav>
-
-        <div className="mt-10 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="min-w-0">
-            <p className="type-caption-strong text-action-blue">Global B2B marketplace</p>
-            <h1 className="type-display-lg mt-4 max-w-3xl text-calm-ink sm:text-[48px] sm:leading-[1.08]">
-              One controlled marketplace for verified supply, protected demand, and trade programs.
-            </h1>
-            <p className="type-body mt-5 max-w-2xl text-calm-ink-muted-80">
-              B2B2G is organized like an operating system: suppliers, buyers, agents, professors, students, and administrators enter through approved role paths before marketplace actions open.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link className="pill-primary" href="/signup/supplier">
-                Start supplier registration
-              </Link>
-              <Link className="pill-secondary" href="/signup/invitation">
-                Use invitation link
-              </Link>
-            </div>
+        <div className="mt-auto grid gap-3 pt-6">
+          <div className="flex items-center justify-between rounded-full bg-canvas-parchment px-4 py-2 text-[12px] font-semibold text-calm-ink-muted-80">
+            <span>Protected RFQ</span>
+            <span>Brokered inquiry</span>
           </div>
-
-          <aside className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]">
-            <p className="type-caption-strong text-calm-ink-muted-48">Current public state</p>
-            <h2 className="type-heading-sm mt-2 text-calm-ink">Marketplace preview</h2>
-            <p className="type-caption mt-3 text-calm-ink-muted-80">
-              Product discovery, RFQ signals, events, and service paths are visible. Real inquiry, search, and publishing workflows open in later engine steps.
-            </p>
-            <div className="mt-6 grid gap-3">
-              <Link className="pill-primary w-full" href="/signup/supplier">
-                Supplier path
-              </Link>
-              <Link className="pill-secondary w-full" href="/login">
-                Login
-              </Link>
-            </div>
-          </aside>
+          <Link className="pill-primary min-h-12 w-full text-[15px]" href={item.href}>
+            {item.ctaLabel}
+            <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
+          </Link>
         </div>
       </div>
-    </section>
-  );
-}
-
-function CapabilityOverview() {
-  return (
-    <section className="bg-canvas py-12">
-      <div className="mx-auto grid max-w-[1180px] gap-5 px-5 sm:px-8 lg:grid-cols-3 lg:px-10">
-        {HOME_CAPABILITY_CARDS.map((item) => (
-          <article className="rounded-2xl border border-calm-hairline bg-white p-6" key={item.title}>
-            <p className="type-caption-strong text-action-blue">{item.title}</p>
-            <p className="type-caption mt-4 text-calm-ink-muted-80">{item.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function LeadProductPanel({ product }: Readonly<{ product: MarketplaceHomeProduct }>) {
-  return (
-    <article className="rounded-2xl border border-calm-hairline bg-white p-5">
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-canvas-parchment">
-        <Image
-          alt={product.imageAlt}
-          className="object-cover"
-          fill
-          priority
-          sizes="(max-width: 1024px) 92vw, 360px"
-          src={product.imageUrl}
-        />
-      </div>
-      <p className="type-caption-strong mt-5 text-action-blue">Featured supplier</p>
-      <h3 className="type-heading-md mt-1 text-calm-ink">{product.title}</h3>
-      <p className="type-caption mt-2 text-calm-ink-muted-80">{product.description}</p>
-      <Link className="pill-primary mt-5 w-full" href={product.href}>
-        Inquire Now
-      </Link>
     </article>
   );
 }
@@ -389,45 +287,36 @@ function EventList({ events }: Readonly<{ events: MarketplaceHomeEvent[] }>) {
   );
 }
 
-function OperatingNoteCard() {
-  return (
-    <article className="rounded-2xl border border-action-blue/20 bg-action-blue/5 p-6">
-      <p className="type-caption-strong text-action-blue">Operating rules</p>
-      <ul className="mt-4 space-y-3 type-caption text-calm-ink-muted-80">
-        {OPERATING_NOTES.map((item) => (
-          <li className="border-l border-action-blue/20 pl-3" key={item}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-}
-
 function MarketplaceWorkspace({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
+  const heroProducts = [...config.premiumProducts, ...config.latestProducts].slice(0, 6);
+
   return (
-    <section className="bg-canvas pb-14">
-      <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="rounded-2xl border border-calm-hairline bg-white p-6 shadow-[0_18px_60px_rgb(15_23_42/0.06)]">
-            <SectionHeader
-              action={{ href: "/products", isEnabled: false, label: "Browse catalog" }}
-              eyebrow="Supplier catalog"
-              subtitle="Approved product placements use large imagery, clear supplier identity, and a brokered inquiry next step."
-              title="Premium products ready for sourcing review."
-            />
-            <div className="grid gap-5 sm:grid-cols-2">
-              {config.premiumProducts.slice(0, 4).map((item, index) => (
-                <ProductCard item={item} key={item.id} priority={index < 2} />
-              ))}
-            </div>
+    <section className="bg-[#f6f8fb] pb-14 pt-8 sm:pt-10">
+      <div className="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-10">
+        <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-action-blue">
+              Premium marketplace
+            </p>
+            <h1 className="mt-2 max-w-3xl text-[42px] font-semibold leading-[1.02] tracking-[-0.04em] text-calm-ink sm:text-[56px]">
+              Product discovery, built like a modern commerce shelf.
+            </h1>
+          </div>
+          <p className="max-w-md text-[16px] leading-7 text-calm-ink-muted-80">
+            Verified supplier products are presented first. Inquiry actions stay brokered and buyer identity remains protected.
+          </p>
+        </div>
+
+        <div className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {heroProducts.map((item, index) => (
+              <ProductCard item={item} key={item.id} priority={index < 3} />
+            ))}
           </div>
 
-          <aside className="space-y-4">
-            <LeadProductPanel product={config.premiumProducts[0]} />
+          <aside className="grid gap-4 md:grid-cols-2 xl:grid-cols-1">
             <RequestList requests={config.buyerRequests} />
             <EventList events={config.events} />
-            <OperatingNoteCard />
           </aside>
         </div>
       </div>
@@ -600,7 +489,7 @@ function MarketplaceFooter() {
     ["Marketplace", "Commercial", "Industrial", "EPC", "BUY & SELL"],
     ["Programs", "Supplier growth", "RFQ brokerage", "Events", "FDA service"],
     ["Network", "Agents", "Verified buyers", "Innovation showcase", "Membership"],
-    ["Company", "About", "Announcements", "Support", "Language"],
+    ["Company", "About", "Announcements", "Support", "Help center"],
   ];
 
   return (
@@ -642,7 +531,7 @@ function MarketplaceFooter() {
         </div>
         <div className="mt-10 flex flex-col gap-3 border-t border-calm-hairline pt-6 type-fine-print text-calm-ink-muted-48 md:flex-row md:items-center md:justify-between">
           <span>© 2026 B2B2G. Buyer identity data is protected by platform policy.</span>
-          <span>Privacy · Terms · Language</span>
+          <span>Privacy · Terms</span>
         </div>
       </div>
     </footer>
@@ -652,8 +541,6 @@ function MarketplaceFooter() {
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
     <div className="marketplace-home-root bg-canvas text-calm-ink">
-      <MarketplaceEntry />
-      <CapabilityOverview />
       <MarketplaceWorkspace config={config} />
       <ShowcaseAndBuyers buyers={config.verifiedBuyers} showcases={config.showcases} />
       <SupplierExposure banners={config.adBanners} />

@@ -561,20 +561,6 @@ function PublicSiteHeader({
           ))}
         </nav>
 
-        <div className="marketplace-header-buyers" aria-label="Verified buyer network">
-          <span className="marketplace-buyer-stack">
-            <span>B</span>
-            <span>G</span>
-            <span>T</span>
-            <span>D</span>
-          </span>
-          <strong>10,000+ Buyers</strong>
-        </div>
-
-        <button className="marketplace-language-button" disabled type="button">
-          Language
-        </button>
-
         <div className="ml-auto lg:ml-0">
           <PublicAuthControls publicUser={publicUser} />
         </div>
