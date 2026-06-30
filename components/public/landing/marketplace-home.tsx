@@ -96,7 +96,7 @@ export type MarketplaceHomeConfig = {
 };
 
 const COMMERCE_CATEGORIES = ["Industrial", "Energy", "Machinery", "Materials", "Chemicals", "Packaging"];
-const MARKETPLACE_METRICS = ["Verified supply", "Protected RFQ", "Brokered inquiry", "Admin approval"];
+const MARKETPLACE_METRICS = ["Verified supply", "Protected RFQ", "Managed inquiry", "Admin approval"];
 
 function SafeAction({
   children,
@@ -130,9 +130,9 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_14px_50px_rgb(15_23_42/0.07)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/30 hover:shadow-[0_24px_70px_rgb(15_23_42/0.13)]">
-      <div className="relative bg-[#f5f8fc] p-3">
-        <div className="relative aspect-square overflow-hidden rounded-[20px] bg-white">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_12px_42px_rgb(15_23_42/0.06)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/30 hover:shadow-[0_22px_62px_rgb(15_23_42/0.11)]">
+      <div className="relative bg-[#f5f8fc] p-3 pb-0">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-white">
           <Image
             alt={item.imageAlt}
             className="object-cover transition duration-700 group-hover:scale-[1.045]"
@@ -142,49 +142,53 @@ function ProductCard({
             sizes="(max-width: 640px) 92vw, (max-width: 1024px) 44vw, 300px"
             src={item.imageUrl}
           />
-          <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3">
-            <span className="max-w-[72%] truncate rounded-full border border-white/80 bg-white/92 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-action-blue backdrop-blur">
+          <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+            <span className="max-w-[72%] truncate rounded-full border border-white/80 bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-action-blue backdrop-blur">
               {item.category}
             </span>
             <button
               aria-label={`Save interest for ${item.title}`}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/80 bg-white/90 text-[18px] text-action-blue backdrop-blur transition hover:bg-white"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/80 bg-white/90 text-[17px] text-action-blue backdrop-blur transition hover:bg-white"
               type="button"
             >
               <span aria-hidden="true">♡</span>
             </button>
           </div>
           {item.isVerifiedSupplier ? (
-            <span className="absolute bottom-3 left-3 inline-flex min-h-8 items-center gap-1.5 rounded-full bg-calm-ink px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.07em] text-white">
-              <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
+            <span className="absolute bottom-3 left-3 inline-flex min-h-7 items-center gap-1.5 rounded-full bg-calm-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-white">
+              <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
               Verified
             </span>
           ) : null}
         </div>
       </div>
 
-      <div className="flex min-h-[246px] flex-1 flex-col px-5 pb-5 pt-2">
-        <div className="flex min-w-0 items-center justify-between gap-3">
-          <p className="truncate text-[13px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
-          <span className="shrink-0 rounded-full bg-action-blue/8 px-2.5 py-1 text-[11px] font-semibold text-action-blue">
-            RFQ
-          </span>
-        </div>
-        <h3 className="mt-3 line-clamp-2 min-h-[58px] text-[23px] font-semibold leading-[1.12] tracking-[-0.025em] text-calm-ink">
+      <div className="flex min-h-[214px] flex-1 flex-col px-4 pb-4 pt-4">
+        <h3 className="line-clamp-2 min-h-[48px] text-[20px] font-semibold leading-[1.18] tracking-[-0.018em] text-calm-ink">
           {item.title}
         </h3>
-        <p className="mt-3 line-clamp-3 min-h-[64px] text-[15px] leading-[1.42] text-calm-ink-muted-80">
+        <div className="mt-2 flex min-w-0 items-center gap-2">
+          <p className="truncate text-[13px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
+          {item.isVerifiedSupplier ? (
+            <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-action-blue" />
+          ) : null}
+        </div>
+        <p className="mt-3 line-clamp-2 min-h-[42px] text-[14px] leading-[1.45] text-calm-ink-muted-80">
           {item.description}
         </p>
-        <div className="mt-auto grid gap-3 pt-6">
-          <div className="grid grid-cols-2 gap-2 text-center text-[11px] font-semibold text-calm-ink-muted-80">
-            <span className="rounded-full bg-canvas-parchment px-3 py-2">Brokered</span>
-            <span className="rounded-full bg-canvas-parchment px-3 py-2">Protected</span>
-          </div>
-          <Link className="pill-primary min-h-12 w-full text-[15px]" href={item.href}>
+        <div className="mt-4 flex min-w-0 items-center gap-2 text-[11px] font-semibold text-calm-ink-muted-80">
+          <span className="truncate rounded-full bg-canvas-parchment px-3 py-1.5">{item.category}</span>
+          <span className="shrink-0 rounded-full bg-action-blue/8 px-3 py-1.5 text-action-blue">RFQ ready</span>
+        </div>
+        <div className="mt-auto pt-4">
+          <Link className="pill-primary min-h-11 w-full text-[14px]" href={item.href}>
             {item.ctaLabel}
             <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </Link>
+          <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-calm-ink-muted-48">
+            <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-action-blue" />
+            <span>Inquiry handled through platform workflow</span>
+          </div>
         </div>
       </div>
     </article>
@@ -340,7 +344,7 @@ function ProductRail({
         <SectionHeader
           action={{ href: "/products", isEnabled: false, label: "Browse product catalog" }}
           eyebrow="Supplier showroom"
-          subtitle="A commerce-first product shelf prepared for approved supplier exposure and brokered RFQ flow."
+          subtitle="A commerce-first product shelf prepared for approved supplier exposure and managed RFQ flow."
           title="Premium products presented like a global procurement store."
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
