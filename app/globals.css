@@ -9612,16 +9612,16 @@ button.apple-footer-link {
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid rgb(222 223 227 / 82%);
-  background: rgb(255 255 255 / 88%);
-  box-shadow: none;
+  border-bottom: 1px solid rgb(215 229 247 / 74%);
+  background: rgb(255 255 255 / 86%);
+  box-shadow: 0 14px 40px rgb(15 23 42 / 0.05);
   backdrop-filter: saturate(180%) blur(20px);
 }
 
 .marketplace-public-header > div {
-  min-height: 62px;
-  max-width: 1180px;
-  gap: 12px;
+  min-height: 66px;
+  max-width: 1320px;
+  gap: 14px;
   padding-inline: 20px;
 }
 
@@ -9649,25 +9649,43 @@ button.apple-footer-link {
   min-width: 0;
 }
 
+.marketplace-header-nav-shell {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgb(215 229 247 / 80%);
+  border-radius: 999px;
+  background: rgb(244 248 255 / 72%);
+  padding: 5px;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.78);
+}
+
 .marketplace-header-nav-link {
-  min-height: 34px;
+  min-height: 36px;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding-inline: 10px;
-  color: rgb(32 33 36 / 78%);
+  padding-inline: 13px;
+  color: rgb(32 33 36 / 76%);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0;
   white-space: nowrap;
   box-shadow: none;
+  transform: translateY(0);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .marketplace-header-nav-link:hover,
 .marketplace-header-nav-link.active {
-  border-color: rgb(11 99 206 / 12%);
-  background: rgb(11 99 206 / 6%);
+  border-color: rgb(11 99 206 / 16%);
+  background: #ffffff;
   color: var(--action-blue);
-  box-shadow: none;
+  box-shadow: 0 10px 24px rgb(11 99 206 / 0.11);
+  transform: translateY(-1px);
 }
 
 .marketplace-header-buyers {
@@ -9704,31 +9722,37 @@ button.apple-footer-link {
 }
 
 .marketplace-login-button {
-  border: 1px solid var(--action-blue);
-  background: var(--action-blue);
+  border: 1px solid #07111f;
+  background: #07111f;
   color: #ffffff;
-  box-shadow: none;
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.16);
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .marketplace-login-button:hover {
-  background: var(--action-blue-focus);
+  background: var(--action-blue);
+  box-shadow: 0 14px 30px rgb(11 99 206 / 0.22);
+  transform: translateY(-1px);
 }
 
 .marketplace-mobile-nav {
   display: block;
-  border-top: 1px solid rgb(222 223 227 / 72%);
-  background: rgb(255 255 255 / 88%);
+  border-top: 1px solid rgb(215 229 247 / 72%);
+  background: rgb(255 255 255 / 90%);
   backdrop-filter: saturate(180%) blur(16px);
 }
 
 .marketplace-mobile-nav-link {
   flex: 0 0 auto;
-  min-height: 34px;
+  min-height: 36px;
   border-radius: 999px;
-  padding-inline: 12px;
+  padding-inline: 13px;
   color: var(--calm-ink-muted-80);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
