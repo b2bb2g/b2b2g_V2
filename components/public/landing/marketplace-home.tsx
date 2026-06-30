@@ -263,38 +263,34 @@ function ProductCard({
 }
 
 function MarketplaceHero({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
-  const featuredProducts = products.slice(0, 4);
+  const featuredProducts = products.slice(0, 5);
 
   return (
-    <section className="bg-[#f4f8ff] py-8 sm:py-10">
+    <section className="border-b border-[#dbe8f7] bg-white py-8 sm:py-10">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-5 xl:grid-cols-[370px_minmax(0,1fr)] xl:items-stretch">
-          <article className="flex min-h-full flex-col rounded-[28px] border border-[#dbe8f7] bg-white p-6 shadow-[0_18px_56px_rgb(15_23_42/0.07)] sm:p-7">
-            <Badge tone="blue">Global B2B marketplace</Badge>
-            <h1 className="mt-5 text-[34px] font-semibold leading-[1.02] tracking-normal text-calm-ink sm:text-[46px]">
-              Source verified products with protected RFQ workflows.
+        <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.7fr)] lg:items-end">
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-normal text-action-blue">Featured supplier picks</p>
+            <h1 className="mt-2 max-w-3xl text-[32px] font-semibold leading-[1.05] tracking-normal text-calm-ink sm:text-[44px]">
+              Curated B2B products for global sourcing teams.
             </h1>
-            <p className="mt-4 text-[15px] leading-7 text-calm-ink-muted-80">
-              A curated B2B commerce home for approved supplier products, masked buyer demand, and trade programs.
-            </p>
-            <div className="mt-6 grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
-              {TRUST_CHIPS.map((item) => (
-                <div className="rounded-2xl bg-[#f4f8ff] px-4 py-3 text-[12px] font-semibold text-action-blue" key={item}>
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="mt-auto pt-6">
-              <p className="rounded-2xl border border-action-blue/10 bg-[#eef5ff] px-4 py-3 text-[12px] font-semibold leading-5 text-calm-ink-muted-80">
-                Product cards open the product detail flow. No buyer identity data is exposed.
-              </p>
-            </div>
-          </article>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-5">
-            {featuredProducts.map((item, index) => (
-              <ProductCard compact item={item} key={item.id} priority={index < 2} />
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            {TRUST_CHIPS.map((item) => (
+              <span
+                className="rounded-full border border-[#dbe8f7] bg-[#f4f8ff] px-3.5 py-2 text-[12px] font-semibold text-action-blue"
+                key={item}
+              >
+                {item}
+              </span>
             ))}
           </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {featuredProducts.map((item, index) => (
+            <ProductCard compact item={item} key={item.id} priority={index < 2} />
+          ))}
         </div>
       </div>
     </section>
