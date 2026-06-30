@@ -103,13 +103,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Commercial" },
-  { href: "/industrial", label: "Industrial" },
-  { href: "/epc", label: "EPC" },
-  { href: "/events", label: "Event" },
-  { href: "/buy-sell", label: "BUY & SELL" },
-  { href: "/networking", label: "Networking" },
-  { href: "/service", label: "Service" },
+  { href: "/commercial", label: "Commercial", meta: "Goods" },
+  { href: "/industrial", label: "Industrial", meta: "Machinery" },
+  { href: "/epc", label: "EPC", meta: "Projects" },
+  { href: "/events", label: "Event", meta: "Programs" },
+  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ" },
+  { href: "/networking", label: "Networking", meta: "Partners" },
+  { href: "/service", label: "Service", meta: "FDA" },
 ] as const;
 
 const profileMenuByRole = {
@@ -220,7 +220,7 @@ function BellIcon(props: Readonly<SVGProps<SVGSVGElement>>) {
 function GuestAccessMenu() {
   return (
     <div className="flex shrink-0 items-center">
-      <Link className="marketplace-login-button" href="/login">
+      <Link className="inline-flex min-h-10 items-center justify-center rounded-full bg-[#0f172a] px-4 text-[13px] font-semibold text-white shadow-[0_14px_34px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-[#0b63ce] sm:min-h-12 sm:px-6 sm:text-[15px]" href="/login">
         {t("nav.signIn")}
       </Link>
     </div>
@@ -542,29 +542,58 @@ function PublicSiteHeader({
   const pathname = usePathname();
 
   return (
-    <header className="apple-store-header">
-      <div className="apple-store-header-inner">
-        <Link aria-label={t("brand.name")} className="apple-store-brand" href="/">
-          <span aria-hidden="true" className="apple-store-brand-mark">B2</span>
-          <span className="apple-store-brand-wordmark">B2B2G</span>
+    <header className="sticky top-0 z-50 border-b border-[#dce7f6]/80 bg-white/92 backdrop-blur-2xl">
+      <div className="mx-auto flex min-h-[76px] w-full max-w-[1480px] items-center gap-5 px-5 sm:px-8 lg:px-10">
+        <Link aria-label={t("brand.name")} className="group flex shrink-0 items-center gap-3" href="/">
+          <span aria-hidden="true" className="grid h-11 w-11 place-items-center rounded-[15px] bg-[#0b63ce] text-[13px] font-black tracking-[-0.05em] text-white shadow-[0_14px_34px_rgba(11,99,206,0.22)]">
+            B2
+          </span>
+          <span className="grid leading-none">
+            <span className="text-[27px] font-black tracking-[-0.07em] text-[#101828]">B2B2G</span>
+            <span className="mt-1 hidden text-[10px] font-bold uppercase tracking-[0.14em] text-[#0b63ce] sm:block">
+              Global Trade OS
+            </span>
+          </span>
         </Link>
 
-        <nav aria-label="Marketplace navigation" className="apple-store-nav">
+        <nav aria-label="Marketplace navigation" className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`apple-store-nav-link ${pathname === item.href || pathname.startsWith(`${item.href}/`) ? "active" : ""}`}
+              className={`group relative flex min-h-[54px] min-w-[118px] flex-col justify-center rounded-[18px] px-4 text-left transition ${
+                pathname === item.href || pathname.startsWith(`${item.href}/`)
+                  ? "bg-[#eef5ff] text-[#0b63ce]"
+                  : "text-[#3f4652] hover:bg-[#f5f8fc] hover:text-[#0b63ce]"
+              }`}
               href={item.href}
               key={item.href}
             >
-              {item.label}
+              <span className="text-[15px] font-semibold leading-none">{item.label}</span>
+              <span className="mt-1 text-[11px] font-medium leading-none text-[#858891] transition group-hover:text-[#0b63ce]/70">
+                {item.meta}
+              </span>
             </Link>
           ))}
         </nav>
 
-        <div className="apple-store-header-actions">
+        <div className="ml-auto flex shrink-0 items-center gap-3">
           <PublicAuthControls publicUser={publicUser} />
         </div>
       </div>
+      <nav aria-label="Mobile marketplace navigation" className="flex gap-2 overflow-x-auto border-t border-[#edf2f8] px-5 py-3 [scrollbar-width:none] sm:px-8 lg:hidden [&::-webkit-scrollbar]:hidden">
+        {marketplacePublicNavigation.map((item) => (
+          <Link
+            className={`shrink-0 rounded-full px-4 py-2 text-[14px] font-semibold ${
+              pathname === item.href || pathname.startsWith(`${item.href}/`)
+                ? "bg-[#0b63ce] text-white"
+                : "bg-[#f5f8fc] text-[#3f4652]"
+            }`}
+            href={item.href}
+            key={item.href}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

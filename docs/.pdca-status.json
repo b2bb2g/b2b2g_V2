@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-28T17:16:09.600Z",
+  "lastUpdated": "2026-06-30T17:55:01.060Z",
   "activeFeatures": [
     "landing-gallery-carousel",
     "landing-trust-infrastructure",
@@ -13,7 +13,8 @@
     "dashboard-referral-network",
     "dashboard-company",
     "dashboard-messages",
-    "platform-structure-audit"
+    "platform-structure-audit",
+    "landing"
   ],
   "primaryFeature": "b2bb2g-mvp",
   "features": {
@@ -102,6 +103,12 @@
       "matchRate": null,
       "iterationCount": 0,
       "documents": {}
+    },
+    "landing": {
+      "phase": "act",
+      "matchRate": null,
+      "iterationCount": 0,
+      "documents": {}
     }
   },
   "pipeline": {
@@ -112,7 +119,7 @@
   "session": {
     "startedAt": "2026-06-18T08:29:41.099Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-28T17:16:09.600Z"
+    "lastActivity": "2026-06-30T17:55:01.060Z"
   },
   "history": [
     {
@@ -924,6 +931,32 @@
       "phase": "report",
       "nextPhase": "completed",
       "timestamp": "2026-06-28T17:16:09.600Z"
+    },
+    {
+      "feature": "landing",
+      "from": "do",
+      "to": "check",
+      "timestamp": "2026-06-30T12:47:10.605Z"
+    },
+    {
+      "feature": "landing",
+      "action": "phase_complete",
+      "phase": "do",
+      "nextPhase": "check",
+      "timestamp": "2026-06-30T12:47:10.606Z"
+    },
+    {
+      "feature": "landing",
+      "from": "check",
+      "to": "act",
+      "timestamp": "2026-06-30T17:55:01.059Z"
+    },
+    {
+      "feature": "landing",
+      "action": "phase_complete",
+      "phase": "check",
+      "nextPhase": "act",
+      "timestamp": "2026-06-30T17:55:01.060Z"
     }
   ]
 }

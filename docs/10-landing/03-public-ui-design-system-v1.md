@@ -163,3 +163,22 @@ Footer should be calm and information-dense but not oversized.
 - `/` uses this document as the visual source before future Landing Builder DB work.
 - `/login` and `/signup/*` remain the practical component baseline for card, form, and button treatment.
 - Sub-pages should reuse the same header, section width, card, grid, and footer rules before adding domain-specific UI.
+
+## 15. Code Baseline
+
+Current implementation anchor:
+
+- Header: `components/shared/site-shell.tsx`
+- Marketplace home: `components/public/landing/marketplace-home.tsx`
+- Static content config: `lib/landing/static-landing-config.ts`
+- Shared public UI CSS tokens: `app/globals.css`
+
+Code-level rules:
+
+- Public header must render one logo, one navigation group, and one auth action area.
+- `/` must not render a second internal navigation header.
+- Product cards are clickable cards. They should not require visible `Inquire Now` or `View Product` buttons.
+- Product cards must not display prices.
+- Buyer demand cards must not display buyer email, phone, contact person, or internal identifiers.
+- Public utility classes should be additive and scoped through `marketplace-home-root` or `public-ui-*`.
+- Existing `/login` and `/signup/*` card rhythm must not be broken by landing CSS.
