@@ -7,7 +7,6 @@ import type { ReactNode, SVGProps } from "react";
 import { signOut } from "@/lib/actions/auth";
 import { ActionFeedbackProvider } from "@/components/shared/action-feedback";
 import { Badge, StatusBadge } from "@/components/shared/badge";
-import { BrandLogo } from "@/components/shared/brand-logo";
 import {
   BoxIcon,
   BuildingIcon,
@@ -104,13 +103,13 @@ const shellConfig: Record<
 };
 
 const marketplacePublicNavigation = [
-  { href: "/commercial", label: "Commercial", meta: "Catalog" },
-  { href: "/industrial", label: "Industrial", meta: "Machinery" },
-  { href: "/epc", label: "EPC", meta: "Projects" },
-  { href: "/events", label: "Event", meta: "Programs" },
-  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ" },
-  { href: "/networking", label: "Networking", meta: "Partners" },
-  { href: "/service", label: "Service", meta: "FDA" },
+  { href: "/commercial", label: "Commercial", meta: "Catalog", shortLabel: "COM" },
+  { href: "/industrial", label: "Industrial", meta: "Machinery", shortLabel: "IND" },
+  { href: "/epc", label: "EPC", meta: "Projects", shortLabel: "EPC" },
+  { href: "/events", label: "Event", meta: "Programs", shortLabel: "EVT" },
+  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ", shortLabel: "RFQ" },
+  { href: "/networking", label: "Networking", meta: "Partners", shortLabel: "NET" },
+  { href: "/service", label: "Service", meta: "FDA", shortLabel: "SVC" },
 ] as const;
 
 const profileMenuByRole = {
@@ -546,7 +545,11 @@ function PublicSiteHeader({
     <header className="marketplace-public-header">
       <div className="mx-auto flex min-h-[62px] max-w-[1320px] items-center gap-3 px-5 sm:px-8 lg:px-10">
         <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
-          <BrandLogo />
+          <span aria-hidden="true" className="marketplace-header-brand-mark">B2</span>
+          <span className="marketplace-header-brand-copy">
+            <span className="marketplace-header-brand-name">B2B2G</span>
+            <span className="marketplace-header-brand-meta">Global Commerce OS</span>
+          </span>
         </Link>
 
         <nav className="marketplace-header-nav-shell hidden min-w-0 flex-1 items-center justify-center lg:flex">
@@ -556,8 +559,11 @@ function PublicSiteHeader({
               href={item.href}
               key={item.href}
             >
-              <span className="marketplace-header-nav-label">{item.label}</span>
-              <span className="marketplace-header-nav-meta">{item.meta}</span>
+              <span className="marketplace-header-nav-index">{item.shortLabel}</span>
+              <span className="marketplace-header-nav-copy">
+                <span className="marketplace-header-nav-label">{item.label}</span>
+                <span className="marketplace-header-nav-meta">{item.meta}</span>
+              </span>
             </Link>
           ))}
         </nav>
