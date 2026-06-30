@@ -9552,9 +9552,9 @@ button.apple-footer-link {
 }
 
 .marketplace-public-header > div {
-  min-height: 66px;
+  min-height: 78px;
   max-width: 1320px;
-  gap: 18px;
+  gap: 24px;
 }
 
 .marketplace-header-logo > span {
@@ -9562,12 +9562,17 @@ button.apple-footer-link {
   padding-inline: 0 !important;
 }
 
+.marketplace-header-nav-shell {
+  gap: 8px;
+}
+
 .marketplace-header-nav-link {
-  min-height: 36px;
+  min-height: 44px;
   border: 1px solid transparent;
   color: rgb(16 16 20 / 70%);
-  font-size: 12px;
-  font-weight: 740;
+  padding-inline: 18px;
+  font-size: 14px;
+  font-weight: 760;
   letter-spacing: 0;
 }
 
@@ -9577,6 +9582,29 @@ button.apple-footer-link {
   background: rgb(239 246 255 / 80%);
   color: #0b63ce;
   box-shadow: 0 10px 24px rgb(15 23 42 / 5%);
+}
+
+.marketplace-login-button {
+  min-height: 44px;
+  padding-inline: 22px;
+  font-size: 13px;
+  font-weight: 820;
+}
+
+@media (max-width: 1180px) {
+  .marketplace-public-header > div {
+    gap: 16px;
+  }
+
+  .marketplace-header-nav-shell {
+    gap: 3px;
+  }
+
+  .marketplace-header-nav-link {
+    min-height: 40px;
+    padding-inline: 11px;
+    font-size: 13px;
+  }
 }
 
 .marketplace-home-root,
