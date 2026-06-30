@@ -353,14 +353,41 @@ function ProductShelf({
   );
 }
 
+function BoardHeader({
+  eyebrow,
+  meta,
+  title,
+}: Readonly<{
+  eyebrow: string;
+  meta: string;
+  title: string;
+}>) {
+  return (
+    <div className="mb-5 flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-[11px] font-semibold uppercase tracking-normal text-action-blue">{eyebrow}</p>
+        <h2 className="mt-1.5 text-[24px] font-semibold leading-[1.08] tracking-normal text-calm-ink sm:text-[30px]">
+          {title}
+        </h2>
+      </div>
+      <span className="shrink-0 rounded-full bg-[#eef5ff] px-3 py-1.5 text-[11px] font-semibold text-action-blue">
+        {meta}
+      </span>
+    </div>
+  );
+}
+
 function RequestBoard({ requests }: Readonly<{ requests: MarketplaceHomeRequest[] }>) {
   return (
-    <article className="rounded-[28px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
-      <SectionTitle eyebrow="Buyer requests" title="Protected RFQ board" />
-      <div className="grid gap-3">
-        {requests.slice(0, 4).map((item) => (
-          <div className="grid min-w-0 grid-cols-[58px_minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] bg-[#f4f8ff] p-3" key={item.id}>
-            <div className="relative aspect-square overflow-hidden rounded-[14px] bg-white">
+    <article className="flex h-full flex-col rounded-[26px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
+      <BoardHeader eyebrow="Buyer requests" meta="RFQ" title="Protected demand board" />
+      <div className="grid gap-2.5">
+        {requests.slice(0, 3).map((item) => (
+          <div
+            className="group grid min-w-0 grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] border border-transparent bg-[#f4f8ff] p-2.5 transition hover:border-action-blue/20 hover:bg-white"
+            key={item.id}
+          >
+            <div className="relative aspect-square overflow-hidden rounded-[15px] bg-white shadow-[0_8px_20px_rgb(15_23_42/0.06)]">
               {item.imageUrl ? (
                 <Image
                   alt={item.imageAlt ?? item.title}
@@ -375,36 +402,51 @@ function RequestBoard({ requests }: Readonly<{ requests: MarketplaceHomeRequest[
             <div className="min-w-0">
               <h3 className="truncate text-[15px] font-semibold text-calm-ink">{item.title}</h3>
               <p className="mt-1 line-clamp-1 text-[12px] text-calm-ink-muted-80">{item.spec}</p>
-              <p className="mt-1 text-[12px] font-semibold text-calm-ink-muted-48">{item.quantity}</p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-normal text-calm-ink-muted-48">{item.quantity}</p>
             </div>
-            <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-action-blue">{item.badge}</span>
+            <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-normal text-action-blue shadow-[0_8px_18px_rgb(15_23_42/0.05)]">
+              {item.badge}
+            </span>
           </div>
         ))}
       </div>
-      <p className="mt-4 rounded-2xl bg-[#eef5ff] px-4 py-3 text-[12px] font-semibold text-calm-ink-muted-80">
-        Buyer identity and contact details are protected on public surfaces.
-      </p>
+      <div className="mt-auto pt-4">
+        <p className="rounded-2xl border border-action-blue/10 bg-[#eef5ff] px-4 py-3 text-[12px] font-semibold leading-5 text-calm-ink-muted-80">
+          Buyer identity stays masked until an admin-reviewed RFQ step is available.
+        </p>
+      </div>
     </article>
   );
 }
 
 function EventBoard({ events }: Readonly<{ events: MarketplaceHomeEvent[] }>) {
   return (
-    <article className="rounded-[28px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
-      <SectionTitle eyebrow="Trade programs" title="Event schedule" />
-      <div className="grid gap-3">
+    <article className="flex h-full flex-col rounded-[26px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
+      <BoardHeader eyebrow="Trade programs" meta="Events" title="Upcoming programs" />
+      <div className="grid gap-2.5">
         {events.slice(0, 3).map((item) => (
-          <Link className="grid min-w-0 grid-cols-[78px_minmax(0,1fr)] gap-3 rounded-[18px] bg-[#f4f8ff] p-3 transition hover:bg-white" href="/events" key={item.id}>
-            <div className="relative aspect-square overflow-hidden rounded-[14px] bg-white">
+          <Link
+            className="group grid min-w-0 grid-cols-[76px_minmax(0,1fr)] gap-3 rounded-[18px] border border-transparent bg-[#f4f8ff] p-2.5 transition hover:border-action-blue/20 hover:bg-white"
+            href="/events"
+            key={item.id}
+          >
+            <div className="relative aspect-square overflow-hidden rounded-[15px] bg-white shadow-[0_8px_20px_rgb(15_23_42/0.06)]">
               <Image alt={item.imageAlt} className="object-cover" fill loading="eager" sizes="78px" src={item.imageUrl} />
             </div>
             <div className="min-w-0">
-              <time className="text-[12px] font-semibold text-action-blue">{item.dateLabel}</time>
-              <h3 className="mt-1 line-clamp-2 text-[15px] font-semibold text-calm-ink">{item.title}</h3>
+              <time className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-action-blue">
+                {item.dateLabel}
+              </time>
+              <h3 className="mt-2 line-clamp-2 text-[15px] font-semibold leading-[1.18] text-calm-ink">{item.title}</h3>
               <p className="mt-1 truncate text-[12px] text-calm-ink-muted-80">{item.locationLabel}</p>
             </div>
           </Link>
         ))}
+      </div>
+      <div className="mt-auto pt-4">
+        <div className="rounded-2xl bg-[#07111f] px-4 py-3 text-[12px] font-semibold text-white/78">
+          Events are shown as trade programs until registration opens.
+        </div>
       </div>
     </article>
   );
@@ -412,20 +454,31 @@ function EventBoard({ events }: Readonly<{ events: MarketplaceHomeEvent[] }>) {
 
 function BuyerBoard({ buyers }: Readonly<{ buyers: MarketplaceHomeBuyer[] }>) {
   return (
-    <article className="rounded-[28px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
-      <SectionTitle eyebrow="Verified demand" title="Masked buyer network" />
-      <div className="grid gap-3">
+    <article className="flex h-full flex-col rounded-[26px] border border-[#dbe8f7] bg-white p-5 shadow-[0_16px_48px_rgb(15_23_42/0.07)]">
+      <BoardHeader eyebrow="Verified demand" meta="Masked" title="Buyer network" />
+      <div className="grid gap-2.5">
         {buyers.slice(0, 4).map((item) => (
-          <div className="grid min-w-0 grid-cols-[42px_minmax(0,1fr)_20px] items-center gap-3 rounded-[18px] bg-[#f4f8ff] p-3" key={item.id}>
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-white text-[13px] font-semibold text-action-blue shadow-[0_8px_20px_rgb(15_23_42/0.08)]">{item.avatarLabel}</span>
+          <div
+            className="grid min-w-0 grid-cols-[44px_minmax(0,1fr)_24px] items-center gap-3 rounded-[18px] border border-transparent bg-[#f4f8ff] p-2.5 transition hover:border-action-blue/20 hover:bg-white"
+            key={item.id}
+          >
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-[13px] font-semibold text-action-blue shadow-[0_8px_20px_rgb(15_23_42/0.08)]">{item.avatarLabel}</span>
             <div className="min-w-0">
               <h3 className="truncate text-[14px] font-semibold text-calm-ink">{item.companyName}</h3>
               <p className="truncate text-[12px] text-calm-ink-muted-80">{item.role}</p>
               <span className="text-[11px] font-semibold text-calm-ink-muted-48">{item.country}</span>
             </div>
-            <ShieldCheckIcon aria-hidden="true" className="h-5 w-5 text-action-blue" />
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-white text-action-blue">
+              <ShieldCheckIcon aria-hidden="true" className="h-4 w-4" />
+            </span>
           </div>
         ))}
+      </div>
+      <div className="mt-auto pt-4">
+        <div className="grid grid-cols-2 gap-2">
+          <span className="rounded-2xl bg-[#eef5ff] px-3 py-3 text-center text-[11px] font-semibold text-action-blue">Verified demand</span>
+          <span className="rounded-2xl bg-[#eef5ff] px-3 py-3 text-center text-[11px] font-semibold text-action-blue">PII hidden</span>
+        </div>
       </div>
     </article>
   );
@@ -441,9 +494,20 @@ function MarketplaceBoards({
   requests: MarketplaceHomeRequest[];
 }>) {
   return (
-    <section className="bg-[#f4f8ff] py-16">
+    <section className="bg-[#f4f8ff] py-14">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-normal text-action-blue">Marketplace activity</p>
+            <h2 className="mt-2 text-[30px] font-semibold leading-[1.08] tracking-normal text-calm-ink sm:text-[42px]">
+              Live sourcing signals, without exposing private buyer data.
+            </h2>
+          </div>
+          <p className="max-w-md text-[14px] leading-6 text-calm-ink-muted-80">
+            RFQs, trade programs, and verified demand are presented as a controlled marketplace overview.
+          </p>
+        </div>
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.05fr_1fr_0.95fr]">
           <RequestBoard requests={requests} />
           <EventBoard events={events} />
           <BuyerBoard buyers={buyers} />
