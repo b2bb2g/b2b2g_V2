@@ -130,9 +130,9 @@ function ProductCard({
   priority?: boolean;
 }>) {
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_12px_42px_rgb(15_23_42/0.06)] transition duration-300 hover:-translate-y-1 hover:border-action-blue/30 hover:shadow-[0_22px_62px_rgb(15_23_42/0.11)]">
-      <div className="relative bg-[#f5f8fc] p-3 pb-0">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-white">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white transition duration-300 hover:-translate-y-0.5 hover:border-action-blue/30 hover:shadow-[0_18px_48px_rgb(15_23_42/0.10)]">
+      <div className="relative bg-[#f7f9fc]">
+        <div className="relative aspect-[1.12/1] overflow-hidden bg-white">
           <Image
             alt={item.imageAlt}
             className="object-cover transition duration-700 group-hover:scale-[1.045]"
@@ -143,19 +143,19 @@ function ProductCard({
             src={item.imageUrl}
           />
           <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
-            <span className="max-w-[72%] truncate rounded-full border border-white/80 bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-action-blue backdrop-blur">
+            <span className="max-w-[70%] truncate rounded-full bg-white/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-action-blue backdrop-blur">
               {item.category}
             </span>
             <button
               aria-label={`Save interest for ${item.title}`}
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/80 bg-white/90 text-[17px] text-action-blue backdrop-blur transition hover:bg-white"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/92 text-[17px] text-action-blue backdrop-blur transition hover:bg-white"
               type="button"
             >
               <span aria-hidden="true">♡</span>
             </button>
           </div>
           {item.isVerifiedSupplier ? (
-            <span className="absolute bottom-3 left-3 inline-flex min-h-7 items-center gap-1.5 rounded-full bg-calm-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-white">
+            <span className="absolute bottom-3 left-3 inline-flex min-h-7 items-center gap-1.5 rounded-full bg-calm-ink/92 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.07em] text-white backdrop-blur">
               <ShieldCheckIcon aria-hidden="true" className="h-3 w-3" />
               Verified
             </span>
@@ -163,82 +163,28 @@ function ProductCard({
         </div>
       </div>
 
-      <div className="flex min-h-[214px] flex-1 flex-col px-4 pb-4 pt-4">
-        <h3 className="line-clamp-2 min-h-[48px] text-[20px] font-semibold leading-[1.18] tracking-[-0.018em] text-calm-ink">
+      <div className="flex min-h-[190px] flex-1 flex-col p-4">
+        <h3 className="line-clamp-2 min-h-[44px] text-[18px] font-semibold leading-[1.2] tracking-[-0.014em] text-calm-ink">
           {item.title}
         </h3>
-        <div className="mt-2 flex min-w-0 items-center gap-2">
-          <p className="truncate text-[13px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
+        <div className="mt-2 flex min-w-0 items-center gap-1.5">
+          <p className="truncate text-[12px] font-semibold text-calm-ink-muted-80">{item.supplierName}</p>
           {item.isVerifiedSupplier ? (
-            <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-action-blue" />
+            <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-action-blue" />
           ) : null}
         </div>
-        <p className="mt-3 line-clamp-2 min-h-[42px] text-[14px] leading-[1.45] text-calm-ink-muted-80">
+        <p className="mt-3 line-clamp-2 min-h-[40px] text-[13px] leading-[1.5] text-calm-ink-muted-80">
           {item.description}
         </p>
-        <div className="mt-4 flex min-w-0 items-center gap-2 text-[11px] font-semibold text-calm-ink-muted-80">
-          <span className="truncate rounded-full bg-canvas-parchment px-3 py-1.5">{item.category}</span>
-          <span className="shrink-0 rounded-full bg-action-blue/8 px-3 py-1.5 text-action-blue">RFQ ready</span>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-semibold text-calm-ink-muted-80">
+          <span className="truncate rounded-lg bg-[#f6f8fb] px-2.5 py-2">Verified review</span>
+          <span className="truncate rounded-lg bg-[#f6f8fb] px-2.5 py-2">RFQ ready</span>
         </div>
-        <div className="mt-auto pt-4">
-          <Link className="pill-primary min-h-11 w-full text-[14px]" href={item.href}>
+        <div className="mt-auto pt-3">
+          <Link className="pill-primary min-h-10 w-full text-[13px]" href={item.href}>
             {item.ctaLabel}
-            <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
+            <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
           </Link>
-          <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-calm-ink-muted-48">
-            <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-action-blue" />
-            <span>Inquiry handled through platform workflow</span>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function FeatureProductCard({ item }: Readonly<{ item: MarketplaceHomeProduct }>) {
-  return (
-    <article className="grid min-w-0 overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_24px_90px_rgb(15_23_42/0.10)] lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="relative min-h-[360px] bg-[#eef5ff] p-5 sm:min-h-[440px]">
-        <div className="relative h-full min-h-[320px] overflow-hidden rounded-[26px] bg-white">
-          <Image
-            alt={item.imageAlt}
-            className="object-cover"
-            fill
-            priority
-            sizes="(max-width: 1024px) 92vw, 620px"
-            src={item.imageUrl}
-          />
-        </div>
-        <span className="absolute left-8 top-8 rounded-full bg-calm-ink px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-white">
-          Premium supplier
-        </span>
-      </div>
-      <div className="flex min-w-0 flex-col justify-between p-7 sm:p-9">
-        <div>
-          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-action-blue">
-            Curated product
-          </p>
-          <h1 className="mt-4 text-[42px] font-semibold leading-[1.02] tracking-[-0.045em] text-calm-ink sm:text-[56px]">
-            {item.title}
-          </h1>
-          <p className="mt-5 max-w-xl text-[17px] leading-8 text-calm-ink-muted-80">{item.description}</p>
-        </div>
-        <div className="mt-8 grid gap-4">
-          <div className="flex min-w-0 items-center gap-2 text-[14px] font-semibold text-calm-ink-muted-80">
-            <span>{item.supplierName}</span>
-            {item.isVerifiedSupplier ? (
-              <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 text-action-blue" />
-            ) : null}
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <Link className="pill-primary min-h-12" href={item.href}>
-              {item.ctaLabel}
-              <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
-            </Link>
-            <Link className="pill-secondary min-h-12" href="/signup/supplier">
-              Supplier path
-            </Link>
-          </div>
         </div>
       </div>
     </article>
@@ -246,49 +192,92 @@ function FeatureProductCard({ item }: Readonly<{ item: MarketplaceHomeProduct }>
 }
 
 function CommerceOpening({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
-  const [leadProduct, ...rest] = products;
-  const sideProducts = rest.slice(0, 4);
+  const openingProducts = products.slice(0, 8);
 
   return (
-    <section className="bg-[#f6f8fb] pb-16 pt-8">
+    <section className="bg-[#f6f8fb] pb-14 pt-8">
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="mb-6 flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+        <div className="mb-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-action-blue">
-              Global B2B commerce portal
+              B2B2G marketplace
             </p>
-            <h2 className="mt-3 max-w-4xl text-[44px] font-semibold leading-[1.02] tracking-[-0.05em] text-calm-ink sm:text-[64px]">
-              Source verified products with protected RFQ workflows.
-            </h2>
+            <h1 className="mt-3 max-w-4xl text-[38px] font-semibold leading-[1.03] tracking-[-0.045em] text-calm-ink sm:text-[54px]">
+              Product-first sourcing for verified global trade.
+            </h1>
+            <p className="mt-4 max-w-2xl text-[16px] leading-7 text-calm-ink-muted-80">
+              Browse approved supplier products, review protected RFQ signals, and move inquiries through a managed platform workflow.
+            </p>
           </div>
-          <div className="max-w-lg">
-            <div className="flex flex-wrap gap-2">
+          <div className="rounded-[22px] border border-slate-200 bg-white p-3 shadow-[0_12px_38px_rgb(15_23_42/0.05)]">
+            <div className="flex min-h-12 items-center justify-between gap-3 rounded-[16px] bg-[#f6f8fb] px-4 text-[13px] font-semibold text-calm-ink-muted-80">
+              <span>Search products, suppliers, RFQs</span>
+              <button className="rounded-full bg-action-blue px-4 py-2 text-white" disabled type="button">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
+          {COMMERCE_CATEGORIES.map((item) => (
+            <button
+              className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-semibold text-calm-ink-muted-80 shadow-[0_10px_28px_rgb(15_23_42/0.04)]"
+              disabled
+              key={item}
+              type="button"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+          <aside className="hidden rounded-[22px] border border-slate-200 bg-white p-5 shadow-[0_12px_38px_rgb(15_23_42/0.05)] lg:block">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-action-blue">Browse</p>
+            <div className="mt-5 grid gap-2">
               {COMMERCE_CATEGORIES.map((item) => (
                 <button
-                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-semibold text-calm-ink-muted-80 shadow-[0_10px_28px_rgb(15_23_42/0.04)]"
+                  className="flex min-h-11 items-center justify-between rounded-xl bg-[#f6f8fb] px-3 text-left text-[13px] font-semibold text-calm-ink-muted-80"
                   disabled
                   key={item}
                   type="button"
                 >
-                  {item}
+                  <span>{item}</span>
+                  <span aria-hidden="true">›</span>
                 </button>
+              ))}
+            </div>
+            <div className="mt-5 rounded-2xl bg-calm-ink p-4 text-white">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/60">Supplier program</p>
+              <p className="mt-2 text-[17px] font-semibold leading-6">Prepare products for premium exposure.</p>
+              <Link className="mt-4 inline-flex text-[13px] font-semibold text-white" href="/signup/supplier">
+                Start supplier path
+              </Link>
+            </div>
+          </aside>
+
+          <div>
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <div>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-action-blue">Featured products</p>
+                <h2 className="mt-1 text-[26px] font-semibold tracking-[-0.03em] text-calm-ink">Ready for sourcing review</h2>
+              </div>
+              <button className="hidden rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-semibold text-action-blue sm:inline-flex" disabled type="button">
+                View catalog
+              </button>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {openingProducts.map((item, index) => (
+                <ProductCard item={item} key={item.id} priority={index < 4} />
               ))}
             </div>
           </div>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
-          <FeatureProductCard item={leadProduct} />
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-1">
-            {sideProducts.map((item, index) => (
-              <ProductCard item={item} key={item.id} priority={index < 2} />
-            ))}
-          </div>
-        </div>
-
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {MARKETPLACE_METRICS.map((item) => (
-            <div className="rounded-[20px] border border-slate-200 bg-white px-5 py-4 text-[14px] font-semibold text-calm-ink-muted-80 shadow-[0_10px_30px_rgb(15_23_42/0.04)]" key={item}>
+            <div className="rounded-[18px] border border-slate-200 bg-white px-5 py-4 text-[14px] font-semibold text-calm-ink-muted-80 shadow-[0_10px_30px_rgb(15_23_42/0.04)]" key={item}>
               {item}
             </div>
           ))}
@@ -313,7 +302,7 @@ function SectionHeader({
     <div className="mb-7 flex min-w-0 flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0 max-w-2xl">
         <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-action-blue">{eyebrow}</p>
-        <h2 className="mt-2 text-[34px] font-semibold leading-[1.05] tracking-[-0.035em] text-calm-ink sm:text-[44px]">
+        <h2 className="mt-2 text-[32px] font-semibold leading-[1.06] tracking-[-0.03em] text-calm-ink sm:text-[42px]">
           {title}
         </h2>
         {subtitle ? (
