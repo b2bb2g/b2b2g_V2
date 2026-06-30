@@ -9542,3 +9542,29 @@ button.apple-footer-link {
   color: #fff;
   box-shadow: none;
 }
+
+/* Designer-led B2B ecommerce reset */
+.marketplace-public-header {
+  background: rgb(251 251 253 / 82%);
+}
+
+.marketplace-public-header > div {
+  max-width: 1440px;
+}
+
+.marketplace-header-logo > span {
+  border-radius: 12px !important;
+  padding-inline: 0 !important;
+}
+
+.marketplace-header-nav-link {
+  color: rgb(16 16 20 / 74%);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.marketplace-header-nav-link:hover,
+.marketplace-header-nav-link.active {
+  background: rgb(255 255 255 / 72%);
+  color: #0071e3;
+}
