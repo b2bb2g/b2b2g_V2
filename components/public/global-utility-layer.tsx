@@ -85,47 +85,58 @@ export function GlobalUtilityLayer() {
 
       {isConsentVisible ? (
         <section
-          className="fixed inset-x-3 bottom-3 z-[70] mx-auto grid max-w-[760px] gap-4 rounded-[24px] border border-slate-200/80 bg-white/95 p-4 shadow-[0_24px_70px_rgb(43_67_104_/_22%)] backdrop-blur-xl sm:inset-x-auto sm:right-5 sm:mx-0 sm:w-[620px] sm:grid-cols-[1fr_auto] sm:items-end sm:p-5"
+          className="fixed inset-x-3 bottom-3 z-[70] mx-auto grid max-w-[420px] gap-3 rounded-[20px] border border-slate-200/80 bg-white/95 p-3 shadow-[0_18px_54px_rgb(43_67_104_/_18%)] backdrop-blur-xl sm:inset-x-auto sm:right-5 sm:mx-0 sm:w-[420px]"
           aria-label={t("cookie.title")}
         >
           <div className="min-w-0">
-            <p className="text-[12px] font-extrabold leading-tight text-action-blue">{t("cookie.eyebrow")}</p>
-            <h2 className="mt-1 text-[18px] font-bold leading-tight text-calm-ink">{t("cookie.title")}</h2>
-            <p className="mt-2 text-[13px] leading-6 text-calm-ink-muted-80">{t("cookie.description")}</p>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-extrabold leading-tight text-action-blue">{t("cookie.eyebrow")}</p>
+                <h2 className="mt-1 text-[15px] font-bold leading-tight text-calm-ink">{t("cookie.title")}</h2>
+              </div>
+              <button
+                className="shrink-0 rounded-full px-2 py-1 text-[12px] font-bold text-calm-ink-muted-80 transition hover:bg-slate-100 hover:text-action-blue"
+                onClick={() => saveConsent(createConsent({ analytics: false, functional: false }))}
+                type="button"
+              >
+                Later
+              </button>
+            </div>
+            <p className="mt-2 text-[12px] leading-5 text-calm-ink-muted-80">{t("cookie.description")}</p>
             {cookiePanelOpen ? (
               <div className="mt-3 grid gap-2">
-                <span className="rounded-[14px] border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.necessary")}</span>
-                <span className="rounded-[14px] border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.functional")}</span>
-                <span className="rounded-[14px] border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.analytics")}</span>
+                <span className="rounded-[12px] border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.necessary")}</span>
+                <span className="rounded-[12px] border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.functional")}</span>
+                <span className="rounded-[12px] border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-semibold leading-5 text-calm-ink-muted-80">{t("cookie.option.analytics")}</span>
               </div>
             ) : null}
-            <div className="mt-3 flex flex-wrap gap-3">
-              <Link className="text-[12px] font-bold text-action-blue hover:text-action-blue-focus" href="/cookies">
+            <div className="mt-2 flex flex-wrap gap-3">
+              <Link className="text-[11px] font-bold text-action-blue hover:text-action-blue-focus" href="/cookies">
                 {t("cookie.policyLink")}
               </Link>
-              <Link className="text-[12px] font-bold text-action-blue hover:text-action-blue-focus" href="/privacy">
+              <Link className="text-[11px] font-bold text-action-blue hover:text-action-blue-focus" href="/privacy">
                 {t("legal.privacy.title")}
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-2 sm:w-[168px]">
+          <div className="grid grid-cols-2 gap-2">
             <button
-              className="inline-flex min-h-10 items-center justify-center rounded-full bg-action-blue px-4 text-[13px] font-bold text-white transition hover:bg-action-blue-focus"
+              className="inline-flex min-h-9 items-center justify-center rounded-full bg-action-blue px-4 text-[12px] font-bold text-white transition hover:bg-action-blue-focus"
               onClick={() => saveConsent(createConsent({ analytics: true, functional: true }))}
               type="button"
             >
               {t("cookie.acceptAll")}
             </button>
             <button
-              className="inline-flex min-h-10 items-center justify-center rounded-full border border-action-blue/20 bg-white px-4 text-[13px] font-bold text-action-blue transition hover:bg-action-blue/5"
+              className="inline-flex min-h-9 items-center justify-center rounded-full border border-action-blue/20 bg-white px-4 text-[12px] font-bold text-action-blue transition hover:bg-action-blue/5"
               onClick={() => saveConsent(createConsent({ analytics: false, functional: false }))}
               type="button"
             >
               {t("cookie.necessaryOnly")}
             </button>
             <button
-              className="text-center text-[13px] font-bold text-calm-ink-muted-80 transition hover:text-action-blue"
+              className="col-span-2 text-center text-[12px] font-bold text-calm-ink-muted-80 transition hover:text-action-blue"
               onClick={() => setCookiePanelOpen((current) => !current)}
               type="button"
             >
