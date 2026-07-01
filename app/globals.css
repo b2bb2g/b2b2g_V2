@@ -11108,7 +11108,7 @@ button.apple-footer-link {
   z-index: 80;
   border-bottom: 1px solid rgb(226 235 247 / 0.72);
   background: rgb(255 255 255 / 0.94);
-  box-shadow: 0 12px 34px rgb(15 23 42 / 0.045);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.035);
   backdrop-filter: saturate(180%) blur(22px);
 }
 
@@ -11117,10 +11117,10 @@ button.apple-footer-link {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   width: min(100%, 1440px);
-  min-height: 72px;
+  min-height: 66px;
   margin: 0 auto;
   padding: 0 clamp(18px, 4vw, 52px);
-  gap: clamp(20px, 3vw, 46px);
+  gap: clamp(18px, 3vw, 42px);
 }
 
 .marketplace-header-logo {
@@ -11130,20 +11130,20 @@ button.apple-footer-link {
 }
 
 .marketplace-header-logo > span {
-  min-width: 138px !important;
-  min-height: 42px !important;
+  min-width: 126px !important;
+  min-height: 38px !important;
   gap: 10px !important;
 }
 
 .marketplace-header-logo > span > span:first-child {
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 14px !important;
-  box-shadow: 0 14px 28px rgb(11 99 206 / 0.18);
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 22px rgb(11 99 206 / 0.16);
 }
 
 .marketplace-header-logo > span > span:last-child span:first-child {
-  font-size: 26px !important;
+  font-size: 24px !important;
   font-weight: 850 !important;
 }
 
@@ -11152,18 +11152,18 @@ button.apple-footer-link {
   min-width: 0;
   align-items: center;
   justify-content: center;
-  gap: clamp(22px, 3vw, 42px);
+  gap: clamp(18px, 2.6vw, 36px);
   width: 100%;
 }
 
 .marketplace-header-nav-open-link {
   position: relative;
-  min-height: 44px;
+  min-height: 40px;
   margin: 0;
   padding: 0;
   color: #2f3746;
-  font-size: clamp(15px, 1.08vw, 17px);
-  font-weight: 720;
+  font-size: clamp(14px, 1vw, 16px);
+  font-weight: 680;
   line-height: 1;
   text-decoration: none;
 }
@@ -11187,6 +11187,7 @@ button.apple-footer-link {
 .marketplace-header-nav-open-link:hover,
 .marketplace-header-nav-open-link.active {
   color: #0b63ce;
+  transform: translateY(-1px);
 }
 
 .marketplace-header-nav-open-link:hover::after,
@@ -11205,18 +11206,18 @@ button.apple-footer-link {
 
 .marketplace-login-button {
   display: inline-flex !important;
-  min-height: 42px;
+  min-height: 40px;
   align-items: center;
   justify-content: center;
   border: 1px solid #081120;
   border-radius: 999px;
   background: #081120;
-  padding: 0 22px;
+  padding: 0 20px;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 740;
+  font-size: 13.5px;
+  font-weight: 720;
   text-decoration: none;
-  box-shadow: 0 14px 30px rgb(15 23 42 / 0.16);
+  box-shadow: 0 12px 24px rgb(15 23 42 / 0.13);
 }
 
 .marketplace-header-mobile-nav {

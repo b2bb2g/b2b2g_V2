@@ -189,90 +189,31 @@ function HomeIntro({
 }: Readonly<{
   products: MarketplaceHomeProduct[];
 }>) {
-  const spotlight = products[0];
-  const topProducts = products.slice(1, 4);
+  const heroProducts = products.slice(0, 4);
 
   return (
-    <section className="bg-[#f5f8fc] py-5 sm:py-9">
+    <section className="bg-[#f5f8fc] py-6 sm:py-10">
       <PublicContainer>
-        <div className="grid min-w-0 gap-4 lg:grid-cols-[0.68fr_1.32fr] lg:items-stretch">
-          <div className="flex min-w-0 flex-col justify-between rounded-[24px] border border-[#d7e4f5] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:rounded-[28px] sm:p-7 lg:min-h-[410px]">
-            <div>
-              <BadgePill tone="blue">Global B2B Marketplace</BadgePill>
-              <h1 className="mt-4 max-w-[330px] text-[32px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:mt-5 sm:max-w-full sm:text-[56px] lg:text-[62px]">
-                Source verified products with confidence.
-              </h1>
-              <p className="mt-3 line-clamp-3 max-w-[330px] text-[14px] leading-6 text-[#667085] sm:mt-4 sm:max-w-xl sm:text-[17px] sm:leading-7">
-                Browse approved supplier products, protected demand signals, and trade programs in one controlled B2B commerce home.
-              </p>
-            </div>
-            <div className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {["Verified suppliers", "Private buyer demand", "Admin-reviewed exposure"].map((item) => (
-                <span className="min-w-0 rounded-[14px] border border-[#d7e4f5] bg-[#f5f8fc] px-3 py-2.5 text-[12px] font-semibold text-[#344054] sm:rounded-[18px] sm:px-4 sm:py-3 sm:text-[13px]" key={item}>
-                  {item}
-                </span>
-              ))}
-            </div>
+        <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
+          <div>
+            <BadgePill tone="blue">Global B2B Marketplace</BadgePill>
+            <h1 className="mt-4 max-w-[340px] text-[30px] font-semibold leading-[1.04] tracking-[-0.05em] text-[#101828] sm:max-w-4xl sm:text-[54px] sm:leading-[1.02] lg:text-[64px]">
+              Curated industrial products for verified global sourcing.
+            </h1>
           </div>
-
-          <div className="grid min-w-0 gap-4">
-            {spotlight ? (
-              <Link className="group grid min-w-0 overflow-hidden rounded-[24px] border border-[#d7e4f5] bg-white shadow-[0_22px_70px_rgba(15,23,42,0.055)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] sm:rounded-[28px] md:grid-cols-[0.95fr_1.05fr]" href={spotlight.href}>
-                <div className="relative aspect-[16/10] min-h-[180px] overflow-hidden bg-[#eef4fb] sm:min-h-[220px] md:aspect-auto md:min-h-full">
-                  <Image
-                    alt={spotlight.imageAlt}
-                    className="object-cover transition duration-700 group-hover:scale-[1.035]"
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, 520px"
-                    src={spotlight.imageUrl}
-                  />
-                  <div className="absolute left-4 top-4">
-                    <BadgePill tone="blue">
-                      <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
-                      Featured
-                    </BadgePill>
-                  </div>
-                </div>
-                <div className="flex min-w-0 max-w-full flex-col justify-between p-5 sm:p-7">
-                  <div>
-                    <Eyebrow>Featured product</Eyebrow>
-                    <h2 className="mt-3 line-clamp-2 text-[27px] font-semibold leading-[1.06] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
-                      {spotlight.title}
-                    </h2>
-                    <p className="mt-3 text-[15px] font-semibold text-[#515966]">{spotlight.supplierName}</p>
-                    <p className="mt-4 line-clamp-2 text-[15px] leading-7 text-[#667085]">{spotlight.description}</p>
-                  </div>
-                  <div className="mt-6 flex items-center justify-between border-t border-[#e6edf6] pt-5">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#edf5ff] px-3 py-2 text-[12px] font-semibold text-[#0066cc]">
-                      <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
-                      Inquiry reviewed
-                    </span>
-                    <span className="grid h-10 w-10 place-items-center rounded-full bg-[#0066cc] text-white transition group-hover:translate-x-1">
-                      <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ) : null}
-
-            <div className="grid gap-3 md:grid-cols-3">
-              {topProducts.map((item) => (
-                <Link className="group grid grid-cols-[76px_minmax(0,1fr)] gap-3 rounded-[20px] border border-[#d7e4f5] bg-white p-3 shadow-[0_16px_44px_rgba(15,23,42,0.045)] transition hover:border-[#8fc1ff] sm:grid-cols-[92px_minmax(0,1fr)]" href={item.href} key={item.id}>
-                  <div className="relative aspect-square overflow-hidden rounded-[15px] bg-[#eef4fb] sm:rounded-[16px]">
-                    <Image alt={item.imageAlt} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="92px" src={item.imageUrl} />
-                  </div>
-                  <div className="min-w-0 py-1">
-                    <p className="truncate text-[11px] font-semibold text-[#667085]">{item.supplierName}</p>
-                    <h2 className="mt-1 line-clamp-2 text-[17px] font-semibold leading-[1.14] tracking-[-0.02em] text-[#1d1d1f]">{item.title}</h2>
-                    <span className="mt-3 inline-flex rounded-full bg-[#edf5ff] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.06em] text-[#0066cc]">
-                      {item.isVerifiedSupplier ? "Verified" : item.category}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+          <div className="grid gap-2 sm:grid-cols-3 lg:justify-self-end">
+            {["Verified suppliers", "Protected demand", "Admin-reviewed content"].map((item) => (
+              <span className="rounded-full border border-[#d7e4f5] bg-white px-4 py-2.5 text-[12px] font-semibold text-[#344054] shadow-[0_10px_28px_rgba(15,23,42,0.045)]" key={item}>
+                {item}
+              </span>
+            ))}
           </div>
+        </div>
+
+        <div className="grid gap-4 min-[620px]:grid-cols-2 lg:grid-cols-4">
+          {heroProducts.map((item, index) => (
+            <ProductCard item={item} key={item.id} priority={index === 0} />
+          ))}
         </div>
       </PublicContainer>
     </section>
@@ -317,10 +258,10 @@ function ProductCard({
 }>) {
   return (
     <Link
-      className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe6f2] bg-white transition duration-300 hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dbe6f2] bg-white transition duration-300 hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
       href={item.href}
     >
-      <div className="relative aspect-square overflow-hidden bg-[#f0f4f8]">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#f0f4f8]">
         <Image
           alt={item.imageAlt}
           className="object-cover transition duration-700 group-hover:scale-[1.04]"
@@ -353,17 +294,16 @@ function ProductCard({
             </span>
           ) : null}
         </div>
-        <h3 className="mt-2 line-clamp-2 min-h-[42px] text-[19px] font-semibold leading-[1.15] tracking-[-0.02em] text-[#1d1d1f]">
+        <h3 className="mt-2 line-clamp-2 min-h-[40px] text-[18px] font-semibold leading-[1.12] tracking-[-0.02em] text-[#1d1d1f]">
           {item.title}
         </h3>
-        <p className="mt-2 line-clamp-2 min-h-[40px] text-[13px] leading-5 text-[#667085]">{item.description}</p>
+        <p className="mt-2 line-clamp-1 min-h-[20px] text-[13px] leading-5 text-[#667085] sm:line-clamp-2 sm:min-h-[38px]">{item.description}</p>
         <div className="mt-auto flex items-center justify-between pt-4">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f8fc] px-2.5 py-1.5 text-[11px] font-semibold text-[#667085]">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc]" />
-            Reviewed
+            RFQ ready
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#edf5ff] px-2.5 py-1.5 text-[11px] font-bold text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
-            Details
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
             <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </span>
         </div>
@@ -466,19 +406,19 @@ function MarketActivity({
   requests: MarketplaceHomeRequest[];
 }>) {
   return (
-    <section className="bg-[#f5f8fc] py-10 sm:py-14">
+    <section className="bg-[#f5f8fc] py-9 sm:py-12">
       <PublicContainer>
         <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div>
             <Eyebrow>Trade signals</Eyebrow>
-            <h2 className="mt-2 text-[30px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[42px]">
-              Demand, programs, and verified buyers
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[38px]">
+              Live sourcing signals
             </h2>
-            <p className="mt-3 max-w-2xl text-[14px] leading-6 text-[#667085] sm:text-[15px]">
-              Active sourcing signals are shown without exposing buyer contact data or private identity fields.
+            <p className="mt-3 max-w-2xl text-[14px] leading-6 text-[#667085]">
+              Buyer demand, trade events, and masked buyer proof stay compact and privacy-safe.
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-2 rounded-[20px] border border-[#d7e4f5] bg-white p-2 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
+          <div className="hidden grid-cols-3 gap-2 rounded-[18px] border border-[#d7e4f5] bg-white p-2 shadow-[0_18px_50px_rgba(15,23,42,0.05)] sm:grid">
             {[
               ["3", "RFQs"],
               ["3", "Programs"],
@@ -492,12 +432,12 @@ function MarketActivity({
           </div>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1.15fr_1fr_0.85fr]">
-          <article className="rounded-[24px] border border-[#d7e4f5] bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <article className="rounded-[22px] border border-[#d7e4f5] bg-white p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
                 <Eyebrow>Buyer requests</Eyebrow>
-                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Buyer product requests</h3>
+                <h3 className="mt-1 text-[19px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Buyer product requests</h3>
               </div>
               <BadgePill tone="neutral">Private</BadgePill>
             </div>
@@ -509,11 +449,11 @@ function MarketActivity({
             </p>
           </article>
 
-          <article className="rounded-[24px] border border-[#d7e4f5] bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+          <article className="rounded-[22px] border border-[#d7e4f5] bg-white p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
                 <Eyebrow>Trade programs</Eyebrow>
-                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Event schedule</h3>
+                <h3 className="mt-1 text-[19px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Event schedule</h3>
               </div>
               <BadgePill tone="neutral">Events</BadgePill>
             </div>
@@ -522,13 +462,13 @@ function MarketActivity({
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[#d7e4f5] bg-[#111827] p-4 text-white shadow-[0_20px_60px_rgba(15,23,42,0.16)]">
+          <article className="rounded-[22px] border border-[#d7e4f5] bg-white p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#8fc1ff]">Verified demand</p>
-                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-white">Masked buyer network</h3>
+                <Eyebrow>Verified demand</Eyebrow>
+                <h3 className="mt-1 text-[19px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Masked buyer network</h3>
               </div>
-              <span className="rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.08em] text-white">Masked</span>
+              <BadgePill tone="neutral">Masked</BadgePill>
             </div>
             <div className="grid gap-3">
               {buyers.slice(0, 4).map((item) => <BuyerProof item={item} key={item.id} />)}
