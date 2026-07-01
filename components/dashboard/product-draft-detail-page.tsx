@@ -223,6 +223,12 @@ export function DashboardProductDraftDetailPage({
             </ul>
           </section>
 
+          <Link
+            className="pill-primary justify-center"
+            href={`/dashboard/products/${draft.id}/edit`}
+          >
+            {t("dashboard.products.draftDetail.edit")}
+          </Link>
           <Link className="pill-secondary justify-center" href="/dashboard/products">
             {t("dashboard.products.draftDetail.back")}
           </Link>

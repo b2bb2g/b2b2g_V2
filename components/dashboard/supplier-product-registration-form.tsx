@@ -15,6 +15,7 @@ import {
   PRODUCT_REGISTRATION_FIELD_TEMPLATE,
   type StaticProductRegistrationField,
 } from "@/lib/products/static-products";
+import type { SupplierProductDraftDetail } from "@/lib/queries/products";
 
 function groupFields(fields: StaticProductRegistrationField[]) {
   return fields.reduce<Record<string, StaticProductRegistrationField[]>>((groups, field) => {
@@ -31,7 +32,17 @@ function FieldBadge({ children }: Readonly<{ children: string }>) {
   );
 }
 
-function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistrationField }>) {
+function getInitialValueMap(draft?: SupplierProductDraftDetail | null) {
+  return new Map((draft?.values ?? []).map((value) => [value.fieldKey, value.valueText ?? ""]));
+}
+
+function RegistrationInput({
+  field,
+  initialValue,
+}: Readonly<{
+  field: StaticProductRegistrationField;
+  initialValue?: string;
+}>) {
   const baseClass =
     "w-full rounded-[16px] border border-calm-hairline bg-white px-4 py-3 type-body text-calm-ink outline-none transition placeholder:text-calm-ink-muted-48 focus:border-action-blue focus:ring-4 focus:ring-action-blue/10";
 
@@ -43,6 +54,7 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
         placeholder={field.placeholder}
         required={field.requirement === "required"}
         rows={5}
+        defaultValue={initialValue}
       />
     );
   }
@@ -51,7 +63,7 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
     return (
       <select
         className={baseClass}
-        defaultValue=""
+        defaultValue={initialValue ?? ""}
         name={field.id}
         required={field.requirement === "required"}
       >
@@ -86,6 +98,7 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
   return (
     <input
       className={baseClass}
+      defaultValue={initialValue}
       name={field.id}
       placeholder={field.placeholder}
       required={field.requirement === "required"}
@@ -94,7 +107,13 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
   );
 }
 
-function RegistrationField({ field }: Readonly<{ field: StaticProductRegistrationField }>) {
+function RegistrationField({
+  field,
+  initialValue,
+}: Readonly<{
+  field: StaticProductRegistrationField;
+  initialValue?: string;
+}>) {
   return (
     <label className="grid gap-2 rounded-[18px] border border-calm-hairline bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.025)]">
       <span className="flex flex-wrap items-start justify-between gap-3">
@@ -111,7 +130,7 @@ function RegistrationField({ field }: Readonly<{ field: StaticProductRegistratio
           <FieldBadge>{field.publicDisplay}</FieldBadge>
         </span>
       </span>
-      <RegistrationInput field={field} />
+      <RegistrationInput field={field} initialValue={initialValue} />
     </label>
   );
 }
@@ -138,12 +157,18 @@ function ApprovalStep({
   );
 }
 
-export function SupplierProductRegistrationForm() {
+export function SupplierProductRegistrationForm({
+  draft,
+}: Readonly<{
+  draft?: SupplierProductDraftDetail | null;
+}>) {
   const [state, formAction, isPending] = useActionState(
     saveSupplierProductDraft,
     initialProductDraftActionState,
   );
   const groupedFields = groupFields(PRODUCT_REGISTRATION_FIELD_TEMPLATE);
+  const initialValues = getInitialValueMap(draft);
+  const isEditMode = Boolean(draft);
   const approvalSteps = [
     {
       description: "Supplier role and company status must be approved before public product exposure.",
@@ -166,17 +191,19 @@ export function SupplierProductRegistrationForm() {
           Products
         </Link>
         <span aria-hidden="true">/</span>
-        <span>New product registration</span>
+        <span>{isEditMode ? "Edit product draft" : "New product registration"}</span>
       </nav>
 
       <section className="mt-6 overflow-hidden rounded-[30px] border border-action-blue/16 bg-[linear-gradient(135deg,#ffffff_0%,#f8fbff_48%,#eaf4ff_100%)] p-6 shadow-[0_24px_70px_rgba(0,102,204,0.08)] sm:p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div>
             <Badge dot={false} tone="info">
-              Supplier product workspace
+              {isEditMode ? "Edit supplier product draft" : "Supplier product workspace"}
             </Badge>
             <h1 className="type-display-md mt-4 max-w-4xl text-calm-ink">
-              Prepare structured product data for admin-reviewed marketplace publishing.
+              {isEditMode
+                ? "Review and update structured product data before upload and approval gates open."
+                : "Prepare structured product data for admin-reviewed marketplace publishing."}
             </h1>
             <p className="type-body mt-4 max-w-3xl text-calm-ink-muted-80">
               This page mirrors the product detail data model: image gallery, certificates, product
@@ -219,7 +246,9 @@ export function SupplierProductRegistrationForm() {
         >
           {state.ok ? (
             <div className="rounded-[20px] border border-status-positive/20 bg-status-positive-bg p-5">
-              <p className="type-caption-strong text-calm-ink">Product draft saved</p>
+              <p className="type-caption-strong text-calm-ink">
+                {state.mode === "updated" ? "Product draft updated" : "Product draft saved"}
+              </p>
               <p className="type-caption mt-2 text-calm-ink-muted-80">
                 Draft ID {state.productId}. {state.valuesSaved} registration values were saved.
                 Image and document upload remain disabled until Storage object policies pass runtime
@@ -235,6 +264,8 @@ export function SupplierProductRegistrationForm() {
             </div>
           ) : null}
 
+          {draft ? <input name="product-id" type="hidden" value={draft.id} /> : null}
+
           {Object.entries(groupedFields).map(([group, fields]) => (
             <section className="grid gap-3" key={group}>
               <div>
@@ -246,7 +277,11 @@ export function SupplierProductRegistrationForm() {
               </div>
               <div className="grid gap-3 md:grid-cols-2">
                 {fields.map((field) => (
-                  <RegistrationField field={field} key={field.id} />
+                  <RegistrationField
+                    field={field}
+                    initialValue={initialValues.get(field.id)}
+                    key={field.id}
+                  />
                 ))}
               </div>
             </section>
@@ -267,7 +302,11 @@ export function SupplierProductRegistrationForm() {
                 disabled={isPending || state.ok}
                 type="submit"
               >
-                {isPending ? "Saving draft" : "Save product draft"}
+                {isPending
+                  ? "Saving draft"
+                  : isEditMode
+                    ? "Update product draft"
+                    : "Save product draft"}
               </button>
               <Link className="pill-secondary" href="/dashboard/products">
                 Back to products

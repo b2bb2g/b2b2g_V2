@@ -9,6 +9,7 @@ import {
 
 export type ProductDraftActionState = {
   error: string | null;
+  mode: "created" | "updated" | null;
   ok: boolean;
   productId: string | null;
   valuesSaved: number;
@@ -16,6 +17,7 @@ export type ProductDraftActionState = {
 
 export const initialProductDraftActionState: ProductDraftActionState = {
   error: null,
+  mode: null,
   ok: false,
   productId: null,
   valuesSaved: 0,
@@ -27,11 +29,30 @@ const ROOT_TITLE_FIELD = "product-name";
 const ROOT_DESCRIPTION_FIELD = "application";
 const FILE_UPLOAD_DISABLED_MESSAGE =
   "File upload is not enabled yet. Save text fields first; images and documents will open after Storage policy validation.";
+const PRODUCT_DRAFT_ID_FIELD = "product-id";
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+type SupabaseServerClient = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
 function getFormString(formData: FormData, key: string): string {
   const value = formData.get(key);
 
   return typeof value === "string" ? value.trim() : "";
+}
+
+function getOptionalProductDraftId(formData: FormData): string | null {
+  const value = getFormString(formData, PRODUCT_DRAFT_ID_FIELD);
+
+  if (!value) {
+    return null;
+  }
+
+  if (!UUID_PATTERN.test(value)) {
+    throw new Error("Invalid product draft id");
+  }
+
+  return value;
 }
 
 function requireFormString(
@@ -113,6 +134,8 @@ function buildRegistrationValueRows(
   });
 }
 
+type RegistrationValueRow = ReturnType<typeof buildRegistrationValueRows>[number];
+
 function validateRequiredRegistrationFields(formData: FormData) {
   const requiredFields = PRODUCT_REGISTRATION_FIELD_TEMPLATE.filter(
     (field) => field.requirement === "required" && field.inputType !== "file",
@@ -130,6 +153,80 @@ function validateRequiredRegistrationFields(formData: FormData) {
 
 function findTemplateField(fieldId: string): StaticProductRegistrationField | undefined {
   return PRODUCT_REGISTRATION_FIELD_TEMPLATE.find((field) => field.id === fieldId);
+}
+
+async function replaceProductRegistrationValues(input: {
+  productId: string;
+  rows: RegistrationValueRow[];
+  supabase: SupabaseServerClient;
+  userId: string;
+}) {
+  const { data: existingValues, error: existingError } = await input.supabase
+    .from("product_registration_values")
+    .select("id,field_key")
+    .eq("product_id", input.productId)
+    .is("deleted_at", null);
+
+  if (existingError) {
+    throw new Error(existingError.message);
+  }
+
+  const existingByField = new Map(
+    (existingValues ?? []).map((value) => [value.field_key, value.id]),
+  );
+  const incomingFields = new Set(input.rows.map((row) => row.field_key));
+  const archivedIds = (existingValues ?? [])
+    .filter((value) => !incomingFields.has(value.field_key))
+    .map((value) => value.id);
+
+  if (archivedIds.length > 0) {
+    const { error: archiveError } = await input.supabase
+      .from("product_registration_values")
+      .update({
+        deleted_at: new Date().toISOString(),
+        deleted_by: input.userId,
+        updated_by: input.userId,
+      })
+      .in("id", archivedIds);
+
+    if (archiveError) {
+      throw new Error(archiveError.message);
+    }
+  }
+
+  for (const row of input.rows) {
+    const existingId = existingByField.get(row.field_key);
+
+    if (existingId) {
+      const { error: updateError } = await input.supabase
+        .from("product_registration_values")
+        .update({
+          approval_status: "draft",
+          group_key: row.group_key,
+          public_display: row.public_display,
+          sort_order: row.sort_order,
+          updated_by: input.userId,
+          value_text: row.value_text,
+        })
+        .eq("id", existingId);
+
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+
+      continue;
+    }
+
+    const { error: insertError } = await input.supabase
+      .from("product_registration_values")
+      .insert(row);
+
+    if (insertError) {
+      throw new Error(insertError.message);
+    }
+  }
+
+  return input.rows.length;
 }
 
 export async function saveSupplierProductDraft(
@@ -185,33 +282,98 @@ export async function saveSupplierProductDraft(
       applicationField?.label ?? "Usage / application",
     );
 
-    const { data: product, error: productError } = await supabase
-      .from("products")
-      .insert({
-        approval_status: "draft",
-        company_id: supplier.company_id,
-        created_by: user.id,
-        description,
-        publish_status: "draft",
-        summary: getSafeSummary(description),
-        supplier_id: supplier.id,
-        title,
-        updated_by: user.id,
-      })
-      .select("id")
-      .single();
+    const draftProductId = getOptionalProductDraftId(formData);
+    let mode: ProductDraftActionState["mode"] = "created";
+    let productId = draftProductId;
 
-    if (productError || !product) {
-      throw new Error(productError?.message ?? "Product draft could not be created");
+    if (draftProductId) {
+      const { data: existingProduct, error: existingProductError } = await supabase
+        .from("products")
+        .select("id,approval_status,publish_status")
+        .eq("id", draftProductId)
+        .eq("supplier_id", supplier.id)
+        .is("deleted_at", null)
+        .maybeSingle();
+
+      if (existingProductError) {
+        throw new Error(existingProductError.message);
+      }
+
+      if (!existingProduct) {
+        throw new Error("Product draft was not found for this supplier account");
+      }
+
+      if (
+        !["draft", "rejected"].includes(existingProduct.approval_status) ||
+        existingProduct.publish_status !== "draft"
+      ) {
+        throw new Error("Only draft or rejected unpublished products can be edited");
+      }
+
+      const { error: updateProductError } = await supabase
+        .from("products")
+        .update({
+          approval_status: "draft",
+          description,
+          publish_status: "draft",
+          summary: getSafeSummary(description),
+          title,
+          updated_by: user.id,
+        })
+        .eq("id", existingProduct.id)
+        .eq("supplier_id", supplier.id);
+
+      if (updateProductError) {
+        throw new Error(updateProductError.message);
+      }
+
+      productId = existingProduct.id;
+      mode = "updated";
+    } else {
+      const { data: product, error: productError } = await supabase
+        .from("products")
+        .insert({
+          approval_status: "draft",
+          company_id: supplier.company_id,
+          created_by: user.id,
+          description,
+          publish_status: "draft",
+          summary: getSafeSummary(description),
+          supplier_id: supplier.id,
+          title,
+          updated_by: user.id,
+        })
+        .select("id")
+        .single();
+
+      if (productError || !product) {
+        throw new Error(productError?.message ?? "Product draft could not be created");
+      }
+
+      productId = product.id;
+    }
+
+    if (!productId) {
+      throw new Error("Product draft id could not be resolved");
     }
 
     const registrationRows = buildRegistrationValueRows({
       formData,
-      productId: product.id,
+      productId,
       userId: user.id,
     });
 
-    if (registrationRows.length > 0) {
+    const valuesSaved =
+      mode === "updated"
+        ? await replaceProductRegistrationValues({
+            productId,
+            rows: registrationRows,
+            supabase,
+            userId: user.id,
+          })
+        : registrationRows.length;
+
+    if (mode === "created" && registrationRows.length > 0) {
       const { error: valuesError } = await supabase
         .from("product_registration_values")
         .insert(registrationRows);
@@ -219,20 +381,24 @@ export async function saveSupplierProductDraft(
       if (valuesError) {
         return {
           error: `Product draft was created, but registration values could not be saved: ${valuesError.message}`,
+          mode: null,
           ok: false,
-          productId: product.id,
+          productId,
           valuesSaved: 0,
         };
       }
     }
 
     revalidatePath("/dashboard/products");
+    revalidatePath(`/dashboard/products/${productId}`);
+    revalidatePath(`/dashboard/products/${productId}/edit`);
 
     return {
       error: null,
+      mode,
       ok: true,
-      productId: product.id,
-      valuesSaved: registrationRows.length,
+      productId,
+      valuesSaved,
     };
   } catch (error) {
     return {

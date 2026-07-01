@@ -1699,6 +1699,7 @@ const dictionaries = {
       "Image, certificate, and catalog uploads remain gated by Storage object policy runtime tests.",
     "dashboard.products.draftDetail.blockedTitle": "Still gated",
     "dashboard.products.draftDetail.breadcrumb": "Draft detail",
+    "dashboard.products.draftDetail.edit": "Edit draft",
     "dashboard.products.draftDetail.emptyValue": "No value saved.",
     "dashboard.products.draftDetail.eyebrow": "Supplier-owned draft",
     "dashboard.products.draftDetail.groupDescription":
@@ -1723,6 +1724,7 @@ const dictionaries = {
     "dashboard.products.draftDetail.uploadDescription":
       "Media and certificate fields are planned, but upload remains disabled until Storage policies are validated.",
     "dashboard.products.draftDetail.uploadTitle": "Upload not enabled",
+    "dashboard.products.draftEdit.metadataTitle": "Edit product draft",
     "dashboard.products.error.create_failed": "Product draft could not be created. Please check the title and try again.",
     "dashboard.products.error.showcase_create_failed": "Showcase could not be created. Please select an approved product and try again.",
     "dashboard.products.error.showcase_submit_failed": "Showcase could not be submitted. Please check the current showcase and try again.",
@@ -2761,6 +2763,7 @@ const dictionaries = {
       "이미지, 인증서, 카탈로그 업로드는 Storage object policy 런타임 테스트 전까지 차단됩니다.",
     "dashboard.products.draftDetail.blockedTitle": "아직 차단된 기능",
     "dashboard.products.draftDetail.breadcrumb": "초안 상세",
+    "dashboard.products.draftDetail.edit": "초안 수정",
     "dashboard.products.draftDetail.emptyValue": "저장된 값이 없습니다.",
     "dashboard.products.draftDetail.eyebrow": "Supplier 소유 초안",
     "dashboard.products.draftDetail.groupDescription":
@@ -2785,6 +2788,7 @@ const dictionaries = {
     "dashboard.products.draftDetail.uploadDescription":
       "미디어와 인증서 필드는 계획되어 있지만 Storage 정책 검증 전까지 업로드는 비활성 상태입니다.",
     "dashboard.products.draftDetail.uploadTitle": "업로드 비활성",
+    "dashboard.products.draftEdit.metadataTitle": "제품 초안 수정",
     "dashboard.products.error.create_failed":
       "제품 초안을 생성하지 못했습니다. 제품명을 확인한 뒤 다시 시도해 주세요.",
     "dashboard.products.error.showcase_create_failed":
