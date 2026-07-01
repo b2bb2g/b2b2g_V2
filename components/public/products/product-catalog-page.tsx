@@ -9,6 +9,7 @@ import {
   GlobeIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
+import { ProductImageGallery } from "@/components/public/products/product-image-gallery";
 import type { StaticMarketplaceProduct } from "@/lib/products/static-products";
 
 type ProductCatalogPageProps = {
@@ -446,6 +447,10 @@ export function ProductDetailPage({
 }: Readonly<ProductDetailPageProps>) {
   const detailContent = getProductDetailContent(product);
   const specs = getProductSpecs(product);
+  const galleryBadges = [
+    ...(product.isVerifiedSupplier ? ["Verified supplier"] : []),
+    product.category,
+  ];
 
   return (
     <main className="w-full max-w-[100vw] min-w-0 overflow-hidden bg-[#f5f8fc] text-[#1d1d1f]">
@@ -460,28 +465,7 @@ export function ProductDetailPage({
           </nav>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
-            <div className="overflow-hidden rounded-[28px] border border-[#dbe6f2] bg-[#eef4fb] shadow-[0_22px_70px_rgba(15,23,42,0.07)]">
-              <div className="relative aspect-square">
-                <Image
-                  alt={product.imageAlt}
-                  className="object-cover"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 92vw, 640px"
-                  src={product.imageUrl}
-                />
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#07111f]/52 to-transparent" />
-                <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                  {product.isVerifiedSupplier ? (
-                    <ProductBadge>
-                      <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
-                      Verified supplier
-                    </ProductBadge>
-                  ) : null}
-                  <ProductBadge tone="dark">{product.category}</ProductBadge>
-                </div>
-              </div>
-            </div>
+            <ProductImageGallery badges={galleryBadges} images={product.galleryImages} productTitle={product.title} />
 
             <article className="min-w-0 overflow-hidden rounded-[28px] border border-[#dbe6f2] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:p-7">
               <div className="flex flex-wrap items-center gap-2">
