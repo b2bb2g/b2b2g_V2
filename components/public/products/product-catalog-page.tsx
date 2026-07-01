@@ -33,11 +33,9 @@ type ProductSpec = {
 type ProductDetailContent = {
   applications: string[];
   catalogNotes: string[];
-  certification: string[];
   documentReadiness: string[];
   highlights: string[];
   keywords: string[];
-  publicReview: ProductSpec[];
   reviewChecklist: string[];
   supplierCapability: string[];
   supplierProfile: ProductSpec[];
@@ -211,22 +209,24 @@ function ProductStats({ stats }: Readonly<{ stats: ProductStat[] }>) {
   );
 }
 
-function DetailInfoCard({
+function QuickFactPill({
   icon,
-  title,
-  description,
+  label,
+  value,
 }: Readonly<{
-  description: string;
   icon: ReactNode;
-  title: string;
+  label: string;
+  value: string;
 }>) {
   return (
-    <div className="rounded-[20px] border border-[#dbe6f2] bg-[#f8fbff] p-4">
-      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-[#0066cc] shadow-[0_12px_28px_rgba(15,23,42,0.07)]">
+    <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-[#dbe6f2] bg-[#f8fbff] px-4 py-3">
+      <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#0066cc] shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
         {icon}
       </div>
-      <h3 className="mt-4 text-[15px] font-semibold text-[#101828]">{title}</h3>
-      <p className="mt-2 text-[12px] leading-5 text-[#667085]">{description}</p>
+      <div className="min-w-0">
+        <p className="truncate text-[10px] font-black uppercase tracking-[0.12em] text-[#667085]">{label}</p>
+        <p className="mt-0.5 truncate text-[13px] font-semibold text-[#101828]">{value}</p>
+      </div>
     </div>
   );
 }
@@ -277,26 +277,6 @@ function DetailBulletList({ items }: Readonly<{ items: string[] }>) {
   );
 }
 
-function ReviewStageCard({
-  index,
-  title,
-  description,
-}: Readonly<{
-  description: string;
-  index: string;
-  title: string;
-}>) {
-  return (
-    <div className="rounded-[22px] border border-[#dbe6f2] bg-white p-4 shadow-[0_14px_36px_rgba(15,23,42,0.04)]">
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#edf5ff] text-[11px] font-black text-[#0066cc]">
-        {index}
-      </span>
-      <h3 className="mt-4 text-[16px] font-semibold tracking-[-0.02em] text-[#101828]">{title}</h3>
-      <p className="mt-2 text-[12px] leading-5 text-[#667085]">{description}</p>
-    </div>
-  );
-}
-
 function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
   return [
     { label: "Listing ID", value: product.id },
@@ -340,13 +320,6 @@ function getProductDetailContent(product: StaticMarketplaceProduct): ProductDeta
       "Buyers can review public product information without exposing identity or contact data.",
       "Additional specifications should be requested through the protected RFQ workflow when enabled.",
     ],
-    certification: [
-      product.isVerifiedSupplier
-        ? "Verified supplier badge is displayed because the supplier is marked as verified in the current marketplace configuration."
-        : "Certification badge is not displayed until supplier verification is completed.",
-      "Product approval, company verification, and public exposure remain separate operating states.",
-      "Certification documents should be validated before being surfaced as downloadable assets.",
-    ],
     documentReadiness: [
       "Product images and public description are ready for discovery.",
       "Technical catalog, certification files, and test reports remain gated until document workflow is enabled.",
@@ -354,12 +327,6 @@ function getProductDetailContent(product: StaticMarketplaceProduct): ProductDeta
     ],
     highlights,
     keywords: [product.category, product.title, product.supplierName, "Managed RFQ", "Protected buyer identity"],
-    publicReview: [
-      { label: "Exposure", value: "Public product detail" },
-      { label: "Pricing", value: "Hidden on public page" },
-      { label: "Buyer fields", value: "Not collected or displayed here" },
-      { label: "RFQ", value: "Prepared, not yet live" },
-    ],
     reviewChecklist: [
       "Confirm product category, use case, and public description.",
       "Review supplier verification badge before trust claims are displayed.",
@@ -492,8 +459,8 @@ export function ProductDetailPage({
             <span className="truncate">{product.title}</span>
           </nav>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-start">
-            <div className="overflow-hidden rounded-[30px] border border-[#dbe6f2] bg-[#eef4fb] shadow-[0_26px_80px_rgba(15,23,42,0.08)]">
+          <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+            <div className="overflow-hidden rounded-[28px] border border-[#dbe6f2] bg-[#eef4fb] shadow-[0_22px_70px_rgba(15,23,42,0.07)]">
               <div className="relative aspect-square">
                 <Image
                   alt={product.imageAlt}
@@ -516,49 +483,48 @@ export function ProductDetailPage({
               </div>
             </div>
 
-            <article className="min-w-0 overflow-hidden rounded-[30px] border border-[#dbe6f2] bg-white p-5 shadow-[0_26px_80px_rgba(15,23,42,0.06)] sm:p-7">
-              <ProductBadge tone="light">Managed RFQ product</ProductBadge>
-              <h1 className="mt-5 max-w-[300px] text-[38px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:max-w-none sm:text-[64px]">
+            <article className="min-w-0 overflow-hidden rounded-[28px] border border-[#dbe6f2] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:p-7">
+              <div className="flex flex-wrap items-center gap-2">
+                <ProductBadge tone="light">Managed RFQ product</ProductBadge>
+                {product.isVerifiedSupplier ? <ProductBadge tone="white">Verified supplier</ProductBadge> : null}
+              </div>
+              <h1 className="mt-5 max-w-[300px] text-[38px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:max-w-none sm:text-[58px]">
                 {product.title}
               </h1>
               <p className="mt-4 text-[16px] font-bold text-[#667085]">{product.supplierName}</p>
-              <p className="mt-5 max-w-[300px] text-[16px] leading-8 text-[#596170] sm:max-w-2xl">{product.description}</p>
+              <p className="mt-5 max-w-[300px] text-[16px] leading-7 text-[#596170] sm:max-w-2xl">{product.description}</p>
 
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                <DetailInfoCard
-                  description="Public product pages do not display supplier pricing."
+              <div className="mt-7 grid gap-2 sm:grid-cols-2">
+                <QuickFactPill
                   icon={<BadgeIcon aria-hidden="true" className="h-5 w-5" />}
-                  title="Price hidden"
+                  label="Pricing"
+                  value="Hidden on public page"
                 />
-                <DetailInfoCard
-                  description="Buyer identity and private contact fields are protected."
+                <QuickFactPill
                   icon={<ShieldCheckIcon aria-hidden="true" className="h-5 w-5" />}
-                  title="Buyer protected"
+                  label="Buyer fields"
+                  value="Protected"
                 />
-                <DetailInfoCard
-                  description="RFQ submission is prepared for admin-reviewed routing."
+                <QuickFactPill
                   icon={<DocumentCheckIcon aria-hidden="true" className="h-5 w-5" />}
-                  title="Managed RFQ"
+                  label="Documents"
+                  value="Approval gated"
+                />
+                <QuickFactPill
+                  icon={<GlobeIcon aria-hidden="true" className="h-5 w-5" />}
+                  label="Route"
+                  value="Managed RFQ review"
                 />
               </div>
 
-              <div className="mt-7 grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-                <div className="rounded-[22px] border border-[#dbe6f2] bg-[#f8fbff] p-5">
-                  <h2 className="text-[17px] font-semibold text-[#1d1d1f]">Product profile</h2>
-                  <div className="mt-4">
-                    <ProductSpecs specs={specs} />
-                  </div>
-                </div>
-                <div className="rounded-[22px] border border-[#dbe6f2] bg-[#08111f] p-5 text-white">
-                  <div className="grid h-10 w-10 place-items-center rounded-2xl bg-white/10 text-[#9ecbff]">
-                    <GlobeIcon aria-hidden="true" className="h-5 w-5" />
-                  </div>
-                  <h2 className="mt-4 text-[18px] font-semibold">Protected sourcing path</h2>
-                  <ol className="mt-4 space-y-3 text-[13px] leading-5 text-white/72">
-                    <li>1. Buyer reviews approved product information.</li>
-                    <li>2. RFQ submission enters managed review.</li>
-                    <li>3. Admin workflow controls next-step disclosure.</li>
-                  </ol>
+              <div className="mt-7 rounded-[22px] border border-[#dbe6f2] bg-[#f8fbff] p-4">
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {specs.slice(0, 4).map((spec) => (
+                    <div className="rounded-2xl bg-white px-4 py-3" key={spec.label}>
+                      <p className="text-[10px] font-black uppercase tracking-[0.12em] text-[#667085]">{spec.label}</p>
+                      <p className="mt-1 text-[13px] font-semibold text-[#101828]">{spec.value}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -578,35 +544,13 @@ export function ProductDetailPage({
 
       <section className="py-10 sm:py-14">
         <ProductContainer>
-          <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <ReviewStageCard
-              description="Public buyers first evaluate approved product content, images, and category fit."
-              index="01"
-              title="Product review"
-            />
-            <ReviewStageCard
-              description="Catalog files, certifications, and proof documents stay behind approval controls."
-              index="02"
-              title="Document check"
-            />
-            <ReviewStageCard
-              description="RFQ readiness is prepared without exposing buyer identity or private contact data."
-              index="03"
-              title="RFQ readiness"
-            />
-            <ReviewStageCard
-              description="Next-step disclosure is controlled through the platform operating workflow."
-              index="04"
-              title="Managed route"
-            />
-          </div>
           <ProductSectionHeader
-            description="Export catalog structure adapted for B2B2G: public product information first, controlled RFQ and document review later."
-            eyebrow="Product details"
-            title="Complete sourcing profile"
+            description="The detail page now keeps the buying review focused: what the product is, where it is used, what trade information is available, and what stays protected."
+            eyebrow="Product information"
+            title="Everything needed for first review"
           />
-          <div className="grid gap-4 lg:grid-cols-3">
-            <DetailPanel eyebrow="Summary" title="Product summary">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+            <DetailPanel eyebrow="Overview" title="Product summary">
               <p className="text-[14px] leading-7 text-[#667085]">{detailContent.summary}</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {detailContent.keywords.map((keyword) => (
@@ -615,57 +559,62 @@ export function ProductDetailPage({
                   </span>
                 ))}
               </div>
+              <div className="mt-6">
+                <h4 className="text-[13px] font-black uppercase tracking-[0.12em] text-[#101828]">Key points</h4>
+                <div className="mt-3">
+                  <DetailBulletList items={detailContent.highlights} />
+                </div>
+              </div>
             </DetailPanel>
 
-            <DetailPanel eyebrow="Highlights" title="Key product points">
-              <DetailBulletList items={detailContent.highlights} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Application" title="Use cases">
-              <DetailBulletList items={detailContent.applications} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Trade" title="Trade readiness">
+            <DetailPanel eyebrow="Specs" title="Trade readiness">
               <ProductSpecs specs={detailContent.tradeReadiness} />
+              <div className="mt-5 rounded-2xl bg-[#edf5ff] p-4">
+                <p className="text-[12px] font-bold leading-5 text-[#0066cc]">
+                  Pricing, buyer identity, and private contact data are intentionally unavailable on public product pages.
+                </p>
+              </div>
             </DetailPanel>
 
-            <DetailPanel eyebrow="Review" title="Public review state">
-              <ProductSpecs specs={detailContent.publicReview} />
+            <DetailPanel eyebrow="Application" title="Use cases and review">
+              <DetailBulletList items={[...detailContent.applications, ...detailContent.reviewChecklist.slice(0, 2)]} />
             </DetailPanel>
 
-            <DetailPanel eyebrow="Quality" title="Certification and approval">
-              <DetailBulletList items={detailContent.certification} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Supplier" title="Supplier capability">
-              <DetailBulletList items={detailContent.supplierCapability} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Supplier profile" title="Marketplace supplier">
+            <DetailPanel eyebrow="Supplier" title="Supplier and documents">
               <ProductSpecs specs={detailContent.supplierProfile} />
+              <div className="mt-5">
+                <DetailBulletList items={detailContent.documentReadiness} />
+              </div>
+            </DetailPanel>
+
+            <div className="rounded-[28px] bg-[#08111f] p-6 text-white shadow-[0_18px_50px_rgba(15,23,42,0.14)] lg:col-span-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#9ecbff]">Managed marketplace path</p>
+              <h3 className="mt-3 max-w-2xl text-[28px] font-semibold leading-[1.05] tracking-[-0.04em]">
+                Product discovery stays public. Documents, technical Q&A, and RFQ submission stay controlled.
+              </h3>
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                <div className="rounded-2xl bg-white/8 p-4">
+                  <p className="text-[13px] font-semibold">1. Review product</p>
+                  <p className="mt-2 text-[12px] leading-5 text-white/62">Evaluate public product content and category fit.</p>
+                </div>
+                <div className="rounded-2xl bg-white/8 p-4">
+                  <p className="text-[13px] font-semibold">2. Check documents</p>
+                  <p className="mt-2 text-[12px] leading-5 text-white/62">Catalogs and proof files require approval controls.</p>
+                </div>
+                <div className="rounded-2xl bg-white/8 p-4">
+                  <p className="text-[13px] font-semibold">3. Route RFQ</p>
+                  <p className="mt-2 text-[12px] leading-5 text-white/62">Next-step sourcing remains managed by the platform.</p>
+                </div>
+              </div>
+            </div>
+
+            <DetailPanel eyebrow="Governance" title="Approval and protection">
+              <DetailBulletList items={detailContent.supplierCapability} />
             </DetailPanel>
 
             <DetailPanel eyebrow="Catalog" title="Product data and documents">
               <DetailBulletList items={detailContent.catalogNotes} />
             </DetailPanel>
-
-            <DetailPanel eyebrow="Documents" title="Document readiness">
-              <DetailBulletList items={detailContent.documentReadiness} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Checklist" title="Buyer-safe checklist">
-              <DetailBulletList items={detailContent.reviewChecklist} />
-            </DetailPanel>
-
-            <div className="rounded-[28px] bg-[#08111f] p-6 text-white shadow-[0_18px_50px_rgba(15,23,42,0.14)] lg:col-span-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#9ecbff]">Next marketplace step</p>
-              <h3 className="mt-3 max-w-2xl text-[28px] font-semibold leading-[1.05] tracking-[-0.04em]">
-                Document download, technical Q&A, and RFQ submission stay behind the managed review workflow.
-              </h3>
-              <p className="mt-4 max-w-2xl text-[13px] leading-6 text-white/68">
-                This keeps public product discovery useful while protecting buyer identity, private contact data, and supplier approval boundaries.
-              </p>
-            </div>
           </div>
         </ProductContainer>
       </section>
