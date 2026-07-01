@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetailPage } from "@/components/public/products/product-catalog-page";
 import {
+  getMarketplaceProduct,
+  getMarketplaceProducts,
+} from "@/lib/products/marketplace-products";
+import {
   getStaticMarketplaceProduct,
   getStaticMarketplaceProducts,
 } from "@/lib/products/static-products";
@@ -21,7 +25,7 @@ export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = getStaticMarketplaceProduct(id);
+  const product = getStaticMarketplaceProduct(id) ?? await getMarketplaceProduct(id);
 
   return buildPublicMetadata({
     canonicalPath: `/products/${id}`,
@@ -32,13 +36,13 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const product = getStaticMarketplaceProduct(id);
+  const product = await getMarketplaceProduct(id);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = getStaticMarketplaceProducts().filter((item) => item.id !== product.id);
+  const relatedProducts = (await getMarketplaceProducts()).filter((item) => item.id !== product.id);
 
   return <ProductDetailPage product={product} relatedProducts={relatedProducts} />;
 }

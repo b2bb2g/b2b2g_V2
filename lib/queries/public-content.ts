@@ -307,6 +307,7 @@ export async function getPublicContentList(
       .from("products")
       .select("*")
       .match(publicFilters)
+      .eq("publish_status", "published")
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
       .limit(24);
@@ -429,6 +430,7 @@ export async function getPublicContentDetail(
       .select("*")
       .eq("id", id)
       .match(publicFilters)
+      .eq("publish_status", "published")
       .is("deleted_at", null)
       .maybeSingle();
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ProductCatalogPage } from "@/components/public/products/product-catalog-page";
-import { getStaticMarketplaceProducts } from "@/lib/products/static-products";
+import { getMarketplaceProducts } from "@/lib/products/marketplace-products";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPublicMetadata({
@@ -10,8 +10,8 @@ export const metadata: Metadata = buildPublicMetadata({
   title: "Products | B2B2G",
 });
 
-export default function ProductsPage() {
-  const products = getStaticMarketplaceProducts();
+export default async function ProductsPage() {
+  const products = await getMarketplaceProducts();
 
   return <ProductCatalogPage products={products} />;
 }
