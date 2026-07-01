@@ -7,6 +7,7 @@ import type { ReactNode, SVGProps } from "react";
 import { signOut } from "@/lib/actions/auth";
 import { ActionFeedbackProvider } from "@/components/shared/action-feedback";
 import { Badge, StatusBadge } from "@/components/shared/badge";
+import { BrandLogo } from "@/components/shared/brand-logo";
 import {
   BoxIcon,
   BuildingIcon,
@@ -220,7 +221,7 @@ function BellIcon(props: Readonly<SVGProps<SVGSVGElement>>) {
 function GuestAccessMenu() {
   return (
     <div className="flex shrink-0 items-center">
-      <Link className="inline-flex min-h-10 items-center justify-center rounded-full bg-[#0f172a] px-4 text-[13px] font-semibold text-white shadow-[0_14px_34px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-[#0b63ce] sm:min-h-12 sm:px-6 sm:text-[15px]" href="/login">
+      <Link className="marketplace-login-button" href="/login">
         {t("nav.signIn")}
       </Link>
     </div>
@@ -542,45 +543,40 @@ function PublicSiteHeader({
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#dce7f6]/80 bg-white/90 shadow-[0_16px_44px_rgba(15,23,42,0.055)] backdrop-blur-2xl">
-      <div className="mx-auto flex min-h-[82px] w-full max-w-[1320px] items-center gap-5 px-4 sm:px-6 lg:px-8">
-        <Link aria-label={t("brand.name")} className="group flex shrink-0 items-center gap-3" href="/">
-          <span aria-hidden="true" className="grid h-12 w-12 place-items-center rounded-[16px] bg-[#0b63ce] text-[13px] font-black tracking-[-0.05em] text-white shadow-[0_16px_34px_rgba(11,99,206,0.24)]">
-            B2
-          </span>
-          <span className="grid leading-none">
-            <span className="text-[28px] font-black tracking-[-0.07em] text-[#101828] sm:text-[30px]">B2B2G</span>
-            <span className="mt-1 hidden text-[10px] font-black uppercase tracking-[0.18em] text-[#0b63ce] sm:block">Global Trade OS</span>
-          </span>
+    <header className="marketplace-public-header">
+      <div className="marketplace-public-header-inner">
+        <Link aria-label={t("brand.name")} className="marketplace-header-logo" href="/">
+          <BrandLogo variant="wordmark" />
         </Link>
 
-        <nav aria-label="Marketplace navigation" className="hidden min-w-0 flex-1 items-center justify-center gap-1.5 lg:flex">
+        <nav aria-label="Marketplace navigation" className="marketplace-header-nav-shell">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`group relative flex min-h-[46px] min-w-[112px] items-center justify-center rounded-full px-4 text-center transition ${
+              className={`marketplace-header-nav-link ${
                 pathname === item.href || pathname.startsWith(`${item.href}/`)
-                  ? "bg-[#0b63ce] text-white shadow-[0_14px_30px_rgba(11,99,206,0.22)]"
-                  : "text-[#3f4652] hover:bg-[#eef5ff] hover:text-[#0b63ce]"
+                  ? "active"
+                  : ""
               }`}
               href={item.href}
               key={item.href}
             >
-              <span className="text-[15px] font-bold leading-none">{item.label}</span>
+              <span className="marketplace-header-nav-label">{item.label}</span>
+              <span className="marketplace-header-nav-meta">{item.meta}</span>
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-3">
+        <div className="marketplace-header-actions">
           <PublicAuthControls publicUser={publicUser} />
         </div>
       </div>
-      <nav aria-label="Mobile marketplace navigation" className="flex gap-2 overflow-x-auto border-t border-[#edf2f8] px-4 py-3 [scrollbar-width:none] sm:px-6 lg:hidden [&::-webkit-scrollbar]:hidden">
+      <nav aria-label="Mobile marketplace navigation" className="marketplace-header-mobile-nav">
         {marketplacePublicNavigation.map((item) => (
           <Link
-            className={`shrink-0 rounded-full px-4 py-2.5 text-[14px] font-bold ${
+            className={`marketplace-header-mobile-link ${
               pathname === item.href || pathname.startsWith(`${item.href}/`)
-                ? "bg-[#0b63ce] text-white"
-                : "bg-[#f5f8fc] text-[#3f4652]"
+                ? "active"
+                : ""
             }`}
             href={item.href}
             key={item.href}
