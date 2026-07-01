@@ -210,9 +210,14 @@ function HomeIntro({
           </div>
         </div>
 
-        <div className="grid gap-4 min-[620px]:grid-cols-2 lg:grid-cols-4">
+        <div className="flex snap-x gap-4 overflow-x-auto pb-2 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:pb-0 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
           {heroProducts.map((item, index) => (
-            <ProductCard item={item} key={item.id} priority={index === 0} />
+            <ProductCard
+              className="w-[78vw] max-w-[330px] shrink-0 snap-start sm:w-auto sm:max-w-none"
+              item={item}
+              key={item.id}
+              priority={index === 0}
+            />
           ))}
         </div>
       </PublicContainer>
@@ -221,18 +226,20 @@ function HomeIntro({
 }
 
 function ProductCard({
+  className = "",
   item,
   priority = false,
 }: Readonly<{
+  className?: string;
   item: MarketplaceHomeProduct;
   priority?: boolean;
 }>) {
   return (
     <Link
-      className="group flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dbe6f2] bg-white transition duration-300 hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
+      className={`group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe6f2] bg-white shadow-[0_14px_40px_rgba(15,23,42,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[#93c5fd] hover:shadow-[0_26px_70px_rgba(15,23,42,0.1)] ${className}`}
       href={item.href}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#f0f4f8]">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[#eef4fb]">
         <Image
           alt={item.imageAlt}
           className="object-cover transition duration-700 group-hover:scale-[1.04]"
@@ -242,6 +249,7 @@ function ProductCard({
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 44vw, 320px"
           src={item.imageUrl}
         />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#07111f]/42 to-transparent" />
         <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
           {item.isVerifiedSupplier ? (
             <BadgePill tone="blue">
@@ -255,12 +263,15 @@ function ProductCard({
             <span aria-hidden="true">♡</span>
           </span>
         </div>
+        <span className="absolute bottom-3 left-3 rounded-full bg-white/92 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#344054] shadow-[0_10px_24px_rgba(15,23,42,0.16)]">
+          {item.category}
+        </span>
       </div>
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-4 sm:p-4">
         <div className="flex min-w-0 items-center justify-between gap-2">
-          <p className="truncate text-[12px] font-semibold text-[#667085]">{item.supplierName}</p>
+          <p className="truncate text-[12px] font-bold text-[#667085]">{item.supplierName}</p>
           {item.isVerifiedSupplier ? (
-            <span className="shrink-0 rounded-full bg-[#edf5ff] px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-[#0066cc]">
+            <span className="shrink-0 rounded-full bg-[#edf5ff] px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-[#0066cc] ring-1 ring-[#dbeafe]">
               Premium
             </span>
           ) : null}
@@ -268,13 +279,13 @@ function ProductCard({
         <h3 className="mt-2 line-clamp-2 min-h-[40px] text-[18px] font-semibold leading-[1.12] tracking-[-0.02em] text-[#1d1d1f]">
           {item.title}
         </h3>
-        <p className="mt-2 min-h-[20px] truncate text-[13px] leading-5 text-[#667085] sm:line-clamp-2 sm:min-h-[38px] sm:whitespace-normal">{item.description}</p>
+        <p className="mt-2 line-clamp-2 min-h-[38px] text-[13px] leading-5 text-[#667085]">{item.description}</p>
         <div className="mt-auto flex items-center justify-between pt-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f8fc] px-2.5 py-1.5 text-[11px] font-semibold text-[#667085]">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f8fc] px-2.5 py-1.5 text-[11px] font-bold text-[#667085]">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc]" />
-            RFQ ready
+            Inquiry ready
           </span>
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
             <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </span>
         </div>
