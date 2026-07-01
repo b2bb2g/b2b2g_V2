@@ -34,9 +34,13 @@ type ProductDetailContent = {
   applications: string[];
   catalogNotes: string[];
   certification: string[];
+  documentReadiness: string[];
   highlights: string[];
   keywords: string[];
+  publicReview: ProductSpec[];
+  reviewChecklist: string[];
   supplierCapability: string[];
+  supplierProfile: ProductSpec[];
   summary: string;
   tradeReadiness: ProductSpec[];
 };
@@ -273,6 +277,26 @@ function DetailBulletList({ items }: Readonly<{ items: string[] }>) {
   );
 }
 
+function ReviewStageCard({
+  index,
+  title,
+  description,
+}: Readonly<{
+  description: string;
+  index: string;
+  title: string;
+}>) {
+  return (
+    <div className="rounded-[22px] border border-[#dbe6f2] bg-white p-4 shadow-[0_14px_36px_rgba(15,23,42,0.04)]">
+      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#edf5ff] text-[11px] font-black text-[#0066cc]">
+        {index}
+      </span>
+      <h3 className="mt-4 text-[16px] font-semibold tracking-[-0.02em] text-[#101828]">{title}</h3>
+      <p className="mt-2 text-[12px] leading-5 text-[#667085]">{description}</p>
+    </div>
+  );
+}
+
 function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
   return [
     { label: "Listing ID", value: product.id },
@@ -323,12 +347,35 @@ function getProductDetailContent(product: StaticMarketplaceProduct): ProductDeta
       "Product approval, company verification, and public exposure remain separate operating states.",
       "Certification documents should be validated before being surfaced as downloadable assets.",
     ],
+    documentReadiness: [
+      "Product images and public description are ready for discovery.",
+      "Technical catalog, certification files, and test reports remain gated until document workflow is enabled.",
+      "Downloadable assets should be approved by Admin before becoming visible to buyers.",
+    ],
     highlights,
     keywords: [product.category, product.title, product.supplierName, "Managed RFQ", "Protected buyer identity"],
+    publicReview: [
+      { label: "Exposure", value: "Public product detail" },
+      { label: "Pricing", value: "Hidden on public page" },
+      { label: "Buyer fields", value: "Not collected or displayed here" },
+      { label: "RFQ", value: "Prepared, not yet live" },
+    ],
+    reviewChecklist: [
+      "Confirm product category, use case, and public description.",
+      "Review supplier verification badge before trust claims are displayed.",
+      "Request technical documents only through the managed product workflow.",
+      "Keep buyer identity, email, phone, and contact person outside public pages.",
+    ],
     supplierCapability: [
       `${product.supplierName} is presented as the supplier of record for this public product listing.`,
       "Supplier membership, company setup, and product publishing remain controlled by admin approval flows.",
       "Buyer-facing contact fields are intentionally excluded from the public detail page.",
+    ],
+    supplierProfile: [
+      { label: "Supplier", value: product.supplierName },
+      { label: "Verification", value: product.isVerifiedSupplier ? "Verified supplier" : "Verification pending" },
+      { label: "Listing status", value: "Approved public preview" },
+      { label: "Contact display", value: "Private contact hidden" },
     ],
     summary:
       `${product.title} is listed for controlled B2B sourcing review in the ${product.category} category. The page is structured for product evaluation first, then managed RFQ routing after the marketplace workflow is enabled.`,
@@ -531,6 +578,28 @@ export function ProductDetailPage({
 
       <section className="py-10 sm:py-14">
         <ProductContainer>
+          <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <ReviewStageCard
+              description="Public buyers first evaluate approved product content, images, and category fit."
+              index="01"
+              title="Product review"
+            />
+            <ReviewStageCard
+              description="Catalog files, certifications, and proof documents stay behind approval controls."
+              index="02"
+              title="Document check"
+            />
+            <ReviewStageCard
+              description="RFQ readiness is prepared without exposing buyer identity or private contact data."
+              index="03"
+              title="RFQ readiness"
+            />
+            <ReviewStageCard
+              description="Next-step disclosure is controlled through the platform operating workflow."
+              index="04"
+              title="Managed route"
+            />
+          </div>
           <ProductSectionHeader
             description="Export catalog structure adapted for B2B2G: public product information first, controlled RFQ and document review later."
             eyebrow="Product details"
@@ -560,6 +629,10 @@ export function ProductDetailPage({
               <ProductSpecs specs={detailContent.tradeReadiness} />
             </DetailPanel>
 
+            <DetailPanel eyebrow="Review" title="Public review state">
+              <ProductSpecs specs={detailContent.publicReview} />
+            </DetailPanel>
+
             <DetailPanel eyebrow="Quality" title="Certification and approval">
               <DetailBulletList items={detailContent.certification} />
             </DetailPanel>
@@ -568,8 +641,20 @@ export function ProductDetailPage({
               <DetailBulletList items={detailContent.supplierCapability} />
             </DetailPanel>
 
+            <DetailPanel eyebrow="Supplier profile" title="Marketplace supplier">
+              <ProductSpecs specs={detailContent.supplierProfile} />
+            </DetailPanel>
+
             <DetailPanel eyebrow="Catalog" title="Product data and documents">
               <DetailBulletList items={detailContent.catalogNotes} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Documents" title="Document readiness">
+              <DetailBulletList items={detailContent.documentReadiness} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Checklist" title="Buyer-safe checklist">
+              <DetailBulletList items={detailContent.reviewChecklist} />
             </DetailPanel>
 
             <div className="rounded-[28px] bg-[#08111f] p-6 text-white shadow-[0_18px_50px_rgba(15,23,42,0.14)] lg:col-span-2">
