@@ -549,10 +549,10 @@ function PublicSiteHeader({
           <BrandLogo variant="wordmark" />
         </Link>
 
-        <nav aria-label="Marketplace navigation" className="marketplace-header-nav-shell">
+        <nav aria-label="Marketplace navigation" className="marketplace-header-nav-open">
           {marketplacePublicNavigation.map((item) => (
             <Link
-              className={`marketplace-header-nav-link ${
+              className={`marketplace-header-nav-open-link ${
                 pathname === item.href || pathname.startsWith(`${item.href}/`)
                   ? "active"
                   : ""
@@ -560,8 +560,7 @@ function PublicSiteHeader({
               href={item.href}
               key={item.href}
             >
-              <span className="marketplace-header-nav-label">{item.label}</span>
-              <span className="marketplace-header-nav-meta">{item.meta}</span>
+              {item.label}
             </Link>
           ))}
         </nav>
