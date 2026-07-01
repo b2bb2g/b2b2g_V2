@@ -608,31 +608,41 @@ function UpdatesAndFaq({
 function MarketplaceFooter() {
   const groups = [
     ["Marketplace", "Commercial", "Industrial", "EPC", "BUY & SELL"],
-    ["Programs", "Events", "FDA Service", "Supplier Growth", "RFQ Board"],
-    ["Network", "Agents", "Verified Buyers", "Product Showcase", "Membership"],
+    ["Programs", "Trade Events", "Thailand FDA", "Premium Supply", "RFQ Board"],
+    ["Network", "Agents", "Verified Buyers", "Innovation Showcase", "Membership"],
     ["Company", "About", "Announcements", "Security", "Support"],
   ];
 
   return (
-    <footer className="border-t border-[#e4edf7] bg-[#f7faff] text-[#1d1d1f]">
-      <PublicContainer className="py-8 sm:py-10">
-        <div className="grid gap-7 border-b border-[#d7e4f5] pb-7 lg:grid-cols-[1fr_2fr_0.95fr]">
+    <footer className="bg-[#08111f] text-white">
+      <PublicContainer className="py-9 sm:py-12">
+        <div className="grid gap-8 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_2fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-[13px] bg-[#0066cc] text-[12px] font-black text-white">B2</span>
-              <span className="text-[26px] font-black tracking-[-0.06em]">B2B2G</span>
+              <span className="grid h-11 w-11 place-items-center rounded-[15px] bg-[#0b74ff] text-[12px] font-black text-white shadow-[0_18px_42px_rgba(11,116,255,0.28)]">B2</span>
+              <span>
+                <span className="block text-[28px] font-black leading-none tracking-[-0.065em]">B2B2G</span>
+                <span className="mt-1 block text-[10px] font-black uppercase tracking-[0.22em] text-[#7db7ff]">Global Trade OS</span>
+              </span>
             </div>
-            <p className="mt-4 max-w-sm text-[13px] leading-7 text-[#667085]">
+            <p className="mt-5 max-w-sm text-[13px] leading-7 text-white/62">
               A controlled B2B commerce platform for verified supplier products, protected buyer demand, trade programs, and marketplace services.
             </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["No public pricing", "Buyer PII protected", "Managed inquiry"].map((item) => (
+                <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[11px] font-bold text-white/72" key={item}>
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
             {groups.map(([title, ...items]) => (
               <nav aria-label={title} key={title}>
-                <h3 className="text-[13px] font-semibold text-[#1d1d1f]">{title}</h3>
+                <h3 className="text-[13px] font-semibold text-white">{title}</h3>
                 <div className="mt-4 grid gap-2.5">
                   {items.map((item) => (
-                    <button className="w-fit text-left text-[13px] text-[#667085] transition hover:text-[#0066cc]" disabled key={item} type="button">
+                    <button className="w-fit text-left text-[13px] text-white/54 transition hover:text-white" disabled key={item} type="button">
                       {item}
                     </button>
                   ))}
@@ -640,18 +650,19 @@ function MarketplaceFooter() {
               </nav>
             ))}
           </div>
-          <div className="rounded-[22px] border border-[#d7e4f5] bg-white p-5">
-            <h3 className="text-[15px] font-semibold">Trade brief</h3>
-            <p className="mt-3 text-[13px] leading-6 text-[#667085]">Marketplace updates will be enabled after public subscription policy review.</p>
-            <div className="mt-5 flex rounded-full border border-[#d7e4f5] bg-[#f5f8fc] p-1">
-              <input className="min-w-0 flex-1 bg-transparent px-4 text-[13px] text-[#1d1d1f] outline-none" disabled placeholder="Email updates coming soon" />
-              <button className="grid h-10 w-10 place-items-center rounded-full bg-[#0066cc] text-white" disabled type="button">
+          <div className="rounded-[26px] border border-white/10 bg-white/[0.07] p-5 shadow-[0_28px_80px_rgba(0,0,0,0.24)]">
+            <BadgePill tone="blue">Trade brief</BadgePill>
+            <h3 className="mt-4 text-[21px] font-semibold leading-tight tracking-[-0.03em]">Marketplace intelligence for approved sourcing.</h3>
+            <p className="mt-3 text-[13px] leading-6 text-white/58">Newsletter and marketplace alerts will open after public subscription policy review.</p>
+            <div className="mt-5 flex rounded-full border border-white/10 bg-white/[0.08] p-1">
+              <input className="min-w-0 flex-1 bg-transparent px-4 text-[13px] text-white outline-none placeholder:text-white/40" disabled placeholder="Email updates coming soon" />
+              <button className="grid h-10 w-10 place-items-center rounded-full bg-[#0b74ff] text-white shadow-[0_12px_28px_rgba(11,116,255,0.26)]" disabled type="button">
                 <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
               </button>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-3 pt-5 text-[12px] text-[#7a8391] md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 pt-5 text-[12px] text-white/44 md:flex-row md:items-center md:justify-between">
           <span>© 2026 B2B2G. Buyer identity data is protected by platform policy.</span>
           <span>Privacy · Terms · Security · English</span>
         </div>
