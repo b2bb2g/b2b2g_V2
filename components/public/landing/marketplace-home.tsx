@@ -133,7 +133,7 @@ function SectionHeader({
     <div className="mb-5 flex flex-col gap-4 md:mb-7 md:flex-row md:items-end md:justify-between">
       <div className="max-w-3xl">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-2 text-[26px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1d1d1f] sm:text-[36px]">
+        <h2 className="mt-2 text-[25px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1d1d1f] sm:text-[36px]">
           {title}
         </h2>
         {subtitle ? <p className="mt-3 max-w-2xl text-[15px] leading-7 text-[#667085]">{subtitle}</p> : null}
@@ -193,22 +193,22 @@ function HomeIntro({
   const topProducts = products.slice(1, 4);
 
   return (
-    <section className="bg-[#f5f8fc] py-6 sm:py-9">
+    <section className="bg-[#f5f8fc] py-5 sm:py-9">
       <PublicContainer>
-        <div className="grid min-w-0 gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-stretch">
-          <div className="flex min-w-0 flex-col justify-between rounded-[28px] border border-[#d7e4f5] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:p-7 lg:min-h-[430px]">
+        <div className="grid min-w-0 gap-4 lg:grid-cols-[0.68fr_1.32fr] lg:items-stretch">
+          <div className="flex min-w-0 flex-col justify-between rounded-[24px] border border-[#d7e4f5] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:rounded-[28px] sm:p-7 lg:min-h-[410px]">
             <div>
               <BadgePill tone="blue">Global B2B Marketplace</BadgePill>
-              <h1 className="mt-5 max-w-full text-[36px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:text-[56px] lg:text-[64px]">
+              <h1 className="mt-4 max-w-[330px] text-[32px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:mt-5 sm:max-w-full sm:text-[56px] lg:text-[62px]">
                 Source verified products with confidence.
               </h1>
-              <p className="mt-4 max-w-xl text-[15px] leading-7 text-[#667085] sm:text-[17px]">
+              <p className="mt-3 line-clamp-3 max-w-[330px] text-[14px] leading-6 text-[#667085] sm:mt-4 sm:max-w-xl sm:text-[17px] sm:leading-7">
                 Browse approved supplier products, protected demand signals, and trade programs in one controlled B2B commerce home.
               </p>
             </div>
-            <div className="mt-7 grid gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+            <div className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
               {["Verified suppliers", "Private buyer demand", "Admin-reviewed exposure"].map((item) => (
-                <span className="min-w-0 rounded-[16px] border border-[#d7e4f5] bg-[#f5f8fc] px-3 py-3 text-[13px] font-semibold text-[#344054] sm:rounded-[18px] sm:px-4" key={item}>
+                <span className="min-w-0 rounded-[14px] border border-[#d7e4f5] bg-[#f5f8fc] px-3 py-2.5 text-[12px] font-semibold text-[#344054] sm:rounded-[18px] sm:px-4 sm:py-3 sm:text-[13px]" key={item}>
                   {item}
                 </span>
               ))}
@@ -217,8 +217,8 @@ function HomeIntro({
 
           <div className="grid min-w-0 gap-4">
             {spotlight ? (
-              <Link className="group grid min-w-0 overflow-hidden rounded-[28px] border border-[#d7e4f5] bg-white shadow-[0_22px_70px_rgba(15,23,42,0.055)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] md:grid-cols-[0.95fr_1.05fr]" href={spotlight.href}>
-                <div className="relative aspect-[4/3] min-h-[220px] overflow-hidden bg-[#eef4fb] md:aspect-auto md:min-h-full">
+              <Link className="group grid min-w-0 overflow-hidden rounded-[24px] border border-[#d7e4f5] bg-white shadow-[0_22px_70px_rgba(15,23,42,0.055)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] sm:rounded-[28px] md:grid-cols-[0.95fr_1.05fr]" href={spotlight.href}>
+                <div className="relative aspect-[16/10] min-h-[180px] overflow-hidden bg-[#eef4fb] sm:min-h-[220px] md:aspect-auto md:min-h-full">
                   <Image
                     alt={spotlight.imageAlt}
                     className="object-cover transition duration-700 group-hover:scale-[1.035]"
@@ -237,7 +237,7 @@ function HomeIntro({
                 <div className="flex min-w-0 max-w-full flex-col justify-between p-5 sm:p-7">
                   <div>
                     <Eyebrow>Featured product</Eyebrow>
-                    <h2 className="mt-3 line-clamp-2 text-[30px] font-semibold leading-[1.06] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
+                    <h2 className="mt-3 line-clamp-2 text-[27px] font-semibold leading-[1.06] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
                       {spotlight.title}
                     </h2>
                     <p className="mt-3 text-[15px] font-semibold text-[#515966]">{spotlight.supplierName}</p>
@@ -256,10 +256,10 @@ function HomeIntro({
               </Link>
             ) : null}
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-3 md:grid-cols-3">
               {topProducts.map((item) => (
-                <Link className="group grid grid-cols-[92px_minmax(0,1fr)] gap-3 rounded-[22px] border border-[#d7e4f5] bg-white p-3 shadow-[0_16px_44px_rgba(15,23,42,0.045)] transition hover:border-[#8fc1ff]" href={item.href} key={item.id}>
-                  <div className="relative aspect-square overflow-hidden rounded-[16px] bg-[#eef4fb]">
+                <Link className="group grid grid-cols-[76px_minmax(0,1fr)] gap-3 rounded-[20px] border border-[#d7e4f5] bg-white p-3 shadow-[0_16px_44px_rgba(15,23,42,0.045)] transition hover:border-[#8fc1ff] sm:grid-cols-[92px_minmax(0,1fr)]" href={item.href} key={item.id}>
+                  <div className="relative aspect-square overflow-hidden rounded-[15px] bg-[#eef4fb] sm:rounded-[16px]">
                     <Image alt={item.imageAlt} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="92px" src={item.imageUrl} />
                   </div>
                   <div className="min-w-0 py-1">
@@ -279,6 +279,35 @@ function HomeIntro({
   );
 }
 
+function CommerceQuickNav() {
+  const items = [
+    ["Commercial", "Consumer goods", "/commercial"],
+    ["Industrial", "Machinery", "/industrial"],
+    ["EPC", "Projects", "/epc"],
+    ["BUY & SELL", "RFQ board", "/buy-sell"],
+    ["Event", "Programs", "/events"],
+    ["Service", "FDA support", "/service"],
+  ] as const;
+
+  return (
+    <section className="border-y border-[#e6edf6] bg-white">
+      <PublicContainer className="py-3">
+        <nav aria-label="Marketplace discovery shortcuts" className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {items.map(([label, meta, href]) => (
+            <Link className="group flex min-w-[154px] items-center justify-between rounded-[16px] border border-[#d7e4f5] bg-[#fbfdff] px-4 py-3 text-left transition hover:border-[#8fc1ff] hover:bg-[#f5faff]" href={href} key={label}>
+              <span>
+                <span className="block text-[14px] font-semibold text-[#1d1d1f]">{label}</span>
+                <span className="mt-1 block text-[11px] font-semibold text-[#8a93a3]">{meta}</span>
+              </span>
+              <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc] opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+            </Link>
+          ))}
+        </nav>
+      </PublicContainer>
+    </section>
+  );
+}
+
 function ProductCard({
   item,
   priority = false,
@@ -288,7 +317,7 @@ function ProductCard({
 }>) {
   return (
     <Link
-      className="group flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-[#dbe6f2] bg-white transition duration-300 hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe6f2] bg-white transition duration-300 hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_22px_60px_rgba(15,23,42,0.08)]"
       href={item.href}
     >
       <div className="relative aspect-square overflow-hidden bg-[#f0f4f8]">
@@ -310,7 +339,7 @@ function ProductCard({
           ) : (
             <BadgePill tone="neutral">{item.category}</BadgePill>
           )}
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-[18px] text-[#0066cc]">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-white/95 text-[18px] text-[#0066cc] shadow-[0_10px_22px_rgba(15,23,42,0.12)]">
             <span aria-hidden="true">♡</span>
           </span>
         </div>
@@ -333,7 +362,8 @@ function ProductCard({
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc]" />
             Reviewed
           </span>
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#edf5ff] px-2.5 py-1.5 text-[11px] font-bold text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
+            Details
             <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </span>
         </div>
@@ -603,13 +633,13 @@ function UpdatesAndFaq({
   faqs: MarketplaceHomeFaq[];
 }>) {
   return (
-    <section className="bg-white py-10 sm:py-14">
+    <section className="bg-white py-8 sm:py-12">
       <PublicContainer>
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <Eyebrow>Operations desk</Eyebrow>
-            <h2 className="mt-2 text-[30px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
-              Updates and answers
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[40px]">
+              Marketplace updates
             </h2>
           </div>
           <p className="max-w-xl text-[14px] leading-6 text-[#667085]">
@@ -678,9 +708,9 @@ function MarketplaceFooter() {
   ];
 
   return (
-    <footer className="border-t border-[#e4edf7] bg-[#f5f8fc] text-[#1d1d1f]">
-      <PublicContainer className="py-10 sm:py-12">
-        <div className="grid gap-8 border-b border-[#d7e4f5] pb-8 lg:grid-cols-[1fr_2fr_0.95fr]">
+    <footer className="border-t border-[#e4edf7] bg-[#f7faff] text-[#1d1d1f]">
+      <PublicContainer className="py-8 sm:py-10">
+        <div className="grid gap-7 border-b border-[#d7e4f5] pb-7 lg:grid-cols-[1fr_2fr_0.95fr]">
           <div>
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-[13px] bg-[#0066cc] text-[12px] font-black text-white">B2</span>
@@ -728,6 +758,7 @@ export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeCo
   return (
     <main className="marketplace-home-root overflow-x-hidden bg-white text-[#1d1d1f]">
       <HomeIntro products={config.premiumProducts} />
+      <CommerceQuickNav />
       <PremiumCatalog products={config.premiumProducts} />
       <MarketActivity buyers={config.verifiedBuyers} events={config.events} requests={config.buyerRequests} />
       <ShowcaseAndAds banners={config.adBanners} showcases={config.showcases} />
