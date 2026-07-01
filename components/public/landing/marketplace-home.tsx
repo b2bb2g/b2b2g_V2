@@ -249,7 +249,7 @@ function ProductRail({
   products: MarketplaceHomeProduct[];
 }>) {
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2 pr-4 [scrollbar-width:none] md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+    <div className="max-w-[calc(100vw-32px)] overscroll-x-contain flex gap-3 overflow-x-auto pb-2 pr-4 [scrollbar-width:none] md:grid md:max-w-none md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
       {products.map((item, index) => (
         <div className="w-[78vw] max-w-[320px] shrink-0 md:w-auto md:max-w-none md:shrink" key={item.id}>
           <ProductCard item={item} priority={index < priorityCount} />
@@ -259,7 +259,88 @@ function ProductRail({
   );
 }
 
-function OpeningStage({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
+function OpeningFeatureCard({
+  item,
+}: Readonly<{
+  item: MarketplaceHomeProduct;
+}>) {
+  return (
+    <Link className="group grid min-h-[420px] w-full max-w-[calc(100vw-32px)] overflow-hidden rounded-[32px] border border-[#dce7f6] bg-white shadow-[0_28px_80px_rgba(15,23,42,0.10)] transition hover:-translate-y-1 hover:border-[#9cc4f7] lg:max-w-none lg:grid-cols-[1.05fr_0.95fr]" href={item.href}>
+      <div className="relative min-h-[250px] overflow-hidden bg-[#f4f7fb] lg:min-h-full">
+        <Image
+          alt={item.imageAlt}
+          className="object-cover transition duration-700 group-hover:scale-[1.035]"
+          fill
+          priority
+          sizes="(max-width: 1024px) 92vw, 520px"
+          src={item.imageUrl}
+        />
+        <div className="absolute left-4 top-4">
+          <MarkBadge tone="blue">
+            <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
+            Featured
+          </MarkBadge>
+        </div>
+      </div>
+      <div className="flex min-w-0 flex-col justify-between p-6 sm:p-8">
+        <div className="min-w-0">
+          <Eyebrow>Supplier product spotlight</Eyebrow>
+          <h2 className="mt-4 max-w-[calc(100vw-64px)] text-[34px] font-semibold leading-[1.02] tracking-[-0.035em] text-[#202124] [overflow-wrap:anywhere] sm:max-w-none sm:text-[48px]">
+            {item.title}
+          </h2>
+          <p className="mt-4 max-w-[calc(100vw-64px)] text-[16px] font-semibold text-[#606672] [overflow-wrap:anywhere] sm:max-w-none">{item.supplierName}</p>
+          <p className="mt-5 max-w-[calc(100vw-64px)] text-[16px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:max-w-md">{item.description}</p>
+        </div>
+        <div className="mt-8 flex items-center justify-between border-t border-[#e3ebf7] pt-5">
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#f4f8ff] px-4 py-2 text-[13px] font-semibold text-[#0b63ce]">
+            <ShieldCheckIcon aria-hidden="true" className="h-4 w-4" />
+            Protected RFQ path
+          </span>
+          <span className="grid h-11 w-11 place-items-center rounded-full bg-[#0b63ce] text-white transition group-hover:translate-x-1">
+            <ArrowRightIcon aria-hidden="true" className="h-5 w-5" />
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function OpeningSignalCard({
+  eyebrow,
+  imageAlt,
+  imageUrl,
+  meta,
+  title,
+}: Readonly<{
+  eyebrow: string;
+  imageAlt: string;
+  imageUrl: string;
+  meta: string;
+  title: string;
+}>) {
+  return (
+    <article className="grid w-full max-w-[calc(100vw-32px)] grid-cols-[92px_minmax(0,1fr)] gap-4 rounded-[24px] border border-[#dce7f6] bg-white p-3 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:max-w-none">
+      <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#f4f7fb]">
+        <Image alt={imageAlt} className="object-cover" fill sizes="92px" src={imageUrl} />
+      </div>
+      <div className="min-w-0 py-1">
+        <p className="text-[11px] font-bold uppercase tracking-[0.10em] text-[#0b63ce]">{eyebrow}</p>
+        <h3 className="mt-2 line-clamp-2 text-[18px] font-semibold leading-[1.14] text-[#202124]">{title}</h3>
+        <p className="mt-2 truncate text-[13px] font-semibold text-[#858891]">{meta}</p>
+      </div>
+    </article>
+  );
+}
+
+function OpeningStage({
+  event,
+  product,
+  request,
+}: Readonly<{
+  event: MarketplaceHomeEvent;
+  product: MarketplaceHomeProduct;
+  request: MarketplaceHomeRequest;
+}>) {
   const trustItems = [
     { desktop: "Verified suppliers", mobile: "Verified" },
     { desktop: "Protected buyer identity", mobile: "Protected" },
@@ -268,33 +349,46 @@ function OpeningStage({ products }: Readonly<{ products: MarketplaceHomeProduct[
   ];
 
   return (
-    <section className="bg-[#f3f7fd] py-7 sm:py-14">
+    <section className="overflow-hidden bg-[#f3f7fd] py-8 sm:py-14">
       <PublicContainer>
-        <div className="mb-5 flex min-w-0 flex-col gap-4 overflow-hidden lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-4xl">
-            <MarkBadge tone="soft">Global B2B Marketplace</MarkBadge>
-            <h1 className="mt-4 max-w-4xl text-[30px] font-semibold leading-[1.04] tracking-[-0.035em] text-[#202124] [overflow-wrap:anywhere] sm:mt-5 sm:text-[52px] lg:text-[64px]">
-              <span className="block sm:inline">Source verified products</span>
-              <span className="block sm:inline"> from approved</span>
-              <span className="block sm:inline"> global suppliers.</span>
-            </h1>
-            <p className="mt-3 max-w-[28rem] text-[15px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:mt-4 sm:max-w-2xl sm:text-[18px]">
-              <span className="block sm:inline">Approved products.</span>
-              <span className="block sm:inline"> Protected buyer demand.</span>
-              <span className="block sm:inline"> Built for B2B sourcing.</span>
-            </p>
+        <div className="grid gap-7 lg:grid-cols-[0.88fr_1.12fr] lg:items-end">
+          <div className="min-w-0 max-w-[calc(100vw-32px)] lg:max-w-none">
+            <div className="max-w-[calc(100vw-32px)] sm:max-w-3xl">
+              <MarkBadge tone="soft">Global B2B Marketplace</MarkBadge>
+              <h1 className="mt-4 max-w-[calc(100vw-32px)] text-[36px] font-semibold leading-[0.98] tracking-[-0.045em] text-[#202124] [overflow-wrap:anywhere] sm:mt-5 sm:text-[60px] lg:text-[76px]">
+                Trade-ready products for serious global sourcing.
+              </h1>
+              <p className="mt-4 max-w-[calc(100vw-32px)] text-[16px] leading-7 text-[#4f535b] [overflow-wrap:anywhere] sm:max-w-xl sm:text-[18px]">
+                Browse approved supplier products, protected RFQ demand, and trade programs in one marketplace-grade operating surface.
+              </p>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:max-w-xl">
+              {trustItems.map((item) => (
+                <span className="min-w-0 rounded-[16px] bg-white px-3 py-2.5 text-[12px] font-semibold leading-tight text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.05)] [overflow-wrap:anywhere] sm:rounded-full sm:px-4 sm:py-3 sm:text-[14px]" key={item.desktop}>
+                  <span className="sm:hidden">{item.mobile}</span>
+                  <span className="hidden sm:inline">{item.desktop}</span>
+                </span>
+              ))}
+            </div>
+            <div className="mt-5 grid gap-3 sm:max-w-xl sm:grid-cols-2">
+              <OpeningSignalCard
+                eyebrow="Protected demand"
+                imageAlt={request.imageAlt ?? request.title}
+                imageUrl={request.imageUrl ?? product.imageUrl}
+                meta={request.quantity}
+                title={request.title}
+              />
+              <OpeningSignalCard
+                eyebrow="Trade program"
+                imageAlt={event.imageAlt}
+                imageUrl={event.imageUrl}
+                meta={event.locationLabel}
+                title={event.title}
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-2 lg:w-[520px]">
-            {trustItems.map((item) => (
-              <span className="min-w-0 rounded-[16px] bg-white px-3 py-2.5 text-[12px] font-semibold leading-tight text-[#0b63ce] shadow-[0_12px_30px_rgba(15,23,42,0.05)] [overflow-wrap:anywhere] sm:rounded-full sm:px-4 sm:py-3 sm:text-[14px]" key={item.desktop}>
-                <span className="sm:hidden">{item.mobile}</span>
-                <span className="hidden sm:inline">{item.desktop}</span>
-              </span>
-            ))}
-          </div>
+          <OpeningFeatureCard item={product} />
         </div>
-
-        <ProductRail priorityCount={2} products={products.slice(0, 4)} />
       </PublicContainer>
     </section>
   );
@@ -603,7 +697,7 @@ function MarketplaceFooter() {
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
     <main className="marketplace-home-root bg-white text-[#202124]">
-      <OpeningStage products={config.premiumProducts} />
+      <OpeningStage event={config.events[0]} product={config.premiumProducts[0]} request={config.buyerRequests[0]} />
       <ProductShelf products={config.premiumProducts} />
       <MarketplaceSignals buyers={config.verifiedBuyers} events={config.events} requests={config.buyerRequests} />
       <ShowcaseAndAds banners={config.adBanners} showcases={config.showcases} />

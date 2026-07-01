@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-30T18:15:21.329Z",
+  "lastUpdated": "2026-07-01T03:32:43.404Z",
   "activeFeatures": [
     "landing-gallery-carousel",
     "landing-trust-infrastructure",
@@ -105,10 +105,11 @@
       "documents": {}
     },
     "landing": {
-      "phase": "report",
+      "phase": "completed",
       "matchRate": null,
       "iterationCount": 0,
-      "documents": {}
+      "documents": {},
+      "completedAt": "2026-07-01T03:32:43.402Z"
     }
   },
   "pipeline": {
@@ -119,7 +120,7 @@
   "session": {
     "startedAt": "2026-06-18T08:29:41.099Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-30T18:15:21.329Z"
+    "lastActivity": "2026-07-01T03:32:43.404Z"
   },
   "history": [
     {
@@ -970,6 +971,13 @@
       "phase": "act",
       "nextPhase": "report",
       "timestamp": "2026-06-30T18:15:21.329Z"
+    },
+    {
+      "feature": "landing",
+      "action": "phase_complete",
+      "phase": "report",
+      "nextPhase": "completed",
+      "timestamp": "2026-07-01T03:32:43.404Z"
     }
   ]
 }

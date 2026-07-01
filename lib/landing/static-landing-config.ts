@@ -877,6 +877,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
   ],
   premiumProducts: [
     ...marketplace.premiumProducts.items,
+    ...marketplace.latestProducts.items.slice(0, 3),
   ],
   showcases: [
     ...marketplace.productShowcase.items,
