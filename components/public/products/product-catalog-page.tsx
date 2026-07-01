@@ -9,8 +9,9 @@ import {
   GlobeIcon,
   ShieldCheckIcon,
 } from "@/components/public/icons";
+import { ProductDetailTabs, type ProductDetailTabItem } from "@/components/public/products/product-detail-tabs";
 import { ProductImageGallery } from "@/components/public/products/product-image-gallery";
-import type { StaticMarketplaceProduct } from "@/lib/products/static-products";
+import type { StaticMarketplaceProduct, StaticProductCertificate } from "@/lib/products/static-products";
 
 type ProductCatalogPageProps = {
   products: StaticMarketplaceProduct[];
@@ -232,19 +233,6 @@ function QuickFactPill({
   );
 }
 
-function ProductSpecs({ specs }: Readonly<{ specs: ProductSpec[] }>) {
-  return (
-    <div className="grid gap-2">
-      {specs.map((spec) => (
-        <div className="flex min-w-0 flex-col gap-1 rounded-2xl bg-[#f5f8fc] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4" key={spec.label}>
-          <span className="text-[12px] font-black uppercase tracking-[0.1em] text-[#667085]">{spec.label}</span>
-          <span className="min-w-0 text-[13px] font-semibold text-[#1d1d1f] sm:text-right">{spec.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function DetailPanel({
   children,
   eyebrow,
@@ -265,6 +253,49 @@ function DetailPanel({
   );
 }
 
+function ProductActionButton({ label }: Readonly<{ label: string }>) {
+  return (
+    <button
+      className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#dbe6f2] bg-white px-4 text-[12px] font-black text-[#344054] transition hover:border-[#93c5fd] hover:text-[#0066cc]"
+      disabled
+      type="button"
+    >
+      {label}
+    </button>
+  );
+}
+
+function CertificatePanel({ certificates }: Readonly<{ certificates: StaticProductCertificate[] }>) {
+  return (
+    <section className="mt-4 rounded-[24px] border border-[#dbe6f2] bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)]">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066cc]">Certification</p>
+          <h2 className="mt-1 text-[18px] font-semibold tracking-[-0.025em] text-[#101828]">Trust documents</h2>
+        </div>
+        <span className="rounded-full bg-[#edf5ff] px-3 py-1.5 text-[10px] font-black text-[#0066cc]">
+          {certificates.length} items
+        </span>
+      </div>
+      <div className="mt-4 grid gap-2">
+        {certificates.map((certificate) => (
+          <article className="rounded-2xl bg-[#f8fbff] px-4 py-3" key={certificate.id}>
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
+                <p className="truncate text-[13px] font-semibold text-[#101828]">{certificate.title}</p>
+                <p className="mt-1 text-[11px] font-bold text-[#667085]">{certificate.scope}</p>
+              </div>
+              <span className="inline-flex w-fit max-w-full shrink-0 rounded-full bg-white px-2.5 py-1 text-[10px] font-black leading-4 text-[#0066cc] ring-1 ring-[#dbe6f2]">
+                {certificate.status}
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function DetailBulletList({ items }: Readonly<{ items: string[] }>) {
   return (
     <ul className="space-y-3">
@@ -276,6 +307,92 @@ function DetailBulletList({ items }: Readonly<{ items: string[] }>) {
       ))}
     </ul>
   );
+}
+
+function getProductDetailTabs(
+  product: StaticMarketplaceProduct,
+  detailContent: ProductDetailContent,
+): ProductDetailTabItem[] {
+  const groupedRegistrationFields = product.registrationFields.reduce<Record<string, string[]>>((groups, field) => {
+    const visibilityLabel = field.publicDisplay === "hidden" ? "admin-only" : field.publicDisplay;
+    groups[field.group] = [
+      ...(groups[field.group] ?? []),
+      `${field.label} - ${field.requirement}, ${visibilityLabel}`,
+    ];
+    return groups;
+  }, {});
+
+  return [
+    {
+      description: "Public product information is organized for quick buyer review without exposing pricing or buyer contact data.",
+      eyebrow: "Product details",
+      id: "product-details",
+      sections: [
+        {
+          bullets: detailContent.highlights,
+          description: detailContent.summary,
+          title: "Product summary",
+        },
+        {
+          bullets: detailContent.applications,
+          title: "Applications",
+        },
+        {
+          specs: detailContent.tradeReadiness,
+          title: "Trade readiness",
+        },
+        {
+          bullets: Object.entries(groupedRegistrationFields).map(([group, fields]) => `${group}: ${fields.join("; ")}`),
+          title: "Supplier registration fields",
+        },
+      ],
+      title: "Product Details",
+    },
+    {
+      description: "Supplier information stays trust-focused. Private contacts and buyer-facing personal fields are not displayed publicly.",
+      eyebrow: "Company profile",
+      id: "company-information",
+      sections: [
+        {
+          specs: detailContent.supplierProfile,
+          title: "Supplier profile",
+        },
+        {
+          bullets: detailContent.supplierCapability,
+          title: "Supplier capability",
+        },
+        {
+          bullets: product.certificates.map((certificate) => `${certificate.title}: ${certificate.status}`),
+          title: "Certification status",
+        },
+        {
+          bullets: detailContent.documentReadiness,
+          title: "Document readiness",
+        },
+      ],
+      title: "Company Information",
+    },
+    {
+      description: "Reviews are designed for verified marketplace interactions. Public reviews stay disabled until moderation and audit rules are ready.",
+      eyebrow: "Reviews",
+      id: "review",
+      sections: [
+        {
+          description: "No public reviews are displayed yet. Future reviews should be tied to verified transactions, moderation, and audit logging.",
+          title: "Review status",
+        },
+        {
+          bullets: detailContent.reviewChecklist,
+          title: "Buyer-safe checklist",
+        },
+        {
+          bullets: detailContent.catalogNotes,
+          title: "Catalog and inquiry policy",
+        },
+      ],
+      title: "Review",
+    },
+  ];
 }
 
 function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
@@ -447,6 +564,7 @@ export function ProductDetailPage({
 }: Readonly<ProductDetailPageProps>) {
   const detailContent = getProductDetailContent(product);
   const specs = getProductSpecs(product);
+  const tabs = getProductDetailTabs(product, detailContent);
   const galleryBadges = [
     ...(product.isVerifiedSupplier ? ["Verified supplier"] : []),
     product.category,
@@ -465,12 +583,22 @@ export function ProductDetailPage({
           </nav>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
-            <ProductImageGallery badges={galleryBadges} images={product.galleryImages} productTitle={product.title} />
+            <div className="min-w-0">
+              <ProductImageGallery badges={galleryBadges} images={product.galleryImages} productTitle={product.title} />
+              <CertificatePanel certificates={product.certificates} />
+            </div>
 
             <article className="min-w-0 overflow-hidden rounded-[28px] border border-[#dbe6f2] bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.055)] sm:p-7">
-              <div className="flex flex-wrap items-center gap-2">
-                <ProductBadge tone="light">Managed RFQ product</ProductBadge>
-                {product.isVerifiedSupplier ? <ProductBadge tone="white">Verified supplier</ProductBadge> : null}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <ProductBadge tone="light">Managed RFQ product</ProductBadge>
+                  {product.isVerifiedSupplier ? <ProductBadge tone="white">Verified supplier</ProductBadge> : null}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <ProductActionButton label="Share" />
+                  <ProductActionButton label="Save" />
+                  <ProductActionButton label="QR" />
+                </div>
               </div>
               <h1 className="mt-5 max-w-[300px] text-[38px] font-semibold leading-[1.02] tracking-[-0.055em] text-[#101828] sm:max-w-none sm:text-[58px]">
                 {product.title}
@@ -528,49 +656,8 @@ export function ProductDetailPage({
 
       <section className="py-10 sm:py-14">
         <ProductContainer>
-          <ProductSectionHeader
-            description="The detail page now keeps the buying review focused: what the product is, where it is used, what trade information is available, and what stays protected."
-            eyebrow="Product information"
-            title="Everything needed for first review"
-          />
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-            <DetailPanel eyebrow="Overview" title="Product summary">
-              <p className="text-[14px] leading-7 text-[#667085]">{detailContent.summary}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {detailContent.keywords.map((keyword) => (
-                  <span className="rounded-full bg-[#edf5ff] px-3 py-1.5 text-[11px] font-bold text-[#0066cc]" key={keyword}>
-                    {keyword}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-6">
-                <h4 className="text-[13px] font-black uppercase tracking-[0.12em] text-[#101828]">Key points</h4>
-                <div className="mt-3">
-                  <DetailBulletList items={detailContent.highlights} />
-                </div>
-              </div>
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Specs" title="Trade readiness">
-              <ProductSpecs specs={detailContent.tradeReadiness} />
-              <div className="mt-5 rounded-2xl bg-[#edf5ff] p-4">
-                <p className="text-[12px] font-bold leading-5 text-[#0066cc]">
-                  Pricing, buyer identity, and private contact data are intentionally unavailable on public product pages.
-                </p>
-              </div>
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Application" title="Use cases and review">
-              <DetailBulletList items={[...detailContent.applications, ...detailContent.reviewChecklist.slice(0, 2)]} />
-            </DetailPanel>
-
-            <DetailPanel eyebrow="Supplier" title="Supplier and documents">
-              <ProductSpecs specs={detailContent.supplierProfile} />
-              <div className="mt-5">
-                <DetailBulletList items={detailContent.documentReadiness} />
-              </div>
-            </DetailPanel>
-
+          <ProductDetailTabs tabs={tabs} />
+          <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
             <div className="rounded-[28px] bg-[#08111f] p-6 text-white shadow-[0_18px_50px_rgba(15,23,42,0.14)] lg:col-span-2">
               <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#9ecbff]">Managed marketplace path</p>
               <h3 className="mt-3 max-w-2xl text-[28px] font-semibold leading-[1.05] tracking-[-0.04em]">
