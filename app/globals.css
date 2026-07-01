@@ -11306,6 +11306,8 @@ button.apple-footer-link {
   background: rgb(255 255 255 / 0.9);
   box-shadow: 0 10px 36px rgb(15 23 42 / 0.04);
   backdrop-filter: saturate(180%) blur(24px);
+  width: 100%;
+  max-width: 100dvw;
   overflow-x: clip;
 }
 
@@ -11316,6 +11318,8 @@ button.apple-footer-link {
 
 .marketplace-public-header-inner {
   box-sizing: border-box;
+  width: 100%;
+  max-width: 100dvw;
   min-height: 72px;
   padding-inline: clamp(18px, 5vw, 64px);
   gap: clamp(18px, 3.4vw, 52px);
@@ -11413,13 +11417,20 @@ button.apple-footer-link {
 
   .marketplace-header-mobile-nav {
     box-sizing: border-box;
+    display: flex;
     width: 100%;
+    max-width: 100dvw;
     gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
     padding: 8px 16px 10px;
     background: rgb(255 255 255 / 0.96);
     mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+    overscroll-behavior-inline: contain;
     scroll-padding-inline: 16px;
     scroll-snap-type: x proximity;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   .marketplace-header-mobile-link {
