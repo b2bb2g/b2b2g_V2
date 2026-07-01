@@ -30,13 +30,19 @@ export function ProductTile({
   priority?: boolean;
 }>) {
   return (
-    <Link className="block h-full" draggable={false} href={item.href} onClick={onClick}>
-      <article className="store-card">
+    <Link
+      aria-label={`${t("content.viewDetails")}: ${item.title}`}
+      className="group block h-full focus:outline-none"
+      draggable={false}
+      href={item.href}
+      onClick={onClick}
+    >
+      <article className="store-card transition duration-200 group-hover:-translate-y-0.5 group-hover:border-action-blue/35 group-hover:shadow-[0_18px_44px_rgba(15,23,42,0.10)] group-focus-visible:ring-2 group-focus-visible:ring-action-blue/40">
         <div className="relative aspect-square overflow-hidden rounded-[8px] bg-canvas-parchment">
           {item.imageUrl ? (
             <Image
               alt={item.imageAlt ?? item.title}
-              className="object-cover"
+              className="object-cover transition duration-300 group-hover:scale-[1.03]"
               draggable={false}
               fill
               priority={priority}
@@ -62,8 +68,8 @@ export function ProductTile({
           <p className="type-caption mt-2 line-clamp-2 text-calm-ink-muted-80">
             {item.summary}
           </p>
-          <p className="type-button-utility mt-4 text-action-blue">
-            {t("content.requestQuotation")}
+          <p className="type-button-utility mt-auto pt-4 text-action-blue">
+            {t("content.viewDetails")} <span aria-hidden="true">-&gt;</span>
           </p>
         </div>
       </article>
@@ -158,6 +164,12 @@ export function ProductCarousel({
 
     setIsDragging(false);
     updateScrollMetrics();
+
+    if (didDragRef.current) {
+      window.setTimeout(() => {
+        didDragRef.current = false;
+      }, 250);
+    }
   }
 
   function handleTileClick(event: MouseEvent<HTMLAnchorElement>) {
