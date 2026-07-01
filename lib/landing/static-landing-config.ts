@@ -332,7 +332,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Industrial",
         description: "High-pressure valve system for factory utility lines.",
-        href: "/products",
+        href: "/industrial/latest-industrial-valve",
         id: "latest-industrial-valve",
         imageAlt: "Industrial valve",
         imageUrl: industrialPumpImage,
@@ -343,7 +343,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Machinery",
         description: "Efficient motor unit for industrial automation projects.",
-        href: "/products",
+        href: "/industrial/latest-electric-motor",
         id: "latest-electric-motor",
         imageAlt: "Electric motor",
         imageUrl: generatorImage,
@@ -354,7 +354,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Medical",
         description: "Digital monitor for clinical and industrial health environments.",
-        href: "/products",
+        href: "/commercial/latest-medical-monitor",
         id: "latest-medical-monitor",
         imageAlt: "Medical monitor",
         imageUrl: electronicsImage,
@@ -365,7 +365,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Lighting",
         description: "Energy-saving LED high bay light for warehouse sites.",
-        href: "/products",
+        href: "/commercial/latest-led-high-bay",
         id: "latest-led-high-bay",
         imageAlt: "LED high bay light",
         imageUrl: warehouseImage,
@@ -376,7 +376,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Packaging",
         description: "Packaging machine line for export-ready production.",
-        href: "/products",
+        href: "/industrial/latest-packaging-machine",
         id: "latest-packaging-machine",
         imageAlt: "Packaging machine",
         imageUrl: packagingImage,
@@ -387,7 +387,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Industrial",
         description: "Air compressor package for plant operations.",
-        href: "/products",
+        href: "/industrial/latest-air-compressor",
         id: "latest-air-compressor",
         imageAlt: "Air compressor",
         imageUrl: industrialPumpImage,
@@ -398,7 +398,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Chemicals",
         description: "Chemical raw materials prepared for controlled sourcing.",
-        href: "/products",
+        href: "/commercial/latest-chemical-raw-materials",
         id: "latest-chemical-raw-materials",
         imageAlt: "Chemical raw materials",
         imageUrl: labImage,
@@ -409,7 +409,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Materials",
         description: "Steel pipe bundle for industrial and EPC projects.",
-        href: "/products",
+        href: "/epc/latest-steel-pipe",
         id: "latest-steel-pipe",
         imageAlt: "Steel pipe",
         imageUrl: warehouseImage,
@@ -420,7 +420,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Energy",
         description: "Solar inverter package for distributed energy projects.",
-        href: "/products",
+        href: "/epc/latest-solar-inverter",
         id: "latest-solar-inverter",
         imageAlt: "Solar inverter",
         imageUrl: solarImage,
@@ -431,7 +431,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Industrial",
         description: "Industrial pump for water and chemical transfer lines.",
-        href: "/products",
+        href: "/industrial/latest-industrial-pump",
         id: "latest-industrial-pump",
         imageAlt: "Industrial pump",
         imageUrl: industrialPumpImage,
@@ -445,7 +445,7 @@ const marketplace: LandingMarketplaceConfig = {
     subtitle: "Fresh marketplace listings prepared for managed inquiry flow.",
     title: "Latest Products",
     viewAll: {
-      href: "/products",
+      href: "/commercial",
       isEnabled: false,
       label: "View all products",
     },
@@ -456,7 +456,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Premium",
         description: "Heavy-duty pump for industrial water, cooling, and process utility lines.",
-        href: "/products",
+        href: "/industrial/premium-industrial-pump",
         id: "premium-industrial-pump",
         imageAlt: "Industrial pump product",
         imageUrl: industrialPumpImage,
@@ -467,7 +467,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Premium",
         description: "Generator set for facility backup power and industrial sites.",
-        href: "/products",
+        href: "/industrial/premium-generator-set",
         id: "premium-generator-set",
         imageAlt: "Generator set product",
         imageUrl: generatorImage,
@@ -478,7 +478,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Premium",
         description: "Solar panel package for commercial and utility-scale projects.",
-        href: "/products",
+        href: "/epc/premium-solar-panel",
         id: "premium-solar-panel",
         imageAlt: "Solar panel product",
         imageUrl: solarImage,
@@ -489,7 +489,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Premium",
         description: "Precision CNC machining capacity for export manufacturing.",
-        href: "/products",
+        href: "/industrial/premium-cnc-machining",
         id: "premium-cnc-machining",
         imageAlt: "CNC machining product",
         imageUrl: cncImage,
@@ -500,7 +500,7 @@ const marketplace: LandingMarketplaceConfig = {
       {
         category: "Premium",
         description: "Chemical raw materials for controlled sourcing and review.",
-        href: "/products",
+        href: "/commercial/premium-chemical-raw-materials",
         id: "premium-chemical-raw-materials",
         imageAlt: "Chemical raw materials product",
         imageUrl: labImage,
@@ -588,7 +588,7 @@ const marketplace: LandingMarketplaceConfig = {
     items: [
       {
         badge: "Premium Supplier",
-        cta: { href: "/products", isEnabled: false, label: "View More" },
+        cta: { href: "/industrial", isEnabled: false, label: "View More" },
         description: "Industrial Power Solutions for a Stronger Tomorrow",
         id: "top-banner-industrial-power",
         imageAlt: "Industrial power solution product",
