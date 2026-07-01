@@ -1,4 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getMarketplaceProducts } from "@/lib/products/marketplace-products";
+import type { StaticMarketplaceProduct } from "@/lib/products/static-products";
 import { getSampleItem, mergeWithSamples } from "@/lib/sample/public-samples";
 import type { Database } from "@/types/database";
 
@@ -221,6 +223,22 @@ function productToItem(
   };
 }
 
+function marketplaceProductToCommercialItem(
+  product: StaticMarketplaceProduct,
+): PublicContentItem {
+  return {
+    companyName: product.supplierName,
+    createdAt: "2026-01-01T00:00:00.000Z",
+    href: product.detailHref,
+    id: product.id,
+    imageAlt: product.imageAlt,
+    imageUrl: product.imageUrl,
+    meta: product.category,
+    summary: product.description,
+    title: product.title,
+  };
+}
+
 function industrialToItem(
   post: IndustrialPostRow,
   companies: Map<string, CompanyLite>,
@@ -300,30 +318,13 @@ function buyRequestToItem(
 export async function getPublicContentList(
   kind: PublicContentKind,
 ): Promise<PublicContentItem[]> {
-  const supabase = await createSupabaseServerClient();
-
   if (kind === "commercial") {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .match(publicFilters)
-      .eq("publish_status", "published")
-      .is("deleted_at", null)
-      .order("created_at", { ascending: false })
-      .limit(24);
+    const products = await getMarketplaceProducts();
 
-    throwIfError(error);
-    const rows = data ?? [];
-    const [companies, industries] = await Promise.all([
-      getCompanies(uniqueIds(rows.map((row) => row.company_id))),
-      getIndustries(uniqueIds(rows.map((row) => row.industry_id))),
-    ]);
-
-    return mergeWithSamples(
-      "commercial",
-      rows.map((row) => productToItem(row, companies, industries)),
-    );
+    return products.map(marketplaceProductToCommercialItem);
   }
+
+  const supabase = await createSupabaseServerClient();
 
   if (kind === "industrial") {
     const { data, error } = await supabase
