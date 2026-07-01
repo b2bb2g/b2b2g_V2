@@ -50,6 +50,7 @@ export type MarketplaceHomeEvent = {
 
 export type MarketplaceHomeChannel = {
   ctaLabel: string;
+  description: string;
   href: string;
   id: string;
   items: {
@@ -61,6 +62,7 @@ export type MarketplaceHomeChannel = {
     summary: string;
     title: string;
   }[];
+  statusLabel: string;
   title: string;
 };
 
@@ -366,56 +368,48 @@ function EventRow({ item }: Readonly<{ item: MarketplaceHomeEvent }>) {
 }
 
 function ChannelCard({ channel }: Readonly<{ channel: MarketplaceHomeChannel }>) {
-  const [featuredItem, ...secondaryItems] = channel.items;
-
-  if (!featuredItem) return null;
+  const [featuredItem, secondaryItem] = channel.items;
 
   return (
-    <article className="group flex min-w-[280px] snap-start flex-col overflow-hidden rounded-[22px] border border-[#d7e4f5] bg-white shadow-[0_18px_54px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_26px_76px_rgba(15,23,42,0.1)] sm:min-w-0">
-      <Link className="block" href={featuredItem.href}>
-        <div className="relative aspect-[16/10] overflow-hidden bg-[#eef4fb]">
-          <Image
-            alt={featuredItem.imageAlt}
-            className="object-cover transition duration-700 group-hover:scale-[1.035]"
-            fill
-            sizes="(max-width: 640px) 82vw, (max-width: 1024px) 42vw, 340px"
-            src={featuredItem.imageUrl}
-          />
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#07111f]/44 to-transparent" />
-          <span className="absolute left-3 top-3 rounded-full bg-white/94 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.1em] text-[#0066cc] shadow-[0_10px_26px_rgba(15,23,42,0.12)]">
-            {channel.title}
+    <article className="group flex min-w-[260px] snap-start flex-col rounded-[22px] border border-[#d7e4f5] bg-white p-4 shadow-[0_18px_54px_rgba(15,23,42,0.045)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_26px_76px_rgba(15,23,42,0.08)] sm:min-w-0">
+      <Link className="flex flex-1 flex-col" href={channel.href}>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <span className="inline-flex rounded-full bg-[#edf5ff] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-[#0066cc]">
+              {channel.statusLabel}
+            </span>
+            <h3 className="mt-3 text-[24px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f]">
+              {channel.title}
+            </h3>
+          </div>
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#f5f8fc] text-[#0066cc] ring-1 ring-[#dbeafe] transition group-hover:bg-[#0066cc] group-hover:text-white">
+            <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
           </span>
         </div>
-        <div className="p-4">
-          <p className="text-[11px] font-black uppercase tracking-[0.1em] text-[#0066cc]">{featuredItem.meta}</p>
-          <h3 className="mt-2 line-clamp-2 min-h-[42px] text-[18px] font-semibold leading-[1.16] tracking-[-0.02em] text-[#1d1d1f]">
-            {featuredItem.title}
-          </h3>
-          <p className="mt-2 line-clamp-2 min-h-[40px] text-[13px] leading-5 text-[#667085]">
-            {featuredItem.summary}
-          </p>
-        </div>
-      </Link>
 
-      {secondaryItems.length > 0 ? (
-        <div className="mt-auto border-t border-[#e5edf7] p-3">
-          <div className="grid gap-2">
-            {secondaryItems.slice(0, 2).map((item) => (
-              <Link className="group/item grid grid-cols-[minmax(0,1fr)_24px] items-center gap-2 rounded-[14px] px-2 py-2 transition hover:bg-[#f5f8fc]" href={item.href} key={item.id}>
-                <span className="min-w-0">
-                  <span className="block truncate text-[12px] font-semibold text-[#1d1d1f]">{item.title}</span>
-                  <span className="mt-0.5 block truncate text-[11px] text-[#667085]">{item.meta}</span>
-                </span>
-                <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc] transition group-hover/item:translate-x-0.5" />
-              </Link>
-            ))}
-          </div>
-          <Link className="mt-2 inline-flex items-center gap-1.5 px-2 text-[12px] font-semibold text-[#0066cc] transition hover:text-[#004f9e]" href={channel.href}>
-            {channel.ctaLabel}
-            <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
-          </Link>
+        <p className="mt-3 min-h-[60px] text-[14px] leading-6 text-[#667085]">
+          {channel.description}
+        </p>
+
+        <div className="mt-5 grid gap-2 border-t border-[#e5edf7] pt-3">
+          {[featuredItem, secondaryItem].filter(Boolean).map((item) => (
+            <span className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-[14px] bg-[#f7faff] px-3 py-2.5" key={item.id}>
+              <span className="min-w-0">
+                <span className="block truncate text-[13px] font-semibold text-[#1d1d1f]">{item.title}</span>
+                <span className="mt-0.5 block truncate text-[11px] text-[#667085]">{item.meta}</span>
+              </span>
+              <span className="rounded-full bg-white px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#0066cc] ring-1 ring-[#dbeafe]">
+                New
+              </span>
+            </span>
+          ))}
         </div>
-      ) : null}
+
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-[13px] font-semibold text-[#0066cc]">
+          {channel.ctaLabel}
+          <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
+        </span>
+      </Link>
     </article>
   );
 }
@@ -426,12 +420,18 @@ function MarketplaceChannels({ channels }: Readonly<{ channels: MarketplaceHomeC
   return (
     <section className="bg-white py-10 sm:py-14">
       <PublicContainer>
-        <SectionHeader
-          eyebrow="Marketplace channels"
-          subtitle="The same approved public content from Commercial, Industrial, EPC, Event, BUY & SELL, Networking, Service, and Notice surfaces now appears on the home marketplace."
-          title="Explore every active marketplace lane"
-        />
-        <div className="flex snap-x gap-4 overflow-x-auto pb-3 [scrollbar-width:none] md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+        <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:items-end">
+          <div>
+            <Eyebrow>Marketplace channels</Eyebrow>
+            <h2 className="mt-2 text-[28px] font-semibold leading-[1.04] tracking-[-0.04em] text-[#1d1d1f] sm:text-[42px]">
+              One operating map for every trade lane.
+            </h2>
+          </div>
+          <p className="max-w-2xl text-[15px] leading-7 text-[#667085]">
+            Commercial products, industrial equipment, EPC opportunities, events, BUY & SELL posts, networks, and service programs use the same public surfaces as their menu pages.
+          </p>
+        </div>
+        <div className="flex snap-x gap-4 overflow-x-auto pb-3 [scrollbar-width:none] md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-3 2xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
           {channels.map((channel) => (
             <ChannelCard channel={channel} key={channel.id} />
           ))}
