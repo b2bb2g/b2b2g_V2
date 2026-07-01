@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import {
-  initialProductDraftActionState,
-  saveSupplierProductDraft,
-} from "@/lib/actions/product-draft";
+import { saveSupplierProductDraft } from "@/lib/actions/product-draft";
+import { initialProductDraftActionState } from "@/lib/actions/product-draft-state";
 import { Badge } from "@/components/shared/badge";
 import {
   DocumentCheckIcon,

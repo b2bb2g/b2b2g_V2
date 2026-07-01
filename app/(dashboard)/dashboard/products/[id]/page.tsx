@@ -8,6 +8,7 @@ type DashboardProductDraftPageProps = {
   params: Promise<{
     id: string;
   }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export const metadata: Metadata = {
@@ -16,13 +17,32 @@ export const metadata: Metadata = {
 
 export default async function DashboardProductDraftPage({
   params,
+  searchParams,
 }: DashboardProductDraftPageProps) {
   const { id } = await params;
+  const query = await searchParams;
   const draft = await getMySupplierProductDraft(id);
 
   if (!draft) {
     notFound();
   }
 
-  return <DashboardProductDraftDetailPage draft={draft} />;
+  const result = typeof query?.result === "string" ? query.result : null;
+  const error = typeof query?.error === "string" ? query.error : null;
+  const noticeMessage =
+    result === "submitted" ? t("dashboard.products.draftDetail.result.submitted") : null;
+  const errorMessage =
+    error === "missing_required"
+      ? t("dashboard.products.draftDetail.error.missingRequired")
+      : error === "submit_failed"
+        ? t("dashboard.products.draftDetail.error.submitFailed")
+        : null;
+
+  return (
+    <DashboardProductDraftDetailPage
+      draft={draft}
+      errorMessage={errorMessage}
+      noticeMessage={noticeMessage}
+    />
+  );
 }

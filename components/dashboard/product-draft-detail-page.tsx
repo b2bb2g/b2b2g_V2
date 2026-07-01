@@ -5,6 +5,7 @@ import {
   ShieldCheckIcon,
 } from "@/components/public/icons";
 import { t } from "@/lib/i18n/translation";
+import { submitSupplierProductDraftForReview } from "@/lib/actions/product-draft";
 import {
   PRODUCT_REGISTRATION_FIELD_TEMPLATE,
   type StaticProductRegistrationField,
@@ -16,6 +17,8 @@ import type {
 
 type DashboardProductDraftDetailPageProps = {
   draft: SupplierProductDraftDetail;
+  errorMessage?: string | null;
+  noticeMessage?: string | null;
 };
 
 function getFieldTemplate(fieldKey: string): StaticProductRegistrationField | undefined {
@@ -78,8 +81,12 @@ function DraftValueCard({ value }: Readonly<{ value: SupplierProductDraftValue }
 
 export function DashboardProductDraftDetailPage({
   draft,
+  errorMessage = null,
+  noticeMessage = null,
 }: Readonly<DashboardProductDraftDetailPageProps>) {
   const groupedValues = groupDraftValues(draft.values);
+  const canEditOrSubmit =
+    ["draft", "rejected"].includes(draft.approvalStatus) && draft.publishStatus === "draft";
 
   return (
     <main className="mx-auto w-full max-w-7xl px-5 py-10 sm:px-8 lg:px-10">
@@ -92,6 +99,16 @@ export function DashboardProductDraftDetailPage({
       </nav>
 
       <section className="mt-6 overflow-hidden rounded-[30px] border border-action-blue/16 bg-[linear-gradient(135deg,#ffffff_0%,#f8fbff_52%,#eaf4ff_100%)] p-6 shadow-[0_24px_70px_rgba(0,102,204,0.08)] sm:p-8 lg:p-10">
+        {noticeMessage ? (
+          <div className="mb-5 rounded-[18px] border border-status-positive/20 bg-status-positive-bg p-4 type-caption-strong text-calm-ink">
+            {noticeMessage}
+          </div>
+        ) : null}
+        {errorMessage ? (
+          <div className="mb-5 rounded-[18px] border border-status-negative/20 bg-status-negative-bg p-4 type-caption-strong text-calm-ink">
+            {errorMessage}
+          </div>
+        ) : null}
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div>
             <Badge dot={false} tone="info">
@@ -211,6 +228,38 @@ export function DashboardProductDraftDetailPage({
             </div>
           </section>
 
+          {canEditOrSubmit ? (
+            <section className="rounded-[24px] border border-action-blue/18 bg-white p-6 shadow-[0_18px_50px_rgba(0,102,204,0.055)]">
+              <p className="type-caption-strong text-action-blue">
+                {t("dashboard.products.draftDetail.submit.eyebrow")}
+              </p>
+              <h2 className="type-title-sm mt-2 text-calm-ink">
+                {t("dashboard.products.draftDetail.submit.title")}
+              </h2>
+              <p className="type-caption mt-2 text-calm-ink-muted-64">
+                {t("dashboard.products.draftDetail.submit.description")}
+              </p>
+              <form action={submitSupplierProductDraftForReview} className="mt-5">
+                <input name="product-id" type="hidden" value={draft.id} />
+                <button className="pill-primary w-full justify-center" type="submit">
+                  {t("dashboard.products.draftDetail.submit.cta")}
+                </button>
+              </form>
+            </section>
+          ) : (
+            <section className="rounded-[24px] border border-action-blue/14 bg-action-blue/5 p-6">
+              <p className="type-caption-strong text-action-blue">
+                {t("dashboard.products.draftDetail.review.eyebrow")}
+              </p>
+              <h2 className="type-title-sm mt-2 text-calm-ink">
+                {t("dashboard.products.draftDetail.review.title")}
+              </h2>
+              <p className="type-caption mt-2 text-calm-ink-muted-64">
+                {t("dashboard.products.draftDetail.review.description")}
+              </p>
+            </section>
+          )}
+
           <section className="rounded-[24px] bg-[#08111f] p-6 text-white shadow-[0_22px_60px_rgba(8,17,31,0.18)]">
             <p className="type-caption-strong text-[#9ecbff]">
               {t("dashboard.products.draftDetail.blockedTitle")}
@@ -223,12 +272,14 @@ export function DashboardProductDraftDetailPage({
             </ul>
           </section>
 
-          <Link
-            className="pill-primary justify-center"
-            href={`/dashboard/products/${draft.id}/edit`}
-          >
-            {t("dashboard.products.draftDetail.edit")}
-          </Link>
+          {canEditOrSubmit ? (
+            <Link
+              className="pill-primary justify-center"
+              href={`/dashboard/products/${draft.id}/edit`}
+            >
+              {t("dashboard.products.draftDetail.edit")}
+            </Link>
+          ) : null}
           <Link className="pill-secondary justify-center" href="/dashboard/products">
             {t("dashboard.products.draftDetail.back")}
           </Link>

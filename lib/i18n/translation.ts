@@ -1701,6 +1701,10 @@ const dictionaries = {
     "dashboard.products.draftDetail.breadcrumb": "Draft detail",
     "dashboard.products.draftDetail.edit": "Edit draft",
     "dashboard.products.draftDetail.emptyValue": "No value saved.",
+    "dashboard.products.draftDetail.error.missingRequired":
+      "Required product registration fields must be saved before review submission.",
+    "dashboard.products.draftDetail.error.submitFailed":
+      "Product draft could not be submitted for review. Please check draft status and try again.",
     "dashboard.products.draftDetail.eyebrow": "Supplier-owned draft",
     "dashboard.products.draftDetail.groupDescription":
       "Saved registration fields are grouped using the same product registration template.",
@@ -1721,6 +1725,17 @@ const dictionaries = {
     "dashboard.products.draftDetail.privateDescription":
       "This draft is visible only through authenticated supplier-owned dashboard access.",
     "dashboard.products.draftDetail.privateTitle": "Not public",
+    "dashboard.products.draftDetail.result.submitted":
+      "Product draft has been submitted for administrator review.",
+    "dashboard.products.draftDetail.review.description":
+      "This product is no longer editable in the supplier draft workspace. Admin review and publish gates remain separate.",
+    "dashboard.products.draftDetail.review.eyebrow": "Review state",
+    "dashboard.products.draftDetail.review.title": "Administrator review is in progress",
+    "dashboard.products.draftDetail.submit.cta": "Submit for review",
+    "dashboard.products.draftDetail.submit.description":
+      "This moves the product and saved registration values into submitted status. It does not publish the product or enable public inquiries.",
+    "dashboard.products.draftDetail.submit.eyebrow": "Ready check",
+    "dashboard.products.draftDetail.submit.title": "Send this draft to Admin review",
     "dashboard.products.draftDetail.uploadDescription":
       "Media and certificate fields are planned, but upload remains disabled until Storage policies are validated.",
     "dashboard.products.draftDetail.uploadTitle": "Upload not enabled",
@@ -2765,6 +2780,10 @@ const dictionaries = {
     "dashboard.products.draftDetail.breadcrumb": "초안 상세",
     "dashboard.products.draftDetail.edit": "초안 수정",
     "dashboard.products.draftDetail.emptyValue": "저장된 값이 없습니다.",
+    "dashboard.products.draftDetail.error.missingRequired":
+      "관리자 검토로 제출하기 전에 필수 제품 등록 필드를 저장해야 합니다.",
+    "dashboard.products.draftDetail.error.submitFailed":
+      "제품 초안을 검토로 제출하지 못했습니다. 초안 상태를 확인한 뒤 다시 시도해 주세요.",
     "dashboard.products.draftDetail.eyebrow": "Supplier 소유 초안",
     "dashboard.products.draftDetail.groupDescription":
       "저장된 등록 필드는 동일한 제품 등록 템플릿 기준으로 묶어 표시합니다.",
@@ -2785,6 +2804,17 @@ const dictionaries = {
     "dashboard.products.draftDetail.privateDescription":
       "이 초안은 인증된 Supplier 소유 대시보드 접근을 통해서만 볼 수 있습니다.",
     "dashboard.products.draftDetail.privateTitle": "공개되지 않음",
+    "dashboard.products.draftDetail.result.submitted":
+      "제품 초안이 관리자 검토로 제출되었습니다.",
+    "dashboard.products.draftDetail.review.description":
+      "이 제품은 더 이상 Supplier 초안 워크스페이스에서 수정할 수 없습니다. 관리자 검토와 공개 게시 단계는 별도로 유지됩니다.",
+    "dashboard.products.draftDetail.review.eyebrow": "검토 상태",
+    "dashboard.products.draftDetail.review.title": "관리자 검토가 진행 중입니다",
+    "dashboard.products.draftDetail.submit.cta": "검토로 제출",
+    "dashboard.products.draftDetail.submit.description":
+      "제품과 저장된 등록 값을 submitted 상태로 이동합니다. 제품 공개 또는 공개 문의 기능은 활성화하지 않습니다.",
+    "dashboard.products.draftDetail.submit.eyebrow": "제출 준비",
+    "dashboard.products.draftDetail.submit.title": "이 초안을 관리자 검토로 보내기",
     "dashboard.products.draftDetail.uploadDescription":
       "미디어와 인증서 필드는 계획되어 있지만 Storage 정책 검증 전까지 업로드는 비활성 상태입니다.",
     "dashboard.products.draftDetail.uploadTitle": "업로드 비활성",

@@ -1,27 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  initialProductDraftActionState,
+  type ProductDraftActionState,
+} from "@/lib/actions/product-draft-state";
 import {
   PRODUCT_REGISTRATION_FIELD_TEMPLATE,
   type StaticProductRegistrationField,
 } from "@/lib/products/static-products";
-
-export type ProductDraftActionState = {
-  error: string | null;
-  mode: "created" | "updated" | null;
-  ok: boolean;
-  productId: string | null;
-  valuesSaved: number;
-};
-
-export const initialProductDraftActionState: ProductDraftActionState = {
-  error: null,
-  mode: null,
-  ok: false,
-  productId: null,
-  valuesSaved: 0,
-};
 
 const MAX_TITLE_LENGTH = 160;
 const MAX_VALUE_LENGTH = 1_200;
@@ -32,6 +21,9 @@ const FILE_UPLOAD_DISABLED_MESSAGE =
 const PRODUCT_DRAFT_ID_FIELD = "product-id";
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const REQUIRED_REGISTRATION_FIELD_KEYS = PRODUCT_REGISTRATION_FIELD_TEMPLATE.filter(
+  (field) => field.requirement === "required" && field.inputType !== "file",
+).map((field) => field.id);
 
 type SupabaseServerClient = Awaited<ReturnType<typeof createSupabaseServerClient>>;
 
@@ -153,6 +145,16 @@ function validateRequiredRegistrationFields(formData: FormData) {
 
 function findTemplateField(fieldId: string): StaticProductRegistrationField | undefined {
   return PRODUCT_REGISTRATION_FIELD_TEMPLATE.find((field) => field.id === fieldId);
+}
+
+function getProductDraftId(formData: FormData): string {
+  const productId = getOptionalProductDraftId(formData);
+
+  if (!productId) {
+    throw new Error("Product draft id is required");
+  }
+
+  return productId;
 }
 
 async function replaceProductRegistrationValues(input: {
@@ -406,4 +408,112 @@ export async function saveSupplierProductDraft(
       error: error instanceof Error ? error.message : "Product draft save failed",
     };
   }
+}
+
+export async function submitSupplierProductDraftForReview(formData: FormData): Promise<never> {
+  const productId = getProductDraftId(formData);
+  let redirectTo = `/dashboard/products/${productId}?error=submit_failed`;
+
+  try {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      throw new Error("Sign in with an approved supplier account before submitting a product draft");
+    }
+
+    const { data: supplierId, error: supplierIdError } =
+      await supabase.rpc("current_supplier_id");
+
+    if (supplierIdError || !supplierId) {
+      throw new Error("Supplier profile is required before submitting product drafts");
+    }
+
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("id,approval_status,publish_status,supplier_id")
+      .eq("id", productId)
+      .eq("supplier_id", supplierId)
+      .is("deleted_at", null)
+      .maybeSingle();
+
+    if (productError) {
+      throw new Error(productError.message);
+    }
+
+    if (!product) {
+      throw new Error("Product draft was not found for this supplier account");
+    }
+
+    if (!["draft", "rejected"].includes(product.approval_status)) {
+      throw new Error("Only draft or rejected product drafts can be submitted for review");
+    }
+
+    if (product.publish_status !== "draft") {
+      throw new Error("Only unpublished product drafts can be submitted for review");
+    }
+
+    const { data: values, error: valuesError } = await supabase
+      .from("product_registration_values")
+      .select("field_key,value_text")
+      .eq("product_id", product.id)
+      .is("deleted_at", null);
+
+    if (valuesError) {
+      throw new Error(valuesError.message);
+    }
+
+    const valueMap = new Map(
+      (values ?? []).map((value) => [value.field_key, value.value_text?.trim() ?? ""]),
+    );
+    const missingRequiredFields = REQUIRED_REGISTRATION_FIELD_KEYS.filter(
+      (fieldKey) => !valueMap.get(fieldKey),
+    );
+
+    if (missingRequiredFields.length > 0) {
+      redirectTo = `/dashboard/products/${product.id}?error=missing_required`;
+      throw new Error("Required product registration fields are missing");
+    }
+
+    const submittedAt = new Date().toISOString();
+    const { error: updateProductError } = await supabase
+      .from("products")
+      .update({
+        approval_status: "submitted",
+        publish_status: "draft",
+        submitted_at: submittedAt,
+        updated_by: user.id,
+      })
+      .eq("id", product.id)
+      .eq("supplier_id", supplierId);
+
+    if (updateProductError) {
+      throw new Error(updateProductError.message);
+    }
+
+    const { error: updateValuesError } = await supabase
+      .from("product_registration_values")
+      .update({
+        approval_status: "submitted",
+        updated_by: user.id,
+      })
+      .eq("product_id", product.id)
+      .is("deleted_at", null);
+
+    if (updateValuesError) {
+      throw new Error(updateValuesError.message);
+    }
+
+    revalidatePath("/dashboard/products");
+    revalidatePath(`/dashboard/products/${product.id}`);
+    revalidatePath(`/dashboard/products/${product.id}/edit`);
+    redirectTo = `/dashboard/products/${product.id}?result=submitted`;
+  } catch {
+    // The redirect target intentionally avoids leaking database or RLS error details.
+  }
+
+  redirect(redirectTo);
 }
