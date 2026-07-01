@@ -96,16 +96,6 @@ export type MarketplaceHomeConfig = {
   verifiedBuyers: MarketplaceHomeBuyer[];
 };
 
-const categoryLinks = [
-  { href: "/commercial", label: "Commercial", meta: "Consumer goods" },
-  { href: "/industrial", label: "Industrial", meta: "Machinery" },
-  { href: "/epc", label: "EPC", meta: "Projects" },
-  { href: "/events", label: "Event", meta: "Programs" },
-  { href: "/buy-sell", label: "BUY & SELL", meta: "RFQ board" },
-  { href: "/networking", label: "Networking", meta: "Partners" },
-  { href: "/service", label: "Service", meta: "FDA support" },
-] as const;
-
 function PublicContainer({
   children,
   className = "",
@@ -114,10 +104,7 @@ function PublicContainer({
   className?: string;
 }>) {
   return (
-    <div
-      className={`mx-auto box-border min-w-0 max-w-[1440px] px-0 sm:w-full sm:px-6 lg:px-10 ${className}`}
-      style={{ width: "min(1440px, calc(100vw - 2rem))" }}
-    >
+    <div className={`mx-auto box-border w-full min-w-0 max-w-[1440px] px-4 sm:px-6 lg:px-10 ${className}`}>
       {children}
     </div>
   );
@@ -197,44 +184,44 @@ function BadgePill({
   );
 }
 
-function HomeIntro({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
+function HomeIntro({
+  event,
+  products,
+  request,
+}: Readonly<{
+  event: MarketplaceHomeEvent;
+  products: MarketplaceHomeProduct[];
+  request: MarketplaceHomeRequest;
+}>) {
   const spotlight = products[0];
 
   return (
-    <section className="bg-[#f5f8fc] py-8 sm:py-10">
+    <section className="bg-[#f5f8fc] py-8 sm:py-12">
       <PublicContainer>
-        <nav className="flex items-center gap-2 text-[13px] font-medium text-[#7a7f89]">
-          <Link className="text-[#0066cc]" href="/">
-            B2B2G
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span>Marketplace home</span>
-        </nav>
-
-        <div className="mt-6 grid min-w-0 max-w-full gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-          <div className="box-border min-w-0 max-w-full rounded-[28px] border border-[#d7e4f5] bg-white p-5 sm:p-8 lg:p-10">
-            <BadgePill tone="neutral">Global B2B Marketplace</BadgePill>
-            <h1 className="mt-5 max-w-[300px] text-[32px] font-semibold leading-[1.04] tracking-[-0.04em] text-[#1d1d1f] sm:max-w-3xl sm:text-[56px] sm:tracking-[-0.05em] lg:text-[64px]">
-              <span className="block">B2B products.</span>
-              <span className="block">Verified demand.</span>
-              <span className="block">Trade programs.</span>
-            </h1>
-            <p className="mt-5 max-w-[290px] text-[15px] leading-7 text-[#667085] sm:max-w-2xl sm:text-[17px]">
-              Browse approved supplier products, protected buyer demand, and event-ready programs in one marketplace hierarchy.
-            </p>
-            <div className="mt-7 grid max-w-[290px] grid-cols-1 gap-2 sm:max-w-none sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              {["Verified suppliers", "Protected RFQ", "Approved content", "Trade programs"].map((item) => (
-                <span className="rounded-2xl bg-[#f5f8fc] px-4 py-3 text-[13px] font-semibold text-[#0066cc]" key={item}>
+        <div className="grid min-w-0 max-w-full gap-4 overflow-hidden rounded-[28px] border border-[#d7e4f5] bg-white p-3 sm:gap-5 sm:rounded-[32px] sm:p-5 lg:grid-cols-[0.85fr_1.15fr] lg:p-6">
+          <div className="flex min-w-0 max-w-full flex-col justify-between overflow-hidden rounded-[22px] bg-[#111827] p-5 text-white sm:rounded-[26px] sm:p-8 lg:min-h-[470px]">
+            <div>
+              <BadgePill tone="blue">Global B2B Marketplace</BadgePill>
+              <h1 className="mt-5 max-w-full text-[32px] font-semibold leading-[1.04] tracking-[-0.045em] sm:mt-6 sm:max-w-[660px] sm:text-[58px] lg:text-[66px]">
+                Verified trade starts with better product discovery.
+              </h1>
+              <p className="mt-4 max-w-[280px] text-[15px] leading-7 text-white/68 sm:mt-5 sm:max-w-xl sm:text-[17px]">
+                Discover approved supplier products, protected buyer demand, and event-ready programs without exposing private buyer data.
+              </p>
+            </div>
+            <div className="mt-7 grid gap-2 sm:mt-8 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              {["Approved suppliers", "Protected RFQ", "Event-ready programs"].map((item) => (
+                <span className="min-w-0 rounded-[16px] border border-white/10 bg-white/[0.08] px-3 py-3 text-[13px] font-semibold text-white/86 sm:rounded-[18px] sm:px-4" key={item}>
                   {item}
                 </span>
               ))}
             </div>
           </div>
 
-          {spotlight ? (
-            <Link className="group grid min-w-0 max-w-full overflow-hidden rounded-[28px] border border-[#d7e4f5] bg-white transition hover:border-[#8fc1ff]" href={spotlight.href}>
-              <div className="grid min-h-full md:grid-cols-[1.05fr_0.95fr]">
-                <div className="relative min-h-[260px] overflow-hidden bg-[#eef4fb]">
+          <div className="grid min-w-0 gap-4 lg:grid-rows-[1fr_auto]">
+            {spotlight ? (
+              <Link className="group grid min-w-0 max-w-full overflow-hidden rounded-[22px] border border-[#d7e4f5] bg-[#fbfdff] transition hover:border-[#8fc1ff] sm:rounded-[26px] md:grid-cols-[0.95fr_1.05fr]" href={spotlight.href}>
+                <div className="relative min-h-[230px] overflow-hidden bg-[#eef4fb] md:min-h-full">
                   <Image
                     alt={spotlight.imageAlt}
                     className="object-cover transition duration-700 group-hover:scale-[1.035]"
@@ -243,53 +230,50 @@ function HomeIntro({ products }: Readonly<{ products: MarketplaceHomeProduct[] }
                     sizes="(max-width: 768px) 100vw, 520px"
                     src={spotlight.imageUrl}
                   />
-                  <div className="absolute left-4 top-4 flex gap-2">
+                  <div className="absolute left-4 top-4">
                     <BadgePill tone="blue">
                       <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
                       Featured
                     </BadgePill>
                   </div>
                 </div>
-                <div className="flex flex-col justify-between p-6 sm:p-8">
+                <div className="flex min-w-0 max-w-full flex-col justify-between p-5 sm:p-6">
                   <div>
-                    <Eyebrow>Featured supplier product</Eyebrow>
-                    <h2 className="mt-3 text-[30px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1d1d1f] sm:text-[42px]">
+                    <Eyebrow>Featured product</Eyebrow>
+                    <h2 className="mt-3 line-clamp-2 text-[28px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1d1d1f] sm:text-[40px]">
                       {spotlight.title}
                     </h2>
                     <p className="mt-3 text-[15px] font-semibold text-[#515966]">{spotlight.supplierName}</p>
-                    <p className="mt-4 text-[15px] leading-7 text-[#667085]">{spotlight.description}</p>
+                    <p className="mt-4 line-clamp-3 text-[15px] leading-7 text-[#667085]">{spotlight.description}</p>
                   </div>
-                  <div className="mt-8 flex items-center justify-between border-t border-[#e6edf6] pt-5">
-                    <span className="text-[13px] font-semibold text-[#667085]">Open product detail</span>
-                    <span className="grid h-11 w-11 place-items-center rounded-full bg-[#0066cc] text-white transition group-hover:translate-x-1">
-                      <ArrowRightIcon aria-hidden="true" className="h-5 w-5" />
+                  <div className="mt-6 flex items-center justify-between border-t border-[#e6edf6] pt-5">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#edf5ff] px-3 py-2 text-[12px] font-semibold text-[#0066cc]">
+                      <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5" />
+                      RFQ ready
+                    </span>
+                    <span className="grid h-10 w-10 place-items-center rounded-full bg-[#0066cc] text-white transition group-hover:translate-x-1">
+                      <ArrowRightIcon aria-hidden="true" className="h-4 w-4" />
                     </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ) : null}
-        </div>
-      </PublicContainer>
-    </section>
-  );
-}
+              </Link>
+            ) : null}
 
-function CategoryIndex() {
-  return (
-    <section className="border-y border-[#e4edf7] bg-white">
-      <PublicContainer>
-        <div className="flex gap-3 overflow-x-auto py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {categoryLinks.map((item) => (
-            <Link
-              className="group grid min-w-[176px] rounded-[18px] border border-[#e1eaf5] bg-white px-4 py-3 transition hover:border-[#8fc1ff] hover:bg-[#f7fbff]"
-              href={item.href}
-              key={item.href}
-            >
-              <span className="text-[15px] font-semibold text-[#1d1d1f]">{item.label}</span>
-              <span className="mt-1 text-[12px] font-medium text-[#8a93a3]">{item.meta}</span>
-            </Link>
-          ))}
+            <div className="grid gap-4 md:grid-cols-2">
+              <article className="min-w-0 rounded-[22px] border border-[#d7e4f5] bg-[#f5f8fc] p-5 sm:rounded-[24px]">
+                <Eyebrow>Protected demand</Eyebrow>
+                <h2 className="mt-3 line-clamp-2 text-[23px] font-semibold leading-[1.12] tracking-[-0.025em] text-[#1d1d1f]">{request.title}</h2>
+                <p className="mt-3 text-[13px] leading-6 text-[#667085]">{request.spec}</p>
+                <p className="mt-4 inline-flex rounded-full bg-white px-3 py-2 text-[12px] font-semibold text-[#0066cc]">{request.quantity}</p>
+              </article>
+              <article className="min-w-0 rounded-[22px] border border-[#d7e4f5] bg-[#f5f8fc] p-5 sm:rounded-[24px]">
+                <Eyebrow>Trade program</Eyebrow>
+                <h2 className="mt-3 line-clamp-2 text-[23px] font-semibold leading-[1.12] tracking-[-0.025em] text-[#1d1d1f]">{event.title}</h2>
+                <p className="mt-3 text-[13px] leading-6 text-[#667085]">{event.locationLabel}</p>
+                <p className="mt-4 inline-flex rounded-full bg-white px-3 py-2 text-[12px] font-semibold text-[#0066cc]">{event.dateLabel}</p>
+              </article>
+            </div>
+          </div>
         </div>
       </PublicContainer>
     </section>
@@ -686,8 +670,7 @@ function MarketplaceFooter() {
 export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeConfig }>) {
   return (
     <main className="marketplace-home-root overflow-x-hidden bg-white text-[#1d1d1f]">
-      <HomeIntro products={config.premiumProducts} />
-      <CategoryIndex />
+      <HomeIntro event={config.events[0]} products={config.premiumProducts} request={config.buyerRequests[0]} />
       <PremiumCatalog products={config.premiumProducts} />
       <MarketActivity buyers={config.verifiedBuyers} events={config.events} requests={config.buyerRequests} />
       <ShowcaseAndAds banners={config.adBanners} showcases={config.showcases} />
