@@ -7,12 +7,26 @@ export type ApprovalQueueItem = {
   createdAt: string;
   detailHref: string | null;
   id: string;
+  metadata?: {
+    label: string;
+    tone: "info" | "neutral" | "positive" | "warning";
+    value: string;
+  }[];
   summary: string | null;
   targetLabelKey: string;
   targetTable: ApprovalTargetTable;
   title: string;
   updatedAt: string;
   status: ApprovalStatus;
+};
+
+export type ProductPublishQueueItem = {
+  createdAt: string;
+  id: string;
+  publishStatus: "archived" | "draft" | "hidden";
+  summary: string | null;
+  title: string;
+  updatedAt: string;
 };
 
 export type ApprovalQueueSection = {
@@ -91,11 +105,13 @@ function createItem(input: {
   targetTable: ApprovalTargetTable;
   title: string;
   updatedAt: string;
+  metadata?: ApprovalQueueItem["metadata"];
 }): ApprovalQueueItem {
   return {
     createdAt: input.createdAt,
     detailHref: input.detailHref ?? null,
     id: input.id,
+    metadata: input.metadata,
     status: input.status,
     summary: toText(input.summary),
     targetLabelKey: input.targetLabelKey,
@@ -139,7 +155,7 @@ async function getProductItems(): Promise<ApprovalQueueItem[]> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
-    .select("id,title,summary,approval_status,created_at,updated_at")
+    .select("id,title,summary,approval_status,publish_status,is_active,created_at,updated_at")
     .in("approval_status", PENDING_APPROVAL_STATUSES)
     .eq("is_active", true)
     .is("deleted_at", null)
@@ -153,8 +169,20 @@ async function getProductItems(): Promise<ApprovalQueueItem[]> {
   return (data ?? []).map((product) =>
     createItem({
       createdAt: product.created_at,
-      detailHref: `/commercial/${product.id}`,
+      detailHref: null,
       id: product.id,
+      metadata: [
+        {
+          label: "admin.approval.product.publishStatus",
+          tone: product.publish_status === "published" ? "positive" : "warning",
+          value: `admin.approval.publishStatus.${product.publish_status}`,
+        },
+        {
+          label: "admin.approval.product.publicReadiness",
+          tone: "warning",
+          value: "admin.approval.product.publicReadinessAfterApproval",
+        },
+      ],
       status: product.approval_status as ApprovalStatus,
       summary: product.summary,
       targetLabelKey: "admin.approval.target.products",
@@ -163,6 +191,32 @@ async function getProductItems(): Promise<ApprovalQueueItem[]> {
       updatedAt: product.updated_at,
     }),
   );
+}
+
+export async function getProductPublishQueue(): Promise<ProductPublishQueueItem[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("id,title,summary,publish_status,created_at,updated_at")
+    .eq("approval_status", "approved")
+    .in("publish_status", ["draft", "hidden", "archived"])
+    .eq("is_active", true)
+    .is("deleted_at", null)
+    .order("updated_at", { ascending: false })
+    .limit(10);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []).map((product) => ({
+    createdAt: product.created_at,
+    id: product.id,
+    publishStatus: product.publish_status as ProductPublishQueueItem["publishStatus"],
+    summary: toText(product.summary),
+    title: product.title,
+    updatedAt: product.updated_at,
+  }));
 }
 
 async function getIndustrialItems(): Promise<ApprovalQueueItem[]> {

@@ -82,6 +82,9 @@ function revalidateApprovalTarget(
       }
       break;
     case "products":
+      revalidatePath("/");
+      revalidatePath("/products");
+      revalidatePath(`/products/${record.id}`);
       revalidatePath("/commercial");
       revalidatePath(`/commercial/${record.id}`);
       break;
