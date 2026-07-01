@@ -164,6 +164,32 @@ async function updateApprovalStatus(
   return data as RecordSnapshot;
 }
 
+async function syncProductRegistrationValueApprovalStatus(
+  supabase: Supabase,
+  input: {
+    productId: string;
+    status: "approved" | "rejected";
+    userId: string;
+  },
+): Promise<number> {
+  const { data, error } = await supabase
+    .from("product_registration_values")
+    .update({
+      approval_status: input.status,
+      updated_by: input.userId,
+    })
+    .eq("product_id", input.productId)
+    .in("approval_status", ["submitted", "reviewing"])
+    .is("deleted_at", null)
+    .select("id");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data?.length ?? 0;
+}
+
 async function runApprovalAction(
   input: ApprovalActionInput,
   nextStatus: "approved" | "rejected",
@@ -211,6 +237,21 @@ async function runApprovalAction(
         updated_by: user.id,
       },
     );
+    const registrationValuesUpdated =
+      validatedInput.targetTable === "products"
+        ? await syncProductRegistrationValueApprovalStatus(supabase, {
+            productId: validatedInput.targetId,
+            status: nextStatus,
+            userId: user.id,
+          })
+        : 0;
+    const logAfterData =
+      registrationValuesUpdated > 0
+        ? {
+            ...afterData,
+            product_registration_values_updated: registrationValuesUpdated,
+          }
+        : afterData;
 
     const logResult = await writeAdminLog(supabase, {
       action:
@@ -218,7 +259,7 @@ async function runApprovalAction(
           ? getApproveAdminLogAction(validatedInput.targetTable)
           : getRejectAdminLogAction(validatedInput.targetTable),
       actorProfileId: user.id,
-      afterData,
+      afterData: logAfterData,
       beforeData,
       reason: validatedInput.reason,
       targetId: validatedInput.targetId,
