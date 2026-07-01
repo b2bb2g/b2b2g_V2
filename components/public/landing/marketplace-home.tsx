@@ -234,10 +234,12 @@ function ProductCard({
   item: MarketplaceHomeProduct;
   priority?: boolean;
 }>) {
+  const productHref = item.href === "/products" ? `/products/${item.id}` : item.href;
+
   return (
     <Link
       className={`group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe6f2] bg-white shadow-[0_14px_40px_rgba(15,23,42,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[#93c5fd] hover:shadow-[0_26px_70px_rgba(15,23,42,0.1)] ${className}`}
-      href={item.href}
+      href={productHref}
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[#eef4fb]">
         <Image
