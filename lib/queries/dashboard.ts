@@ -1991,7 +1991,11 @@ export async function getDashboardProductsData(): Promise<DashboardProductsData>
   const roleCode = context.memberTypeCode ?? "member";
   const quickActions: DashboardQuickAction[] = [
     {
-      href: isStudent ? "#student-showcase" : canCreateProduct ? "#product-create" : "/commercial",
+      href: isStudent
+        ? "#student-showcase"
+        : canCreateProduct
+          ? "/dashboard/products/new"
+          : "/commercial",
       labelKey: canCreateProduct
         ? "dashboard.products.action.createProduct"
         : isStudent

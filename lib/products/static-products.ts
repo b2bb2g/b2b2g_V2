@@ -18,8 +18,12 @@ export type StaticProductCertificate = {
 
 export type StaticProductRegistrationField = {
   group: string;
+  helpText?: string;
   id: string;
+  inputType: "file" | "select" | "text" | "textarea" | "url";
   label: string;
+  options?: string[];
+  placeholder?: string;
   publicDisplay: "hidden" | "summary" | "visible";
   requirement: "optional" | "recommended" | "required";
 };
@@ -30,6 +34,120 @@ export type StaticMarketplaceProduct = MarketplaceHomeProduct & {
   galleryImages: StaticProductGalleryImage[];
   registrationFields: StaticProductRegistrationField[];
 };
+
+export const PRODUCT_REGISTRATION_FIELD_TEMPLATE: StaticProductRegistrationField[] = [
+  {
+    group: "Product identity",
+    helpText: "Use the name buyers will recognize in sourcing documents.",
+    id: "product-name",
+    inputType: "text",
+    label: "Product name",
+    placeholder: "Example: Modular GRP Water Tank",
+    publicDisplay: "visible",
+    requirement: "required",
+  },
+  {
+    group: "Product identity",
+    helpText: "Brand can be hidden from public cards if needed, but it helps admin review.",
+    id: "brand-name",
+    inputType: "text",
+    label: "Brand name",
+    placeholder: "Example: HAYOUNG SMC",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Product identity",
+    helpText: "Model, SKU, or type information helps distinguish similar products.",
+    id: "type-model",
+    inputType: "text",
+    label: "Type / model",
+    placeholder: "Example: Sectional modular panel type",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Specifications",
+    helpText: "Include material, grade, or technical composition.",
+    id: "material",
+    inputType: "text",
+    label: "Material",
+    placeholder: "Example: High-strength SMC panels",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Specifications",
+    helpText: "Use ranges if the product is custom-built.",
+    id: "dimension",
+    inputType: "text",
+    label: "Size / dimension",
+    placeholder: "Example: Custom-designed by project requirement",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Specifications",
+    helpText: "Describe where the product is used and the buyer problem it solves.",
+    id: "application",
+    inputType: "textarea",
+    label: "Usage / application",
+    placeholder: "Example: Potable water storage, industrial facilities, hospitals, high-rise buildings",
+    publicDisplay: "visible",
+    requirement: "required",
+  },
+  {
+    group: "Trust",
+    helpText: "Certificates are reviewed before public trust claims are displayed.",
+    id: "certification",
+    inputType: "text",
+    label: "Certification",
+    placeholder: "Example: WRAS, PSB, ISO, CE, FDA registration",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Trade",
+    helpText: "Do not enter public pricing. MOQ is allowed for sourcing readiness.",
+    id: "moq",
+    inputType: "text",
+    label: "MOQ",
+    placeholder: "Example: 1 pallet, 100 units, project-based",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Trade",
+    helpText: "Lead time can be approximate and updated during managed RFQ review.",
+    id: "lead-time",
+    inputType: "select",
+    label: "Lead time",
+    options: ["Under 7 days", "1-2 weeks", "3-4 weeks", "30+ days", "Project consultation required"],
+    placeholder: "Select lead time",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Trade",
+    helpText: "List production or shipping origin, not private contact details.",
+    id: "shipping-origin",
+    inputType: "text",
+    label: "Products shipped from",
+    placeholder: "Example: Korea, Thailand, Singapore",
+    publicDisplay: "summary",
+    requirement: "recommended",
+  },
+  {
+    group: "Documents",
+    helpText: "File upload is deferred until Storage and approval workflow are connected.",
+    id: "catalog-files",
+    inputType: "file",
+    label: "Catalog / technical files",
+    placeholder: "PDF, catalog, test report, certificate",
+    publicDisplay: "hidden",
+    requirement: "recommended",
+  },
+];
 
 function buildProductGallery(
   product: MarketplaceHomeProduct,
@@ -83,19 +201,10 @@ function buildProductCertificates(product: MarketplaceHomeProduct): StaticProduc
 }
 
 function buildProductRegistrationFields(product: MarketplaceHomeProduct): StaticProductRegistrationField[] {
-  return [
-    { group: "Product identity", id: `${product.id}-product-name`, label: "Product name", publicDisplay: "visible", requirement: "required" },
-    { group: "Product identity", id: `${product.id}-brand-name`, label: "Brand name", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Product identity", id: `${product.id}-type-model`, label: "Type / model", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Specifications", id: `${product.id}-material`, label: "Material", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Specifications", id: `${product.id}-dimension`, label: "Size / dimension", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Specifications", id: `${product.id}-application`, label: "Usage / application", publicDisplay: "visible", requirement: "required" },
-    { group: "Trust", id: `${product.id}-certification`, label: "Certification", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Trade", id: `${product.id}-moq`, label: "MOQ", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Trade", id: `${product.id}-lead-time`, label: "Lead time", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Trade", id: `${product.id}-shipping-origin`, label: "Products shipped from", publicDisplay: "summary", requirement: "recommended" },
-    { group: "Documents", id: `${product.id}-catalog-files`, label: "Catalog / technical files", publicDisplay: "hidden", requirement: "recommended" },
-  ];
+  return PRODUCT_REGISTRATION_FIELD_TEMPLATE.map((field) => ({
+    ...field,
+    id: `${product.id}-${field.id}`,
+  }));
 }
 
 function uniqueProducts(products: MarketplaceHomeProduct[]): StaticMarketplaceProduct[] {
