@@ -123,6 +123,8 @@ export type ContentApprovalStatus =
   | "reviewing"
   | "submitted"
   | "suspended";
+export type ProductPublishStatus = "archived" | "draft" | "hidden" | "published";
+export type ProductPublicDisplay = "hidden" | "summary" | "visible";
 export type AnnouncementTargetScope = "all" | "member_type" | "profile";
 export type ConversationMemberRole = "member" | "observer" | "owner";
 export type ConversationType = "direct" | "group" | "support";
@@ -1030,6 +1032,13 @@ export type Database = {
           description: string | null;
           industry_id: string | null;
           main_file_id: string | null;
+          publish_status: ProductPublishStatus;
+          published_at: string | null;
+          review_note: string | null;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          slug: string | null;
+          submitted_at: string | null;
           summary: string | null;
           supplier_id: string;
           title: string;
@@ -1046,6 +1055,13 @@ export type Database = {
           description?: string | null;
           industry_id?: string | null;
           main_file_id?: string | null;
+          publish_status?: ProductPublishStatus;
+          published_at?: string | null;
+          review_note?: string | null;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          slug?: string | null;
+          submitted_at?: string | null;
           summary?: string | null;
           supplier_id: string;
           title: string;
@@ -1063,12 +1079,76 @@ export type Database = {
             description: string | null;
             industry_id: string | null;
             main_file_id: string | null;
+            publish_status: ProductPublishStatus;
+            published_at: string | null;
+            review_note: string | null;
+            reviewed_at: string | null;
+            reviewed_by: string | null;
+            slug: string | null;
+            submitted_at: string | null;
             summary: string | null;
             supplier_id: string;
             title: string;
             updated_by: string | null;
           }
         >;
+        Relationships: [];
+      };
+      product_registration_values: {
+        Row: {
+          approval_status: ContentApprovalStatus;
+          created_at: string;
+          created_by: string | null;
+          deleted_at: string | null;
+          deleted_by: string | null;
+          field_id: string | null;
+          field_key: string;
+          group_key: string;
+          id: string;
+          product_id: string;
+          public_display: ProductPublicDisplay;
+          sort_order: number;
+          updated_at: string;
+          updated_by: string | null;
+          value_json: Json;
+          value_text: string | null;
+        };
+        Insert: {
+          approval_status?: ContentApprovalStatus;
+          created_at?: string;
+          created_by?: string | null;
+          deleted_at?: string | null;
+          deleted_by?: string | null;
+          field_id?: string | null;
+          field_key: string;
+          group_key: string;
+          id?: string;
+          product_id: string;
+          public_display?: ProductPublicDisplay;
+          sort_order?: number;
+          updated_at?: string;
+          updated_by?: string | null;
+          value_json?: Json;
+          value_text?: string | null;
+        };
+        Update: Partial<{
+          approval_status: ContentApprovalStatus;
+          created_at: string;
+          created_by: string | null;
+          deleted_at: string | null;
+          deleted_by: string | null;
+          field_id: string | null;
+          field_key: string;
+          group_key: string;
+          id: string;
+          product_id: string;
+          public_display: ProductPublicDisplay;
+          sort_order: number;
+          updated_at: string;
+          updated_by: string | null;
+          value_json: Json;
+          value_text: string | null;
+        }>;
         Relationships: [];
       };
       student_showcases: {

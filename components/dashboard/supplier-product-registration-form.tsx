@@ -1,4 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useActionState } from "react";
+import {
+  initialProductDraftActionState,
+  saveSupplierProductDraft,
+} from "@/lib/actions/product-draft";
 import { Badge } from "@/components/shared/badge";
 import {
   DocumentCheckIcon,
@@ -34,6 +41,7 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
         className={`${baseClass} min-h-[132px] resize-y`}
         name={field.id}
         placeholder={field.placeholder}
+        required={field.requirement === "required"}
         rows={5}
       />
     );
@@ -41,7 +49,12 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
 
   if (field.inputType === "select") {
     return (
-      <select className={baseClass} defaultValue="" name={field.id}>
+      <select
+        className={baseClass}
+        defaultValue=""
+        name={field.id}
+        required={field.requirement === "required"}
+      >
         <option disabled value="">
           {field.placeholder ?? "Select option"}
         </option>
@@ -75,6 +88,7 @@ function RegistrationInput({ field }: Readonly<{ field: StaticProductRegistratio
       className={baseClass}
       name={field.id}
       placeholder={field.placeholder}
+      required={field.requirement === "required"}
       type={field.inputType === "url" ? "url" : "text"}
     />
   );
@@ -125,6 +139,10 @@ function ApprovalStep({
 }
 
 export function SupplierProductRegistrationForm() {
+  const [state, formAction, isPending] = useActionState(
+    saveSupplierProductDraft,
+    initialProductDraftActionState,
+  );
   const groupedFields = groupFields(PRODUCT_REGISTRATION_FIELD_TEMPLATE);
   const approvalSteps = [
     {
@@ -162,8 +180,8 @@ export function SupplierProductRegistrationForm() {
             </h1>
             <p className="type-body mt-4 max-w-3xl text-calm-ink-muted-80">
               This page mirrors the product detail data model: image gallery, certificates, product
-              details, company information, and review readiness. Submission is intentionally disabled
-              until the product migration, RLS, Storage, and approval workflow are connected.
+              details, company information, and review readiness. Text draft saving is now enabled;
+              image upload, document upload, and public submission remain gated.
             </p>
           </div>
 
@@ -195,7 +213,28 @@ export function SupplierProductRegistrationForm() {
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <form className="grid gap-5 rounded-[28px] border border-calm-hairline bg-calm-surface p-5 shadow-[0_18px_50px_rgba(15,23,42,0.04)] sm:p-6">
+        <form
+          action={formAction}
+          className="grid gap-5 rounded-[28px] border border-calm-hairline bg-calm-surface p-5 shadow-[0_18px_50px_rgba(15,23,42,0.04)] sm:p-6"
+        >
+          {state.ok ? (
+            <div className="rounded-[20px] border border-status-positive/20 bg-status-positive-bg p-5">
+              <p className="type-caption-strong text-calm-ink">Product draft saved</p>
+              <p className="type-caption mt-2 text-calm-ink-muted-80">
+                Draft ID {state.productId}. {state.valuesSaved} registration values were saved.
+                Image and document upload remain disabled until Storage object policies pass runtime
+                validation.
+              </p>
+            </div>
+          ) : null}
+
+          {state.error ? (
+            <div className="rounded-[20px] border border-status-negative/20 bg-status-negative-bg p-5">
+              <p className="type-caption-strong text-calm-ink">Product draft was not saved</p>
+              <p className="type-caption mt-2 text-calm-ink-muted-80">{state.error}</p>
+            </div>
+          ) : null}
+
           {Object.entries(groupedFields).map(([group, fields]) => (
             <section className="grid gap-3" key={group}>
               <div>
@@ -214,17 +253,21 @@ export function SupplierProductRegistrationForm() {
           ))}
 
           <div className="rounded-[20px] border border-action-blue/16 bg-white p-5">
-            <p className="type-caption-strong text-action-blue">Submission deferred</p>
+            <p className="type-caption-strong text-action-blue">Draft save enabled</p>
             <h2 className="type-title-sm mt-2 text-calm-ink">
-              Product submit will open after schema, RLS, Storage, and approval workflow are ready.
+              Save product text fields first. Submission and file upload remain gated.
             </h2>
             <p className="type-caption mt-2 text-calm-ink-muted-64">
-              The form is editable for UX review only. It does not create products, files, inquiries,
-              pricing, buyer data, or public records.
+              This action creates a private supplier-owned product draft and registration values only.
+              It does not create files, inquiries, pricing, buyer data, or public records.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <button className="pill-primary opacity-60" disabled type="submit">
-                Submit for admin review
+              <button
+                className="pill-primary disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={isPending || state.ok}
+                type="submit"
+              >
+                {isPending ? "Saving draft" : "Save product draft"}
               </button>
               <Link className="pill-secondary" href="/dashboard/products">
                 Back to products
