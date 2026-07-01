@@ -1643,41 +1643,48 @@ function SupplierProductDraftsPanel({
       <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {drafts.length > 0 ? (
           drafts.map((draft) => (
-            <article
-              className="group flex min-h-[210px] flex-col rounded-[20px] border border-calm-hairline bg-calm-surface p-5 transition hover:-translate-y-0.5 hover:border-action-blue/35 hover:bg-white hover:shadow-[0_20px_52px_rgba(0,102,204,0.08)]"
+            <Link
+              className="group block rounded-[20px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-action-blue"
+              href={`/dashboard/products/${draft.id}`}
               key={draft.id}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <StatusBadge value={draft.approvalStatus} />
-                <Badge dot={false} tone="neutral">
-                  {draft.publishStatus}
-                </Badge>
-              </div>
-              <h3 className="type-body-strong mt-4 line-clamp-2 text-calm-ink">
-                {draft.title}
-              </h3>
-              <p className="type-caption mt-3 line-clamp-3 text-calm-ink-muted-64">
-                {draft.summary ?? t("dashboard.products.record.noDescription")}
-              </p>
-              <div className="mt-auto grid grid-cols-2 gap-3 pt-5">
-                <div className="rounded-[14px] bg-white p-3">
-                  <p className="type-fine-print text-calm-ink-muted-48">
-                    {t("dashboard.products.drafts.values")}
-                  </p>
-                  <p className="type-caption-strong mt-1 text-calm-ink">
-                    {draft.valuesCount}
-                  </p>
+              <article className="flex min-h-[230px] flex-col rounded-[20px] border border-calm-hairline bg-calm-surface p-5 transition hover:-translate-y-0.5 hover:border-action-blue/35 hover:bg-white hover:shadow-[0_20px_52px_rgba(0,102,204,0.08)]">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <StatusBadge value={draft.approvalStatus} />
+                  <Badge dot={false} tone="neutral">
+                    {draft.publishStatus}
+                  </Badge>
                 </div>
-                <div className="rounded-[14px] bg-white p-3">
-                  <p className="type-fine-print text-calm-ink-muted-48">
-                    {t("dashboard.products.drafts.updated")}
-                  </p>
-                  <p className="type-caption-strong mt-1 text-calm-ink">
-                    {draft.updatedAt.slice(0, 10)}
-                  </p>
+                <h3 className="type-body-strong mt-4 line-clamp-2 text-calm-ink">
+                  {draft.title}
+                </h3>
+                <p className="type-caption mt-3 line-clamp-3 text-calm-ink-muted-64">
+                  {draft.summary ?? t("dashboard.products.record.noDescription")}
+                </p>
+                <div className="mt-auto grid grid-cols-2 gap-3 pt-5">
+                  <div className="rounded-[14px] bg-white p-3">
+                    <p className="type-fine-print text-calm-ink-muted-48">
+                      {t("dashboard.products.drafts.values")}
+                    </p>
+                    <p className="type-caption-strong mt-1 text-calm-ink">
+                      {draft.valuesCount}
+                    </p>
+                  </div>
+                  <div className="rounded-[14px] bg-white p-3">
+                    <p className="type-fine-print text-calm-ink-muted-48">
+                      {t("dashboard.products.drafts.updated")}
+                    </p>
+                    <p className="type-caption-strong mt-1 text-calm-ink">
+                      {draft.updatedAt.slice(0, 10)}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </article>
+                <div className="mt-4 flex items-center justify-between border-t border-calm-hairline pt-4 type-caption-strong text-action-blue">
+                  <span>{t("dashboard.products.drafts.open")}</span>
+                  <ArrowRightIcon className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                </div>
+              </article>
+            </Link>
           ))
         ) : (
           <div className="md:col-span-2 xl:col-span-3">

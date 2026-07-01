@@ -1687,6 +1687,42 @@ const dictionaries = {
     "dashboard.products.drafts.uploadNote":
       "Images, certificates, catalog files, public publish, and inquiry creation are still disabled until Storage object policy runtime validation is complete.",
     "dashboard.products.drafts.values": "Saved fields",
+    "dashboard.products.drafts.open": "Open draft",
+    "dashboard.products.draftDetail.back": "Back to product workspace",
+    "dashboard.products.draftDetail.blocked.inquiry":
+      "Public inquiry creation is disabled until the brokerage workflow is connected.",
+    "dashboard.products.draftDetail.blocked.price":
+      "Price fields are intentionally excluded from public and draft review surfaces.",
+    "dashboard.products.draftDetail.blocked.publish":
+      "Public publishing requires Admin review and RLS validation.",
+    "dashboard.products.draftDetail.blocked.upload":
+      "Image, certificate, and catalog uploads remain gated by Storage object policy runtime tests.",
+    "dashboard.products.draftDetail.blockedTitle": "Still gated",
+    "dashboard.products.draftDetail.breadcrumb": "Draft detail",
+    "dashboard.products.draftDetail.emptyValue": "No value saved.",
+    "dashboard.products.draftDetail.eyebrow": "Supplier-owned draft",
+    "dashboard.products.draftDetail.groupDescription":
+      "Saved registration fields are grouped using the same product registration template.",
+    "dashboard.products.draftDetail.metadataTitle": "Product draft detail",
+    "dashboard.products.draftDetail.metric.created": "Created",
+    "dashboard.products.draftDetail.metric.fields": "Saved fields",
+    "dashboard.products.draftDetail.metric.updated": "Updated",
+    "dashboard.products.draftDetail.next.eyebrow": "Next workflow",
+    "dashboard.products.draftDetail.next.publish":
+      "Submit the product for Admin review only after required fields and files are complete.",
+    "dashboard.products.draftDetail.next.review":
+      "Prepare Admin review rules for product approval, company visibility, and publish state.",
+    "dashboard.products.draftDetail.next.storage":
+      "Complete Storage object policy runtime validation before enabling image or certificate upload.",
+    "dashboard.products.draftDetail.next.title": "Move this draft safely",
+    "dashboard.products.draftDetail.noValues":
+      "No structured registration values were saved for this draft.",
+    "dashboard.products.draftDetail.privateDescription":
+      "This draft is visible only through authenticated supplier-owned dashboard access.",
+    "dashboard.products.draftDetail.privateTitle": "Not public",
+    "dashboard.products.draftDetail.uploadDescription":
+      "Media and certificate fields are planned, but upload remains disabled until Storage policies are validated.",
+    "dashboard.products.draftDetail.uploadTitle": "Upload not enabled",
     "dashboard.products.error.create_failed": "Product draft could not be created. Please check the title and try again.",
     "dashboard.products.error.showcase_create_failed": "Showcase could not be created. Please select an approved product and try again.",
     "dashboard.products.error.showcase_submit_failed": "Showcase could not be submitted. Please check the current showcase and try again.",
@@ -2713,6 +2749,42 @@ const dictionaries = {
     "dashboard.products.drafts.uploadNote":
       "이미지, 인증서, 카탈로그 파일, 공개 게시, 문의 생성은 Storage object policy 런타임 검증이 완료될 때까지 비활성 상태입니다.",
     "dashboard.products.drafts.values": "저장 필드",
+    "dashboard.products.drafts.open": "초안 열기",
+    "dashboard.products.draftDetail.back": "제품 워크스페이스로 돌아가기",
+    "dashboard.products.draftDetail.blocked.inquiry":
+      "공개 문의 생성은 Brokerage 워크플로우가 연결될 때까지 비활성 상태입니다.",
+    "dashboard.products.draftDetail.blocked.price":
+      "가격 필드는 공개 화면과 초안 검토 화면에서 의도적으로 제외합니다.",
+    "dashboard.products.draftDetail.blocked.publish":
+      "공개 게시에는 관리자 검토와 RLS 검증이 필요합니다.",
+    "dashboard.products.draftDetail.blocked.upload":
+      "이미지, 인증서, 카탈로그 업로드는 Storage object policy 런타임 테스트 전까지 차단됩니다.",
+    "dashboard.products.draftDetail.blockedTitle": "아직 차단된 기능",
+    "dashboard.products.draftDetail.breadcrumb": "초안 상세",
+    "dashboard.products.draftDetail.emptyValue": "저장된 값이 없습니다.",
+    "dashboard.products.draftDetail.eyebrow": "Supplier 소유 초안",
+    "dashboard.products.draftDetail.groupDescription":
+      "저장된 등록 필드는 동일한 제품 등록 템플릿 기준으로 묶어 표시합니다.",
+    "dashboard.products.draftDetail.metadataTitle": "제품 초안 상세",
+    "dashboard.products.draftDetail.metric.created": "생성일",
+    "dashboard.products.draftDetail.metric.fields": "저장 필드",
+    "dashboard.products.draftDetail.metric.updated": "수정일",
+    "dashboard.products.draftDetail.next.eyebrow": "다음 워크플로우",
+    "dashboard.products.draftDetail.next.publish":
+      "필수 필드와 파일이 준비된 뒤에만 관리자 검토로 제출합니다.",
+    "dashboard.products.draftDetail.next.review":
+      "제품 승인, 회사 노출, 공개 상태를 위한 관리자 검토 규칙을 준비합니다.",
+    "dashboard.products.draftDetail.next.storage":
+      "이미지 또는 인증서 업로드를 활성화하기 전에 Storage object policy 런타임 검증을 완료합니다.",
+    "dashboard.products.draftDetail.next.title": "초안을 안전하게 이동하기",
+    "dashboard.products.draftDetail.noValues":
+      "이 초안에는 저장된 구조화 등록 값이 없습니다.",
+    "dashboard.products.draftDetail.privateDescription":
+      "이 초안은 인증된 Supplier 소유 대시보드 접근을 통해서만 볼 수 있습니다.",
+    "dashboard.products.draftDetail.privateTitle": "공개되지 않음",
+    "dashboard.products.draftDetail.uploadDescription":
+      "미디어와 인증서 필드는 계획되어 있지만 Storage 정책 검증 전까지 업로드는 비활성 상태입니다.",
+    "dashboard.products.draftDetail.uploadTitle": "업로드 비활성",
     "dashboard.products.error.create_failed":
       "제품 초안을 생성하지 못했습니다. 제품명을 확인한 뒤 다시 시도해 주세요.",
     "dashboard.products.error.showcase_create_failed":
