@@ -217,7 +217,7 @@ function HomeIntro({
           <div>
             <BadgePill tone="blue">Global B2B Marketplace</BadgePill>
             <h1 className="mt-4 max-w-[340px] text-[30px] font-semibold leading-[1.04] tracking-[-0.05em] text-[#101828] sm:max-w-4xl sm:text-[54px] sm:leading-[1.02] lg:text-[64px]">
-              Curated industrial products for verified global sourcing.
+              Category storefronts for verified global sourcing.
             </h1>
           </div>
           <div className="grid gap-2 sm:grid-cols-3 lg:justify-self-end">
@@ -253,12 +253,10 @@ function ProductCard({
   item: MarketplaceHomeProduct;
   priority?: boolean;
 }>) {
-  const productHref = item.href === "/products" ? `/products/${item.id}` : item.href;
-
   return (
     <Link
       className={`group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#dbe6f2] bg-white shadow-[0_14px_40px_rgba(15,23,42,0.045)] transition duration-300 hover:-translate-y-1 hover:border-[#93c5fd] hover:shadow-[0_26px_70px_rgba(15,23,42,0.1)] ${className}`}
-      href={productHref}
+      href={item.href}
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[#eef4fb]">
         <Image
@@ -617,10 +615,10 @@ function LatestProducts({ products }: Readonly<{ products: MarketplaceHomeProduc
     <section className="bg-[#f5f8fc] py-10 sm:py-14">
       <PublicContainer>
         <SectionHeader
-          action={{ href: "/commercial", label: "Browse catalog" }}
+          action={{ href: "/commercial", label: "Browse Commercial" }}
           eyebrow="New arrivals"
-          subtitle="Recently added approved products, presented for quick image-led browsing."
-          title="Latest products"
+          subtitle="Recent approved listings are pulled from the public Commercial, Industrial, EPC, and BUY & SELL pages."
+          title="Latest marketplace listings"
         />
         <ProductGrid products={products.slice(0, 8)} />
       </PublicContainer>

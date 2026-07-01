@@ -7,7 +7,6 @@ import type {
   MarketplaceHomeRequest,
 } from "@/components/public/landing/marketplace-home";
 import { staticLandingConfig } from "@/lib/landing/static-landing-config";
-import { getMarketplaceProducts } from "@/lib/products/marketplace-products";
 import {
   getPublicContentList,
   type PublicContentItem,
@@ -31,17 +30,6 @@ const dateLabelFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
   month: "short",
 });
-
-function selectPremiumProducts(products: MarketplaceHomeProduct[]): MarketplaceHomeProduct[] {
-  const verifiedProducts = products.filter((product) => product.isVerifiedSupplier);
-  const selectedProducts = verifiedProducts.length >= PREMIUM_PRODUCT_LIMIT ? verifiedProducts : products;
-
-  return selectedProducts.slice(0, PREMIUM_PRODUCT_LIMIT);
-}
-
-function selectLatestProducts(products: MarketplaceHomeProduct[]): MarketplaceHomeProduct[] {
-  return products.slice(0, LATEST_PRODUCT_LIMIT);
-}
 
 function safeText(value: null | string | undefined, fallback: string): string {
   return value && value.trim().length > 0 ? value : fallback;
@@ -156,16 +144,70 @@ function contentToAnnouncement(item: PublicContentItem): MarketplaceHomeAnnounce
   };
 }
 
+function contentToProduct(
+  item: PublicContentItem,
+  category: string,
+  isVerifiedSupplier = true,
+): MarketplaceHomeProduct {
+  return {
+    category: safeText(item.meta, category),
+    description: safeText(item.summary, "Approved marketplace listing prepared for protected sourcing."),
+    href: item.href,
+    id: `${category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${item.id}`,
+    imageAlt: imageAltFor(item),
+    imageUrl: imageUrlFor(item),
+    isVerifiedSupplier,
+    supplierName: safeText(item.companyName, category),
+    title: item.title,
+  };
+}
+
+function selectPremiumProductsFromSubpages({
+  commercialItems,
+  epcItems,
+  industrialItems,
+  sellProductItems,
+}: Readonly<{
+  commercialItems: PublicContentItem[];
+  epcItems: PublicContentItem[];
+  industrialItems: PublicContentItem[];
+  sellProductItems: PublicContentItem[];
+}>): MarketplaceHomeProduct[] {
+  return [
+    ...commercialItems.slice(0, 2).map((item) => contentToProduct(item, "Commercial")),
+    ...industrialItems.slice(0, 1).map((item) => contentToProduct(item, "Industrial")),
+    ...epcItems.slice(0, 1).map((item) => contentToProduct(item, "EPC")),
+    ...sellProductItems.slice(0, 1).map((item) => contentToProduct(item, "BUY & SELL", false)),
+  ].slice(0, PREMIUM_PRODUCT_LIMIT);
+}
+
+function selectLatestProductsFromSubpages({
+  commercialItems,
+  epcItems,
+  industrialItems,
+  sellProductItems,
+}: Readonly<{
+  commercialItems: PublicContentItem[];
+  epcItems: PublicContentItem[];
+  industrialItems: PublicContentItem[];
+  sellProductItems: PublicContentItem[];
+}>): MarketplaceHomeProduct[] {
+  return [
+    ...commercialItems.slice(0, 3).map((item) => contentToProduct(item, "Commercial")),
+    ...industrialItems.slice(0, 2).map((item) => contentToProduct(item, "Industrial")),
+    ...epcItems.slice(0, 2).map((item) => contentToProduct(item, "EPC")),
+    ...sellProductItems.slice(0, 2).map((item) => contentToProduct(item, "BUY & SELL", false)),
+  ].slice(0, LATEST_PRODUCT_LIMIT);
+}
+
 export async function getMarketplaceHomeConfig(): Promise<MarketplaceHomeConfig> {
   const [
-    products,
     commercialItems,
     industrialItems,
     epcItems,
     sellProductItems,
     buyRequestItems,
   ] = await Promise.all([
-    getMarketplaceProducts(),
     safePublicContentList("commercial"),
     safePublicContentList("industrial"),
     safePublicContentList("epc"),
@@ -193,7 +235,17 @@ export async function getMarketplaceHomeConfig(): Promise<MarketplaceHomeConfig>
       contentToChannel("home-channel-service", "Service", "/service", serviceItems),
     ],
     events: eventItems.slice(0, 3).map(contentToEvent),
-    latestProducts: selectLatestProducts(products),
-    premiumProducts: selectPremiumProducts(products),
+    latestProducts: selectLatestProductsFromSubpages({
+      commercialItems,
+      epcItems,
+      industrialItems,
+      sellProductItems,
+    }),
+    premiumProducts: selectPremiumProductsFromSubpages({
+      commercialItems,
+      epcItems,
+      industrialItems,
+      sellProductItems,
+    }),
   };
 }

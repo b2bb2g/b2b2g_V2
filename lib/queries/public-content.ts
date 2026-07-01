@@ -229,7 +229,7 @@ function marketplaceProductToCommercialItem(
   return {
     companyName: product.supplierName,
     createdAt: "2026-01-01T00:00:00.000Z",
-    href: product.detailHref,
+    href: `/commercial/${product.id}`,
     id: product.id,
     imageAlt: product.imageAlt,
     imageUrl: product.imageUrl,
