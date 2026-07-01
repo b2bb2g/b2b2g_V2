@@ -200,12 +200,37 @@ function ProductPublishQueue({
                 <p className="type-caption mt-2 line-clamp-2 text-calm-ink-muted-80">
                   {item.summary ?? t("admin.approval.noSummary", "ko")}
                 </p>
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  {item.readiness.map((readiness) => (
+                    <div
+                      className="rounded-2xl border border-calm-hairline bg-canvas-parchment px-3 py-2"
+                      key={`${item.id}:${readiness.label}`}
+                    >
+                      <p className="type-fine-print font-semibold text-calm-ink-muted-48">
+                        {t(readiness.label, "ko")}
+                      </p>
+                      <div className="mt-1">
+                        <Badge dot={false} tone={readiness.tone}>
+                          {t(readiness.value, "ko")}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <dl className="mt-4 grid gap-3 type-fine-print text-calm-ink-muted-48 sm:grid-cols-2">
                   <div>
                     <dt className="type-caption-strong text-calm-ink-muted-80">
                       {t("admin.approval.updatedAt", "ko")}
                     </dt>
                     <dd className="mt-1">{formatDate(item.updatedAt)}</dd>
+                  </div>
+                  <div>
+                    <dt className="type-caption-strong text-calm-ink-muted-80">
+                      {t("admin.approval.publishReadiness.company", "ko")}
+                    </dt>
+                    <dd className="mt-1">
+                      {item.companyName ?? t("admin.approval.publishReadiness.companyMissing", "ko")}
+                    </dd>
                   </div>
                   <div>
                     <dt className="type-caption-strong text-calm-ink-muted-80">
@@ -225,9 +250,18 @@ function ProductPublishQueue({
               >
                 <input name="productId" type="hidden" value={item.id} />
                 <p className="type-caption mb-3 text-calm-ink-muted-80">
-                  {t("admin.approval.publishQueue.actionHelp", "ko")}
+                  {t(
+                    item.isPublishReady
+                      ? "admin.approval.publishQueue.actionHelp"
+                      : "admin.approval.publishQueue.blockedHelp",
+                    "ko",
+                  )}
                 </p>
-                <button className="pill-primary w-full" type="submit">
+                <button
+                  className="pill-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={!item.isPublishReady}
+                  type="submit"
+                >
                   {t("admin.approval.publishQueue.publish", "ko")}
                 </button>
               </form>

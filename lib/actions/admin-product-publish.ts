@@ -88,6 +88,29 @@ export async function publishApprovedProduct(productId: string): Promise<ActionR
       throw new Error("Approved unpublished product not found");
     }
 
+    if (!beforeData.summary?.trim()) {
+      throw new Error("Product summary is required before publish");
+    }
+
+    const { data: companyData, error: companyError } = await supabase
+      .from("companies")
+      .select("id,approval_status,is_active,deleted_at")
+      .eq("id", beforeData.company_id)
+      .maybeSingle();
+
+    if (companyError) {
+      throw new Error(companyError.message);
+    }
+
+    if (
+      !companyData ||
+      companyData.approval_status !== "approved" ||
+      !companyData.is_active ||
+      companyData.deleted_at
+    ) {
+      throw new Error("Approved active company is required before product publish");
+    }
+
     const now = new Date().toISOString();
     const { data: afterData, error: updateError } = await supabase
       .from("products")
