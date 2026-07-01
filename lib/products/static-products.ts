@@ -28,11 +28,21 @@ export type StaticProductRegistrationField = {
   requirement: "optional" | "recommended" | "required";
 };
 
+export type StaticProductRegistrationValue = {
+  fieldKey: string;
+  group: string;
+  id: string;
+  label: string;
+  publicDisplay: "summary" | "visible";
+  value: string;
+};
+
 export type StaticMarketplaceProduct = MarketplaceHomeProduct & {
   certificates: StaticProductCertificate[];
   detailHref: string;
   galleryImages: StaticProductGalleryImage[];
   registrationFields: StaticProductRegistrationField[];
+  registrationValues: StaticProductRegistrationValue[];
 };
 
 export const PRODUCT_REGISTRATION_FIELD_TEMPLATE: StaticProductRegistrationField[] = [
@@ -224,6 +234,7 @@ function uniqueProducts(products: MarketplaceHomeProduct[]): StaticMarketplacePr
     detailHref: `/products/${product.id}`,
     galleryImages: buildProductGallery(product, uniqueProductList),
     registrationFields: buildProductRegistrationFields(product),
+    registrationValues: [],
   }));
 }
 

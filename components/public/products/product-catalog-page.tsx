@@ -11,7 +11,11 @@ import {
 } from "@/components/public/icons";
 import { ProductDetailTabs, type ProductDetailTabItem } from "@/components/public/products/product-detail-tabs";
 import { ProductImageGallery } from "@/components/public/products/product-image-gallery";
-import type { StaticMarketplaceProduct, StaticProductCertificate } from "@/lib/products/static-products";
+import type {
+  StaticMarketplaceProduct,
+  StaticProductCertificate,
+  StaticProductRegistrationValue,
+} from "@/lib/products/static-products";
 
 type ProductCatalogPageProps = {
   products: StaticMarketplaceProduct[];
@@ -44,6 +48,25 @@ type ProductDetailContent = {
   summary: string;
   tradeReadiness: ProductSpec[];
 };
+
+function findRegistrationValue(
+  values: StaticProductRegistrationValue[],
+  fieldKey: string,
+): StaticProductRegistrationValue | null {
+  return values.find((value) => value.fieldKey === fieldKey) ?? null;
+}
+
+function registrationValuesToSpecs(
+  values: StaticProductRegistrationValue[],
+): ProductSpec[] {
+  return values
+    .filter((value) => value.publicDisplay === "summary" || value.publicDisplay === "visible")
+    .slice(0, 8)
+    .map((value) => ({
+      label: value.label,
+      value: value.value,
+    }));
+}
 
 function ProductContainer({
   children,
@@ -313,6 +336,13 @@ function getProductDetailTabs(
   product: StaticMarketplaceProduct,
   detailContent: ProductDetailContent,
 ): ProductDetailTabItem[] {
+  const groupedPublishedValues = product.registrationValues.reduce<Record<string, string[]>>((groups, field) => {
+    groups[field.group] = [
+      ...(groups[field.group] ?? []),
+      `${field.label}: ${field.value}`,
+    ];
+    return groups;
+  }, {});
   const groupedRegistrationFields = product.registrationFields.reduce<Record<string, string[]>>((groups, field) => {
     const visibilityLabel = field.publicDisplay === "hidden" ? "admin-only" : field.publicDisplay;
     groups[field.group] = [
@@ -342,8 +372,12 @@ function getProductDetailTabs(
           title: "Trade readiness",
         },
         {
-          bullets: Object.entries(groupedRegistrationFields).map(([group, fields]) => `${group}: ${fields.join("; ")}`),
-          title: "Supplier registration fields",
+          bullets: product.registrationValues.length > 0
+            ? Object.entries(groupedPublishedValues).map(([group, fields]) => `${group}: ${fields.join("; ")}`)
+            : Object.entries(groupedRegistrationFields).map(([group, fields]) => `${group}: ${fields.join("; ")}`),
+          title: product.registrationValues.length > 0
+            ? "Published product fields"
+            : "Supplier registration fields",
         },
       ],
       title: "Product Details",
@@ -396,6 +430,17 @@ function getProductDetailTabs(
 }
 
 function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
+  const publishedSpecs = registrationValuesToSpecs(product.registrationValues);
+
+  if (publishedSpecs.length > 0) {
+    return [
+      { label: "Listing ID", value: product.id },
+      ...publishedSpecs.slice(0, 5),
+      { label: "Public price", value: "Not displayed" },
+      { label: "Inquiry route", value: "Managed RFQ review" },
+    ];
+  }
+
   return [
     { label: "Listing ID", value: product.id },
     { label: "Category", value: product.category },
@@ -407,6 +452,10 @@ function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
 }
 
 function getProductDetailContent(product: StaticMarketplaceProduct): ProductDetailContent {
+  const certification = findRegistrationValue(product.registrationValues, "certification")?.value;
+  const leadTime = findRegistrationValue(product.registrationValues, "lead-time")?.value;
+  const moq = findRegistrationValue(product.registrationValues, "moq")?.value;
+  const shippingOrigin = findRegistrationValue(product.registrationValues, "shipping-origin")?.value;
   const category = product.category.toLowerCase();
   const isMachinery = category.includes("machinery") || category.includes("industrial") || category.includes("packaging");
   const isEnergy = category.includes("premium") && product.title.toLowerCase().includes("solar");
@@ -439,7 +488,9 @@ function getProductDetailContent(product: StaticMarketplaceProduct): ProductDeta
       "Additional specifications should be requested through the protected RFQ workflow when enabled.",
     ],
     documentReadiness: [
-      "Product images and public description are ready for discovery.",
+      product.registrationValues.length > 0
+        ? "Approved public product fields are available for buyer review."
+        : "Product images and public description are ready for discovery.",
       "Technical catalog, certification files, and test reports remain gated until document workflow is enabled.",
       "Downloadable assets should be approved by Admin before becoming visible to buyers.",
     ],
@@ -459,16 +510,17 @@ function getProductDetailContent(product: StaticMarketplaceProduct): ProductDeta
     supplierProfile: [
       { label: "Supplier", value: product.supplierName },
       { label: "Verification", value: product.isVerifiedSupplier ? "Verified supplier" : "Verification pending" },
+      { label: "Certification", value: certification ?? "Admin-reviewed before public trust claim" },
       { label: "Listing status", value: "Approved public preview" },
       { label: "Contact display", value: "Private contact hidden" },
     ],
     summary:
       `${product.title} is listed for controlled B2B sourcing review in the ${product.category} category. The page is structured for product evaluation first, then managed RFQ routing after the marketplace workflow is enabled.`,
     tradeReadiness: [
-      { label: "MOQ", value: "Confirmed during managed RFQ review" },
-      { label: "Lead time", value: "Supplier-confirmed after inquiry review" },
+      { label: "MOQ", value: moq ?? "Confirmed during managed RFQ review" },
+      { label: "Lead time", value: leadTime ?? "Supplier-confirmed after inquiry review" },
       { label: "Transport", value: "Air, sea, or project logistics by category" },
-      { label: "Origin", value: "Supplier-declared export route" },
+      { label: "Origin", value: shippingOrigin ?? "Supplier-declared export route" },
       { label: "Payment", value: "Not processed on public product page" },
     ],
   };
@@ -631,7 +683,7 @@ export function ProductDetailPage({
 
               <div className="mt-7 rounded-[22px] border border-[#dbe6f2] bg-[#f8fbff] p-4">
                 <div className="grid gap-2 sm:grid-cols-2">
-                  {specs.slice(0, 4).map((spec) => (
+                  {specs.slice(0, 6).map((spec) => (
                     <div className="rounded-2xl bg-white px-4 py-3" key={spec.label}>
                       <p className="text-[10px] font-black uppercase tracking-[0.12em] text-[#667085]">{spec.label}</p>
                       <p className="mt-1 text-[13px] font-semibold text-[#101828]">{spec.value}</p>

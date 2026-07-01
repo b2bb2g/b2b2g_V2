@@ -1,17 +1,24 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MarketplaceHomeProduct } from "@/components/public/landing/marketplace-home";
 import {
+  PRODUCT_REGISTRATION_FIELD_TEMPLATE,
   getStaticMarketplaceProduct,
   getStaticMarketplaceProducts,
   type StaticMarketplaceProduct,
+  type StaticProductRegistrationValue,
 } from "@/lib/products/static-products";
 import type { Database } from "@/types/database";
 
 type Tables = Database["public"]["Tables"];
 type ProductRow = Tables["products"]["Row"];
+type ProductRegistrationValueRow = Tables["product_registration_values"]["Row"];
 type CompanyRow = Tables["companies"]["Row"];
 type FileRow = Tables["files"]["Row"];
 type IndustryRow = Tables["industries"]["Row"];
+
+type EnrichedMarketplaceHomeProduct = MarketplaceHomeProduct & {
+  registrationValues?: StaticProductRegistrationValue[];
+};
 
 type ProductLookupMaps = {
   companies: Map<string, Pick<CompanyRow, "id" | "name" | "verification_status">>;
@@ -42,8 +49,8 @@ function uniqueIds(ids: Array<null | string | undefined>): string[] {
   return [...new Set(ids.filter((id): id is string => Boolean(id)))];
 }
 
-function uniqueProducts(products: MarketplaceHomeProduct[]): StaticMarketplaceProduct[] {
-  const productById = new Map<string, MarketplaceHomeProduct>();
+function uniqueProducts(products: EnrichedMarketplaceHomeProduct[]): StaticMarketplaceProduct[] {
+  const productById = new Map<string, EnrichedMarketplaceHomeProduct>();
 
   for (const product of products) {
     if (!productById.has(product.id)) {
@@ -60,6 +67,7 @@ function uniqueProducts(products: MarketplaceHomeProduct[]): StaticMarketplacePr
       return {
         ...staticProduct,
         ...product,
+        registrationValues: product.registrationValues ?? staticProduct.registrationValues,
       };
     }
 
@@ -105,8 +113,109 @@ function uniqueProducts(products: MarketplaceHomeProduct[]): StaticMarketplacePr
         ...field,
         id: `${product.id}-${field.id}`,
       })),
+      registrationValues: product.registrationValues ?? [],
     };
   });
+}
+
+function toReadableFieldLabel(fieldKey: string): string {
+  return (
+    PRODUCT_REGISTRATION_FIELD_TEMPLATE.find((field) => field.id === fieldKey)?.label ??
+    fieldKey
+      .split("-")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ")
+  );
+}
+
+function toReadableGroupName(groupKey: string): string {
+  return groupKey
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function formatRegistrationValue(value: ProductRegistrationValueRow["value_json"], textValue: string | null): string | null {
+  const text = textValue?.trim();
+
+  if (text) {
+    return text;
+  }
+
+  if (typeof value === "string") {
+    return value.trim() || null;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  if (Array.isArray(value)) {
+    const visibleValues = value
+      .map((item) => (typeof item === "string" ? item : null))
+      .filter((item): item is string => Boolean(item?.trim()));
+
+    return visibleValues.length > 0 ? visibleValues.join(", ") : null;
+  }
+
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    const record = value as Record<string, unknown>;
+    const candidate = record.value ?? record.label ?? record.text;
+
+    if (typeof candidate === "string") {
+      return candidate.trim() || null;
+    }
+  }
+
+  return null;
+}
+
+async function getPublishedProductRegistrationValues(
+  productIds: string[],
+): Promise<Map<string, StaticProductRegistrationValue[]>> {
+  if (productIds.length === 0) {
+    return new Map();
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("product_registration_values")
+    .select("id,product_id,group_key,field_key,value_text,value_json,public_display")
+    .eq("approval_status", "approved")
+    .in("public_display", ["summary", "visible"])
+    .is("deleted_at", null)
+    .in("product_id", productIds)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    return new Map();
+  }
+
+  const valuesByProduct = new Map<string, StaticProductRegistrationValue[]>();
+
+  for (const row of data ?? []) {
+    const value = formatRegistrationValue(row.value_json, row.value_text);
+
+    if (!value) {
+      continue;
+    }
+
+    const values = valuesByProduct.get(row.product_id) ?? [];
+    values.push({
+      fieldKey: row.field_key,
+      group: toReadableGroupName(row.group_key),
+      id: row.id,
+      label: toReadableFieldLabel(row.field_key),
+      publicDisplay: row.public_display as StaticProductRegistrationValue["publicDisplay"],
+      value,
+    });
+    valuesByProduct.set(row.product_id, values);
+  }
+
+  return valuesByProduct;
 }
 
 async function getPublishedProductLookupMaps(rows: ProductRow[]): Promise<ProductLookupMaps> {
@@ -176,7 +285,8 @@ function dbProductToMarketplaceProduct(
   product: ProductRow,
   index: number,
   lookups: ProductLookupMaps,
-): MarketplaceHomeProduct {
+  registrationValues: StaticProductRegistrationValue[],
+): EnrichedMarketplaceHomeProduct {
   const company = lookups.companies.get(product.company_id);
   const industry = product.industry_id ? lookups.industries.get(product.industry_id) : null;
   const file = product.main_file_id ? lookups.files.get(product.main_file_id) : null;
@@ -192,6 +302,7 @@ function dbProductToMarketplaceProduct(
     imageAlt: `${product.title} product image`,
     imageUrl: fileToPublicUrl(file) ?? makeFallbackImage(index),
     isVerifiedSupplier: company?.verification_status === "verified",
+    registrationValues,
     supplierName: company?.name ?? "Approved Supplier",
     title: product.title,
   };
@@ -215,7 +326,15 @@ export async function getMarketplaceProducts(): Promise<StaticMarketplaceProduct
   }
 
   const lookups = await getPublishedProductLookupMaps(data);
-  const dbProducts = data.map((product, index) => dbProductToMarketplaceProduct(product, index, lookups));
+  const registrationValues = await getPublishedProductRegistrationValues(data.map((product) => product.id));
+  const dbProducts = data.map((product, index) =>
+    dbProductToMarketplaceProduct(
+      product,
+      index,
+      lookups,
+      registrationValues.get(product.id) ?? [],
+    ),
+  );
 
   return uniqueProducts([...dbProducts, ...getStaticMarketplaceProducts()]);
 }
