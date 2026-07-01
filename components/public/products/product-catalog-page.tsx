@@ -30,6 +30,17 @@ type ProductSpec = {
   value: string;
 };
 
+type ProductDetailContent = {
+  applications: string[];
+  catalogNotes: string[];
+  certification: string[];
+  highlights: string[];
+  keywords: string[];
+  supplierCapability: string[];
+  summary: string;
+  tradeReadiness: ProductSpec[];
+};
+
 function ProductContainer({
   children,
   className = "",
@@ -229,14 +240,106 @@ function ProductSpecs({ specs }: Readonly<{ specs: ProductSpec[] }>) {
   );
 }
 
+function DetailPanel({
+  children,
+  eyebrow,
+  title,
+}: Readonly<{
+  children: ReactNode;
+  eyebrow: string;
+  title: string;
+}>) {
+  return (
+    <section className="min-w-0 rounded-[28px] border border-[#dbe6f2] bg-white p-5 shadow-[0_16px_50px_rgba(15,23,42,0.045)] sm:p-6">
+      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066cc]">{eyebrow}</p>
+      <h3 className="mt-2 text-[24px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#101828]">
+        {title}
+      </h3>
+      <div className="mt-5">{children}</div>
+    </section>
+  );
+}
+
+function DetailBulletList({ items }: Readonly<{ items: string[] }>) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item) => (
+        <li className="flex gap-3 text-[13px] leading-6 text-[#667085]" key={item}>
+          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0066cc]" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function getProductSpecs(product: StaticMarketplaceProduct): ProductSpec[] {
   return [
+    { label: "Listing ID", value: product.id },
     { label: "Category", value: product.category },
     { label: "Supplier", value: product.supplierName },
     { label: "Verification", value: product.isVerifiedSupplier ? "Verified supplier" : "Pending public verification" },
     { label: "Public price", value: "Not displayed" },
     { label: "Inquiry route", value: "Managed RFQ review" },
   ];
+}
+
+function getProductDetailContent(product: StaticMarketplaceProduct): ProductDetailContent {
+  const category = product.category.toLowerCase();
+  const isMachinery = category.includes("machinery") || category.includes("industrial") || category.includes("packaging");
+  const isEnergy = category.includes("premium") && product.title.toLowerCase().includes("solar");
+  const isMedical = category.includes("medical") || product.title.toLowerCase().includes("medical");
+  const isLighting = category.includes("lighting") || product.title.toLowerCase().includes("lighting");
+
+  const applications = isEnergy
+    ? ["Commercial facility energy projects", "Utility-scale sourcing programs", "Supplier evaluation for renewable procurement"]
+    : isMedical
+      ? ["Clinical equipment procurement", "Industrial health monitoring", "Hospital and lab sourcing review"]
+      : isLighting
+        ? ["Factory lighting replacement", "Warehouse and logistics facilities", "Industrial site energy efficiency programs"]
+        : isMachinery
+          ? ["Factory expansion projects", "Industrial maintenance sourcing", "Export-oriented production line procurement"]
+          : ["Commercial sourcing programs", "Approved supplier comparison", "Managed RFQ evaluation"];
+
+  const highlights = [
+    product.description,
+    "Prepared for admin-reviewed RFQ routing before private buyer information is considered.",
+    product.isVerifiedSupplier
+      ? "Supplier verification badge is active for public discovery."
+      : "Supplier verification status must be reviewed before public trust badges are shown.",
+  ];
+
+  return {
+    applications,
+    catalogNotes: [
+      "Catalog files and technical documents are planned for the managed product data step.",
+      "Buyers can review public product information without exposing identity or contact data.",
+      "Additional specifications should be requested through the protected RFQ workflow when enabled.",
+    ],
+    certification: [
+      product.isVerifiedSupplier
+        ? "Verified supplier badge is displayed because the supplier is marked as verified in the current marketplace configuration."
+        : "Certification badge is not displayed until supplier verification is completed.",
+      "Product approval, company verification, and public exposure remain separate operating states.",
+      "Certification documents should be validated before being surfaced as downloadable assets.",
+    ],
+    highlights,
+    keywords: [product.category, product.title, product.supplierName, "Managed RFQ", "Protected buyer identity"],
+    supplierCapability: [
+      `${product.supplierName} is presented as the supplier of record for this public product listing.`,
+      "Supplier membership, company setup, and product publishing remain controlled by admin approval flows.",
+      "Buyer-facing contact fields are intentionally excluded from the public detail page.",
+    ],
+    summary:
+      `${product.title} is listed for controlled B2B sourcing review in the ${product.category} category. The page is structured for product evaluation first, then managed RFQ routing after the marketplace workflow is enabled.`,
+    tradeReadiness: [
+      { label: "MOQ", value: "Confirmed during managed RFQ review" },
+      { label: "Lead time", value: "Supplier-confirmed after inquiry review" },
+      { label: "Transport", value: "Air, sea, or project logistics by category" },
+      { label: "Origin", value: "Supplier-declared export route" },
+      { label: "Payment", value: "Not processed on public product page" },
+    ],
+  };
 }
 
 export function ProductCatalogPage({ products }: Readonly<ProductCatalogPageProps>) {
@@ -327,6 +430,7 @@ export function ProductDetailPage({
   product,
   relatedProducts,
 }: Readonly<ProductDetailPageProps>) {
+  const detailContent = getProductDetailContent(product);
   const specs = getProductSpecs(product);
 
   return (
@@ -421,6 +525,62 @@ export function ProductDetailPage({
                 </Link>
               </div>
             </article>
+          </div>
+        </ProductContainer>
+      </section>
+
+      <section className="py-10 sm:py-14">
+        <ProductContainer>
+          <ProductSectionHeader
+            description="Export catalog structure adapted for B2B2G: public product information first, controlled RFQ and document review later."
+            eyebrow="Product details"
+            title="Complete sourcing profile"
+          />
+          <div className="grid gap-4 lg:grid-cols-3">
+            <DetailPanel eyebrow="Summary" title="Product summary">
+              <p className="text-[14px] leading-7 text-[#667085]">{detailContent.summary}</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {detailContent.keywords.map((keyword) => (
+                  <span className="rounded-full bg-[#edf5ff] px-3 py-1.5 text-[11px] font-bold text-[#0066cc]" key={keyword}>
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Highlights" title="Key product points">
+              <DetailBulletList items={detailContent.highlights} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Application" title="Use cases">
+              <DetailBulletList items={detailContent.applications} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Trade" title="Trade readiness">
+              <ProductSpecs specs={detailContent.tradeReadiness} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Quality" title="Certification and approval">
+              <DetailBulletList items={detailContent.certification} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Supplier" title="Supplier capability">
+              <DetailBulletList items={detailContent.supplierCapability} />
+            </DetailPanel>
+
+            <DetailPanel eyebrow="Catalog" title="Product data and documents">
+              <DetailBulletList items={detailContent.catalogNotes} />
+            </DetailPanel>
+
+            <div className="rounded-[28px] bg-[#08111f] p-6 text-white shadow-[0_18px_50px_rgba(15,23,42,0.14)] lg:col-span-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#9ecbff]">Next marketplace step</p>
+              <h3 className="mt-3 max-w-2xl text-[28px] font-semibold leading-[1.05] tracking-[-0.04em]">
+                Document download, technical Q&A, and RFQ submission stay behind the managed review workflow.
+              </h3>
+              <p className="mt-4 max-w-2xl text-[13px] leading-6 text-white/68">
+                This keeps public product discovery useful while protecting buyer identity, private contact data, and supplier approval boundaries.
+              </p>
+            </div>
           </div>
         </ProductContainer>
       </section>
