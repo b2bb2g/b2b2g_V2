@@ -45,7 +45,22 @@ export type StaticMarketplaceProduct = MarketplaceHomeProduct & {
   registrationValues: StaticProductRegistrationValue[];
 };
 
+export const PRODUCT_MARKETPLACE_SECTION_FIELD_ID = "marketplace-section";
+export const PRODUCT_MARKETPLACE_SECTION_OPTIONS = ["Commercial", "Industrial", "EPC"] as const;
+
 export const PRODUCT_REGISTRATION_FIELD_TEMPLATE: StaticProductRegistrationField[] = [
+  {
+    group: "Publishing",
+    helpText:
+      "Choose the public marketplace section where this supplier product should be reviewed and exposed after approval.",
+    id: PRODUCT_MARKETPLACE_SECTION_FIELD_ID,
+    inputType: "select",
+    label: "Publishing category",
+    options: [...PRODUCT_MARKETPLACE_SECTION_OPTIONS],
+    placeholder: "Select Commercial, Industrial, or EPC",
+    publicDisplay: "summary",
+    requirement: "required",
+  },
   {
     group: "Product identity",
     helpText: "Use the name buyers will recognize in sourcing documents.",

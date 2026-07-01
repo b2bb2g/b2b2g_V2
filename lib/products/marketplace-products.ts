@@ -2,6 +2,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MarketplaceHomeProduct } from "@/components/public/landing/marketplace-home";
 import {
   PRODUCT_REGISTRATION_FIELD_TEMPLATE,
+  PRODUCT_MARKETPLACE_SECTION_FIELD_ID,
+  PRODUCT_MARKETPLACE_SECTION_OPTIONS,
   getStaticMarketplaceProduct,
   getStaticMarketplaceProducts,
   type StaticMarketplaceProduct,
@@ -281,6 +283,20 @@ function fileToPublicUrl(file: Pick<FileRow, "bucket" | "path" | "visibility"> |
   return `${supabaseUrl}/storage/v1/object/public/${file.bucket}/${file.path}`;
 }
 
+function getProductMarketplaceSection(
+  registrationValues: StaticProductRegistrationValue[],
+): string | null {
+  const value = registrationValues.find(
+    (field) => field.fieldKey === PRODUCT_MARKETPLACE_SECTION_FIELD_ID,
+  )?.value;
+
+  if (!value) {
+    return null;
+  }
+
+  return PRODUCT_MARKETPLACE_SECTION_OPTIONS.find((option) => option === value) ?? null;
+}
+
 function dbProductToMarketplaceProduct(
   product: ProductRow,
   index: number,
@@ -290,9 +306,10 @@ function dbProductToMarketplaceProduct(
   const company = lookups.companies.get(product.company_id);
   const industry = product.industry_id ? lookups.industries.get(product.industry_id) : null;
   const file = product.main_file_id ? lookups.files.get(product.main_file_id) : null;
+  const marketplaceSection = getProductMarketplaceSection(registrationValues);
 
   return {
-    category: industry?.name ?? "Commercial",
+    category: marketplaceSection ?? industry?.name ?? "Commercial",
     description:
       product.summary ??
       product.description ??
