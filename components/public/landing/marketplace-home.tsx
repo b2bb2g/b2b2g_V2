@@ -28,6 +28,7 @@ export type MarketplaceHomeProduct = {
 
 export type MarketplaceHomeRequest = {
   badge: string;
+  href: string;
   id: string;
   imageAlt?: string;
   imageUrl?: string;
@@ -39,10 +40,27 @@ export type MarketplaceHomeRequest = {
 export type MarketplaceHomeEvent = {
   badge: string;
   dateLabel: string;
+  href: string;
   id: string;
   imageAlt: string;
   imageUrl: string;
   locationLabel: string;
+  title: string;
+};
+
+export type MarketplaceHomeChannel = {
+  ctaLabel: string;
+  href: string;
+  id: string;
+  items: {
+    href: string;
+    id: string;
+    imageAlt: string;
+    imageUrl: string;
+    meta: string;
+    summary: string;
+    title: string;
+  }[];
   title: string;
 };
 
@@ -88,6 +106,7 @@ export type MarketplaceHomeConfig = {
   }[];
   announcements: MarketplaceHomeAnnouncement[];
   buyerRequests: MarketplaceHomeRequest[];
+  channels: MarketplaceHomeChannel[];
   events: MarketplaceHomeEvent[];
   faqs: MarketplaceHomeFaq[];
   latestProducts: MarketplaceHomeProduct[];
@@ -314,7 +333,7 @@ function ProductGrid({
 
 function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
   return (
-    <article className="group grid grid-cols-[50px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
+    <Link className="group grid grid-cols-[50px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]" href={item.href}>
       <div className="relative aspect-square overflow-hidden rounded-[13px] bg-[#f4f7fb]">
         {item.imageUrl ? <Image alt={item.imageAlt ?? item.title} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="50px" src={item.imageUrl} /> : null}
       </div>
@@ -326,13 +345,13 @@ function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
       <span className="rounded-full bg-[#edf5ff] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.08em] text-[#0066cc] ring-1 ring-[#dbeafe]">
         {item.badge}
       </span>
-    </article>
+    </Link>
   );
 }
 
 function EventRow({ item }: Readonly<{ item: MarketplaceHomeEvent }>) {
   return (
-    <Link className="group grid grid-cols-[60px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]" href="/events">
+    <Link className="group grid grid-cols-[60px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]" href={item.href}>
       <div className="relative aspect-square overflow-hidden rounded-[13px] bg-[#f4f7fb]">
         <Image alt={item.imageAlt} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="60px" src={item.imageUrl} />
       </div>
@@ -345,6 +364,82 @@ function EventRow({ item }: Readonly<{ item: MarketplaceHomeEvent }>) {
         <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
       </span>
     </Link>
+  );
+}
+
+function ChannelCard({ channel }: Readonly<{ channel: MarketplaceHomeChannel }>) {
+  const [featuredItem, ...secondaryItems] = channel.items;
+
+  if (!featuredItem) return null;
+
+  return (
+    <article className="group flex min-w-[280px] snap-start flex-col overflow-hidden rounded-[22px] border border-[#d7e4f5] bg-white shadow-[0_18px_54px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:border-[#8fc1ff] hover:shadow-[0_26px_76px_rgba(15,23,42,0.1)] sm:min-w-0">
+      <Link className="block" href={featuredItem.href}>
+        <div className="relative aspect-[16/10] overflow-hidden bg-[#eef4fb]">
+          <Image
+            alt={featuredItem.imageAlt}
+            className="object-cover transition duration-700 group-hover:scale-[1.035]"
+            fill
+            sizes="(max-width: 640px) 82vw, (max-width: 1024px) 42vw, 340px"
+            src={featuredItem.imageUrl}
+          />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#07111f]/44 to-transparent" />
+          <span className="absolute left-3 top-3 rounded-full bg-white/94 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.1em] text-[#0066cc] shadow-[0_10px_26px_rgba(15,23,42,0.12)]">
+            {channel.title}
+          </span>
+        </div>
+        <div className="p-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.1em] text-[#0066cc]">{featuredItem.meta}</p>
+          <h3 className="mt-2 line-clamp-2 min-h-[42px] text-[18px] font-semibold leading-[1.16] tracking-[-0.02em] text-[#1d1d1f]">
+            {featuredItem.title}
+          </h3>
+          <p className="mt-2 line-clamp-2 min-h-[40px] text-[13px] leading-5 text-[#667085]">
+            {featuredItem.summary}
+          </p>
+        </div>
+      </Link>
+
+      {secondaryItems.length > 0 ? (
+        <div className="mt-auto border-t border-[#e5edf7] p-3">
+          <div className="grid gap-2">
+            {secondaryItems.slice(0, 2).map((item) => (
+              <Link className="group/item grid grid-cols-[minmax(0,1fr)_24px] items-center gap-2 rounded-[14px] px-2 py-2 transition hover:bg-[#f5f8fc]" href={item.href} key={item.id}>
+                <span className="min-w-0">
+                  <span className="block truncate text-[12px] font-semibold text-[#1d1d1f]">{item.title}</span>
+                  <span className="mt-0.5 block truncate text-[11px] text-[#667085]">{item.meta}</span>
+                </span>
+                <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc] transition group-hover/item:translate-x-0.5" />
+              </Link>
+            ))}
+          </div>
+          <Link className="mt-2 inline-flex items-center gap-1.5 px-2 text-[12px] font-semibold text-[#0066cc] transition hover:text-[#004f9e]" href={channel.href}>
+            {channel.ctaLabel}
+            <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function MarketplaceChannels({ channels }: Readonly<{ channels: MarketplaceHomeChannel[] }>) {
+  if (channels.length === 0) return null;
+
+  return (
+    <section className="bg-white py-10 sm:py-14">
+      <PublicContainer>
+        <SectionHeader
+          eyebrow="Marketplace channels"
+          subtitle="The same approved public content from Commercial, Industrial, EPC, Event, BUY & SELL, Networking, Service, and Notice surfaces now appears on the home marketplace."
+          title="Explore every active marketplace lane"
+        />
+        <div className="flex snap-x gap-4 overflow-x-auto pb-3 [scrollbar-width:none] md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+          {channels.map((channel) => (
+            <ChannelCard channel={channel} key={channel.id} />
+          ))}
+        </div>
+      </PublicContainer>
+    </section>
   );
 }
 
@@ -677,6 +772,7 @@ export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeCo
   return (
     <main className="marketplace-home-root overflow-x-hidden bg-white text-[#1d1d1f]">
       <HomeIntro products={config.premiumProducts} />
+      <MarketplaceChannels channels={config.channels} />
       <MarketActivity buyers={config.verifiedBuyers} events={config.events} requests={config.buyerRequests} />
       <ShowcaseAndAds banners={config.adBanners} showcases={config.showcases} />
       <LatestProducts products={config.latestProducts} />

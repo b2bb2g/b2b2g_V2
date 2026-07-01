@@ -786,6 +786,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
   buyerRequests: [
     {
       badge: "RFQ",
+      href: "/buy-sell/buy-requests/home-request-stainless-steel-sheet",
       id: "home-request-stainless-steel-sheet",
       imageAlt: "Stainless steel sheet industrial material",
       imageUrl: warehouseImage,
@@ -795,6 +796,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
     },
     {
       badge: "RFQ",
+      href: "/buy-sell/buy-requests/home-request-hydraulic-cylinder",
       id: "home-request-hydraulic-cylinder",
       imageAlt: "Hydraulic cylinder machinery component",
       imageUrl: industrialPumpImage,
@@ -804,6 +806,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
     },
     {
       badge: "RFQ",
+      href: "/buy-sell/buy-requests/home-request-led-high-bay",
       id: "home-request-led-high-bay",
       imageAlt: "Industrial LED lighting system",
       imageUrl: electronicsImage,
@@ -813,6 +816,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
     },
     {
       badge: "RFQ",
+      href: "/buy-sell/buy-requests/home-request-packaging-film-roll",
       id: "home-request-packaging-film-roll",
       imageAlt: "Packaging film roll material",
       imageUrl: packagingImage,
@@ -821,10 +825,12 @@ const marketplaceHome: MarketplaceHomeConfig = {
       title: "Packaging Film Roll",
     },
   ],
+  channels: [],
   events: [
     {
       badge: "Expo",
       dateLabel: "May 28",
+      href: "/events/home-event-thailand-industrial-expo",
       id: "home-event-thailand-industrial-expo",
       imageAlt: "Thailand industrial event hall",
       imageUrl: cityEventImage,
@@ -834,6 +840,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "Mission",
       dateLabel: "Jun 15",
+      href: "/events/home-event-korea-trade-mission",
       id: "home-event-korea-trade-mission",
       imageAlt: "Korea trade event",
       imageUrl: skylineImage,
@@ -843,6 +850,7 @@ const marketplaceHome: MarketplaceHomeConfig = {
     {
       badge: "Summit",
       dateLabel: "Jun 22",
+      href: "/events/home-event-procurement-summit",
       id: "home-event-procurement-summit",
       imageAlt: "Global procurement summit city",
       imageUrl: logisticsImage,
