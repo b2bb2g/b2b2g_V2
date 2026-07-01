@@ -8,6 +8,18 @@ This report reviews:
 
 The migration is reviewed before any production apply. This report does not apply the migration, modify Supabase production, connect upload UI, create product files, or expose DB-backed product galleries.
 
+Revision note:
+
+The first production retry failed with:
+
+```text
+ERROR: 42501: must be owner of relation objects
+```
+
+The migration has been revised to be bucket-only because the hosted execution role does not own `storage.objects`. See:
+
+`docs/05-data/17-product-storage-policy-owner-error-resolution.md`
+
 ## 2. Reviewed Inputs
 
 | File | Purpose |
@@ -27,10 +39,9 @@ The migration:
 - creates or updates `storage.buckets` row for `product-files`
 - keeps `product-files` private
 - conditionally sets file size and MIME allowlist if project schema supports those columns
-- adds narrowly scoped `storage.objects` policies
-- uses existing `public.current_supplier_id()`
-- uses existing `public.is_admin()`
-- exposes public reads only for approved/published public product images
+- defers `storage.objects` policy creation because the production SQL execution role does not own `storage.objects`
+- does not create Supplier/Admin/public object policies in this file
+- keeps upload and public file access disabled until Storage policies are created through a privileged path
 - does not add delete policies
 - does not add public list policies
 - does not expose product documents or certificate PDFs publicly
@@ -44,7 +55,7 @@ The migration:
 | Drops table/column/policy | Pass | No `drop` statements. |
 | Deletes data | Pass | No `delete` statements. |
 | Hard-deletes objects | Pass | No object delete policy or cleanup. |
-| Adds public broad access | Pass | Public policy is image-only and tied to product approval/publish gates. |
+| Adds public broad access | Pass | No public Storage object policy is created by the revised migration. |
 | Uses service role fallback | Pass | No service role usage. |
 
 ## 5. Bucket Review
@@ -72,7 +83,9 @@ This is safe because the SQL checks whether the target columns exist before upda
 
 ## 6. Storage Object Policy Review
 
-| Policy | Operation | Result |
+The following policies are required but deferred from this SQL file due to the `storage.objects` ownership limitation:
+
+| Policy | Operation | Target Result |
 | --- | --- | --- |
 | `product_files_supplier_insert` | insert | Supplier can upload only under own product path. |
 | `product_files_supplier_select` | select | Supplier can read own active product file metadata/object path. |
@@ -82,7 +95,7 @@ This is safe because the SQL checks whether the target columns exist before upda
 | `product_files_admin_update` | update | Admin can update product file objects. |
 | `product_files_public_image_select` | select | Public can read only approved public image objects for approved/published products. |
 
-Not present:
+Not created by the revised migration:
 
 - delete policy
 - public list policy
@@ -92,7 +105,7 @@ Not present:
 
 ## 7. Supplier Boundary Review
 
-Supplier policy checks include:
+Deferred Supplier policy checks should include:
 
 - `bucket_id = 'product-files'`
 - path segment 1 is `products`
@@ -110,7 +123,7 @@ Risk remaining:
 
 ## 8. Public Boundary Review
 
-Public image reads require:
+Deferred public image reads should require:
 
 - `bucket_id = 'product-files'`
 - operation-aware Storage helper for object read
@@ -145,11 +158,11 @@ Relevant existing policies:
 - `files_owner_update`
 - `files_admin_all`
 
-The Storage migration does not change `public.files` policies. This is acceptable for this step because:
+The Storage bucket migration does not change `public.files` policies. This is acceptable for this step because:
 
 - existing owner/Admin file policies already exist
 - product child-table RLS already checks file ownership
-- the Storage policy ties public image access to active `files` metadata and child product approval
+- public object access remains disabled until the deferred Storage policy work is completed
 
 Remaining validation:
 
@@ -157,18 +170,25 @@ Remaining validation:
 
 ## 10. Production Apply Preconditions
 
-Do not apply this migration until:
+Do not retry this revised migration until:
 
 | Precondition | Status Needed |
 | --- | --- |
 | Product core migration | Applied and validated |
 | Product child-table RLS migration | Applied and validated |
 | `public.files` RLS | Verified in production |
-| `storage.allow_any_operation` | Verified in production project |
 | `storage.buckets` schema | Verified for optional columns |
 | Backup/snapshot | Confirmed |
 | Upload UI | Still disabled |
 | Public DB-backed product pages | Still disabled |
+
+Do not enable product upload/public image serving until:
+
+| Precondition | Status Needed |
+| --- | --- |
+| `storage.objects` policy creation path | Confirmed through Supabase Storage policy tooling or privileged migration path |
+| `storage.allow_any_operation` | Verified before public image object policy creation |
+| Runtime upload/read tests | Passed |
 
 ## 11. Validation SQL After Apply
 
@@ -180,7 +200,7 @@ from storage.buckets
 where id = 'product-files';
 ```
 
-Policies:
+Policies should remain absent after this bucket-only retry:
 
 ```sql
 select policyname, cmd, roles
@@ -202,15 +222,7 @@ where schemaname = 'storage'
   and policyname like 'product_files_%';
 ```
 
-Public policy review:
-
-```sql
-select policyname, cmd, roles, qual
-from pg_policies
-where schemaname = 'storage'
-  and tablename = 'objects'
-  and policyname = 'product_files_public_image_select';
-```
+If any `product_files_%` policy exists after this retry, review whether it was created manually outside this migration.
 
 ## 12. Runtime Test Required Before Upload UI
 
@@ -234,10 +246,10 @@ where schemaname = 'storage'
 
 | Risk | Priority | Action |
 | --- | --- | --- |
-| Operation-aware helper mismatch | P0 | Verify `storage.allow_any_operation` in production/local before apply. |
+| `storage.objects` ownership limitation | P0 | Do not create Storage object policies from this SQL execution path. Use Storage policy tooling or a privileged migration path. |
 | Applying before product child tables exist | P0 | Apply product core/RLS migrations first. |
-| Public image policy may be too restrictive | P1 | Test with approved product + public file metadata. |
-| Supplier update policy enables object overwrite | P1 | App should avoid upsert in MVP; test overwrite behavior before UI. |
+| Public image policy missing after bucket-only retry | P1 | Keep DB-backed product file galleries disabled until deferred policy work is complete. |
+| Supplier upload policy missing after bucket-only retry | P1 | Keep product upload UI disabled until deferred policy work is complete. |
 | File content PII/direct contact cannot be checked by RLS | P1 | Server-side validation and Admin review required. |
 | No file access log yet | P2 | Add `file_access_logs` before restricted downloads. |
 
@@ -245,16 +257,17 @@ where schemaname = 'storage'
 
 Decision:
 
-**Ready to Apply with Conditions**
+**Ready to Retry as Bucket-Only with Conditions**
 
 Conditions:
 
 1. Product core migration is applied.
 2. Product child-table RLS migration is applied.
 3. Production `public.files` RLS is verified.
-4. Production `storage.allow_any_operation` behavior is verified.
-5. Backup/snapshot is confirmed.
-6. Upload UI remains disabled until runtime tests pass.
+4. Backup/snapshot is confirmed.
+5. Upload UI remains disabled.
+6. Public DB-backed product file/gallery access remains disabled.
+7. Storage object policy implementation remains a separate follow-up.
 
 ## 15. Current Verification Result
 
@@ -266,7 +279,7 @@ Local verification completed in this authoring pass:
 | `npm run typecheck` | Pass |
 | `npm run lint` | Pass |
 | `git diff --check` | Pass |
-| Static forbidden pattern review | Pass; no delete policy, broad public policy, or service-role fallback found in the migration. |
+| Static forbidden pattern review | Pass; revised migration contains no `CREATE POLICY ON storage.objects`, delete policy, broad public policy, or service-role fallback. |
 | `supabase db lint --local --schema storage,public --level error --fail-on error` | Not completed; local Postgres connection failed because local Supabase DB is not running. |
 
 The failed local lint attempt is not a production apply attempt and does not modify any database.
@@ -275,10 +288,11 @@ The failed local lint attempt is not a production apply attempt and does not mod
 
 Recommended next task:
 
-**Product Storage Policy Local/Production Readiness Check**
+**Product Storage Bucket Retry and Policy Follow-up**
 
 Scope:
 
-- Validate local SQL parse/apply if local Supabase is running.
-- If local Supabase is not running, document that limitation.
-- Do not apply production until the migration prerequisites are met.
+- Retry the revised bucket-only `20260701130506_product_storage_policy.sql`.
+- Confirm `product-files` exists and remains private.
+- Keep upload UI and DB-backed product file galleries disabled.
+- Create a separate privileged Storage policy implementation plan before enabling uploads or public image reads.
