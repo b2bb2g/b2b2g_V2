@@ -377,16 +377,16 @@ function PremiumCatalog({ products }: Readonly<{ products: MarketplaceHomeProduc
 
 function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
   return (
-    <article className="grid grid-cols-[58px_minmax(0,1fr)_auto] items-center gap-3 rounded-[18px] border border-[#e1eaf5] bg-white p-3">
-      <div className="relative aspect-square overflow-hidden rounded-[14px] bg-[#f4f7fb]">
-        {item.imageUrl ? <Image alt={item.imageAlt ?? item.title} className="object-cover" fill sizes="58px" src={item.imageUrl} /> : null}
+    <article className="group grid grid-cols-[50px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
+      <div className="relative aspect-square overflow-hidden rounded-[13px] bg-[#f4f7fb]">
+        {item.imageUrl ? <Image alt={item.imageAlt ?? item.title} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="50px" src={item.imageUrl} /> : null}
       </div>
       <div className="min-w-0">
-        <h3 className="truncate text-[15px] font-semibold text-[#1d1d1f]">{item.title}</h3>
-        <p className="mt-1 truncate text-[13px] text-[#667085]">{item.spec}</p>
-        <p className="mt-1 text-[11px] font-black uppercase tracking-[0.04em] text-[#8a93a3]">{item.quantity}</p>
+        <h3 className="truncate text-[14px] font-semibold text-[#1d1d1f]">{item.title}</h3>
+        <p className="mt-0.5 truncate text-[12px] text-[#667085]">{item.spec}</p>
+        <p className="mt-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#8a93a3]">{item.quantity}</p>
       </div>
-      <span className="rounded-full bg-[#edf5ff] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.08em] text-[#0066cc]">
+      <span className="rounded-full bg-[#edf5ff] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-[0.08em] text-[#0066cc] ring-1 ring-[#dbeafe]">
         {item.badge}
       </span>
     </article>
@@ -395,31 +395,34 @@ function RequestRow({ item }: Readonly<{ item: MarketplaceHomeRequest }>) {
 
 function EventRow({ item }: Readonly<{ item: MarketplaceHomeEvent }>) {
   return (
-    <Link className="grid grid-cols-[72px_minmax(0,1fr)] gap-3 rounded-[18px] border border-[#e1eaf5] bg-white p-3 transition hover:border-[#8fc1ff]" href="/events">
-      <div className="relative aspect-square overflow-hidden rounded-[14px] bg-[#f4f7fb]">
-        <Image alt={item.imageAlt} className="object-cover" fill sizes="72px" src={item.imageUrl} />
+    <Link className="group grid grid-cols-[60px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]" href="/events">
+      <div className="relative aspect-square overflow-hidden rounded-[13px] bg-[#f4f7fb]">
+        <Image alt={item.imageAlt} className="object-cover transition duration-500 group-hover:scale-[1.04]" fill sizes="60px" src={item.imageUrl} />
       </div>
-      <div className="min-w-0 py-0.5">
-        <time className="text-[12px] font-black uppercase tracking-[0.04em] text-[#0066cc]">{item.dateLabel}</time>
-        <h3 className="mt-1 line-clamp-2 text-[15px] font-semibold leading-[1.18] text-[#1d1d1f]">{item.title}</h3>
-        <p className="mt-1 truncate text-[13px] text-[#667085]">{item.locationLabel}</p>
+      <div className="min-w-0">
+        <time className="text-[11px] font-black uppercase tracking-[0.08em] text-[#0066cc]">{item.dateLabel}</time>
+        <h3 className="mt-0.5 line-clamp-1 text-[14px] font-semibold leading-[1.2] text-[#1d1d1f]">{item.title}</h3>
+        <p className="mt-0.5 truncate text-[12px] text-[#667085]">{item.locationLabel}</p>
       </div>
+      <span className="grid h-8 w-8 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
+        <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
+      </span>
     </Link>
   );
 }
 
 function BuyerProof({ item }: Readonly<{ item: MarketplaceHomeBuyer }>) {
   return (
-    <article className="grid grid-cols-[42px_minmax(0,1fr)_20px] items-center gap-3 rounded-[18px] border border-[#e1eaf5] bg-white p-3">
-      <span className="grid h-10 w-10 place-items-center rounded-full bg-[#f5f8fc] text-[14px] font-black text-[#0066cc]">
+    <article className="grid grid-cols-[38px_minmax(0,1fr)_18px] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5">
+      <span className="grid h-9 w-9 place-items-center rounded-full bg-[#edf5ff] text-[13px] font-black text-[#0066cc] ring-1 ring-[#dbeafe]">
         {item.avatarLabel}
       </span>
       <div className="min-w-0">
-        <h3 className="truncate text-[14px] font-semibold text-[#1d1d1f]">{item.companyName}</h3>
-        <p className="truncate text-[12px] text-[#667085]">{item.role}</p>
-        <p className="text-[11px] font-bold text-[#8a93a3]">{item.country}</p>
+        <h3 className="truncate text-[13px] font-semibold text-[#1d1d1f]">{item.companyName}</h3>
+        <p className="truncate text-[11px] text-[#667085]">{item.role}</p>
+        <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-[#8a93a3]">{item.country}</p>
       </div>
-      <ShieldCheckIcon aria-hidden="true" className="h-5 w-5 text-[#0066cc]" />
+      <ShieldCheckIcon aria-hidden="true" className="h-4 w-4 text-[#0066cc]" />
     </article>
   );
 }
@@ -434,30 +437,55 @@ function MarketActivity({
   requests: MarketplaceHomeRequest[];
 }>) {
   return (
-    <section className="bg-[#f5f8fc] py-12 sm:py-16">
+    <section className="bg-[#f5f8fc] py-10 sm:py-14">
       <PublicContainer>
-        <SectionHeader
-          eyebrow="Marketplace signals"
-          subtitle="Buyer demand, trade programs, and masked buyer proof use the same compact list hierarchy as catalog pages."
-          title="Demand and programs"
-        />
-        <div className="grid gap-5 lg:grid-cols-3">
-          <article className="rounded-[26px] border border-[#d7e4f5] bg-[#fbfdff] p-4 sm:p-5">
-            <div className="mb-4 flex items-center justify-between">
-              <Eyebrow>Buyer requests</Eyebrow>
-              <BadgePill tone="neutral">RFQ</BadgePill>
+        <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div>
+            <Eyebrow>Marketplace activity</Eyebrow>
+            <h2 className="mt-2 text-[30px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
+              Live trade board
+            </h2>
+            <p className="mt-3 max-w-2xl text-[14px] leading-6 text-[#667085] sm:text-[15px]">
+              Fresh RFQs, trade programs, and verified buyer demand without exposing private buyer contact data.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 rounded-[20px] border border-[#d7e4f5] bg-white p-2 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
+            {[
+              ["3", "RFQs"],
+              ["3", "Programs"],
+              ["4", "Buyers"],
+            ].map(([value, label]) => (
+              <div className="min-w-[78px] rounded-[15px] bg-[#f5f8fc] px-3 py-2 text-center" key={label}>
+                <p className="text-[18px] font-semibold leading-none text-[#0066cc]">{value}</p>
+                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#667085]">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-[1.15fr_1fr_0.85fr]">
+          <article className="rounded-[24px] border border-[#d7e4f5] bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <Eyebrow>Buyer requests</Eyebrow>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Protected RFQs</h3>
+              </div>
+              <BadgePill tone="neutral">Private</BadgePill>
             </div>
             <div className="grid gap-3">
               {requests.slice(0, 3).map((item) => <RequestRow item={item} key={item.id} />)}
             </div>
-            <p className="mt-4 rounded-2xl bg-[#edf5ff] p-3 text-[13px] font-semibold leading-6 text-[#596170]">
-              Buyer identity and contact details stay protected on public surfaces.
+            <p className="mt-3 rounded-[16px] bg-[#edf5ff] px-3 py-2.5 text-[12px] font-semibold leading-5 text-[#596170]">
+              Buyer identity stays masked on public marketplace surfaces.
             </p>
           </article>
 
-          <article className="rounded-[26px] border border-[#d7e4f5] bg-[#fbfdff] p-4 sm:p-5">
-            <div className="mb-4 flex items-center justify-between">
-              <Eyebrow>Trade programs</Eyebrow>
+          <article className="rounded-[24px] border border-[#d7e4f5] bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <Eyebrow>Trade programs</Eyebrow>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Upcoming programs</h3>
+              </div>
               <BadgePill tone="neutral">Events</BadgePill>
             </div>
             <div className="grid gap-3">
@@ -465,10 +493,13 @@ function MarketActivity({
             </div>
           </article>
 
-          <article className="rounded-[26px] border border-[#d7e4f5] bg-[#fbfdff] p-4 sm:p-5">
-            <div className="mb-4 flex items-center justify-between">
-              <Eyebrow>Verified demand</Eyebrow>
-              <BadgePill tone="neutral">Masked</BadgePill>
+          <article className="rounded-[24px] border border-[#d7e4f5] bg-[#111827] p-4 text-white shadow-[0_20px_60px_rgba(15,23,42,0.16)]">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#8fc1ff]">Verified demand</p>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-white">Buyer network</h3>
+              </div>
+              <span className="rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.08em] text-white">Masked</span>
             </div>
             <div className="grid gap-3">
               {buyers.slice(0, 4).map((item) => <BuyerProof item={item} key={item.id} />)}
@@ -573,35 +604,62 @@ function UpdatesAndFaq({
   faqs: MarketplaceHomeFaq[];
 }>) {
   return (
-    <section className="bg-white py-12 sm:py-16">
+    <section className="bg-white py-10 sm:py-14">
       <PublicContainer>
-        <div className="grid gap-5 lg:grid-cols-2">
-          <article className="rounded-[28px] border border-[#d7e4f5] bg-white p-5 sm:p-6">
-            <SectionHeader eyebrow="Announcements" title="Marketplace updates" />
-            <div className="grid gap-3">
+        <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <Eyebrow>Operations desk</Eyebrow>
+            <h2 className="mt-2 text-[30px] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1d1d1f] sm:text-[44px]">
+              Updates and answers
+            </h2>
+          </div>
+          <p className="max-w-xl text-[14px] leading-6 text-[#667085]">
+            Marketplace notices and common sourcing questions, arranged for quick scanning before signup.
+          </p>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+          <article className="rounded-[24px] border border-[#d7e4f5] bg-[#fbfdff] p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] sm:p-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <Eyebrow>Announcements</Eyebrow>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Marketplace updates</h3>
+              </div>
+              <BadgePill tone="neutral">Latest</BadgePill>
+            </div>
+            <div className="grid gap-2.5">
               {announcements.slice(0, 3).map((item) => (
-                <Link className="grid grid-cols-[70px_minmax(0,1fr)] gap-3 rounded-[18px] border border-[#e1eaf5] bg-[#fbfdff] p-3 transition hover:border-[#8fc1ff]" href={item.href} key={item.id}>
-                  <time className="grid min-h-[62px] place-items-center rounded-[15px] bg-[#edf5ff] text-center text-[11px] font-black text-[#0066cc]">{item.dateLabel}</time>
+                <Link className="group grid grid-cols-[58px_minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-[#e5edf7] bg-white px-3 py-2.5 transition hover:border-[#8fc1ff] hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]" href={item.href} key={item.id}>
+                  <time className="grid min-h-[54px] place-items-center rounded-[14px] bg-[#edf5ff] text-center text-[10px] font-black uppercase leading-4 text-[#0066cc]">{item.dateLabel}</time>
                   <div className="min-w-0">
                     <span className="text-[10px] font-black uppercase tracking-[0.08em] text-[#0066cc]">{item.statusLabel}</span>
-                    <h3 className="mt-1 line-clamp-1 text-[16px] font-semibold text-[#1d1d1f]">{item.title}</h3>
-                    <p className="mt-1 line-clamp-2 text-[13px] leading-6 text-[#667085]">{item.description}</p>
+                    <h4 className="mt-0.5 line-clamp-1 text-[15px] font-semibold text-[#1d1d1f]">{item.title}</h4>
+                    <p className="mt-0.5 line-clamp-1 text-[12px] leading-5 text-[#667085]">{item.description}</p>
                   </div>
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-hover:bg-[#0066cc] group-hover:text-white">
+                    <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5" />
+                  </span>
                 </Link>
               ))}
             </div>
           </article>
 
-          <article className="rounded-[28px] border border-[#d7e4f5] bg-white p-5 sm:p-6">
-            <SectionHeader eyebrow="FAQ" title="Common sourcing questions" />
-            <div className="grid gap-3">
+          <article className="rounded-[24px] border border-[#d7e4f5] bg-[#fbfdff] p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] sm:p-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <Eyebrow>FAQ</Eyebrow>
+                <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.025em] text-[#1d1d1f]">Sourcing questions</h3>
+              </div>
+              <BadgePill tone="neutral">Help</BadgePill>
+            </div>
+            <div className="grid gap-2.5">
               {faqs.slice(0, 4).map((item) => (
-                <details className="group rounded-[18px] border border-[#e1eaf5] bg-[#fbfdff] px-4 py-4" key={item.id}>
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[16px] font-semibold text-[#1d1d1f] [&::-webkit-details-marker]:hidden">
+                <details className="group rounded-[16px] border border-[#e5edf7] bg-white px-4 py-3.5 transition open:border-[#8fc1ff]" key={item.id}>
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-[#1d1d1f] [&::-webkit-details-marker]:hidden">
                     <span>{item.question}</span>
-                    <span aria-hidden="true" className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#edf5ff] text-[#0066cc] transition group-open:rotate-45">+</span>
+                    <span aria-hidden="true" className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#edf5ff] text-[18px] leading-none text-[#0066cc] transition group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 text-[14px] leading-7 text-[#667085]">{item.answer}</p>
+                  <p className="mt-3 border-t border-[#e6edf6] pt-3 text-[13px] leading-6 text-[#667085]">{item.answer}</p>
                 </details>
               ))}
             </div>
