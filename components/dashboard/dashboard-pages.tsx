@@ -16,10 +16,10 @@ import {
   submitDashboardStudentShowcase,
   updateDashboardCompanyProfile,
 } from "@/lib/actions/business";
-import { createDashboardProduct } from "@/lib/actions/dashboard-products";
 import { updateProfile } from "@/lib/actions/profile";
 import { generateReferralCode } from "@/lib/actions/referrals";
 import { t } from "@/lib/i18n/translation";
+import type { SupplierProductDraftListItem } from "@/lib/queries/products";
 import type {
   DashboardAccountData,
   DashboardAgentOnboardingData,
@@ -1577,17 +1577,11 @@ function ProductCreateForm({
   }
 
   return (
-    <form
-      action={createDashboardProduct}
-      className="rounded-[24px] border border-calm-hairline bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.04)]"
-      data-action-confirm="true"
-      data-confirm-message={t("feedback.product.create.confirm")}
-      data-confirm-title={t("feedback.confirm.title")}
-      data-pending-message={t("feedback.pending.create")}
-      data-success-message={t("feedback.success.create")}
+    <section
+      className="overflow-hidden rounded-[24px] border border-action-blue/16 bg-[linear-gradient(135deg,#ffffff_0%,#f7fbff_58%,#eaf4ff_100%)] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.04)]"
       id="product-create"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="type-caption-strong text-action-blue">
             {t("dashboard.products.create.eyebrow")}
@@ -1599,38 +1593,103 @@ function ProductCreateForm({
             {t("dashboard.products.create.description")}
           </p>
         </div>
-        <button className="pill-primary shrink-0" type="submit">
-          {t("dashboard.products.create.submit")}
-        </button>
+        <Link className="pill-primary shrink-0" href="/dashboard/products/new">
+          {t("dashboard.products.create.openWorkspace")}
+        </Link>
       </div>
 
-      <div className="mt-6 grid gap-5">
-        <TextField
-          defaultValue={null}
-          labelKey="dashboard.products.form.title"
-          name="title"
-          placeholderKey="dashboard.products.form.titlePlaceholder"
-          required
-        />
-        <TextField
-          defaultValue={null}
-          labelKey="dashboard.products.form.summary"
-          name="summary"
-          placeholderKey="dashboard.products.form.summaryPlaceholder"
-        />
-        <label className="grid gap-2">
-          <span className="type-caption-strong text-calm-ink-muted-80">
-            {t("dashboard.products.form.description")}
-          </span>
-          <textarea
-            className="min-h-[136px] rounded-[14px] border border-calm-hairline bg-white px-4 py-3 type-body text-calm-ink outline-none transition placeholder:text-calm-ink-muted-48 focus:border-action-blue focus:ring-4 focus:ring-action-blue/10"
-            name="description"
-            placeholder={t("dashboard.products.form.descriptionPlaceholder")}
-            rows={5}
-          />
-        </label>
+      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        {[
+          "dashboard.products.create.signal.structured",
+          "dashboard.products.create.signal.private",
+          "dashboard.products.create.signal.uploadGated",
+        ].map((key) => (
+          <div
+            className="rounded-[18px] border border-white/80 bg-white/80 p-4 shadow-[0_12px_30px_rgba(0,102,204,0.045)]"
+            key={key}
+          >
+            <p className="type-caption-strong text-calm-ink">{t(key)}</p>
+          </div>
+        ))}
       </div>
-    </form>
+    </section>
+  );
+}
+
+function SupplierProductDraftsPanel({
+  drafts,
+}: {
+  drafts: SupplierProductDraftListItem[];
+}) {
+  return (
+    <section className="mt-6 rounded-[24px] border border-action-blue/14 bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.04)]">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="type-caption-strong text-action-blue">
+            {t("dashboard.products.drafts.eyebrow")}
+          </p>
+          <h2 className="type-title-md mt-2 text-calm-ink">
+            {t("dashboard.products.drafts.title")}
+          </h2>
+          <p className="type-caption mt-2 max-w-2xl text-calm-ink-muted-64">
+            {t("dashboard.products.drafts.description")}
+          </p>
+        </div>
+        <Link className="pill-secondary" href="/dashboard/products/new">
+          {t("dashboard.products.drafts.new")}
+        </Link>
+      </div>
+
+      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {drafts.length > 0 ? (
+          drafts.map((draft) => (
+            <article
+              className="group flex min-h-[210px] flex-col rounded-[20px] border border-calm-hairline bg-calm-surface p-5 transition hover:-translate-y-0.5 hover:border-action-blue/35 hover:bg-white hover:shadow-[0_20px_52px_rgba(0,102,204,0.08)]"
+              key={draft.id}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <StatusBadge value={draft.approvalStatus} />
+                <Badge dot={false} tone="neutral">
+                  {draft.publishStatus}
+                </Badge>
+              </div>
+              <h3 className="type-body-strong mt-4 line-clamp-2 text-calm-ink">
+                {draft.title}
+              </h3>
+              <p className="type-caption mt-3 line-clamp-3 text-calm-ink-muted-64">
+                {draft.summary ?? t("dashboard.products.record.noDescription")}
+              </p>
+              <div className="mt-auto grid grid-cols-2 gap-3 pt-5">
+                <div className="rounded-[14px] bg-white p-3">
+                  <p className="type-fine-print text-calm-ink-muted-48">
+                    {t("dashboard.products.drafts.values")}
+                  </p>
+                  <p className="type-caption-strong mt-1 text-calm-ink">
+                    {draft.valuesCount}
+                  </p>
+                </div>
+                <div className="rounded-[14px] bg-white p-3">
+                  <p className="type-fine-print text-calm-ink-muted-48">
+                    {t("dashboard.products.drafts.updated")}
+                  </p>
+                  <p className="type-caption-strong mt-1 text-calm-ink">
+                    {draft.updatedAt.slice(0, 10)}
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))
+        ) : (
+          <div className="md:col-span-2 xl:col-span-3">
+            <EmptyState labelKey="dashboard.products.drafts.empty" />
+          </div>
+        )}
+      </div>
+
+      <p className="type-fine-print mt-4 text-calm-ink-muted-48">
+        {t("dashboard.products.drafts.uploadNote")}
+      </p>
+    </section>
   );
 }
 
@@ -1931,6 +1990,8 @@ export function DashboardProductsPage({
           </div>
         </section>
       </section>
+
+      {data.canCreateProduct ? <SupplierProductDraftsPanel drafts={data.productDrafts} /> : null}
 
       <section className="mt-6 rounded-[24px] border border-calm-hairline bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.04)]">
         <div className="flex flex-wrap items-end justify-between gap-4">

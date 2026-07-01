@@ -1,4 +1,8 @@
 import { requireDashboardRoute, type DashboardRouteContext } from "@/lib/auth/guards";
+import {
+  getMySupplierProductDrafts,
+  type SupplierProductDraftListItem,
+} from "@/lib/queries/products";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { RoleApplicationStatus } from "@/types/database";
 
@@ -253,6 +257,7 @@ export type DashboardProductsData = Omit<DashboardSectionData, "records"> & {
   canCreateProduct: boolean;
   checklist: DashboardProductChecklistItem[];
   metrics: DashboardMetric[];
+  productDrafts: SupplierProductDraftListItem[];
   quickActions: DashboardQuickAction[];
   records: DashboardProductRecord[];
   studentShowcase: DashboardStudentShowcaseData | null;
@@ -1813,9 +1818,10 @@ export async function getDashboardProductsData(): Promise<DashboardProductsData>
   const roleIds = await getRoleIds(supabase);
   const records: DashboardProductRecord[] = [];
   let studentShowcase: DashboardStudentShowcaseData | null = null;
+  let productDrafts: SupplierProductDraftListItem[] = [];
 
   if (roleIds.supplierId) {
-    const [products, industrial, epc, sellPosts] = await Promise.all([
+    const [products, industrial, epc, sellPosts, drafts] = await Promise.all([
       supabase
         .from("products")
         .select("id,title,summary,description,approval_status,updated_at")
@@ -1840,7 +1846,9 @@ export async function getDashboardProductsData(): Promise<DashboardProductsData>
         .eq("supplier_id", roleIds.supplierId)
         .order("updated_at", { ascending: false })
         .limit(8),
+      getMySupplierProductDrafts(),
     ]);
+    productDrafts = drafts;
 
     records.push(
       ...(products.data ?? []).map((item) => ({
@@ -2078,6 +2086,7 @@ export async function getDashboardProductsData(): Promise<DashboardProductsData>
         value: roleCode === "agent" || roleCode === "professor" ? "Review" : "Ready",
       },
     ],
+    productDrafts,
     quickActions,
     records: sortedRecords,
     studentShowcase,

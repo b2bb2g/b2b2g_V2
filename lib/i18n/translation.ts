@@ -1668,10 +1668,25 @@ const dictionaries = {
     "dashboard.products.checklist.supplierCreate.description": "Create focused product drafts with title, summary, and buyer-ready context.",
     "dashboard.products.checklist.supplierCreate.title": "Supplier catalog",
     "dashboard.products.checklist.title": "How product records move",
-    "dashboard.products.create.description": "Draft records are saved as submitted and require administrator approval before public exposure.",
+    "dashboard.products.create.description":
+      "Open the structured registration workspace to save product identity, specifications, trust, and trade readiness fields. Public submission and file upload remain gated.",
     "dashboard.products.create.eyebrow": "Supplier tool",
+    "dashboard.products.create.openWorkspace": "Open product workspace",
+    "dashboard.products.create.signal.private": "Supplier-owned private draft",
+    "dashboard.products.create.signal.structured": "Structured product fields",
+    "dashboard.products.create.signal.uploadGated": "Image upload gated",
     "dashboard.products.create.submit": "Submit product",
     "dashboard.products.create.title": "Create a product draft",
+    "dashboard.products.drafts.description":
+      "Review supplier-owned product drafts saved from the new registration workspace before they move into upload, review, and publish workflows.",
+    "dashboard.products.drafts.empty": "No structured product drafts have been saved yet.",
+    "dashboard.products.drafts.eyebrow": "Structured drafts",
+    "dashboard.products.drafts.new": "New product draft",
+    "dashboard.products.drafts.title": "Saved product registration drafts",
+    "dashboard.products.drafts.updated": "Updated",
+    "dashboard.products.drafts.uploadNote":
+      "Images, certificates, catalog files, public publish, and inquiry creation are still disabled until Storage object policy runtime validation is complete.",
+    "dashboard.products.drafts.values": "Saved fields",
     "dashboard.products.error.create_failed": "Product draft could not be created. Please check the title and try again.",
     "dashboard.products.error.showcase_create_failed": "Showcase could not be created. Please select an approved product and try again.",
     "dashboard.products.error.showcase_submit_failed": "Showcase could not be submitted. Please check the current showcase and try again.",
@@ -2680,10 +2695,24 @@ const dictionaries = {
     "dashboard.products.checklist.supplierCreate.title": "Supplier 카탈로그",
     "dashboard.products.checklist.title": "제품 기록 운영 흐름",
     "dashboard.products.create.description":
-      "초안은 제출 상태로 저장되며 외부 공개 전 관리자 승인이 필요합니다.",
+      "구조화된 제품 등록 워크스페이스에서 제품 기본 정보, 사양, 신뢰 정보, 거래 준비 필드를 저장합니다. 공개 제출과 파일 업로드는 아직 차단되어 있습니다.",
     "dashboard.products.create.eyebrow": "Supplier 도구",
+    "dashboard.products.create.openWorkspace": "제품 워크스페이스 열기",
+    "dashboard.products.create.signal.private": "Supplier 소유 비공개 초안",
+    "dashboard.products.create.signal.structured": "구조화된 제품 필드",
+    "dashboard.products.create.signal.uploadGated": "이미지 업로드 보류",
     "dashboard.products.create.submit": "제품 제출",
     "dashboard.products.create.title": "제품 초안 작성",
+    "dashboard.products.drafts.description":
+      "새 등록 워크스페이스에서 저장된 Supplier 소유 제품 초안을 확인합니다. 업로드, 검토, 공개 흐름은 다음 단계에서 연결합니다.",
+    "dashboard.products.drafts.empty": "아직 저장된 구조화 제품 초안이 없습니다.",
+    "dashboard.products.drafts.eyebrow": "구조화 초안",
+    "dashboard.products.drafts.new": "새 제품 초안",
+    "dashboard.products.drafts.title": "저장된 제품 등록 초안",
+    "dashboard.products.drafts.updated": "업데이트",
+    "dashboard.products.drafts.uploadNote":
+      "이미지, 인증서, 카탈로그 파일, 공개 게시, 문의 생성은 Storage object policy 런타임 검증이 완료될 때까지 비활성 상태입니다.",
+    "dashboard.products.drafts.values": "저장 필드",
     "dashboard.products.error.create_failed":
       "제품 초안을 생성하지 못했습니다. 제품명을 확인한 뒤 다시 시도해 주세요.",
     "dashboard.products.error.showcase_create_failed":
