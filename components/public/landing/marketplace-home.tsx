@@ -220,35 +220,6 @@ function HomeIntro({
   );
 }
 
-function CommerceQuickNav() {
-  const items = [
-    ["Commercial", "Consumer goods", "/commercial"],
-    ["Industrial", "Machinery", "/industrial"],
-    ["EPC", "Projects", "/epc"],
-    ["BUY & SELL", "RFQ board", "/buy-sell"],
-    ["Event", "Programs", "/events"],
-    ["Service", "FDA support", "/service"],
-  ] as const;
-
-  return (
-    <section className="border-y border-[#e6edf6] bg-white">
-      <PublicContainer className="py-3">
-        <nav aria-label="Marketplace discovery shortcuts" className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {items.map(([label, meta, href]) => (
-            <Link className="group flex min-w-[154px] items-center justify-between rounded-[16px] border border-[#d7e4f5] bg-[#fbfdff] px-4 py-3 text-left transition hover:border-[#8fc1ff] hover:bg-[#f5faff]" href={href} key={label}>
-              <span>
-                <span className="block text-[14px] font-semibold text-[#1d1d1f]">{label}</span>
-                <span className="mt-1 block text-[11px] font-semibold text-[#8a93a3]">{meta}</span>
-              </span>
-              <ArrowRightIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc] opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
-            </Link>
-          ))}
-        </nav>
-      </PublicContainer>
-    </section>
-  );
-}
-
 function ProductCard({
   item,
   priority = false,
@@ -297,7 +268,7 @@ function ProductCard({
         <h3 className="mt-2 line-clamp-2 min-h-[40px] text-[18px] font-semibold leading-[1.12] tracking-[-0.02em] text-[#1d1d1f]">
           {item.title}
         </h3>
-        <p className="mt-2 line-clamp-1 min-h-[20px] text-[13px] leading-5 text-[#667085] sm:line-clamp-2 sm:min-h-[38px]">{item.description}</p>
+        <p className="mt-2 min-h-[20px] truncate text-[13px] leading-5 text-[#667085] sm:line-clamp-2 sm:min-h-[38px] sm:whitespace-normal">{item.description}</p>
         <div className="mt-auto flex items-center justify-between pt-4">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5f8fc] px-2.5 py-1.5 text-[11px] font-semibold text-[#667085]">
             <ShieldCheckIcon aria-hidden="true" className="h-3.5 w-3.5 text-[#0066cc]" />
@@ -325,22 +296,6 @@ function ProductGrid({
         <ProductCard item={item} key={item.id} priority={index < priorityCount} />
       ))}
     </div>
-  );
-}
-
-function PremiumCatalog({ products }: Readonly<{ products: MarketplaceHomeProduct[] }>) {
-  return (
-    <section className="bg-white py-10 sm:py-14">
-      <PublicContainer>
-        <SectionHeader
-          action={{ href: "/commercial", label: "Open commercial catalog" }}
-          eyebrow="Supplier catalog"
-          subtitle="Curated supplier products with clear images, verification marks, and protected inquiry routing."
-          title="Verified supplier products"
-        />
-        <ProductGrid priorityCount={4} products={products.slice(0, 8)} />
-      </PublicContainer>
-    </section>
   );
 }
 
@@ -698,8 +653,6 @@ export function MarketplaceHome({ config }: Readonly<{ config: MarketplaceHomeCo
   return (
     <main className="marketplace-home-root overflow-x-hidden bg-white text-[#1d1d1f]">
       <HomeIntro products={config.premiumProducts} />
-      <CommerceQuickNav />
-      <PremiumCatalog products={config.premiumProducts} />
       <MarketActivity buyers={config.verifiedBuyers} events={config.events} requests={config.buyerRequests} />
       <ShowcaseAndAds banners={config.adBanners} showcases={config.showcases} />
       <LatestProducts products={config.latestProducts} />
